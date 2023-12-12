@@ -1,17 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Proxima Nova Condensed', sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Proxima Nova Condensed", sans-serif;
+  background-color: var(--darkGrey);
 }
 
-:root{
-    --green: #56B69F;
-    --blue: #569DB6;
-    --lightGrey: #E5E6E4;
-    --darkGrey: #3C3C3C;
-    --black: #1C1C1C;
-    --red: #FB4B3D;
-    --yellow: #FEE400;
+html,
+body {
+  max-width: 22.5rem;
+  max-height: 40rem;
+  width: 100%;
+  height: 100%;
+}
+
+:root {
+  --green: #56b69f;
+  --blue: #569db6;
+  --lightGrey: #e5e6e4;
+  --darkGrey: #3c3c3c;
+  --black: #1c1c1c;
+  --red: #fb4b3d;
+  --yellow: #fee400;
+  --white: #ffff;
+  --fullBlack: #000000;
 }
