@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Proxima Nova Condensed', sans-serif;
+}
+
+:root{
+    --green: #56B69F;
+    --blue: #569DB6;
+    --lightGrey: #E5E6E4;
+    --darkGrey: #3C3C3C;
+    --black: #1C1C1C;
+    --red: #FB4B3D;
+    --yellow: #FEE400;
+}
