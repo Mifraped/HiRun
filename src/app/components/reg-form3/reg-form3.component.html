@@ -1,0 +1,39 @@
+<main>
+  <div class="titleContainer">
+    <h1>¿Qué te gustaría ver?</h1>
+    <i class="fa-solid fa-heart"></i>
+  </div>
+
+  <h2>Tus gustos</h2>
+  <div class="separator"></div>
+
+  <div *ngIf="selectedCat.length == 0" class="textContainer">
+    <p>Todavía no has indicado <span>tus gustos</span>.</p>
+    <p>
+      Selecciona los temas que te interesen del apartado inferior para una
+      <span>experiencia personalizada</span>.
+    </p>
+  </div>
+
+  <ul class="catContainer" *ngIf="selectedCat.length != 0">
+    <li *ngFor="let category of selectedCat; let i = index">
+      <button class="category blue" (click)="swap(i)">{{ category }}</button>
+    </li>
+  </ul>
+
+  <h2>Intereses para añadir</h2>
+  <div class="separator"></div>
+
+  <ul class="catContainer">
+    <li *ngFor="let category of allCat; let i = index">
+      <button class="category" (click)="swap(i)">{{ category }}</button>
+    </li>
+  </ul>
+
+  <div class="btnContainer">
+    <button (click)="setPreferences()">
+      <h2 class="btnText">Finalizar</h2>
+    </button>
+  </div>
+  <a [routerLink]="login">Hacerlo más tarde</a>
+</main>

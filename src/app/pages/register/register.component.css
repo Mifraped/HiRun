@@ -1,0 +1,15 @@
+main {
+    display: flex;
+    justify-content: center;
+    background-color: var(--darkGrey);
+
+
+
+}
+
+.container--ext {
+    width: 22.5rem;
+    min-height: 100vh;
+
+    background-color: var(--darkGrey);
+}
