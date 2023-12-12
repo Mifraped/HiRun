@@ -1,1 +1,150 @@
+/* ? Reusable stuff */
+.sm_txt {
+  font-size: 0.875rem;
+}
 
+.white_txt {
+  color: var(--lightGrey);
+}
+
+.line {
+  width: 21.4375rem;
+  background-color: var(--green);
+  height: 0.125rem;
+}
+
+.line_blue {
+  width: 18.75rem;
+  background-color: var(--blue);
+  height: 0.125rem;
+}
+
+/* * Main section1 * */
+
+.section1 {
+  width: 100%;
+  height: 100%;
+}
+
+.main-cnt {
+  height: 100%;
+  width: 100%;
+}
+
+.header-cnt {
+  background-color: red;
+  width: 22.5rem;
+  height: 3.75rem;
+}
+
+.search_bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1rem;
+}
+
+.categories {
+  display: flex;
+  justify-content: flex-start;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 20px;
+}
+
+.icon-container {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 30%;
+}
+
+.icon-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+.icons {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-text {
+  margin-top: 0.5rem;
+  color: var(--lightGrey);
+  font-weight: 200;
+  font-size: 0.875rem;
+}
+
+.news-cnt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2.375rem;
+}
+
+.news {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 18.75rem;
+  gap: 0.375rem;
+}
+
+.servicio {
+  margin-top: 1.0313rem;
+  border: 0.125rem solid red;
+  width: 18.75rem;
+  height: 16.875rem;
+  border-radius: 0.625rem;
+}
+
+.servicio_valorado {
+  margin-top: 1.0313rem;
+  border: 2px solid red;
+  width: 18.75rem;
+  height: 16.875rem;
+  border-radius: 10px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: 100%;
+}
+
+.best_review {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2.5625rem;
+  gap: 0.5313rem;
+}
+
+.servicio_container {
+  display: flex;
+  flex-direction: row;
+  gap: 4.375rem;
+  overflow-x: auto;
+}
+
+#txt_categories {
+  margin-top: 1.25rem;
+  letter-spacing: 0.05rem;
+  font-weight: lighter;
+  margin-bottom: 0.3125rem;
+  margin-left: 0.625rem;
+}
+
+#categories_line {
+  margin-left: 0.4375rem;
+}
+
+/* * Main section 2 * */
+
+.section2 {
+  height: 100%;
+  width: 100%;
+}
