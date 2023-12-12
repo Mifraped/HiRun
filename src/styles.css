@@ -4,7 +4,7 @@
   margin: 0;
   box-sizing: border-box;
   font-family: "Proxima Nova Condensed", sans-serif;
-  background-color: var(--black);
+  background-color: var(--darkGrey);
 }
 
 html,
