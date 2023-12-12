@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -12,6 +11,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { NewServiceComponent } from './pages/new-service/new-service.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
+import { HeaderComponent } from './components/header/header.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,13 +24,14 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
     CalendarComponent,
     ProfileComponent,
     NewServiceComponent,
-    SearchBarComponent
+
+    SearchBarComponent,
+
+    HeaderComponent,
+    NavBarComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
