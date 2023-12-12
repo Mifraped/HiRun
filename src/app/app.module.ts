@@ -10,6 +10,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { NewServiceComponent } from './pages/new-service/new-service.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NewServiceComponent } from './pages/new-service/new-service.component';
     ChatComponent,
     CalendarComponent,
     ProfileComponent,
-    NewServiceComponent
+    NewServiceComponent,
+    SearchBarComponent
   ],
   imports: [
     BrowserModule,

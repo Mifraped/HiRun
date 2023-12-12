@@ -1,1 +1,106 @@
+/* ? Reusable stuff */
+.sm_txt {
+  font-size: 0.875rem;
+}
 
+.white_txt {
+  color: var(--lightGrey);
+}
+
+.line {
+  width: 21.4375rem;
+  background-color: var(--green);
+  height: 2px;
+}
+
+.line_blue {
+  width: 300px;
+  background-color: var(--blue);
+  height: 2px;
+}
+
+/* * Main stuff * */
+
+.main-cnt {
+  height: 100%;
+  width: 100%;
+}
+
+.header-cnt {
+  background-color: red;
+  width: 22.5rem;
+  height: 3.75rem;
+}
+
+.search_bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 16px;
+}
+
+.categories {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2.375rem;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.icon-container a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+.icons {
+  width: 24px;
+  height: 24px;
+  margin-top: -1.375rem;
+}
+
+.icon-text {
+  margin-top: 0.5rem;
+  color: var(--lightGrey);
+  font-weight: 200;
+  font-size: 0.875rem;
+}
+
+.news-cnt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 38px;
+}
+
+.news {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 300px;
+  height: 24px;
+  gap: 6px;
+}
+
+#txt_categories {
+  margin-top: 1.25rem;
+  letter-spacing: 0.05rem;
+  font-weight: lighter;
+  margin-bottom: 0.3125rem;
+  margin-left: 10px;
+}
+
+#categories_line {
+  margin-left: 7px;
+}
