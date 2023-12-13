@@ -1,68 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Proxima Nova Condensed", sans-serif;
-
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Proxima Nova Condensed", sans-serif;
 }
 
 html,
 body {
-    max-width: 22.5rem;
-    max-height: 40rem;
-    width: 100%;
-    height: 100%;
-    background-color: var(--darkGrey);
+  width: 100%;
+  height: 100%;
+  background-color: var(--darkGrey);
 }
 
 :root {
-    --green: #56b69f;
-    --blue: #569db6;
-    --lightGrey: #e5e6e4;
-    --darkGrey: #3c3c3c;
-    --black: #1c1c1c;
-    --red: #fb4b3d;
-    --yellow: #fee400;
-    --white: #ffff;
-    --fullBlack: #000000;
+  --green: #56b69f;
+  --blue: #569db6;
+  --lightGrey: #e5e6e4;
+  --darkGrey: #3c3c3c;
+  --black: #1c1c1c;
+  --red: #fb4b3d;
+  --yellow: #fee400;
+  --white: #ffff;
+  --fullBlack: #000000;
 }
 
 label {
-    padding-left: 31px;
-    margin-bottom: 4px;
-    color: var(--lightGrey);
-    font-size: 18px;
-    font-weight: 300;
+  padding-left: 31px;
+  margin-bottom: 4px;
+  color: var(--lightGrey);
+  font-size: 18px;
+  font-weight: 300;
 }
 
 input {
-    width: 18.75rem;
-    height: 2.5rem;
-    border-radius: 1.25rem;
-    border: none;
-    outline: none;
-    background-color: var(--lightGrey);
-    padding-left: 1.9375rem;
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--darkGrey)
+  width: 18.75rem;
+  height: 2.5rem;
+  border-radius: 1.25rem;
+  border: none;
+  outline: none;
+  background-color: var(--lightGrey);
+  padding-left: 1.9375rem;
+  font-size: 1rem;
+  font-weight: 300;
+  color: var(--darkGrey);
 }
 
 a {
-    all: unset
+  all: unset;
 }
 
 h2 {
-    font-size: 24px;
-    font-weight: 600;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 button {
-    border: none;
-    outline: none
+  border: none;
+  outline: none;
 }
 
 li {
-    all: unset
+  all: unset;
 }
