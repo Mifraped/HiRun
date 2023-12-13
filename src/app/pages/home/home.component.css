@@ -301,12 +301,167 @@
   color: var(--white);
 }
 
+.poli-tags {
+  position: relative;
+}
+
+.poli-tags img {
+  width: 80px;
+  height: 156px;
+  object-fit: cover;
+}
+
 #tag1 {
+  position: absolute;
   width: 325px;
   height: 156px;
+  margin-top: 94px;
+  right: 0;
   background-color: var(--lightGrey);
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  overflow: hidden;
+}
+
+#tag1 .git-icon {
+  position: absolute;
+  top: 60px;
+  left: 270px;
+}
+
+#tag1 .linkedin-icon {
+  position: absolute;
+  top: 100px;
+  left: 265px;
+}
+
+#tag1 .name {
+  position: absolute;
+  font-size: 21px;
+  top: 20px;
+  left: 90px;
+}
+
+#tag1 .rol {
+  position: absolute;
+  top: 45px;
+  left: 90px;
+}
+
+#tag1 .description_info {
+  position: absolute;
+  top: 65px;
+  left: 90px;
+  width: 155px;
+  text-align: left;
+}
+
+#tag2 {
+  position: absolute;
+  width: 325px;
+  height: 156px;
+  left: 0;
+  top: 21.25rem;
+  background-color: var(--lightGrey);
+  border-top-right-radius: 25px;
+  border-bottom-right-radius: 25px;
+  overflow: hidden;
+}
+
+#tag2 img {
+  position: absolute;
+  right: 0;
+}
+
+#tag2 .git-icon {
+  display: none;
+}
+
+#tag2 .linkedin-icon {
+  display: none;
+}
+
+#tag2 .name {
+  position: absolute;
+  top: 20px;
+  right: 90px;
+}
+
+#tag2 .rol {
+  position: absolute;
+  top: 45px;
+  right: 90px;
+}
+
+#tag2 .description_info {
+  position: absolute;
+  top: 65px;
+  right: 90px;
+  width: 155px;
+  text-align: right;
+}
+
+#tag3 {
+  position: absolute;
+  width: 325px;
+  height: 156px;
+  top: 586px;
+  right: 0;
+  background-color: var(--lightGrey);
+  border-top-left-radius: 25px;
+  border-bottom-left-radius: 25px;
+  overflow: hidden;
+}
+
+#tag3 .git-icon {
+  position: absolute;
+  top: 60px;
+  left: 270px;
+}
+
+#tag3 .linkedin-icon {
+  position: absolute;
+  top: 100px;
+  left: 265px;
+}
+
+#tag3 .name {
+  position: absolute;
+  font-size: 21px;
+  top: 20px;
+  left: 90px;
+}
+
+#tag3 .rol {
+  position: absolute;
+  top: 45px;
+  left: 90px;
+}
+
+#tag3 .description_info {
+  position: absolute;
+  top: 65px;
+  left: 90px;
+  width: 155px;
+  text-align: left;
 }
 
 .poligonos2 {
   margin-top: -20rem;
+}
+
+/* * Main sector3 * */
+
+.section4 {
+  display: flex;
+  flex-direction: column;
+  height: 612px;
+  width: 100%;
+  margin-top: 39px;
+}
+
+.faq {
+  background-color: var(--grey);
+  height: 100%;
+  width: 100%;
 }
