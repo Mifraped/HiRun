@@ -9,7 +9,7 @@ import { NgForm } from '@angular/forms'
 })
 export class LoginComponent {
 
-  public user: User = new User()
+  public user: User
 
   public sendForm(form:NgForm){
     console.log(this.user);

@@ -1,6 +1,9 @@
 .principal{
-    width: 22.5rem;
     height: 3.75rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 999;
 }
 div.cont{
     background-color: var(--fullBlack);
