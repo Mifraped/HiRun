@@ -17,6 +17,11 @@
   width: 6.375rem;
 }
 
+.logo a {
+  display: block;
+  height: 100%;
+}
+
 button {
   height: 1.5rem;
   width: 4.6875rem;
