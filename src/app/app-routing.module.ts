@@ -9,6 +9,7 @@ import { NewServiceComponent } from './pages/new-service/new-service.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { ServiceComponent } from './pages/service/service.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -20,6 +21,7 @@ const routes: Routes = [
   {path: "profile", component: ProfileComponent},
   {path: "register", component: RegisterComponent},
   {path: "preferences", component: PreferencesComponent},
+  {path: "service", component: ServiceComponent},
 
 ];
 

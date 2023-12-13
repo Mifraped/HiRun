@@ -1,0 +1,30 @@
+<div class="card-container">
+  <div class="img-container">
+    <img src="{{ service.photo }}" alt="" />
+  </div>
+  <div class="info">
+    <div class="title-container">
+      <h1>{{ service.title }}</h1>
+      <div class="separator"></div>
+    </div>
+
+    <div class="providerInfo">
+      <div class="img-container--profile">
+        <img src="{{ service.provider.photo }}" alt="" />
+      </div>
+
+      <p>{{ service.provider.name }} {{ service.provider.surname }}</p>
+
+      <app-service-rating></app-service-rating>
+    </div>
+
+    <div class="serviceInfo">
+      <p>
+        <ng-container *ngFor="let job of jobs; let last = last">
+          {{ job.description }}
+          <ng-container *ngIf="!last">, </ng-container>
+        </ng-container>
+      </p>
+    </div>
+  </div>
+</div>

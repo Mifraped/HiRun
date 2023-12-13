@@ -7,11 +7,12 @@ import { User } from '../models/user';
 })
 export class UserService {
 
-  // public connected:boolean = true
-  public connected:boolean = false
+  public connected:boolean = true
+  // public connected:boolean = false
   
   // valores inventados para pruebas
-  public user: User = {email:'a@mail', password:'Aa111111', name:'Paco', surname:'Pi',phoneNumber: 123, location:'Madrid', photo: 'url'}
+  public user: User = {email:'a@mail', password:'Aa111111', name:'Paco', surname:'Pi',phoneNumber: 123, location:'Madrid', photo: '../../../assets/profile_img/example_user.jpg'}
+
   public preferences : Category[] = []
 
   constructor() { }
