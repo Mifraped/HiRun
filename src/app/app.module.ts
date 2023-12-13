@@ -14,6 +14,8 @@ import { NewServiceComponent } from './pages/new-service/new-service.component';
 import { RegForm1Component } from './components/reg-form1/reg-form1.component';
 import { RegForm2Component } from './components/reg-form2/reg-form2.component';
 import { RegForm3Component } from './components/reg-form3/reg-form3.component';
+import { HeaderComponent } from './components/header/header.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { RegForm3Component } from './components/reg-form3/reg-form3.component';
     NewServiceComponent,
     RegForm1Component,
     RegForm2Component,
-    RegForm3Component
+    RegForm3Component,
+    HeaderComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
