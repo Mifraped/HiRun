@@ -1,0 +1,14 @@
+<main>
+  <div class="container--ext">
+    <h2 *ngIf="!connected">
+      Antes de ajustar tus preferencias tienes que
+      <a [routerLink]="register">registrate</a> o
+      <a [routerLink]="login">iniciar sesión</a>
+    </h2>
+
+    <app-reg-form3
+      (registerPartThreeLoggedIn)="registerPreferences($event)"
+      *ngIf="connected"
+    ></app-reg-form3>
+  </div>
+</main>

@@ -1,0 +1,218 @@
+<main>
+  <div class="titleContainer">
+    <h1>Vamos a personalizar tu perfil</h1>
+    <i class="fa-solid fa-paintbrush"></i>
+  </div>
+  <form [formGroup]="regForm2">
+    <!-- <form> -->
+    <div class="formGroup">
+      <label>Nombre</label>
+      <div class="inputContainer">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          [ngClass]="{
+            'is-invalid':
+              (regForm2.get('name').dirty || regForm2.get('name').touched) &&
+              !regForm2.get('name').valid
+          }"
+        />
+
+        <div *ngIf="regForm2.get('name').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm2.get('name').dirty || regForm2.get('name').touched) &&
+            !regForm2.get('name').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm2.get('name').dirty || regForm2.get('name').touched) &&
+            !regForm2.get('name').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm2.get('name').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm2.get('name').errors?.hasSymbol">
+            Introduce un nombre válido
+          </div>
+        </div>
+
+        <div class="circle">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Apellido</label>
+      <div class="inputContainer">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="surname"
+          [ngClass]="{
+            'is-invalid':
+              (regForm2.get('surname').dirty ||
+                regForm2.get('surname').touched) &&
+              !regForm2.get('surname').valid
+          }"
+        />
+
+        <div *ngIf="regForm2.get('surname').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm2.get('surname').dirty ||
+              regForm2.get('surname').touched) &&
+            !regForm2.get('surname').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm2.get('surname').dirty ||
+              regForm2.get('surname').touched) &&
+            !regForm2.get('surname').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm2.get('surname').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm2.get('surname').errors?.hasSymbol">
+            Introduce un apellido válido
+          </div>
+        </div>
+        <div class="circle">
+          <i class="fa-solid fa-users"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Ciudad</label>
+      <div class="inputContainer">
+        <input
+          type="text"
+          class="form-control"
+          formControlName="location"
+          [ngClass]="{
+            'is-invalid':
+              (regForm2.get('location').dirty ||
+                regForm2.get('location').touched) &&
+              !regForm2.get('location').valid
+          }"
+        />
+
+        <div *ngIf="regForm2.get('location').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm2.get('location').dirty ||
+              regForm2.get('location').touched) &&
+            !regForm2.get('location').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm2.get('location').dirty ||
+              regForm2.get('location').touched) &&
+            !regForm2.get('location').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm2.get('location').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm2.get('location').errors?.hasSymbol">
+            Introduce una ciudad
+          </div>
+        </div>
+        <div class="circle">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Teléfono</label>
+      <div class="inputContainer">
+        <input
+          type="number"
+          class="form-control"
+          formControlName="phoneNumber"
+          [ngClass]="{
+            'is-invalid':
+              (regForm2.get('phoneNumber').dirty ||
+                regForm2.get('phoneNumber').touched) &&
+              !regForm2.get('phoneNumber').valid
+          }"
+        />
+
+        <div *ngIf="regForm2.get('phoneNumber').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm2.get('phoneNumber').dirty ||
+              regForm2.get('phoneNumber').touched) &&
+            !regForm2.get('phoneNumber').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm2.get('phoneNumber').dirty ||
+              regForm2.get('phoneNumber').touched) &&
+            !regForm2.get('phoneNumber').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm2.get('phoneNumber').errors.required">
+            Este campo es obligatorio
+          </div>
+        </div>
+        <div class="circle">
+          <i class="fa-solid fa-phone-flip"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Empresa (opcional)</label>
+      <div class="inputContainer">
+        <input type="text" class="form-control" formControlName="company" />
+        <div class="circle">
+          <i class="fa-solid fa-building"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="btnContainer">
+      <button (click)="registerNext()" [disabled]="regForm2.invalid">
+        <h2>Siguiente</h2>
+      </button>
+    </div>
+  </form>
+</main>
