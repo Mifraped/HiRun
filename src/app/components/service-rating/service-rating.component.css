@@ -1,0 +1,8 @@
+.fa-star {
+    font-size: .6875rem;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}

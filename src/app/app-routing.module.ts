@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+
+import { ServiceComponent } from './pages/service/service.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -19,7 +21,8 @@ const routes: Routes = [
   { path: 'new-service', component: NewServiceComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'search-bar', component: SearchBarComponent },
+  { path: 'preferences', component: PreferencesComponent },
+  { path: 'service', component: ServiceComponent },
 ];
 
 @NgModule({

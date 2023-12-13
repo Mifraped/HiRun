@@ -6,7 +6,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class UserService {
-  public connected: boolean = false;
+  public connected: boolean = true;
 
   constructor() {}
 
@@ -21,4 +21,6 @@ export class UserService {
     photo: 'url',
   };
   public preferences: Category[] = [];
+
+  // public connected:boolean = false
 }

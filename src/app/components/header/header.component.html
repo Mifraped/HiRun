@@ -24,8 +24,6 @@
         </div>
     </div>
 </div> -->
-
-<!-- ? Header logeado -->
 <div class="principal">
   <div class="cont">
     <ng-container *ngIf="userService.connected; else noConectado">
@@ -43,7 +41,9 @@
         </svg>
       </div>
       <div class="logo">
-        <img src="../../../assets/img/LOGO_ACTUAL_2.png" />
+        <a routerLink="home">
+          <img src="../../../assets/img/LOGO_ACTUAL_2.png" />
+        </a>
       </div>
       <div class="photo">
         <img
@@ -51,14 +51,12 @@
         />
       </div>
     </ng-container>
-
-    <!-- ? Header no logeado -->
     <ng-template #noConectado>
       <button type="button" class="register" routerLink="register">
         Register
       </button>
       <div class="logo">
-        <a routerLink="/home">
+        <a routerLink="home">
           <img src="../../../assets/img/LOGO_ACTUAL_2.png" />
         </a>
       </div>

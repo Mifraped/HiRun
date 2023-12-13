@@ -17,6 +17,29 @@
   width: 6.375rem;
 }
 
+.principal {
+  height: 3.75rem;
+}
+
+.cont {
+  background-color: var(--fullBlack);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  background-color: var(--fullBlack);
+}
+
+.logo img {
+  height: 1.875rem;
+  width: 6.375rem;
+  background-color: var(--fullBlack);
+}
+
 .logo a {
   display: block;
   height: 100%;
@@ -31,6 +54,23 @@ button {
   border: none;
   margin-left: 0.625rem;
   margin-right: 0.625rem;
+}
+.notifications {
+  width: 2.0625rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.8125rem;
+}
+svg {
+  background-color: var(--fullBlack);
+  width: 33px;
+  height: 32px;
+  color: #eeeeee;
+}
+path {
+  width: 100%;
 }
 
 .notifications {

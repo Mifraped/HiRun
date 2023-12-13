@@ -17,6 +17,11 @@ import { RegForm3Component } from './components/reg-form3/reg-form3.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { FormsModule } from '@angular/forms';
+import { ServiceComponent } from './pages/service/service.component';
+import { ServiceCardComponent } from './components/service-card/service-card.component';
+import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -28,20 +33,27 @@ import { PreferencesComponent } from './pages/preferences/preferences.component'
     CalendarComponent,
     ProfileComponent,
     NewServiceComponent,
-
     SearchBarComponent,
-
     HeaderComponent,
     NavBarComponent,
-
     RegForm1Component,
     RegForm2Component,
     RegForm3Component,
     HeaderComponent,
     NavBarComponent,
     PreferencesComponent,
+    ServiceComponent,
+    ServiceCardComponent,
+    ServiceRatingComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+  ],
+
   providers: [],
   bootstrap: [AppComponent],
 })

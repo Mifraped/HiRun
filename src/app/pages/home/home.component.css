@@ -38,22 +38,26 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .search_bar {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   margin-top: 1rem;
 }
 
 .categories {
   display: flex;
   justify-content: flex-start;
+
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   margin-top: 20px;
+  width: 100%;
 }
 
 .icon-container {
@@ -96,6 +100,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 0.375rem;
 }
 
@@ -128,8 +133,7 @@
 }
 
 #best_txt {
-  margin-left: 36px;
-  align-self: flex-start;
+  align-self: center;
 }
 
 .servicio_container {
@@ -144,11 +148,7 @@
   letter-spacing: 0.05rem;
   font-weight: lighter;
   margin-bottom: 0.3125rem;
-  margin-left: 0.625rem;
-}
-
-#categories_line {
-  margin-left: 0.4375rem;
+  text-align: center;
 }
 
 /* * Main section 2 * */
@@ -160,7 +160,8 @@
   justify-content: flex-start;
   background-color: var(--green);
   height: 52.5rem;
-  width: 360px;
+  width: 100%;
+  z-index: 1;
 }
 
 #cf_txt {
@@ -262,13 +263,14 @@
   flex-direction: column;
   height: 81.9375rem;
   width: 100%;
+  z-index: 1;
 }
-
 .team_info {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .team_info h1 {
@@ -303,6 +305,11 @@
 
 .poli-tags {
   position: relative;
+  width: 100%;
+}
+
+.poligonos {
+  width: 100%;
 }
 
 .poli-tags img {
@@ -450,18 +457,57 @@
   margin-top: -20rem;
 }
 
-/* * Main sector3 * */
+/* * Main sector4 * */
 
 .section4 {
   display: flex;
   flex-direction: column;
-  height: 612px;
+  align-items: center;
+  height: 100%;
   width: 100%;
   margin-top: 39px;
+  z-index: 1;
 }
 
 .faq {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   background-color: var(--grey);
   height: 100%;
   width: 100%;
+}
+
+.faq h1 {
+  align-self: center;
+  margin-top: 19px;
+
+  height: 28px;
+  color: var(--darkGrey);
+}
+
+.faq-items {
+  display: flex;
+  flex-direction: column;
+  margin-top: 19px;
+  text-align: center;
+  gap: 50px;
+}
+
+.faq-items svg {
+  align-self: center;
+  margin: auto;
+}
+
+.faq-items h4 {
+  margin-bottom: 15px;
+}
+
+.faq-items .line_blue {
+  margin-bottom: 20px;
+}
+
+.faq-items p {
+  margin-bottom: 40px;
 }
