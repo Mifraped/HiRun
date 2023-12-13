@@ -13,10 +13,19 @@ export class ServiceCardComponent implements OnInit{
   @Input() service: Service;
 
   jobs: Job[]
+
+jobtext:string
+
+
+jobToText(jobArray){
+  
+}
+
+
  constructor(public serviceService:ServiceService){}
 
  ngOnInit() {
-  // Move the logic that depends on the service property to ngOnInit
-  this.jobs = this.service ? this.service.jobs : [];
+   this.jobs = this.service ? this.service.jobs : [];
+
 }
 }
