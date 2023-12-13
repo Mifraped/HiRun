@@ -1,0 +1,123 @@
+.principal{
+    min-height: 40rem;
+    width: 22.5rem;
+}
+.cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.0625rem;
+}
+img{
+    width: 11.25rem;
+    height: 8.6875rem;
+    width: 100%;
+}
+h1{
+    font-size: 2.25rem;
+    color: var(--lightGrey);
+    margin-top: 1.5625rem;
+}
+form{
+    margin-top: 2.8125rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.email{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.75rem;
+}
+.password{
+    display: flex;
+    flex-direction: column;
+    width: 18.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.fa-circle-exclamation{
+    color: var(--red);
+    width: 18px;
+    position: absolute;
+    left: .5rem;
+    top: .8125rem;
+    background-color: var(--white);
+}
+
+input {
+    width: 18.75rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border: none;
+    outline: none;
+    background-color: var(--lightGrey);
+    padding-left: 1.9375rem;
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--darkGrey);
+}
+label{
+    padding-left: 1.9375rem;
+    margin-bottom: 0.25rem;
+    color: var(--lightGrey);
+    font-size: 1.125rem;
+    font-weight: 300;
+}
+div.input{
+    position: relative;
+}
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--darkGrey);
+    height: 34px;
+    width: 34px;
+    border-radius: 17px;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+}
+i{
+    color: var(--green);
+}
+.feedback{
+    display: flex;
+    justify-content: center;
+    color: var(--lightGrey);
+    font-weight: 200;
+    padding-top: .3125rem
+}
+.forget{
+    font-size: 1rem;
+    margin-bottom: 5.1875rem;
+    color: var(--lightGrey);
+}
+button{
+    width: 18.125rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border: none;
+    outline: none;
+    background-color: var(--green);
+    font-size: 1.5rem;
+    color: var(--fullBlack);
+    font-weight: 600;
+    margin-bottom: 1.375rem;
+}
+span{
+    font-size: 1rem;
+    color: var(--lightGrey);
+}
+.registrate{
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--lightGrey);
+    text-decoration: none;
+}

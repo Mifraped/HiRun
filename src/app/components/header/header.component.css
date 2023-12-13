@@ -1,10 +1,10 @@
 .principal{
     height: 3.75rem;
     width: 22.5rem;
-    background-color: var(--black);
 }
 
 .cont{
+    background-color: var(--fullBlack);
     height: 100%;
     width: 100%;
     display: flex;
@@ -13,9 +13,14 @@
 
 }
 
+.logo{
+    background-color: var(--fullBlack);
+}
+
 .logo img{
     height: 1.875rem;
     width: 6.375rem;
+    background-color: var(--fullBlack);
 }
 
 button{
@@ -38,6 +43,7 @@ button{
     margin-left: 0.8125rem;
 }
 svg{
+    background-color: var(--fullBlack);
     width: 33px;
     height: 32px;
     color: #EEEEEE;
