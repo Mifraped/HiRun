@@ -1,0 +1,20 @@
+.container--ext {
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3.75rem
+}
+
+app-nav-bar {
+    position: fixed;
+    /* Cambia a 'absolute' si prefieres que el pie de página sea relativo al contenedor principal */
+    bottom: 0;
+    width: 100%;
+
+}
+
+main {
+    padding: 1.4375rem 1.875rem
+}

@@ -18,6 +18,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 import { FormsModule } from '@angular/forms';
+import { ServiceComponent } from './pages/service/service.component';
+import { ServiceCardComponent } from './components/service-card/service-card.component';
+import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { FormsModule } from '@angular/forms';
     RegForm3Component,
     HeaderComponent,
     NavBarComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    ServiceComponent,
+    ServiceCardComponent,
+    ServiceRatingComponent
   ],
   imports: [
     BrowserModule,
