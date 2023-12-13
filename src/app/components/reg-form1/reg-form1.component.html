@@ -1,0 +1,183 @@
+<main>
+  <h1>Crea tu cuenta</h1>
+
+  <form [formGroup]="regForm1">
+    <div class="formGroup">
+      <label>Email</label>
+      <div class="inputContainer">
+        <input
+          type="email"
+          class="form-control"
+          formControlName="email"
+          [ngClass]="{
+            'is-invalid':
+              (regForm1.get('email').dirty || regForm1.get('email').touched) &&
+              !regForm1.get('email').valid
+          }"
+        />
+
+        <div *ngIf="regForm1.get('email').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm1.get('email').dirty || regForm1.get('email').touched) &&
+            !regForm1.get('email').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm1.get('email').dirty || regForm1.get('email').touched) &&
+            !regForm1.get('email').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm1.get('email').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm1.get('email').errors.email">
+            Formato de email incorrecto
+          </div>
+        </div>
+
+        <div class="circle">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Contraseña</label>
+      <div class="inputContainer">
+        <input
+          type="password"
+          class="form-control"
+          formControlName="password"
+          [ngClass]="{
+            'is-invalid':
+              (regForm1.get('password').dirty ||
+                regForm1.get('password').touched) &&
+              !regForm1.get('password').valid
+          }"
+        />
+
+        <div *ngIf="regForm1.get('password').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm1.get('password').dirty ||
+              regForm1.get('password').touched) &&
+            !regForm1.get('password').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm1.get('password').dirty ||
+              regForm1.get('password').touched) &&
+            !regForm1.get('password').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm1.get('password').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm1.get('password').errors.minlength">
+            La contraseña es demasiado corta
+          </div>
+
+          <div
+            *ngIf="
+              !regForm1.get('password').errors.required &&
+              !regForm1.get('password').errors.minlength &&
+              regForm1.get('password').errors?.passwordUnsafe
+            "
+          >
+            Incluye mayúsculas, minúsculas y números
+          </div>
+        </div>
+
+        <div class="circle">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="formGroup">
+      <label>Repetir contraseña</label>
+      <div class="inputContainer">
+        <input
+          type="password"
+          class="form-control"
+          formControlName="passwordRepeat"
+          [ngClass]="{
+            'is-invalid':
+              (regForm1.get('passwordRepeat').dirty ||
+                regForm1.get('passwordRepeat').touched) &&
+              !regForm1.get('passwordRepeat').valid
+          }"
+        />
+
+        <div *ngIf="regForm1.get('passwordRepeat').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm1.get('passwordRepeat').dirty ||
+              regForm1.get('passwordRepeat').touched) &&
+            !regForm1.get('passwordRepeat').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm1.get('passwordRepeat').dirty ||
+              regForm1.get('passwordRepeat').touched) &&
+            !regForm1.get('passwordRepeat').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm1.get('passwordRepeat').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div
+            *ngIf="
+              !regForm1.get('passwordRepeat').errors.required &&
+              regForm1.get('passwordRepeat').errors?.matchPassword
+            "
+            class="errorMsg"
+          >
+            Las contraseñas no coinciden
+          </div>
+        </div>
+
+        <div class="circle">
+          <i class="fa-regular fa-circle-check"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="btnContainer">
+      <!-- <button><h2>Crear cuenta</h2></button> -->
+      <button (click)="register()" [disabled]="regForm1.invalid">
+        <h2>Crear cuenta</h2>
+      </button>
+    </div>
+  </form>
+
+  <p>
+    ¿Ya tienes una cuenta?
+    <a [routerLink]="login">Inicia sesión</a>
+  </p>
+</main>

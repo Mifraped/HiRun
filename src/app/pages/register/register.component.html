@@ -1,1 +1,18 @@
-<p>register works!</p>
+<main>
+  <div class="container--ext">
+    <app-reg-form1
+      (registerPartOne)="registerInfo($event)"
+      *ngIf="showForm1"
+    ></app-reg-form1>
+
+    <app-reg-form2
+      (registerPartTwo)="registerInfoNext($event)"
+      *ngIf="showForm2"
+    ></app-reg-form2>
+
+    <app-reg-form3
+      (registerPartThree)="registerPreferences($event)"
+      *ngIf="showForm3"
+    ></app-reg-form3>
+  </div>
+</main>
