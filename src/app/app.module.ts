@@ -16,6 +16,7 @@ import { RegForm2Component } from './components/reg-form2/reg-form2.component';
 import { RegForm3Component } from './components/reg-form3/reg-form3.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { PreferencesComponent } from './pages/preferences/preferences.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     RegForm2Component,
     RegForm3Component,
     HeaderComponent,
-    NavBarComponent
+    NavBarComponent,
+    PreferencesComponent
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/shared/user.service';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public userService: UserService) {}
 
 newUser : User 
 
@@ -24,9 +25,12 @@ photo: string;
 company: string;
 preferences: Category [] = []
 
-showForm1 = true
-showForm2 = false
-showForm3 = false
+
+showForm1:boolean = true
+showForm2:boolean = false
+showForm3:boolean = false
+
+
 
 
   registerInfo({email, password, passwordRepeat}){

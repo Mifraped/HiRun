@@ -17,7 +17,9 @@
 
   <ul class="catContainer" *ngIf="selectedCat.length != 0">
     <li *ngFor="let category of selectedCat; let i = index">
-      <button class="category blue" (click)="swap(i)">{{ category }}</button>
+      <button class="category blue" (click)="swap(i, 'remove')">
+        {{ category.title }}
+      </button>
     </li>
   </ul>
 
@@ -26,14 +28,20 @@
 
   <ul class="catContainer">
     <li *ngFor="let category of allCat; let i = index">
-      <button class="category" (click)="swap(i)">{{ category }}</button>
+      <button class="category" (click)="swap(i, 'add')">
+        {{ category.title }}
+      </button>
     </li>
   </ul>
 
   <div class="btnContainer">
-    <button (click)="setPreferences()">
+    <button *ngIf="!connected" (click)="setPreferences()">
       <h2 class="btnText">Finalizar</h2>
     </button>
+    <button *ngIf="connected" (click)="setPreferencesLoggedIn()">
+      <h2 class="btnText">Guardar cambios</h2>
+    </button>
   </div>
-  <a [routerLink]="login">Hacerlo más tarde</a>
+  <a *ngIf="!connected" [routerLink]="login">Hacerlo más tarde</a>
+  <a *ngIf="connected" [routerLink]="profile">Cancelar</a>
 </main>
