@@ -1,8 +1,10 @@
 .fa-star {
-    font-size: .6875rem;
+    font-size: 10px;
+    color: var(--yellow)
 }
 
 .container {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
+    gap: 5px
 }

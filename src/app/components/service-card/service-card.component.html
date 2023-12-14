@@ -11,29 +11,35 @@
         ><span class="material-symbols-outlined"> share </span></a
       >
     </div>
-  </div>
-  <div class="info">
     <div class="title-container">
       <h1>{{ service.title }}</h1>
+      <app-service-rating></app-service-rating>
     </div>
-
+  </div>
+  <div class="info">
     <div class="providerInfo">
       <div class="img-container--profile">
         <img src="{{ service.provider.photo }}" alt="" />
       </div>
 
-      <p>{{ service.provider.name }} {{ service.provider.surname }}</p>
-
-      <app-service-rating></app-service-rating>
+      <p class="providerName">
+        {{ service.provider.name }} {{ service.provider.surname }}
+      </p>
     </div>
 
     <div class="serviceInfo">
-      <p>
+      <p class="jobInfo">
         <ng-container *ngFor="let job of jobs; let last = last">
           {{ job.description }}
           <ng-container *ngIf="!last"> / </ng-container>
         </ng-container>
       </p>
+      <div class="price">
+        <div class="circle">
+          <p>desde</p>
+          <h1>150€</h1>
+        </div>
+      </div>
     </div>
     <div class="otherInfoContainer">
       <div class="iconContainer">
@@ -42,12 +48,7 @@
         <i class="fa-regular fa-credit-card"></i>
         <i class="fa-solid fa-face-grin-stars"></i>
       </div>
-      <div class="price">
-        <p>desde</p>
-        <h1>50€</h1>
-      </div>
     </div>
-    <h3>Desliza para ver diferentes opciones y precios</h3>
   </div>
 </div>
 
