@@ -1,0 +1,22 @@
+<div
+  class="card-container"
+  (click)="expandInfo()"
+  [class.cardExtended]="cardExtended"
+>
+  <h1>{{ job.title }}</h1>
+  <div class="container">
+    <div class="textContainer">
+      <p [class.descriptionWrap]="!cardExtended">{{ job.description }}</p>
+    </div>
+
+    <p class="price">{{ job.price }}<span>€</span></p>
+  </div>
+
+  <div class="iconContainer">
+    <i class="fa-solid fa-house"></i>
+    <i class="fa-solid fa-coins"></i>
+    <i class="fa-regular fa-credit-card"></i>
+    <i class="fa-solid fa-face-grin-stars"></i>
+    <button (click)="bookService()">Reservar</button>
+  </div>
+</div>

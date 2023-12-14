@@ -28,6 +28,7 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileServiceCardComponent } from './components/profile-service-card/profile-service-card.component';
+import { JobCardComponent } from './components/job-card/job-card.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { ProfileServiceCardComponent } from './components/profile-service-card/p
     ServiceProvidedComponent,
     RequestedServiceComponent,
     FavoritesComponent,
-    ProfileServiceCardComponent
+    ProfileServiceCardComponent,
+    JobCardComponent
   ],
   imports: [
     BrowserModule,

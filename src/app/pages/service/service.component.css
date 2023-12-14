@@ -4,17 +4,91 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    padding-bottom: 3.75rem
+    padding: 2rem 0 6rem
 }
 
-app-nav-bar {
-    position: fixed;
-    /* Cambia a 'absolute' si prefieres que el pie de página sea relativo al contenedor principal */
-    bottom: 0;
+.img-container {
+
+    position: relative;
+    width: 300px;
+    height: 270px;
+    overflow: hidden;
+}
+
+img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: .625rem;
 
 }
 
-main {
-    padding: 1.4375rem 1.875rem
+.imgGradient {
+    border-radius: .625rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 40%, rgba(0, 0, 0, 0.2)60%, rgba(0, 0, 0, 0.8) 100%);
+    padding: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.imgGradient button {
+    width: 24px;
+    height: 24px;
+    background: none;
+}
+
+.imgGradient i,
+.imgGradient span {
+    font-size: 1.5rem;
+    color: var(--lightGrey);
+}
+
+.providerInfo {
+    position: absolute;
+    display: grid;
+    grid-template-columns: 38px auto auto;
+    align-items: center;
+    gap: .75rem;
+    padding: 10px 12px;
+    bottom: 0;
+}
+
+.providerInfo p {
+    font-weight: 500;
+    color: var(--lightGrey)
+}
+
+.img-container--profile {
+
+    width: 38px;
+    height: 38px;
+    border-radius: 19px;
+    overflow: hidden;
+}
+
+.img-container--profile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.contact {
+    margin-top: 3rem;
+    background-color: var(--green);
+    width: 230px;
+    height: 40px;
+    border-radius: 20px;
+    font-size: 20px;
+
+}
+
+.mapa {
+    margin-top: 2rem;
 }
