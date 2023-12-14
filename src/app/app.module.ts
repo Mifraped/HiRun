@@ -49,7 +49,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PreferencesComponent,
     ServiceComponent,
     ServiceCardComponent,
-    ServiceRatingComponent,,
+    ServiceRatingComponent,
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
