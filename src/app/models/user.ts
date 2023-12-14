@@ -9,6 +9,7 @@ export class User {
         public location: string,
         public phoneNumber: number,
         public photo: string, //poner imagen por defecto
+        public rates?: number,
         public company?: string,
         public preferences?: Category [],
         public userId?: number

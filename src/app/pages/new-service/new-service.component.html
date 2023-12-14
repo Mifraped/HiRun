@@ -1,1 +1,232 @@
-<p>new-service works!</p>
+<main>
+  <h1>Nuevo servicio</h1>
+
+  <div class="separator"></div>
+  <!-- formulario -->
+  <form [formGroup]="newServiceForm">
+    <div class="formGroup">
+      <label>Crea un nuevo servicio</label>
+      <div class="inputContainer">
+        <input type="text" class="form-control" formControlName="title" />
+        <div class="circle">
+          <i class="fa-solid fa-handshake-simple"></i>
+        </div>
+      </div>
+    </div>
+    <div class="separator"></div>
+    <!-- añadir foto: pendinte investigar -->
+    <div class="btn_addPhoto">
+      <!-- <input type="file" id="photoInput" (change)="onFileChange($event)" /> -->
+      <span class="material-symbols-outlined"> photo_camera </span>
+    </div>
+    <div class="separator"></div>
+
+    <!-- form de creación de trabajos dentro del form de servicios -->
+    <form [formGroup]="addJobForm">
+      <!-- <form action=""> -->
+      <div class="formGroup">
+        <label>Añade al menos un trabajo</label>
+        <div class="inputContainer">
+          <input type="text" class="form-control" formControlName="title" />
+          <div class="circle">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+      </div>
+      <div class="formGroup paddingTop">
+        <label>Pon un precio</label>
+        <div class="inputContainer">
+          <input type="number" class="form-control" formControlName="price" />
+          <div class="circle">
+            <i class="fa-solid fa-euro-sign"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="formGroup paddingTop">
+        <label>Añade una descripción</label>
+        <div class="textAreaContainer">
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            placeholder="Procura indicar con claridad qué es lo que incluye este trabajo."
+            class="form-control"
+            formControlName="description"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="formGroup paddingTop">
+        <label>Duración del trabajo</label>
+        <div class="inputContainer">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="duration"
+          />
+          <div class="circle">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn_addJob" (click)="addJob()">
+        <i class="fa-solid fa-check"></i>
+      </button>
+    </form>
+    <!-- termina form de creación de trabajos -->
+    <!-- listado de trabajos añadidos, con opción de eliminar -->
+    <div class="separator"></div>
+    <h3>Trabajos</h3>
+    <ul class="jobList" *ngIf="jobs.length > 0">
+      <li *ngFor="let job of jobs; let i = index" class="jobListItem">
+        <div class="job">
+          <p>{{ job.title }}</p>
+          <p>{{ job.price }}€</p>
+          <p>{{ job.duration }} min.</p>
+          <button (click)="deleteJob(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+    <!-- categorías (tags en el objeto servicio) -->
+    <div class="separator"></div>
+    <h3>Etiquetas</h3>
+    <ul class="catContainer">
+      <li *ngFor="let category of allCat; let i = index">
+        <button
+          class="category"
+          [class.selected]="category.selected"
+          (click)="catSelected(category)"
+        >
+          {{ category.title }}
+        </button>
+      </li>
+    </ul>
+    <!-- otras opciones: pendiente definir cuáles van a ser, meto 3 que se me ocurren y una extra  -->
+    <div class="separator"></div>
+    <h3>Otros</h3>
+    <div class="other-container">
+      <div class="formGroup otherOptions" *ngFor="let option of allOptions">
+        <label class="checkBoxGroup">
+          <input
+            class="inputCheck"
+            type="checkbox"
+            (change)="onCheckboxChange(option)"
+            [checked]="selectedOptions.includes(option.value)"
+          />
+          <i class="{{ option.icon }}"></i>{{ option.value }}
+        </label>
+      </div>
+    </div>
+
+    <!-- añadir franjas horarias: falta definir si van a ser tabla aparte o info dentro servicios -->
+    <div class="separator"></div>
+    <h3>Calendario</h3>
+    <div class="textContainer">
+      Selecciona los días de la semana en los que vas a prestar este servicio
+    </div>
+    <!-- botones seleccionar días -->
+    <ul class="weekContainer">
+      <li class="dayContainer" *ngFor="let day of week; let i = index">
+        <p>{{ day.initial }}</p>
+        <button
+          class="dayButton"
+          [class.selected]="day.selected"
+          (click)="daySelected(day)"
+        >
+          <i class="fa-solid fa-check" *ngIf="day.selected"></i>
+          <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
+        </button>
+      </li>
+    </ul>
+    <!-- franjas horarias -->
+    <div class="textContainer paddingTop">
+      Indica tus franjas horarias de trabajo
+    </div>
+
+    <!-- abrir la ventana de franjas -->
+
+    <div *ngIf="timeFramesOpen == true" class="timeFrameModal">
+      <div class="timeFrames_container">
+        <h3>Nueva franja horaria</h3>
+        <div class="separator"></div>
+        <label for="">Hora inicio</label>
+        <div class="inputContainer">
+          <input type="time" />
+
+          <i class="fa-regular fa-clock timeFramesIcon"></i>
+        </div>
+
+        <label for="">Hora fin</label>
+        <!--  -->
+        <div class="inputContainer">
+          <input type="time" />
+
+          <i class="fa-regular fa-clock timeFramesIcon"></i>
+        </div>
+
+        <!--  -->
+        <label for="">Días a los que aplica</label>
+
+        <ul class="weekContainer weekContainer--small">
+          <li
+            class="dayContainer dayContainer--small"
+            *ngFor="let day of week; let i = index"
+          >
+            <p>{{ day.initial }}</p>
+            <button
+              class="dayButton dayButton--small"
+              [class.selected]="day.selected"
+              (click)="daySelected(day)"
+            >
+              <i class="fa-solid fa-check" *ngIf="day.selected"></i>
+              <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
+            </button>
+          </li>
+        </ul>
+
+        <button class="btn btn--green" (click)="timeFrameAccept()">
+          <h3>Aceptar</h3>
+        </button>
+        <button class="btn btn--black" (click)="timeFrameCancel()">
+          <h3>Cancelar</h3>
+        </button>
+      </div>
+    </div>
+
+    <ul class="timeframeContainer">
+      <li *ngFor="let tf of timeFrameArray; let i = index">
+        <div class="timeFrame">
+          <p>{{ tf.t0 }} - {{ tf.t1 }}</p>
+
+          <div
+            class="smallDayCircle"
+            *ngFor="let day of tf.days"
+            [class.applicableDay]="day"
+          ></div>
+          <button (click)="deleteTimeframe(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <button (click)="timeFramesWindow()" class="addTf">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="separator"></div>
+
+    <!-- botón enviar nuevo servicio -->
+
+    <button class="btn btn--green" (click)="newService()">
+      <h3>Publicar</h3>
+    </button>
+    <button class="btn btn--white" (click)="cancelNewService()">
+      <h3>Cancelar</h3>
+    </button>
+  </form>
+</main>
