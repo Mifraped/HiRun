@@ -1,0 +1,89 @@
+.card-container {
+    width: 18.75rem;
+    height: 11.25rem;
+    min-height: 11.25rem;
+    background-color: var(--lightGrey);
+    border-radius: 10px;
+    margin-top: 24px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+h1 {
+    color: var(--darkGrey);
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 0.5rem;
+
+    border-bottom: 1px solid var(--green)
+}
+
+.container {
+    padding-right: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.iconContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 2rem) auto;
+    align-items: center;
+
+}
+
+.iconContainer i {
+    color: var(--blue)
+}
+
+.price {
+    padding-left: 1rem;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--black);
+}
+
+.price span {
+    color: var(--darkGrey)
+}
+
+button {
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: var(--green);
+    justify-self: end;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.descriptionWrap {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+
+    -webkit-box-orient: vertical;
+    max-height: calc(1.2em *4);
+}
+
+p {
+
+    color: var(--darkGrey)
+}
+
+.textContainer {
+    max-width: 160px;
+}
+
+.cardExtended {
+    height: auto;
+
+}
+
+.mapa {
+    margin-top: 3rem;
+}

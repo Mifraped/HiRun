@@ -11,7 +11,7 @@ import { Category } from '../models/category';
 export class ServiceService {
 
  job1:Job = { title: 'Trabajo menor', price: 75 ,description: 'Arreglo de grifos',duration: 45,} 
- job2:Job = { title: 'Trabajo mediano', price: 150 ,description: 'Calefacción, conexión de tuberías de electrodimésticos',duration: 120,} 
+ job2:Job = { title: 'Trabajo mediano', price: 150 ,description: 'Calefacción, conexión de tuberías de electrodimésticos, descripción larga muy larga para hacer pruebas de maquetación',duration: 120,} 
  job3:Job = { title: 'Trabajo mayor', price: 300 ,description: 'Trabajos importantes de fontanería',duration: 240,} 
 
 

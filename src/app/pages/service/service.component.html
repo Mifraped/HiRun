@@ -1,5 +1,39 @@
-<div class="container--ext">
-  <main>
-    <app-service-card [service]="thisService"></app-service-card>
-  </main>
-</div>
+<main class="container--ext">
+  <div class="img-container">
+    <img src="{{ service.photo }}" alt="" />
+    <div class="imgGradient">
+      <!-- va a la home, modificar cuando esté la página de resultados -->
+      <button routerLink="/">
+        <!-- <i class="fa-solid fa-chevron-left"></i> -->
+        <span class="material-symbols-outlined"> arrow_back_ios </span>
+      </button>
+
+      <h1>{{ service.title }}</h1>
+
+      <!-- compartir por whatsapp: cuando la web esté lista modificar en enlace para que se envíe el servicio en cuestión -->
+      <a
+        href="whatsapp://send?text=¡Este%20servicio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://localhost:58580/service"
+        ><span class="material-symbols-outlined"> share </span></a
+      >
+    </div>
+    <div class="providerInfo">
+      <div class="img-container--profile">
+        <img src="{{ service.provider.photo }}" alt="" />
+      </div>
+
+      <p>{{ service.provider.name }} {{ service.provider.surname }}</p>
+
+      <app-service-rating></app-service-rating>
+    </div>
+  </div>
+
+  <app-job-card *ngFor="let job of jobs" [job]="job"></app-job-card>
+
+  <button class="contact" (click)="contactProvider()">
+    <h3>Contactar</h3>
+  </button>
+
+  <div class="img-container mapa">
+    <img src="../../../assets/img/mapa.png" alt="" />
+  </div>
+</main>
