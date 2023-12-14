@@ -22,6 +22,8 @@ import { ServiceComponent } from './pages/service/service.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ResultsComponent } from './pages/results/results.component';
+import { FiltersComponent } from './components/filters/filters.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ServiceComponent,
     ServiceCardComponent,
     ServiceRatingComponent,
+    ResultsComponent,
+    FiltersComponent,
   ],
   imports: [
     BrowserModule,

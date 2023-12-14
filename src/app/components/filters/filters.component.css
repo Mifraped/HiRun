@@ -1,0 +1,5 @@
+.line_blue {
+  width: 18.75rem;
+  background-color: var(--blue);
+  height: 1px;
+}

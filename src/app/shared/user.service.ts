@@ -6,7 +6,7 @@ import { User } from '../models/user';
   providedIn: 'root',
 })
 export class UserService {
-  public connected: boolean = true;
+  public connected: boolean = false;
 
   constructor() {}
 

@@ -107,15 +107,15 @@
 .servicio {
   margin-top: 1.0313rem;
   border: 2px solid red;
-  height: 16.875rem;
-  width: 18.75rem;
+  height: 300px;
+  width: 300px;
   border-radius: 0.625rem;
 }
 
 .servicio_valorado {
   margin-top: 1.0313rem;
   width: 100%;
-  height: 16.875rem;
+  height: 300px;
   border: 2px solid red;
   border-radius: 10px;
   flex: 0 0 auto;
@@ -381,31 +381,35 @@
 }
 
 #tag2 .git-icon {
-  display: none;
+  position: absolute;
+  top: 60px;
+  left: 185px;
 }
 
 #tag2 .linkedin-icon {
-  display: none;
+  position: absolute;
+  top: 100px;
+  right: 100px;
 }
 
 #tag2 .name {
   position: absolute;
   top: 20px;
-  right: 90px;
+  right: 110px;
 }
 
 #tag2 .rol {
   position: absolute;
   top: 45px;
-  right: 90px;
+  left: 18.5px;
 }
 
 #tag2 .description_info {
   position: absolute;
   top: 65px;
-  right: 90px;
+  left: 18.5px;
   width: 155px;
-  text-align: right;
+  text-align: left;
 }
 
 #tag3 {
@@ -463,7 +467,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
+  height: 120%;
   width: 100%;
   margin-top: 39px;
   z-index: 1;
@@ -475,7 +479,7 @@
   justify-content: flex-start;
   align-items: center;
   background-color: var(--grey);
-  height: 100%;
+  height: 672px;
   width: 100%;
 }
 
