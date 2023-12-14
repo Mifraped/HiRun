@@ -9,6 +9,11 @@ import { NewServiceComponent } from './pages/new-service/new-service.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { RatingsComponent } from './pages/ratings/ratings.component';
+import { ServiceProvidedComponent } from './pages/service-provided/service-provided.component';
+import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 
 const routes: Routes = [
   {path: "", component: HomeComponent},
@@ -20,6 +25,11 @@ const routes: Routes = [
   {path: "profile", component: ProfileComponent},
   {path: "register", component: RegisterComponent},
   {path: "preferences", component: PreferencesComponent},
+  {path: "edit-profile", component: EditProfileComponent},
+  {path: "ratings", component: RatingsComponent},
+  {path: "service-provided", component: ServiceProvidedComponent},
+  {path: "requested-service", component: RequestedServiceComponent},
+  {path: "favorites", component: FavoritesComponent}
 
 ];
 

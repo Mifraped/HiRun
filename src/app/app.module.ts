@@ -18,6 +18,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
 import { FormsModule } from '@angular/forms';
+import { EditProfileComponent } from './pages/edit-profile/edit-profile.component';
+import { RatingsComponent } from './pages/ratings/ratings.component';
+import { ServiceProvidedComponent } from './pages/service-provided/service-provided.component';
+import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
+import { FavoritesComponent } from './pages/favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +39,12 @@ import { FormsModule } from '@angular/forms';
     RegForm3Component,
     HeaderComponent,
     NavBarComponent,
-    PreferencesComponent
+    PreferencesComponent,
+    EditProfileComponent,
+    RatingsComponent,
+    ServiceProvidedComponent,
+    RequestedServiceComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,

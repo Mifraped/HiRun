@@ -1,0 +1,138 @@
+.cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* contenedor flecha atras y boton log out */
+.backLogOut{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 2.5rem;
+    margin-top: 1.375rem;
+    margin-bottom: 30px;
+    width: 100%;
+}
+.back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 1.25rem;
+    height: 100%;
+    color: var(--lightGrey);
+}
+svg#back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#locationIcon{
+    color: var(--lightGrey);
+}
+.logOut{
+    margin-right: 2.125rem;
+    width: 4.375rem;
+    height: 1.875rem;
+    border-radius: 0.9375rem;
+    color: var(--fullBlack);
+    background-color: var(--green);
+    border: none;
+    outline: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+/* contenedor de la foto, nombre, valoraciones y ubicacion */
+.photoNameRating{
+    display: flex;
+    gap: 9px;
+}
+.photo{
+    height: 66px;
+    width: 66px;
+}
+img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.nameRating{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+h1{
+    font-size: 32px;
+    color: var(--lightGrey);
+}
+.rating{
+    display: flex;
+}
+.stars{
+    display: flex;
+    align-items: center;
+}
+.star{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+svg.star{
+    height: 16px;
+    width: 16px;
+}
+.rates{
+    display: flex;
+    align-items: center;
+    color: var(--lightGrey);
+    font-size: 10px;
+}
+/* contenedor localizacion */
+.location{
+    display: flex;
+    align-items: center;
+    position: relative;
+    left: -12px;
+}
+/* localizacion */
+span{
+    color: var(--lightGrey);
+    font-size: 11px;
+}
+/* enlace a ubicacion en maps o donde sea */
+.locationLink{
+    color: var(--green);
+    font-size: 11px;
+    margin-left: 3px;
+}
+/* contenedor enlaces del perfil */
+.profileLinks{
+    margin-top: 46px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+/* enlaces del perfil */
+.profileLink{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 291px;
+    height: 42px;
+    border-radius: 21px;
+    background-color: var(--lightGrey);
+    padding-left: 11px;
+    padding-right: 11px;
+    position: relative;
+}
+.profileLink span{
+    color: var(--fullBlack);
+    font-size: 16px;
+    font-weight: 800;
+    position: absolute;
+    left: 50px;
+}
+.icon path{
+    color: var(--darkGrey);
+}
