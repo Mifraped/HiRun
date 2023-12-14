@@ -29,7 +29,7 @@ body {
 
 label {
   padding-left: 31px;
-  margin-bottom: 4px;
+
   color: var(--lightGrey);
   font-size: 18px;
   font-weight: 300;
@@ -42,10 +42,16 @@ input {
   border: none;
   outline: none;
   background-color: var(--lightGrey);
+
   padding-left: 1.9375rem;
   font-size: 1rem;
   font-weight: 300;
   color: var(--darkGrey);
+}
+
+/* para que no aparezca el reloj del navegador por defecto */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
 }
 
 a {
@@ -55,6 +61,12 @@ a {
 h2 {
   font-size: 24px;
   font-weight: 600;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--lightGrey);
 }
 
 button {

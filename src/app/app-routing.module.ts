@@ -23,7 +23,7 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'new-service', component: NewServiceComponent },
+  { path: 'newservice', component: NewServiceComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'preferences', component: PreferencesComponent },

@@ -29,6 +29,7 @@ form {
     width: 18.75rem;
     height: 2.5rem;
     position: relative;
+    margin-top: 4px;
 }
 
 .circle {
