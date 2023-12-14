@@ -1,65 +1,104 @@
-.principal{
-    height: 3.75rem;
+.principal {
+  height: 3.75rem;
+  width: 22.5rem;
+  background-color: var(--black);
 }
 
-.cont{
-    background-color: var(--fullBlack);
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
+.cont {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo{
-    background-color: var(--fullBlack);
+.logo img {
+  height: 1.875rem;
+  width: 6.375rem;
 }
 
-.logo img{
-    height: 1.875rem;
-    width: 6.375rem;
-    background-color: var(--fullBlack);
+.principal {
+  height: 3.75rem;
 }
 
-button{
-    height: 1.5rem;
-    width: 4.6875rem;
-    background-color: var(--green);
-    color: var(--black);
-    border-radius: 1.875rem;
-    border: none;
-    margin-left: 0.625rem;
-    margin-right: 0.625rem;
+.cont {
+  background-color: var(--fullBlack);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.notifications{
-    width: 2.0625rem;
-    height: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: 0.8125rem;
-}
-svg{
-    background-color: var(--fullBlack);
-    width: 33px;
-    height: 32px;
-    color: #EEEEEE;
-}
-path{
-    width: 100%;
+.logo {
+  background-color: var(--fullBlack);
 }
 
-.photo{
-    width: 2.0625rem;
-    height: 2rem;
-    border-radius: 50%;
-    margin-right: 0.8125rem;
+.logo img {
+  height: 1.875rem;
+  width: 6.375rem;
+  background-color: var(--fullBlack);
 }
-.photo img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+
+.logo a {
+  display: block;
+  height: 100%;
+}
+
+button {
+  height: 1.5rem;
+  width: 4.6875rem;
+  background-color: var(--green);
+  color: var(--black);
+  border-radius: 1.875rem;
+  border: none;
+  margin-left: 0.625rem;
+  margin-right: 0.625rem;
+}
+.notifications {
+  width: 2.0625rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.8125rem;
+}
+svg {
+  background-color: var(--fullBlack);
+  width: 33px;
+  height: 32px;
+  color: #eeeeee;
+}
+path {
+  width: 100%;
+}
+
+.notifications {
+  width: 2.0625rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.8125rem;
+}
+svg {
+  width: 33px;
+  height: 32px;
+  color: #eeeeee;
+}
+path {
+  width: 100%;
+}
+
+.photo {
+  width: 2.0625rem;
+  height: 2rem;
+  border-radius: 50%;
+  margin-right: 0.8125rem;
+}
+.photo img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }

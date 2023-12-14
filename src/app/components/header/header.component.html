@@ -1,20 +1,66 @@
-<div class="principal">
+<!-- <div class="principal">
     <div class="cont">
-        <ng-container *ngIf="userService.connected; else noConectado">
-            <div class="notifications"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26"
-                    viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2a2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6zm-7 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2" />
-                </svg>
-            </div>
-            <div class="logo"><img src="../../../assets/img/LOGO_ACTUAL_2.png"></div>
-            <div class="photo"><img src="../../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif">
-            </div>
-        </ng-container>
-        <ng-template #noConectado>
-            <button type="button" class="register" routerLink="register">Register</button>
-            <div class="logo"><img src="../../../assets/img/LOGO_ACTUAL_2.png"></div>
-            <button type="button" class="login" routerLink="login">Login</button>
-        </ng-template>
+        <div class="registerNotifications">
+            <ng-container *ngIf="userService.connected; else noConectado">
+                <div class="notifications"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="26"
+                        viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2a2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6zm-7 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2" />
+                    </svg></div>
+            </ng-container>
+            <ng-template #noConectado>
+                <button type="button" class="register">Register</button>
+            </ng-template>
+        </div>
+        <div class="logo"><img src="../../../assets/img/LOGO_ACTUAL_2.png"></div>
+        <div class="loginPhoto">
+            <ng-container *ngIf="userService.connected; else noConectado">
+                <div class="photo"><img src="../../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif">
+                </div>
+            </ng-container>
+            <ng-template #noConectado>
+                <button type="button" class="login">Login</button>
+            </ng-template>
+        </div>
     </div>
+</div> -->
+<div class="principal">
+  <div class="cont">
+    <ng-container *ngIf="userService.connected; else noConectado">
+      <div class="notifications">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="26"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="currentColor"
+            d="M21 19v1H3v-1l2-2v-6c0-3.1 2.03-5.83 5-6.71V4a2 2 0 0 1 2-2a2 2 0 0 1 2 2v.29c2.97.88 5 3.61 5 6.71v6zm-7 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2"
+          />
+        </svg>
+      </div>
+      <div class="logo">
+        <a routerLink="home">
+          <img src="../../../assets/img/LOGO_ACTUAL_2.png" />
+        </a>
+      </div>
+      <div class="photo">
+        <img
+          src="../../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif"
+        />
+      </div>
+    </ng-container>
+    <ng-template #noConectado>
+      <button type="button" class="register" routerLink="register">
+        Register
+      </button>
+      <div class="logo">
+        <a routerLink="home">
+          <img src="../../../assets/img/LOGO_ACTUAL_2.png" />
+        </a>
+      </div>
+      <button type="button" class="login" routerLink="login">Login</button>
+    </ng-template>
+  </div>
 </div>

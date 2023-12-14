@@ -1,0 +1,30 @@
+.search_bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.search_bar input {
+  width: 15rem;
+  height: 2.5rem;
+  border-radius: 1.875rem;
+  background-color: var(--white);
+  border-color: var(--white);
+  border-style: none;
+  padding-right: 23px;
+}
+
+.search_bar input::placeholder {
+  text-align: right;
+  color: var(--fullBlack);
+  opacity: 1;
+}
+
+#search_icon {
+  position: absolute;
+  background-color: transparent;
+  left: 13px;
+  width: 0.9375rem;
+  height: 1rem;
+}
