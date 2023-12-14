@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { ServiceComponent } from './pages/service/service.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
+import { ServiceCardMediumComponent } from './components/service-card-medium/service-card-medium.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ServiceRatingComponent } from './components/service-rating/service-rati
     PreferencesComponent,
     ServiceComponent,
     ServiceCardComponent,
-    ServiceRatingComponent
+    ServiceRatingComponent,
+    ServiceCardMediumComponent
   ],
   imports: [
     BrowserModule,
