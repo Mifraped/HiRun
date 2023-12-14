@@ -1,0 +1,84 @@
+/* contenedor principal */
+.contPrinc{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+/* contenedor enlace volver y enlace añadir foto */
+.backImgProfile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 1.0625rem;
+    width: 100%;
+}
+/* enlace atras */
+.back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--lightGrey);
+    position: absolute;
+    left: 1.25rem;
+    top: -0.9375rem;
+}
+/* enlace añadir foto */
+.photo{
+    height: 5rem;
+    width: 5rem;
+    background-color: var(--lightGrey);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+#camera{
+    position: absolute;
+    bottom: 0.3125rem;
+}
+img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* contenedor inputs y botones */
+.contInputsButtons{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 3.125rem;
+    width: 18.75rem;
+}
+.input{
+    position: relative;
+}
+label{
+    position: absolute;
+    top: -1.375rem;
+    font-size: 1.125rem;
+}
+#edit, #save{
+    width: 18.75rem;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border: none;
+    outline: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+#edit{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--blue);
+}
+#save{
+    background-color: var(--green);
+
+}
