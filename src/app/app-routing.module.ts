@@ -31,7 +31,7 @@ const routes: Routes = [
   {path: "ratings", component: RatingsComponent},
   {path: "service-provided", component: ServiceProvidedComponent},
   {path: "requested-service", component: RequestedServiceComponent},
-  {path: "favorites", component: FavoritesComponent}
+  {path: "favorites", component: FavoritesComponent},
   { path: 'service', component: ServiceComponent },
 ];
 
