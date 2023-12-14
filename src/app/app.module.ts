@@ -28,6 +28,7 @@ import { ServiceCardComponent } from './components/service-card/service-card.com
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,13 +44,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     NavBarComponent,
     RegForm1Component,
     RegForm2Component,
-    RegForm3Component,
-    HeaderComponent,
-    NavBarComponent,
+    RegForm3Component,   
     PreferencesComponent,
     ServiceComponent,
     ServiceCardComponent,
-    ServiceRatingComponent,,
+    ServiceRatingComponent,
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
