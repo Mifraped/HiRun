@@ -18,11 +18,9 @@ export class ServiceService {
 
 provider:User = {email:'b@mail', password:'Aa111111', name:'Eugenia', surname:'Fernández',phoneNumber: 123, location:'Madrid', photo: '../../../assets/profile_img/example_provider.jpg'}
 
-service :Service={provider: this.provider, title: 'Service example', jobs: [this.job1, this.job2, this.job3],photo: '../../../assets/service_img/example.jpg', rating:3.5 } 
-service2 :Service={provider: this.provider, title: 'Service example', jobs: [this.job1, this.job2, this.job3],photo: '../../../assets/service_img/example.jpg', rating:3.5 } 
-service3 :Service={provider: this.provider, title: 'Service example', jobs: [this.job1, this.job2, this.job3],photo: '../../../assets/service_img/example.jpg', rating:3.5 } 
 
-services: Service[] = [this.service, this.service2, this.service3]
+
+
 
  cat1:Category ={categoryId: 1, title: 'Fontanería'}
  cat2:Category ={categoryId: 2, title: 'Estética'}
@@ -55,7 +53,7 @@ service4 :Service={provider: this.provider, title: 'Service example 4', jobs: [t
 
 serviceArray:Service[]=[this.service, this.service2, this.service3, this.service4]
 
- 
+services: Service[] = [this.service, this.service2, this.service3]
 
   constructor() { }
 }
