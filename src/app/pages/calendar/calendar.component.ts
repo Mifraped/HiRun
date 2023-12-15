@@ -5,6 +5,7 @@ import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Router } from '@angular/router';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 
 @Component({
@@ -13,8 +14,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent {
-   
  
+   
 
   calendarOptions: any = {
     initialView: 'dayGridMonth',
@@ -60,17 +61,12 @@ export class CalendarComponent {
 
   openDate(arg: any) {
     console.log('Date clicked: ' + arg.dateStr);
-    // Ahora puedes acceder a la instancia de Calendar
     this.calendarInitialized(arg.view.calendar);
     arg.view.calendar.changeView('timeGridDay', arg.date);
-    // Aquí puedes agregar la lógica que deseas ejecutar cuando se hace clic en un día
+   
   }
 
-  // goToMonthView() {
-  //   console.log('entra');
-  //   this.calendarComponent.fullCalendar('changeView', 'dayGridMonth');
-  //   this.updateFooter('dayGridMonth');
-  // }
+
 
   onViewDidMount(arg: any) {
     this.updateFooter(arg.view.type);
@@ -94,7 +90,15 @@ export class CalendarComponent {
     // Actualizar las opciones del calendario con el nuevo encabezado
     this.calendarOptions.footerToolbar = { ...footerToolbar };
   }
-  constructor(private router: Router) { }
+
+  
+
+  constructor(private router: Router, public headerNavbarService: HeaderNavbarService) { 
+    this.headerNavbarService.showHeader=false
+    this.headerNavbarService.showNavbar=false
+  }
+
+
 };
   
 

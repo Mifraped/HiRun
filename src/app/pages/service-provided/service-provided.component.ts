@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Service } from 'src/app/models/service';
 import { ServiceService } from 'src/app/shared/service.service';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+
 
 @Component({
   selector: 'app-service-provided',
@@ -11,7 +13,9 @@ export class ServiceProvidedComponent {
 
   public services: Service[]
 
-  constructor(public serviceService: ServiceService){
+  constructor(public serviceService: ServiceService,public headerNavbarService: HeaderNavbarService) { 
+    this.headerNavbarService.showHeader=false
+    this.headerNavbarService.showNavbar=false
 
     this.services = serviceService.services
   }

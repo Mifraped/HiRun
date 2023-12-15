@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-chat',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./chat.component.css']
 })
 export class ChatComponent {
-
+constructor(public headerNavbarService: HeaderNavbarService) { 
+  this.headerNavbarService.showHeader=true
+  this.headerNavbarService.showNavbar=true}
 }

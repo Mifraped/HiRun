@@ -7,6 +7,7 @@ import {
   animate,
 } from '@angular/animations';
 import { UserService } from 'src/app/shared/user.service';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-home',
@@ -54,7 +55,9 @@ export class HomeComponent {
     // Add more FAQ items here
   ];
 
-  constructor(public UserService: UserService) {}
+  constructor(public UserService: UserService, public headerNavbarService: HeaderNavbarService) { 
+    this.headerNavbarService.showHeader=true
+    this.headerNavbarService.showNavbar=true}
   isPVisible = Array(this.faqItems.length).fill(false);
 
   togglePVisibility(index: number) {

@@ -5,6 +5,7 @@ import { UserService } from 'src/app/shared/user.service';
 import { Job } from 'src/app/models/job';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 
 
@@ -64,7 +65,9 @@ tf4 = {t0:'15:20', t1:'21:00', days: [true, true, true,true,true,true,true] }
 timeFrameArray=[this.tf1, this.tf2, this.tf3, this.tf4]
 
 
-  constructor( public userService:UserService,public serviceService:ServiceService, private formBuilder: FormBuilder,private router: Router ){
+  constructor( public userService:UserService,public serviceService:ServiceService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService) { 
+    this.headerNavbarService.showHeader=false
+    this.headerNavbarService.showNavbar=false
     this.buildFormJobs();
     this.buildFormService();
   }

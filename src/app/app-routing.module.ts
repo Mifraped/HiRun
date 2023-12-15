@@ -17,6 +17,7 @@ import { ServiceProvidedComponent } from './pages/service-provided/service-provi
 import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { BookServiceComponent } from './pages/book-service/book-service.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'favorites', component: FavoritesComponent },
   { path: 'service', component: ServiceComponent },
   { path: 'editservice', component: EditServiceComponent },
+  { path: 'book-service', component: BookServiceComponent },
 ];
 
 @NgModule({
