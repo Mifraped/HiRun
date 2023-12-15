@@ -7,7 +7,7 @@
 }
 .cont{
     height: 85px;
-    width: 300px;
+    width: 324px;
     display: flex;
     gap: 6px;
 }
@@ -27,16 +27,17 @@
     padding-top: 12px;
     display: flex;
     flex-direction: column;
+    width: 50%;
 }
 /* nombre del trabajo */
 h4{
-    font-size: 18px;
+    font-size: 1.125rem;
     color: var(--lightGrey);
-    margin-bottom: 4px;
+    margin-bottom: 0.25rem;
 }
 /* estilos de el estado y fecha de los trabajos si la pagina es servicios prestados */
 span{
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: var(--lightGrey);
 }
 /* estilos de la valoracion del servicio si la pagina es servicios activos */

@@ -1,1 +1,22 @@
-<p>service-provided works!</p>
+<div class="cont">
+    <!-- contenedor enlace atras y titulo de la pagina -->
+    <div class="backTitle">
+        <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
+                viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
+            </svg>
+        </a>
+        <div class="title">
+            <span id="servicios">Servicios</span>
+            <span id="activos">activos</span>
+        </div>
+    </div>
+    <hr class="principal">
+    <div class="cardContainer" *ngFor="let service of services; let last = last">
+        <div class="cardHr">
+            <app-profile-service-card></app-profile-service-card>
+            <hr *ngIf="!last">
+        </div>
+    </div>
+</div>
