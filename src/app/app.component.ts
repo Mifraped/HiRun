@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HeaderNavbarService } from './shared/header-navbar.service';
 
 
 @Component({
@@ -8,5 +9,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'hirun';
+  constructor(public headerNavbarService: HeaderNavbarService){
+    
+      this.headerNavbarService.showHeader=false
+      this.headerNavbarService.showNavbar=false
+  
+      
+    }
   
 }
