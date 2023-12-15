@@ -3,19 +3,24 @@ import { Category } from 'src/app/models/category';
 import { ServiceService } from 'src/app/shared/service.service';
 import { UserService } from 'src/app/shared/user.service';
 import { Job } from 'src/app/models/job';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 
-
-
 @Component({
-  selector: 'app-new-service',
-  templateUrl: './new-service.component.html',
-  styleUrls: ['./new-service.component.css']
+  selector: 'app-edit-service',
+  templateUrl: './edit-service.component.html',
+  styleUrls: ['./edit-service.component.css']
 })
-export class NewServiceComponent {
+export class EditServiceComponent  implements OnInit{
+
+  service = this.serviceService.service
+  jobs:Job[]=this.service.jobs
+
+  selectedJob:Job
+
+
   public addJobForm: FormGroup
-  public newServiceForm: FormGroup
+  public editServiceForm: FormGroup
   
   //variables para mostras/ocultar header y navbar  
   showHeader:boolean=false
@@ -23,7 +28,7 @@ export class NewServiceComponent {
 
   //Importa las categorías del servicio 'service'
   allCat = this.serviceService.allCat
-  selectedCat:Category[] = []
+  selectedCat:Category[]
 
   //opciones adicionales: pago en efcetivo, servicio a domicilio, etc
   opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house'}
@@ -34,8 +39,6 @@ export class NewServiceComponent {
   allOptions = [this.opt1, this.opt2, this.opt3, this.opt4]
   selectedOptions:string[] = []
 
-  //array de trabajos, se inicializa vacío. Se popula con el form interno que hay dentro del otro form
-  jobs:Job[] = []
 
   //El usuario logeado, que será el proveedor del servicio
   user = this.userService.user
@@ -112,7 +115,7 @@ timeFrameArray=[this.tf1, this.tf2, this.tf3, this.tf4]
 
 //formulario general de crear servicios
 private buildFormService(){
-  this.newServiceForm = this.formBuilder.group({
+  this.editServiceForm = this.formBuilder.group({
     title:  [, [Validators.required, ]],
     jobs:  [, [Validators.required]],
     // jobs:  [, [Validators.required, this.atLeastOne]], //pendiente definir
@@ -150,20 +153,59 @@ catSelected(category){
   console.log(this.selectedCat)
   }
 
-  //Añade los trabajos generados al array jobs que se incializa vacío
-addJob()  {
-let newJob = this.addJobForm.value
-this.jobs.push(newJob)
-this.addJobForm.reset()
-alert('Trabajo añadido correctamente')
-console.log(this.jobs)
-}
+  //Añade los trabajos generados al array jobs del servicio, o los edita
+ addOrEditJob()  {
+    console.log('entra')
+    if(!this.selectedJob){
+
+      let newJob = this.addJobForm.value
+      this.jobs.push(newJob)
+      this.addJobForm.reset()
+      alert('Trabajo añadido correctamente')
+    }else{
+      this.selectedJob =this.addJobForm.value
+      console.log(this.selectedJob)
+    }
+
+
+    console.log(this.jobs)
+  }
 
 //Elimina un trabajo creado por medio de addJobForm antes de guardar el servicio
 deleteJob(index){
+  this.selectedJob = null
   this.jobs.splice(index, 1)
   console.log(this.jobs)
+  console.log(this.selectedJob)
 }
+ //seleccionar/deseleccionar trabajos en el listado
+selectJob(index){
+
+  if(this.selectedJob === this.jobs[index]){
+    this.selectedJob = null
+    this.addJobForm.patchValue({
+      title: null,
+      price: null,
+      description: null,
+      duration: null,
+      
+    });
+  }else{
+    this.selectedJob=this.jobs[index]
+    this.addJobForm.patchValue({
+      title: this.selectedJob.title,
+      price: this.selectedJob.price,
+      description: this.selectedJob.description,
+      duration: this.selectedJob.duration,
+      
+    });
+
+  }
+ 
+  
+
+}
+
 
 deleteTimeframe(index){
   this.timeFrameArray.splice(index, 1)
@@ -172,7 +214,7 @@ deleteTimeframe(index){
 
 //Nuevo servicio con la info del form + información adicional que viene del servicio, del formulario de jobs, etc.
 newService() {
-  let newService = this.newServiceForm.value;
+  let newService = this.editServiceForm.value;
   newService.jobs = this.jobs
   newService.tags = this.selectedCat
   newService.provider = this.user
@@ -183,13 +225,13 @@ newService() {
   this.selectedCat=[];
   this.selectedOptions=[];
   this.jobs=[]
-  this.newServiceForm.reset()
+  this.editServiceForm.reset()
 
 }
 
 cancelNewService(){
   //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
-  this.newServiceForm.reset()
+  this.editServiceForm.reset()
   this.router.navigate(['/profile'])
 
 
@@ -205,38 +247,24 @@ daySelected(day){
   
   }
 
-  ////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
-  timeFramesWindow() {
-    this.timeFramesOpen = true;
-    console.log(this.timeFramesOpen)
-  }
-
-  closeModal() {
-    this.timeFramesOpen = false;
-  }
-
+////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
+timeFramesWindow() {
+  this.timeFramesOpen = true;
+  console.log(this.timeFramesOpen)
 }
 
+closeModal() {
+  this.timeFramesOpen = false;
+}
 
-////// SUBIDA DE FOTO - DEJO COMENTADO Y PENDIENTE DE TENER BBDD Y API
+ngOnInit() {
+  //para que el formulario coja por defecto los valores del servici a editar
+  this.selectedCat=this.service.tags
+ //pendiente de ver como seleccionar de iniciolas que ya tenga el servicio
+  this.editServiceForm.patchValue({
+    title: this.service.title,
+    
+  });
+}
 
-// import {HttpClient} from '@angular/common/http'
-
-// incluir http en contructor
-
-//selectedFile:File
-
-
-//recoge la foto
-// onFileChange(event){
-//   this.selectedFile = event.target.files[0]
-//   console.log(event)
-//   this.upload()
-// }
-
-// upload(){
-//   const uploadData = new FormData();
-//   uploadData.append('myFile', this.selectedFile, this.selectedFile.name)
-
-//   //Aquí iría la llamada a la API
-// }
+}

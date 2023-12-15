@@ -1,65 +1,146 @@
 <main>
-  <h1>Nuevo servicio</h1>
+  <h1>Editar servicio</h1>
 
   <div class="separator"></div>
   <!-- formulario -->
-  <form [formGroup]="newServiceForm">
+  <form [formGroup]="editServiceForm">
     <div class="formGroup">
-      <label>Crea un nuevo servicio</label>
+      <label>Editar nombre del servicio</label>
       <div class="inputContainer">
-        <input
-          type="text"
-          class="form-control"
-          formControlName="title"
-          [ngClass]="{
-            'is-invalid':
-              (newServiceForm.get('title').dirty ||
-                newServiceForm.get('title').touched) &&
-              !newServiceForm.get('title').valid
-          }"
-        />
-
-        <div *ngIf="newServiceForm.get('title').valid">
-          <i class="fa-solid fa-circle-check valid-feedback"></i>
-        </div>
-
-        <i
-          *ngIf="
-            (newServiceForm.get('title').dirty ||
-              newServiceForm.get('title').touched) &&
-            !newServiceForm.get('title').valid
-          "
-          class="fa-solid fa-circle-exclamation invalid-feedback"
-        ></i>
-
-        <div
-          *ngIf="
-            (newServiceForm.get('title').dirty ||
-              newServiceForm.get('title').touched) &&
-            !newServiceForm.get('title').valid
-          "
-          class="errorMsg"
-        >
-          <div *ngIf="newServiceForm.get('title').errors.required">
-            Este campo es obligatorio
-          </div>
-        </div>
-
+        <input type="text" class="form-control" formControlName="title" />
         <div class="circle">
-          <i class="fa-solid fa-handshake-simple"></i>
+          <i class="fa-solid fa-arrows-rotate"></i>
         </div>
       </div>
     </div>
     <div class="separator"></div>
     <!-- añadir foto: pendinte investigar -->
-    <div class="btn_addPhoto">
-      <!-- <input type="file" id="photoInput" (change)="onFileChange($event)" /> -->
-      <span class="material-symbols-outlined"> photo_camera </span>
+    <div class="img-container">
+      <img src="{{ service.photo }}" alt="" />
     </div>
+    <button class="photoEdit">
+      <p>Editar foto</p>
+      <i class="fa-regular fa-pen-to-square"></i>
+    </button>
+    <div class="separator"></div>
+    <!-- categorías (tags en el objeto servicio) -->
+
+    <h3>Etiquetas</h3>
+    <ul class="catContainer">
+      <li *ngFor="let category of allCat; let i = index">
+        <button
+          class="category"
+          [class.selected]="category.selected"
+          (click)="catSelected(category)"
+        >
+          {{ category.title }}
+        </button>
+      </li>
+    </ul>
+    <!-- otras opciones: pendiente definir cuáles van a ser, meto 3 que se me ocurren y una extra  -->
+    <div class="separator"></div>
+    <h3>Otros</h3>
+    <div class="other-container">
+      <div class="formGroup otherOptions" *ngFor="let option of allOptions">
+        <label class="checkBoxGroup">
+          <input
+            class="inputCheck"
+            type="checkbox"
+            (change)="onCheckboxChange(option)"
+            [checked]="selectedOptions.includes(option.value)"
+          />
+          <i class="{{ option.icon }}"></i>{{ option.value }}
+        </label>
+      </div>
+    </div>
+
+    <!-- añadir franjas horarias: falta definir si van a ser tabla aparte o info dentro servicios -->
+
+    <!--  -->
+    <div class="separator"></div>
+    <h3>Calendario</h3>
+    <div class="textContainer">
+      Selecciona los días de la semana en los que vas a prestar este servicio
+    </div>
+    <!-- botones seleccionar días -->
+    <ul class="weekContainer">
+      <li class="dayContainer" *ngFor="let day of week; let i = index">
+        <p>{{ day.initial }}</p>
+        <button
+          class="dayButton"
+          [class.selected]="day.selected"
+          (click)="daySelected(day)"
+        >
+          <i class="fa-solid fa-check" *ngIf="day.selected"></i>
+          <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
+        </button>
+      </li>
+    </ul>
+    <!-- franjas horarias -->
+    <div class="textContainer paddingTop">
+      Indica tus franjas horarias de trabajo
+    </div>
+
+    <!-- ventana de franjas -->
+
+    <app-timeframe-modal
+      (closeWindow)="closeModal()"
+      *ngIf="timeFramesOpen"
+    ></app-timeframe-modal>
+    `,
+
+    <!-- listado franjas -->
+    <ul class="timeframeContainer">
+      <li *ngFor="let tf of timeFrameArray; let i = index">
+        <div class="timeFrame">
+          <p>{{ tf.t0 }} - {{ tf.t1 }}</p>
+
+          <div
+            class="smallDayCircle"
+            *ngFor="let day of tf.days"
+            [class.applicableDay]="day"
+          ></div>
+          <button (click)="deleteTimeframe(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <!-- botón abrir modal timeframes -->
+
+    <button (click)="timeFramesWindow()" class="addTf">
+      <i class="fa-solid fa-plus"></i>
+    </button>
     <div class="separator"></div>
 
+    <!-- listado de trabajos añadidos, con opción de eliminar -->
+    <h3>Trabajos</h3>
+    <div class="textContainer">
+      <p>
+        Selecciona un trabajo para editarlo, o rellena los campos para añadir un
+        trabajo
+      </p>
+    </div>
+    <ul class="jobList" *ngIf="jobs.length > 0">
+      <li
+        *ngFor="let job of jobs; let i = index"
+        class="jobListItem"
+        (click)="selectJob(i)"
+        [class.jobSelected]="jobs[i] === selectedJob"
+      >
+        <div class="job">
+          <p>{{ job.title }}</p>
+          <p>{{ job.price }}€</p>
+          <p>{{ job.duration }} min.</p>
+          <button (click)="deleteJob(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
     <!-- form de creación de trabajos dentro del form de servicios -->
-    <form [formGroup]="addJobForm">
+    <form [formGroup]="addJobForm" class="paddingTop">
       <!-- <form action=""> -->
       <div class="formGroup">
         <label>Añade al menos un trabajo</label>
@@ -253,128 +334,16 @@
         </div>
       </div>
 
-      <button
-        class="btn_addJob"
-        (click)="addJob()"
-        [disabled]="addJobForm.invalid"
-      >
+      <button class="btn_addJob" (click)="addOrEditJob()">
         <i class="fa-solid fa-check"></i>
       </button>
     </form>
     <!-- termina form de creación de trabajos -->
-    <!-- listado de trabajos añadidos, con opción de eliminar -->
-    <div class="separator"></div>
-    <h3>Trabajos</h3>
-    <ul class="jobList" *ngIf="jobs.length > 0">
-      <li *ngFor="let job of jobs; let i = index" class="jobListItem">
-        <div class="job">
-          <p>{{ job.title }}</p>
-          <p>{{ job.price }}€</p>
-          <p>{{ job.duration }} min.</p>
-          <button (click)="deleteJob(i)">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </li>
-    </ul>
-    <!-- categorías (tags en el objeto servicio) -->
-    <div class="separator"></div>
-    <h3>Etiquetas</h3>
-    <ul class="catContainer">
-      <li *ngFor="let category of allCat; let i = index">
-        <button
-          class="category"
-          [class.selected]="category.selected"
-          (click)="catSelected(category)"
-        >
-          {{ category.title }}
-        </button>
-      </li>
-    </ul>
-    <!-- otras opciones: pendiente definir cuáles van a ser, meto 3 que se me ocurren y una extra  -->
-    <div class="separator"></div>
-    <h3>Otros</h3>
-    <div class="other-container">
-      <div class="formGroup otherOptions" *ngFor="let option of allOptions">
-        <label class="checkBoxGroup">
-          <input
-            class="inputCheck"
-            type="checkbox"
-            (change)="onCheckboxChange(option)"
-            [checked]="selectedOptions.includes(option.value)"
-          />
-          <i class="{{ option.icon }}"></i>{{ option.value }}
-        </label>
-      </div>
-    </div>
-
-    <!-- añadir franjas horarias: falta definir si van a ser tabla aparte o info dentro servicios -->
-
-    <!--  -->
-    <div class="separator"></div>
-    <h3>Calendario</h3>
-    <div class="textContainer">
-      Selecciona los días de la semana en los que vas a prestar este servicio
-    </div>
-    <!-- botones seleccionar días -->
-    <ul class="weekContainer">
-      <li class="dayContainer" *ngFor="let day of week; let i = index">
-        <p>{{ day.initial }}</p>
-        <button
-          class="dayButton"
-          [class.selected]="day.selected"
-          (click)="daySelected(day)"
-        >
-          <i class="fa-solid fa-check" *ngIf="day.selected"></i>
-          <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
-        </button>
-      </li>
-    </ul>
-    <!-- franjas horarias -->
-    <div class="textContainer paddingTop">
-      Indica tus franjas horarias de trabajo
-    </div>
-
-    <!-- abrir la ventana de franjas -->
-
-    <app-timeframe-modal
-      (closeWindow)="closeModal()"
-      *ngIf="timeFramesOpen"
-    ></app-timeframe-modal>
-    `,
-
-    <!-- listado franjas -->
-    <ul class="timeframeContainer">
-      <li *ngFor="let tf of timeFrameArray; let i = index">
-        <div class="timeFrame">
-          <p>{{ tf.t0 }} - {{ tf.t1 }}</p>
-
-          <div
-            class="smallDayCircle"
-            *ngFor="let day of tf.days"
-            [class.applicableDay]="day"
-          ></div>
-          <button (click)="deleteTimeframe(i)">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-      </li>
-    </ul>
-
-    <!-- abrir modal timeframes -->
-
-    <button (click)="timeFramesWindow()" class="addTf">
-      <i class="fa-solid fa-plus"></i>
-    </button>
     <div class="separator"></div>
 
     <!-- botón enviar nuevo servicio -->
 
-    <button
-      class="btn btn--green"
-      (click)="newService()"
-      [disabled]="newServiceForm.invalid"
-    >
+    <button class="btn btn--green" (click)="newService()">
       <h3>Publicar</h3>
     </button>
     <button class="btn btn--white" (click)="cancelNewService()">
