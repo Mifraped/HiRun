@@ -34,7 +34,7 @@ import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
-import { BookServiceComponent } from './pages/book-service/book-service.component';
+
 import { HeaderNavbarService } from './shared/header-navbar.service';
 
 
@@ -69,7 +69,6 @@ import { HeaderNavbarService } from './shared/header-navbar.service';
     JobCardComponent,
     EditServiceComponent,
     TimeframeModalComponent,
-    BookServiceComponent
   ],
   imports: [
     BrowserModule,
