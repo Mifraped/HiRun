@@ -3,6 +3,7 @@ import { Category } from 'src/app/models/category';
 import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user.service';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,9 @@ import { UserService } from 'src/app/shared/user.service';
 })
 export class RegisterComponent {
 
-  constructor(private router: Router, public userService: UserService) {}
+  constructor(private router: Router, public userService: UserService, public headerNavbarService: HeaderNavbarService) { 
+    this.headerNavbarService.showHeader=false
+    this.headerNavbarService.showNavbar=false}
 
 newUser : User 
 
