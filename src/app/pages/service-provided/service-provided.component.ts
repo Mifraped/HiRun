@@ -9,11 +9,9 @@ import { ServiceService } from 'src/app/shared/service.service';
 })
 export class ServiceProvidedComponent {
 
-  public services: Service[]
 
   constructor(public serviceService: ServiceService){
 
-    this.services = serviceService.services
   }
 
 }

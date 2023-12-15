@@ -8,14 +8,14 @@
             <ng-container *ngIf="page === 'solicitados'">
                 <!-- tanto el color como el estado dependen del estado del servicio -->
                 <!-- creo la variable "status" para probar -->
-                <h4>{{serviceService.job1.title}}</h4>
+                <h4>{{jobPadre.title}}</h4>
                 <span><span
                         [ngStyle]="{color: (status) === 'Cancelado'? 'var(--red)': (status) === 'Pendiente'? 'var(--orange)': 'var(--green)'}">{{status}}</span>
                     el 24 de dicciembre</span>
             </ng-container>
             <!-- en caso de que la pagina sea servicios activos se muestra la valoracion del servicio -->
             <ng-container *ngIf="page === 'activos'">
-                <h4>{{serviceService.service.title}}</h4>
+                <h4>{{servicioPadre.title}}</h4>
                 <div class="stars">
                     <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                             viewBox="0 0 72 72">
@@ -71,7 +71,7 @@
             <ng-container class="photoPrice" *ngIf="page === 'solicitados'">
                 <div class="photoUser"><img id="photoUser"
                         src="../../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif"></div>
-                <span class="price">{{serviceService.job1.price}}€</span>
+                <span class="price">{{jobPadre.price}}€</span>
             </ng-container>
             <!-- caso de que sea activos -->
             <ng-container *ngIf="page === 'activos'">

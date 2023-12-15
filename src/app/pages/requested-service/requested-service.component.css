@@ -1,0 +1,64 @@
+.cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+/* contenedor enlace volver y titulo */
+.backTitle{
+    display: flex;
+    margin-top: 25px;
+    justify-content: flex-end;
+    position: relative;
+    width: 100%;
+    margin-bottom: 35px;
+}
+/* enlace volver */
+.back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--lightGrey);
+    position: absolute;
+    left: 1.25rem;
+    top: -11px;
+}
+svg#back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* titulo pagina */
+.title{
+    display: flex;
+    flex-direction: column;
+    margin-right: 18px;
+}
+span{
+    font-size: 28px;
+    font-weight: 600;
+}
+#servicios{
+    color: var(--lightGrey);
+}
+#activos{
+    color: var(--blue);
+    display: flex;
+    justify-content: flex-end;
+}
+hr.principal{
+    border-color: var(--green);
+    width: 334px;
+    margin-bottom: 21px;
+}
+/* contenedores de las tarjetas con separador */
+.cardHr{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+hr{
+    border-color: var(--green);
+    width: 324px;
+}
+

@@ -68,7 +68,8 @@ svg.star{
     border-radius: 50%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
+    align-self: self-end;
 }
 #photoUser{
     height: 100%;

@@ -12,10 +12,12 @@
             <span id="activos">activos</span>
         </div>
     </div>
+    <!-- separador -->
     <hr class="principal">
-    <div class="cardContainer" *ngFor="let service of services; let last = last">
+    <!-- contenedor de targetas -->
+    <div class="cardContainer" *ngFor="let service of serviceService.serviceArray; let last = last">
         <div class="cardHr">
-            <app-profile-service-card></app-profile-service-card>
+            <app-profile-service-card [servicioPadre]="service"></app-profile-service-card>
             <hr *ngIf="!last">
         </div>
     </div>
