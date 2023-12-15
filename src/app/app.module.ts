@@ -31,6 +31,10 @@ import { ProfileServiceCardComponent } from './components/profile-service-card/p
 import { JobCardComponent } from './components/job-card/job-card.component';
 import { EditServiceComponent } from './pages/edit-service/edit-service.component';
 import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-modal.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { Calendar } from '@fullcalendar/core';
+import esLocale from '@fullcalendar/core/locales/es';
+
 
 
 @NgModule({
@@ -69,6 +73,7 @@ import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    FullCalendarModule,
   ],
 
   providers: [],
