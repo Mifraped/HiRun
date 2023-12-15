@@ -1,0 +1,187 @@
+main {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.timeFrameModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* From https://css.glass */
+    background: rgba(0, 0, 0, 0.68);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.6px);
+    -webkit-backdrop-filter: blur(6.6px);
+    border: 1px solid rgba(0, 0, 0, 0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.timeFrameModal label,
+.timeFrameModal h3,
+.timeFrameModal p {
+    color: var(--darkGrey);
+}
+
+.timeFrameModal label {
+    padding-left: 3rem;
+    padding-top: 32px;
+    align-self: flex-start
+}
+
+.timeFrameModal input {
+    background-color: #cfcfcf;
+    width: 14.375rem;
+}
+
+.timeFrames_container {
+    background-color: var(--lightGrey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+
+    padding-top: 22px;
+    width: 18.75rem;
+    height: 33.75rem;
+
+}
+
+.timeFrames_container .inputContainer {
+    width: 230px;
+}
+
+.dayButton {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    background-color: var(--lightGrey);
+    margin-top: 1rem
+}
+
+.timeFrames_container .separator {
+    margin-top: 12px;
+    margin-bottom: 15px;
+}
+
+.separator {
+    height: 1px;
+    width: 11.4375rem;
+    background-color: var(--green);
+    margin: 1.6875rem 0
+}
+
+
+.dayButton--small {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    background-color: var(--darkGrey);
+    margin-top: 1rem;
+    font-size: 12px;
+    color: var(--blue)
+}
+
+.timeFramesIcon {
+    font-size: 1.2rem;
+    position: absolute;
+    z-index: 1;
+    top: 10px;
+    right: .5rem;
+    color: var(--blue)
+}
+
+
+
+.dayContainer--small {
+    padding-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--darkGrey);
+    font-size: 0.8rem;
+    font-weight: 500;
+
+}
+
+.dayContainer--small i {
+    font-size: 1rem;
+}
+
+.weekContainer {
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.7rem
+}
+
+
+.btn {
+    width: 230px;
+    height: 40px;
+    border-radius: 20px;
+    margin-top: 20px
+}
+
+.btn--green {
+
+    background-color: var(--green);
+
+}
+
+.btn--green h3 {
+
+    color: var(--darkGrey);
+
+}
+
+.btn--black {
+    background-color: var(--darkGrey);
+}
+
+.btn--black h3 {
+    color: var(--lightGrey)
+}
+
+.addTf {
+    margin-top: 2rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: var(--blue);
+
+}
+
+.addTf i {
+    color: var(--darkGrey);
+    font-size: 2rem;
+}
+
+.inputContainer {
+    width: 18.75rem;
+    height: 2.5rem;
+    position: relative;
+    margin-top: 4px;
+
+}
+
+.dayButton.selected {
+    background-color: var(--blue);
+}
+
+.dayButton.selected i {
+
+    color: var(--darkGrey)
+}

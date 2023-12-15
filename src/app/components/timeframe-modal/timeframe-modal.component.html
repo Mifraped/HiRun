@@ -1,0 +1,47 @@
+<main class="timeFrameModal" *ngIf="timeFramesOpen">
+  <div class="timeFrames_container">
+    <h3>Nueva franja horaria</h3>
+    <div class="separator"></div>
+    <label for="">Hora inicio</label>
+    <div class="inputContainer">
+      <input type="time" />
+
+      <i class="fa-regular fa-clock timeFramesIcon"></i>
+    </div>
+
+    <label for="">Hora fin</label>
+    <!--  -->
+    <div class="inputContainer">
+      <input type="time" />
+
+      <i class="fa-regular fa-clock timeFramesIcon"></i>
+    </div>
+
+    <!--  -->
+    <label for="">Días a los que aplica</label>
+
+    <ul class="weekContainer weekContainer--small">
+      <li
+        class="dayContainer dayContainer--small"
+        *ngFor="let day of week; let i = index"
+      >
+        <p>{{ day.initial }}</p>
+        <button
+          class="dayButton dayButton--small"
+          [class.selected]="day.selected"
+          (click)="daySelected(day)"
+        >
+          <i class="fa-solid fa-check" *ngIf="day.selected"></i>
+          <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
+        </button>
+      </li>
+    </ul>
+
+    <button class="btn btn--green" (click)="timeFrameAccept()">
+      <h3>Aceptar</h3>
+    </button>
+    <button class="btn btn--black" (click)="timeFrameClose()">
+      <h3>Cancelar</h3>
+    </button>
+  </div>
+</main>

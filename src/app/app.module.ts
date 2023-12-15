@@ -29,6 +29,8 @@ import { ServiceRatingComponent } from './components/service-rating/service-rati
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileServiceCardComponent } from './components/profile-service-card/profile-service-card.component';
 import { JobCardComponent } from './components/job-card/job-card.component';
+import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-modal.component';
 
 
 @NgModule({
@@ -57,7 +59,9 @@ import { JobCardComponent } from './components/job-card/job-card.component';
     RequestedServiceComponent,
     FavoritesComponent,
     ProfileServiceCardComponent,
-    JobCardComponent
+    JobCardComponent,
+    EditServiceComponent,
+    TimeframeModalComponent
   ],
   imports: [
     BrowserModule,
