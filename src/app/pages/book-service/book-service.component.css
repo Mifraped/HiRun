@@ -4,12 +4,46 @@ main {
     align-items: center;
 }
 
+.headerContainer {
+    display: flex;
+    padding: 1.5rem;
+    padding-left: 2.75rem;
+    justify-content: flex-end;
+    width: 100%;
+    border-bottom: 1px solid var(--green);
+}
+
+.headerContainer h2 {
+    margin: auto;
+    color: var(--lightGrey)
+}
+
+.titleContainer {
+    padding: 24px 0;
+    width: 18.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.titleContainer h1 {
+    color: var(--blue)
+}
+
+.titleContainer h2 {
+    color: var(--lightGrey)
+}
+
 form {
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.form-group {
+    padding-top: 32px
 }
 
 .textAreaContainer {
@@ -46,4 +80,88 @@ i {
     z-index: 2;
     color: var(--blue);
     font-size: 18px;
+}
+
+.textAreaContainer {
+    width: 18.75rem;
+
+    position: relative;
+    margin-top: 4px;
+}
+
+textarea {
+    background-color: var(--lightGrey);
+    border-radius: 6px;
+    width: 18.75rem;
+    height: 7.5rem;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    padding: 1rem;
+    color: var(--darkGrey);
+
+}
+
+.btn {
+    width: 290px;
+    height: 2.5rem;
+    border-radius: 1.25rem;
+    border: none;
+    outline: none;
+    color: var(--black);
+    background-color: var(--green);
+    margin-bottom: 5rem;
+    margin-top: 2rem;
+
+}
+
+.closeButton {
+    background: none;
+}
+
+.fa-xmark {
+    font-size: 20px;
+    color: var(--lightGrey)
+}
+
+.transparent {
+    background-color: transparent;
+    position: relative;
+    z-index: 3;
+
+
+}
+
+.background {
+    background-color: var(--lightGrey);
+    border-radius: 1.25rem;
+    position: relative;
+}
+
+.pSelect {
+    padding-left: 32px;
+}
+
+.invalid-feedback {
+    color: var(--red);
+}
+
+.valid-feedback {
+    color: var(--green);
+}
+
+.invalid-feedback,
+.valid-feedback {
+    width: 18px;
+    position: absolute;
+    left: .5rem;
+    top: .8125rem
+}
+
+.errorMsg {
+    display: flex;
+    justify-content: center;
+    color: var(--lightGrey);
+    font-weight: 200;
+    padding-top: .3125rem
 }

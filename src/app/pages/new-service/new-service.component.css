@@ -105,6 +105,7 @@ textarea {
     outline: none;
     padding: 1rem;
     color: var(--darkGrey);
+    font-size: 1rem;
 
 }
 
