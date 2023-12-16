@@ -7,7 +7,9 @@ import {
   animate,
 } from '@angular/animations';
 import { UserService } from 'src/app/shared/user.service';
-
+import { ServiceService } from 'src/app/shared/service.service';
+import { Service } from 'src/app/models/service';
+import { Job } from 'src/app/models/job';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -33,6 +35,8 @@ import { UserService } from 'src/app/shared/user.service';
   ],
 })
 export class HomeComponent {
+  servicio1: Service = this.ServiceService.service;
+
   faqItems = [
     {
       question: 'First question',
@@ -54,7 +58,10 @@ export class HomeComponent {
     // Add more FAQ items here
   ];
 
-  constructor(public UserService: UserService) {}
+  constructor(
+    public UserService: UserService,
+    public ServiceService: ServiceService
+  ) {}
   isPVisible = Array(this.faqItems.length).fill(false);
 
   togglePVisibility(index: number) {

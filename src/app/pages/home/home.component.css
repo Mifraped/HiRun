@@ -104,22 +104,28 @@
   gap: 0.375rem;
 }
 
-.servicio {
-  margin-top: 1.0313rem;
-  border: 2px solid red;
-  height: 300px;
-  width: 300px;
-  border-radius: 0.625rem;
+.servicios_best_review {
+  overflow-x: hidden;
+}
+
+.servicio_container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 100vw;
+  padding-left: calc(50vw - 150px);
+  padding-right: calc(50vw - 150px);
 }
 
 .servicio_valorado {
   margin-top: 1.0313rem;
-  width: 100%;
+  margin-right: 4rem;
+  width: 300px;
   height: 300px;
-  border: 2px solid red;
   border-radius: 10px;
   flex: 0 0 auto;
-  scroll-snap-align: start;
+  scroll-snap-align: center;
 }
 
 .best_review {
@@ -134,13 +140,6 @@
 
 #best_txt {
   align-self: center;
-}
-
-.servicio_container {
-  display: flex;
-  flex-direction: row;
-  gap: 4.375rem;
-  overflow-x: auto;
 }
 
 #txt_categories {

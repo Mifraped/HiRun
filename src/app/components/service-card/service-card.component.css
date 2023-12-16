@@ -304,7 +304,7 @@ h1 {
 
 } */
 
-.otherInfoContainer {
+/* .otherInfoContainer {
   display: flex;
   justify-content: space-between;
   padding: 0 0.875rem;
@@ -339,7 +339,7 @@ a,
 button {
   all: unset;
   height: min-content;
-}
+} */
 /* 
     all: unset;
     height: min-content;

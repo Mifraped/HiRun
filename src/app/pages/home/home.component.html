@@ -104,7 +104,7 @@
           {{ UserService.connected ? "Novedades cerca de ti" : "Novedades" }}
         </p>
         <div class="line_blue"></div>
-        <div class="servicio"></div>
+        <app-service-card [service]="servicio1"></app-service-card>
       </div>
     </div>
     <div class="best_review">
@@ -118,11 +118,22 @@
       <div class="line_blue"></div>
       <div class="servicios_best_review">
         <div class="servicio_container">
-          <div class="servicio_valorado"></div>
-          <div class="servicio_valorado"></div>
-          <div class="servicio_valorado"></div>
-          <div class="servicio_valorado"></div>
-          <div class="servicio_valorado"></div>
+          <app-service-card
+            class="servicio_valorado"
+            [service]="servicio1"
+          ></app-service-card>
+          <app-service-card
+            class="servicio_valorado"
+            [service]="servicio1"
+          ></app-service-card>
+          <app-service-card
+            class="servicio_valorado"
+            [service]="servicio1"
+          ></app-service-card>
+          <app-service-card
+            class="servicio_valorado"
+            [service]="servicio1"
+          ></app-service-card>
         </div>
       </div>
     </div>
