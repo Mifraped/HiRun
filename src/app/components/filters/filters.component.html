@@ -106,32 +106,36 @@
   <div class="line_blue"></div>
   <div class="distance">
     <h3>Distancia</h3>
-    <div class="f2km">
-      <input type="checkbox" />
-      &lt; 2km
-    </div>
-    <div class="f5km">
-      <input type="checkbox" />
-      &lt; 5km
-    </div>
-    <div class="f15km">
-      <input type="checkbox" />
-      &lt; 15km
+    <div class="distance-boxes">
+      <div class="f2km">
+        <input type="checkbox" />
+        &lt; 2km
+      </div>
+      <div class="f5km">
+        <input type="checkbox" />
+        &lt; 5km
+      </div>
+      <div class="f15km">
+        <input type="checkbox" />
+        &lt; 15km
+      </div>
     </div>
   </div>
   <div class="line_blue"></div>
   <div class="categories">
-    <h3 id="txt_catg">Categorías</h3>
-    <div class="btn-group" role="group" aria-label="Categories">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        *ngFor="let category of categories; let i = index"
-        [class.active]="form.controls.categories.value[i]"
-        (click)="selectCategory(i)"
-      >
-        {{ category }}
-      </button>
+    <div class="categories-box">
+      <h3 id="txt_catg">Categorías</h3>
+      <div class="btn-group" role="group" aria-label="Categories">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          *ngFor="let category of categories; let i = index"
+          [class.active]="form.controls.categories.value[i]"
+          (click)="selectCategory(i)"
+        >
+          {{ category }}
+        </button>
+      </div>
     </div>
   </div>
   <div class="line_blue"></div>
@@ -190,6 +194,6 @@
     </div>
   </div>
   <div class="btn-filtros">
-    <button id="ap-btn">Aplicar Filtros</button>
+    <button id="ap-btn" routerLink="/results">Aplicar Filtros</button>
   </div>
 </div>

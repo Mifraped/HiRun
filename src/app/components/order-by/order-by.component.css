@@ -1,0 +1,85 @@
+.blue-line {
+  height: 1px;
+  background-color: var(--blue);
+  width: 280px;
+}
+
+.main-cnt {
+  display: flex;
+  flex-direction: column;
+  height: 640px;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 62px;
+  border-bottom: 1px solid var(--blue);
+  display: flex;
+  align-items: center;
+}
+
+.h-items {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.h-items h1 {
+  font-size: 24px;
+  font-weight: 300;
+  margin-left: 17px;
+}
+
+.h-items svg {
+  margin-right: 20px;
+}
+
+.pr-cnt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 37px;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 38px;
+}
+
+.order-by-dialog button {
+  width: 230px;
+  height: 40px;
+  border-radius: 30px;
+  font-size: 18px;
+  text-align: center;
+}
+
+button.selected {
+  background-color: var(--blue);
+}
+
+#line-pr {
+  margin-top: 66px;
+}
+
+.show-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.show-results button {
+  margin-top: 56px;
+  border-radius: 30px;
+  background-color: var(--green);
+  font-size: 20px;
+  width: 230px;
+  height: 40px;
+}

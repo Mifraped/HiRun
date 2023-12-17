@@ -104,6 +104,10 @@
   gap: 0.375rem;
 }
 
+#b-l-news {
+  margin-bottom: 15px;
+}
+
 .servicios_best_review {
   overflow-x: hidden;
 }

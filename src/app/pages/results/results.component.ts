@@ -3,6 +3,8 @@ import { ServiceService } from 'src/app/shared/service.service';
 import { Service } from 'src/app/models/service';
 import { Job } from 'src/app/models/job';
 import { UserService } from 'src/app/shared/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { OrderByComponent } from 'src/app/components/order-by/order-by.component';
 
 @Component({
   selector: 'app-results',
@@ -15,6 +17,11 @@ export class ResultsComponent {
 
   constructor(
     public ServiceService: ServiceService,
-    public UserService: UserService
+    public UserService: UserService,
+    public dialog: MatDialog
   ) {}
+
+  openDialog() {
+    this.dialog.open(OrderByComponent);
+  }
 }

@@ -29,6 +29,8 @@ import { ServiceRatingComponent } from './components/service-rating/service-rati
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResultsComponent } from './pages/results/results.component';
 import { FiltersComponent } from './components/filters/filters.component';
+import { OrderByComponent } from './components/order-by/order-by.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,7 @@ import { FiltersComponent } from './components/filters/filters.component';
     ServiceProvidedComponent,
     RequestedServiceComponent,
     FavoritesComponent,
+    OrderByComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ import { FiltersComponent } from './components/filters/filters.component';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    MatDialogModule,
   ],
 
   providers: [],

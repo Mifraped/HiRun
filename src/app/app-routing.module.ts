@@ -17,6 +17,7 @@ import { RatingsComponent } from './pages/ratings/ratings.component';
 import { ServiceProvidedComponent } from './pages/service-provided/service-provided.component';
 import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
+import { OrderByComponent } from './components/order-by/order-by.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +37,7 @@ const routes: Routes = [
   { path: 'service', component: ServiceComponent },
   { path: 'results', component: ResultsComponent },
   { path: 'filters', component: FiltersComponent },
+  { path: 'order-by', component: OrderByComponent },
 ];
 
 @NgModule({
