@@ -12,16 +12,6 @@ import { filter } from 'rxjs/operators';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-<<<<<<< HEAD
-export class AppComponent implements OnInit {
-  Title = 'hirun';
-  showHeader = true;
-
-  constructor(
-    private router: Router,
-    public headerNavbarService: HeaderNavbarService,
-    userService: UserService
-=======
 export class AppComponent {
   title = 'hirun';
   showHeader = true;
@@ -30,7 +20,6 @@ export class AppComponent {
     public headerNavbarService: HeaderNavbarService,
     userService: UserService,
     private router: Router
->>>>>>> fix_merge
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;

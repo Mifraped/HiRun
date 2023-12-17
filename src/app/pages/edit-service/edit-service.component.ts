@@ -91,12 +91,9 @@ export class EditServiceComponent implements OnInit {
     public serviceService: ServiceService,
     private formBuilder: FormBuilder,
     private router: Router,
-<<<<<<< HEAD
+
     public headerNavbarService: HeaderNavbarService,
     private commonModule: CommonModule
-=======
-    public headerNavbarService: HeaderNavbarService
->>>>>>> fix_merge
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
