@@ -14,7 +14,7 @@ export class ServiceProvidedComponent {
 
   constructor(public serviceService: ServiceService,public headerNavbarService: HeaderNavbarService) { 
     this.headerNavbarService.showHeader=false
-    this.headerNavbarService.showNavbar=false
+    this.headerNavbarService.showNavbar=true
 
   }
 

@@ -8,7 +8,7 @@
                         d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
                 </svg>
             </a>
-            <button class="logOut">Log out</button>
+            <button class="logOut" (click)="logOut()">Log out</button>
         </div>
         <!-- contenedor de la foto, nombre, valoraciones usuario y localizacion-->
         <div class="photoNameRating">
@@ -22,54 +22,11 @@
                 <div class="rating">
                     <!-- contenedor de las estrellas -->
                     <div class="stars">
-                        <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 72 72">
-                                <path fill="#FCEA2B"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                                <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-miterlimit="10" stroke-width="2"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                            </svg>
-                        </div>
-                        <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 72 72">
-                                <path fill="#FCEA2B"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                                <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-miterlimit="10" stroke-width="2"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                            </svg>
-                        </div>
-                        <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 72 72">
-                                <path fill="#FCEA2B"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                                <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-miterlimit="10" stroke-width="2"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                            </svg>
-                        </div>
-                        <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 72 72">
-                                <path fill="#FCEA2B"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                                <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-miterlimit="10" stroke-width="2"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                            </svg>
-                        </div>
-                        <div class="star"><svg class="star" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                viewBox="0 0 72 72">
-                                <path fill="#FCEA2B"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                                <path fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-miterlimit="10" stroke-width="2"
-                                    d="M35.993 10.736L27.791 27.37L9.439 30.044l13.285 12.94l-3.128 18.28l16.412-8.636l16.419 8.624l-3.142-18.278l13.276-12.95l-18.354-2.66z" />
-                            </svg>
-                        </div>
+                        <star-rating [starType]="'svg'" [rating]="4" staticColor="ok" size="medium"
+                            [readOnly]="true"></star-rating>
                     </div>
                     <!-- numero de valoraciones -->
-                    <div class="rates">{{'('+ userService.user.rates +')'}}</div>
+                    <div class="rates">{{'('+ userService.user.rates.length +')'}}</div>
                 </div>
                 <!-- contenedor localizacion -->
                 <div class="location">

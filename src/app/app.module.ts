@@ -34,8 +34,9 @@ import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
-
+import { StarRatingModule } from 'angular-star-rating'
 import { HeaderNavbarService } from './shared/header-navbar.service';
+import { RatingCardComponent } from './components/rating-card/rating-card.component';
 
 
 
@@ -69,6 +70,7 @@ import { HeaderNavbarService } from './shared/header-navbar.service';
     JobCardComponent,
     EditServiceComponent,
     TimeframeModalComponent,
+    RatingCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +79,7 @@ import { HeaderNavbarService } from './shared/header-navbar.service';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FullCalendarModule,
-   
+    StarRatingModule.forRoot()
   ],
 
   providers: [HeaderNavbarService],

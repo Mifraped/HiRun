@@ -1,4 +1,5 @@
 import { Category } from "./category";
+import { Rate } from "./rate";
 
 export class User {
     constructor (    
@@ -9,7 +10,7 @@ export class User {
         public location: string,
         public phoneNumber: number,
         public photo: string, //poner imagen por defecto
-        public rates?: number,
+        public rates?: Rate[],
         public company?: string,
         public preferences?: Category [],
         public userId?: number
