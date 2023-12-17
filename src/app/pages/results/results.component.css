@@ -1,6 +1,7 @@
 .main-cnt {
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
 .search_bar {
@@ -61,4 +62,13 @@
   width: 300px;
   height: 300px;
   border: 2px solid red;
+}
+
+/* ? Dialogo order-by  */
+
+.dialogo-order-by {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

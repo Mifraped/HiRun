@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { DialogService } from 'src/app/shared/dialog.service';
 
 @Component({
   selector: 'app-order-by',
@@ -9,7 +10,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 export class OrderByComponent {
   form: FormGroup;
   categories = ['Mejores Valorados', 'Más baratos', 'Cercanos', 'Recientes'];
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private dialogService: DialogService) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -26,5 +27,9 @@ export class OrderByComponent {
     const categoriesArray = this.form.controls.categories as FormArray;
     categoriesArray.controls.forEach((control) => control.setValue(false));
     categoriesArray.controls[index].setValue(true);
+  }
+
+  closeDialog() {
+    this.dialogService.closeDialog();
   }
 }

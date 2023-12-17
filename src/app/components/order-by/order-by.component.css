@@ -1,14 +1,15 @@
 .blue-line {
   height: 1px;
   background-color: var(--blue);
-  width: 280px;
+  width: 240px;
 }
 
 .main-cnt {
   display: flex;
   flex-direction: column;
-  height: 640px;
+  height: 600px;
   width: 100%;
+  background-color: var(--darkGrey);
 }
 
 .header {
@@ -26,7 +27,7 @@
 }
 
 .h-items h1 {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 300;
   margin-left: 17px;
 }
