@@ -84,3 +84,70 @@ button {
 li {
   all: unset;
 }
+
+/* estilos calendario */
+
+:root {
+  --fc-today-bg-color: rgba(87, 184, 161, 0.24);
+  --fc-border-color: rgba(87, 184, 161, 0.5);
+  --fc-neutral-text-color: #808080;
+}
+
+.fc-daygrid-day {
+  color: var(--lightGrey);
+}
+
+/* días de la semana */
+.fc-toolbar-title {
+  color: var(--lightGrey);
+}
+
+.fc-col-header-cell-cushion {
+  color: var(--blue);
+}
+
+.fc-next-button.fc-button.fc-button-primary,
+.fc-prev-button.fc-button.fc-button-primary {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: var(--blue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--darkGrey);
+}
+
+.fc-dayGridMonth-button.fc-button.fc-button-primary,
+.fc-today-button.fc-button.fc-button-primary {
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  background-color: var(--green);
+  opacity: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--black);
+  font-size: 1.2rem;
+}
+
+.fc-timegrid-slot.fc-timegrid-slot-lane.fc-timegrid-slot-minor {
+  background: transparent;
+}
+
+.fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+  color: var(--lightGrey);
+}
+
+.fc-col-header {
+  border: none;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
