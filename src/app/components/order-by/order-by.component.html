@@ -1,0 +1,39 @@
+<div class="main-cnt">
+  <div class="header">
+    <div class="h-items">
+      <h1>Ordenar servicios por</h1>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        (click)="closeDialog()"
+      >
+        <path
+          d="M19.4767 4.3142L13.7909 10L19.4767 15.6858C20.1744 16.3841 20.1744 17.5153 19.4767 18.2131L18.213 19.4767C17.5153 20.1744 16.3835 20.1744 15.6858 19.4767L9.99996 13.7909L4.31417 19.4767C3.61644 20.1744 2.48462 20.1744 1.7869 19.4767L0.52326 18.2131C-0.174467 17.5148 -0.174467 16.3835 0.52326 15.6858L6.20906 10L0.52326 4.3142C-0.174467 3.61591 -0.174467 2.48466 0.52326 1.78693L1.7869 0.523295C2.48519 -0.174432 3.61644 -0.174432 4.31417 0.523295L9.99996 6.20909L15.6858 0.523295C16.3841 -0.174432 17.5153 -0.174432 18.213 0.523295L19.4767 1.78693C20.1744 2.48523 20.1744 3.61648 19.4767 4.3142Z"
+          fill="#56B69F"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <div class="pr-cnt">
+    <div class="order-by-dialog" [formGroup]="form">
+      <div class="options" formArrayName="categories">
+        <button
+          *ngFor="let category of categories; let i = index"
+          [class.selected]="form.controls.categories.controls[i].value"
+          (click)="onSelect(i)"
+        >
+          {{ category }}
+        </button>
+      </div>
+    </div>
+    <div id="line-pr" class="blue-line"></div>
+  </div>
+
+  <div class="show-results">
+    <button (click)="closeDialog()">Mostrar resultados</button>
+  </div>
+</div>

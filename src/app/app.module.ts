@@ -27,20 +27,6 @@ import { ServiceComponent } from './pages/service/service.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ProfileServiceCardComponent } from './components/profile-service-card/profile-service-card.component';
-import { JobCardComponent } from './components/job-card/job-card.component';
-import { EditServiceComponent } from './pages/edit-service/edit-service.component';
-import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-modal.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { Calendar } from '@fullcalendar/core';
-import esLocale from '@fullcalendar/core/locales/es';
-
-import { HeaderNavbarService } from './shared/header-navbar.service';
-import { BookServiceComponent } from './pages/book-service/book-service.component';
-
-
-
-
 
 @NgModule({
   declarations: [
@@ -57,21 +43,19 @@ import { BookServiceComponent } from './pages/book-service/book-service.componen
     NavBarComponent,
     RegForm1Component,
     RegForm2Component,
-    RegForm3Component,   
+    RegForm3Component,
     PreferencesComponent,
     ServiceComponent,
     ServiceCardComponent,
     ServiceRatingComponent,
+    ResultsComponent,
+    FiltersComponent,
+
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
     RequestedServiceComponent,
     FavoritesComponent,
-    ProfileServiceCardComponent,
-    JobCardComponent,
-    EditServiceComponent,
-    TimeframeModalComponent,
-    BookServiceComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,9 +63,6 @@ import { BookServiceComponent } from './pages/book-service/book-service.componen
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    FullCalendarModule,
-    
-   
   ],
 
   providers: [HeaderNavbarService],
