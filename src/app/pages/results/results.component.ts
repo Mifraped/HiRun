@@ -5,6 +5,7 @@ import { DialogService } from 'src/app/shared/dialog.service';
 import { Service } from 'src/app/models/service';
 import { ServiceService } from 'src/app/shared/service.service';
 import { UserService } from 'src/app/shared/user.service';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-results',
@@ -15,12 +16,16 @@ export class ResultsComponent implements OnInit {
   dialogRef: MatDialogRef<OrderByComponent>;
   public service: Service = this.ServiceService.service;
   servicio1: Service = this.ServiceService.service;
+  showHeader = true;
 
   constructor(
     public dialog: MatDialog,
     private dialogService: DialogService,
-    private ServiceService: ServiceService
-  ) {}
+    private ServiceService: ServiceService,
+    public headerNavbarService: HeaderNavbarService
+  ) {
+    this.headerNavbarService.showHeader = true;
+  }
 
   ngOnInit() {
     this.dialogService.closeDialog$.subscribe(() => {
@@ -35,8 +40,8 @@ export class ResultsComponent implements OnInit {
       this.dialogRef = this.dialog.open(OrderByComponent, {
         panelClass: 'dialogo-order-by',
         position: {
-          top: '-135%',
-          left: '10%',
+          top: '20%',
+          left: '',
         },
       });
     }

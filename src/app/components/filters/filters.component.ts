@@ -5,7 +5,7 @@ import {
   ElementRef,
   ViewEncapsulation,
 } from '@angular/core';
-import * as noUiSlider from 'nouislider';
+import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -40,10 +40,12 @@ export class FiltersComponent implements OnInit {
       (this.form.controls.categories as FormArray).push(control);
     });
 
+    this.sliderValues = [10, 100]; // Change these values to your desired start positions
+
     const slider = noUiSlider.create(this.priceRange.nativeElement, {
       start: this.sliderValues,
       connect: true,
-      tooltips: [wNumb({ decimals: 0 }), wNumb({ decimals: 0 })], // Change this line
+      tooltips: [wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
       range: {
         min: 0,
         max: 100,

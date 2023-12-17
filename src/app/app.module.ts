@@ -34,12 +34,15 @@ import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar } from '@fullcalendar/core';
 import esLocale from '@fullcalendar/core/locales/es';
-import { StarRatingModule } from 'angular-star-rating'
-import { HeaderNavbarService } from './shared/header-navbar.service';
+import { StarRatingModule } from 'angular-star-rating';
 import { RatingCardComponent } from './components/rating-card/rating-card.component';
-
-
-
+import { ResultsComponent } from './pages/results/results.component';
+import { FiltersComponent } from './components/filters/filters.component';
+import { HeaderNavbarService } from './shared/header-navbar.service';
+import { CommonModule } from '@angular/common';
+import { BookServiceComponent } from './pages/book-service/book-service.component';
+import { OrderByComponent } from './components/order-by/order-by.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -63,13 +66,15 @@ import { RatingCardComponent } from './components/rating-card/rating-card.compon
     ServiceRatingComponent,
     ResultsComponent,
     FiltersComponent,
-
+    EditServiceComponent,
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
     RequestedServiceComponent,
     FavoritesComponent,
     RatingCardComponent,
+    BookServiceComponent,
+    OrderByComponent,
   ],
   imports: [
     BrowserModule,
@@ -78,7 +83,9 @@ import { RatingCardComponent } from './components/rating-card/rating-card.compon
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FullCalendarModule,
-    StarRatingModule.forRoot()
+    StarRatingModule.forRoot(),
+    CommonModule,
+    MatDialogModule,
   ],
 
   providers: [HeaderNavbarService],

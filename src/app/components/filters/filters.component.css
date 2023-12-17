@@ -1,3 +1,5 @@
+@import "../../../../node_modules/nouislider/dist/nouislider.css";
+
 .line_blue {
   width: 18.75rem;
   background-color: var(--blue);
@@ -55,7 +57,7 @@ app-filters .main-cnt {
   width: 110px;
   color: var(--white);
   font-weight: 400;
-  margin-left: -6px;
+  margin-left: -72%;
 }
 
 .star-checkboxes {
@@ -109,6 +111,7 @@ app-filters .main-cnt {
   color: var(--white);
   font-size: 23px;
   font-weight: 400;
+  margin-left: -4%;
 }
 
 /* ? Slider precios */
@@ -116,17 +119,8 @@ app-filters .main-cnt {
 .noUi-target {
   background: var(--white);
   border-radius: 100px;
-  width: 330px;
+  width: 310px;
   box-shadow: inset 0 1px 1px #f0f0f0, 0 3px 6px -5px #bbb;
-}
-
-.noUi-base {
-  width: 100%;
-  height: 100%;
-}
-
-.noUi-origin {
-  right: 0;
 }
 
 .noUi-handle:before,
@@ -150,10 +144,6 @@ app-filters .main-cnt {
 
 .noUi-target .noUi-connect {
   background: var(--blue);
-}
-
-#slider-values {
-  margin-top: 20px;
 }
 
 /* ? Slider precios */

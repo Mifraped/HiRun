@@ -1,4 +1,4 @@
-import { Component,  OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ServiceService } from 'src/app/shared/service.service';
 import { UserService } from 'src/app/shared/user.service';
@@ -9,95 +9,90 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { Job } from 'src/app/models/job';
 import { Location } from '@angular/common';
 
-
-
 @Component({
   selector: 'app-book-service',
   templateUrl: './book-service.component.html',
   styleUrls: ['./book-service.component.css'],
-  
 })
-export class BookServiceComponent implements OnInit{
-  
+export class BookServiceComponent implements OnInit {
   bookingForm: FormGroup;
 
-  minDate:string
-  today=new Date()
+  minDate: string;
+  today = new Date();
   // user:User=this.userService.user
-  user:User=this.serviceService.provider
-  selectedDate
-  provider:User=this.serviceService.provider
- 
-  service:Service=this.serviceService.service
+  user: User = this.serviceService.provider;
+  selectedDate;
+  provider: User = this.serviceService.provider;
 
-  job:Job = this.service.jobs[0]
+  service: Service = this.serviceService.service;
 
-  clientList:User[]=[this.userService.user2,this.userService.user3,this.userService.user4]
+  job: Job = this.service.jobs[0];
+
+  clientList: User[] = [this.userService.user1];
 
   // creo un array de horas disponibles, falta toda la lógica de cómo vamos a ver qué franjas están disponibles
-  timeFrames=[{time:'09:30', available:true},
-  {time:'10:30', available:true},
-  {time:'11:30', available:false},
-  {time:'12:30', available:true},
-  {time:'13:30', available:true},
-  {time:'16:30', available:false},
-  {time:'17:30', available:false} ]
+  timeFrames = [
+    { time: '09:30', available: true },
+    { time: '10:30', available: true },
+    { time: '11:30', available: false },
+    { time: '12:30', available: true },
+    { time: '13:30', available: true },
+    { time: '16:30', available: false },
+    { time: '17:30', available: false },
+  ];
 
-
-
-
-  selectedClient: User | null = null;  // Inicializa selectedClient con null
-  constructor(private userService:UserService, private serviceService:ServiceService, private formBuilder:FormBuilder, public headerNavbarService: HeaderNavbarService, private location: Location) { 
-    this.headerNavbarService.showHeader=true
-    this.headerNavbarService.showNavbar=true
+  selectedClient: User | null = null; // Inicializa selectedClient con null
+  constructor(
+    private userService: UserService,
+    private serviceService: ServiceService,
+    private formBuilder: FormBuilder,
+    public headerNavbarService: HeaderNavbarService,
+    private location: Location
+  ) {
+    this.headerNavbarService.showHeader = true;
+    this.headerNavbarService.showNavbar = true;
     this.buildForm();
-    this.minDate=this.today.toISOString().split('T')[0]
+    this.minDate = this.today.toISOString().split('T')[0];
   }
 
-    closeForm():void {
-      this.location.back();
+  closeForm(): void {
+    this.location.back();
+  }
+
+  private buildForm() {
+    const minPassLength = 8;
+
+    this.bookingForm = this.formBuilder.group({
+      date: [, [Validators.required]],
+      time: [, [Validators.required]],
+      user: [, this.addRequired()],
+      comment: [, []],
+    });
+  }
+
+  private addRequired() {
+    let validators = [];
+    console.log(this.user == this.provider);
+    if (this.user == this.provider) {
+      validators.push(Validators.required);
     }
+    return validators;
+  }
 
-    private buildForm(){
-      const minPassLength = 8;
-  
-      this.bookingForm = this.formBuilder.group({
-        date: [, [Validators.required]],
-        time: [,[ Validators.required]],
-        user: [,this.addRequired()],
-        comment: [,[]],
-        
-            
-  
-      })
-    }
+  bookService() {
+    let newBooking = this.bookingForm.value;
 
-    private addRequired(){
-      let validators=[]
-      console.log(this.user == this.provider)
-      if(this.user == this.provider){
-        validators.push(Validators.required)
-      }
-      return validators
-    }
+    newBooking.service = this.service;
+    newBooking.job = this.job;
+    newBooking.provider = this.service.provider;
 
-    bookService(){
-      
-        let newBooking = this.bookingForm.value;
-
-        newBooking.service = this.service;
-        newBooking.job = this.job;
-        newBooking.provider = this.service.provider
-
-        console.log(newBooking)
-      
-      
-    }
+    console.log(newBooking);
+  }
 
   ngOnInit() {
-    this.clientList=[this.userService.user2,this.userService.user3,this.userService.user4];
-    this.headerNavbarService.showHeader=true
-    this.headerNavbarService.showNavbar=true
-    this.userService
+    this.clientList = [this.userService.user1];
+    this.headerNavbarService.showHeader = true;
+    this.headerNavbarService.showNavbar = true;
+    this.userService;
   }
 }

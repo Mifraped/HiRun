@@ -1,3 +1,4 @@
+@import "~css-star-rating/css/star-rating";
 /* You can add global styles to this file, and also import other style files */
 * {
   padding: 0;
@@ -83,5 +84,3 @@ button {
 li {
   all: unset;
 }
-
-@import '~css-star-rating/css/star-rating';
