@@ -8,6 +8,7 @@ import { Rate } from '../models/rate';
 })
 export class UserService {
   public connected: boolean = true;
+  // public connected:boolean = false
 
   constructor() {}
 
@@ -20,5 +21,11 @@ export class UserService {
   public user: User = {email:'a@mail', password:'Aa111111', name:'Paco', surname:'Pi',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate1,this.rate2,this.rate3]}
   public preferences : Category[] = []
 
-  // public connected:boolean = false
+
+
+
+
+
+
+  
 }

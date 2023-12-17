@@ -1,36 +1,189 @@
 <main>
   <div class="headerContainer">
     <h2>Reservar</h2>
-    <i class="fa-solid fa-xmark"></i>
+    <button class="closeButton" (click)="closeForm()">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
-  <div class="separator"></div>
-  <h1>Título servicio</h1>
-  <h2>título trabajo</h2>
 
-  <form action="">
+  <div class="titleContainer">
+    <h1>{{ service.title }}</h1>
+    <h2>{{ job.title }}</h2>
+  </div>
+  <!-- fecha -->
+  <form [formGroup]="bookingForm">
     <div class="form-group">
       <label for="">Fecha</label>
-      <div class="inputContainer">
-        <input type="date" />
+      <div class="inputContainer background">
         <div class="circle">
           <i class="fa-regular fa-calendar"></i>
+        </div>
+        <input
+          type="date"
+          class="transparent"
+          formControlName="date"
+          [min]="minDate"
+          [ngClass]="{
+            'is-invalid':
+              (bookingForm.get('date').dirty ||
+                bookingForm.get('date').touched) &&
+              !bookingForm.get('date').valid
+          }"
+        />
+
+        <div *ngIf="bookingForm.get('date').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+        <i
+          *ngIf="
+            (bookingForm.get('date').dirty ||
+              bookingForm.get('date').touched) &&
+            !bookingForm.get('date').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (bookingForm.get('date').dirty ||
+              bookingForm.get('date').touched) &&
+            !bookingForm.get('date').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="bookingForm.get('date').errors.required">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Hora -->
+    <div class="form-group dropDown">
+      <label for="">Hora</label>
+      <div class="inputContainer">
+        <select
+          formControlName="time"
+          id="selectedTime"
+          [ngClass]="{
+            'is-invalid':
+              (bookingForm.get('time').dirty ||
+                bookingForm.get('time').touched) &&
+              !bookingForm.get('time').valid
+          }"
+        >
+          <option value="" disabled selected>Escoge la hora</option>
+          <option
+            *ngFor="let time of timeFrames"
+            [value]="time.time"
+            [disabled]="!time.available"
+          >
+            {{ time.time }}
+            <p class="pSelect" *ngIf="!time.available">- NO DISPONIBLE</p>
+          </option>
+        </select>
+        <div class="circle">
+          <i class="fa-regular fa-clock"></i>
+        </div>
+        <div *ngIf="bookingForm.get('time').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+        <i
+          *ngIf="
+            (bookingForm.get('time').dirty ||
+              bookingForm.get('time').touched) &&
+            !bookingForm.get('time').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (bookingForm.get('time').dirty ||
+              bookingForm.get('time').touched) &&
+            !bookingForm.get('time').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="bookingForm.get('time').errors.required">
+            Este campo es obligatorio
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="textAreaContainer form-group">
-      <textarea
-        name=""
-        id=""
-        cols="30"
-        rows="10"
-        placeholder="Procura indicar con claridad qué es lo que incluye este trabajo."
-        class="form-control"
-      ></textarea>
-    </div>
+    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del servicio -->
+    <div class="form-group" *ngIf="user == provider">
+      <label for="">Cliente</label>
+      <div class="inputContainer">
+        <select
+          formControlName="user"
+          id="selectedClient"
+          [ngClass]="{
+            'is-invalid':
+              (bookingForm.get('user').dirty ||
+                bookingForm.get('user').touched) &&
+              !bookingForm.get('user').valid
+          }"
+        >
+          <option value="" disabled selected>Selecciona un cliente</option>
+          <option *ngFor="let client of clientList" [value]="client.name">
+            {{ client.name }} {{ client.surname }}
+          </option>
+        </select>
+        <div class="circle">
+          <i class="fa-solid fa-user"></i>
+        </div>
+        <div *ngIf="bookingForm.get('user').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+        <i
+          *ngIf="
+            (bookingForm.get('user').dirty ||
+              bookingForm.get('user').touched) &&
+            !bookingForm.get('user').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
 
-    <button class="btn btn--white">
-      <h3>Cancelar</h3>
+        <div
+          *ngIf="
+            (bookingForm.get('user').dirty ||
+              bookingForm.get('user').touched) &&
+            !bookingForm.get('user').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="bookingForm.get('user').errors.required">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin del bloque para el input del cliente -->
+
+    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del servicio -->
+
+    <div class="form-group">
+      <label for="">Comentarios</label>
+      <div class="textAreaContainer">
+        <textarea
+          name=""
+          id=""
+          cols="30"
+          rows="10"
+          placeholder="ej: El timbre no funciona "
+          class="form-control"
+        ></textarea>
+      </div>
+    </div>
+    <!-- Fin del bloque para el textarea -->
+
+    <button
+      class="btn"
+      (click)="bookService()"
+      [disabled]="bookingForm.invalid"
+    >
+      <h2>Confirmar</h2>
     </button>
   </form>
 </main>

@@ -9,7 +9,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
   styleUrls: ['./requested-service.component.css']
 })
 export class RequestedServiceComponent {
-constructor(public headerNavbarService: HeaderNavbarService,public serviceService: ServiceService) { 
+constructor(public headerNavbarService: HeaderNavbarService,public serviceService: ServiceService, public serviceService: ServiceService) { 
   this.headerNavbarService.showHeader=false
   this.headerNavbarService.showNavbar=true}
 
