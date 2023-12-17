@@ -1,7 +1,7 @@
 .blue-line {
   height: 1px;
   background-color: var(--blue);
-  width: 240px;
+  width: 280px;
 }
 
 .main-cnt {
@@ -33,7 +33,9 @@
 }
 
 .h-items svg {
-  margin-right: 20px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
 }
 
 .pr-cnt {

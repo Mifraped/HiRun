@@ -7,8 +7,14 @@ import {
   animate,
 } from '@angular/animations';
 import { UserService } from 'src/app/shared/user.service';
+<<<<<<< HEAD
 
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+=======
+
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+
+>>>>>>> fix_merge
 import { ServiceService } from 'src/app/shared/service.service';
 
 import { Service } from 'src/app/models/service';

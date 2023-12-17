@@ -1,0 +1,79 @@
+.cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+/* encabezado */
+header{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.625rem;
+    position: relative;
+}
+/* enlace para volver */
+.back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* margin-left: 1.25rem; */
+    color: var(--lightGrey);
+    position: absolute;
+    top: 1.5625rem;
+    left: 20px;
+}
+svg#back{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* foto usuario */
+.photo{
+    height: 4.125rem;
+    width: 4.125rem;
+}
+img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+/* nombre */
+h1{
+    font-size: 2rem;
+    margin-top: 0.3125rem;
+}
+/* valoraciones */
+.ratings{
+    color: white;
+    margin-bottom: 1.875rem;
+    display: flex;
+    align-items: center;
+}
+.rates{
+    color: var(--lightGrey);
+    font-size: 15px;
+    align-self: flex-start;
+    padding-top: 4px;
+}
+header hr{
+    border-color: var(--green);
+    width: 20.875rem;
+}
+/* contenedor valoraciones */
+.contRatings{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card hr{
+    width: 20.25rem;
+    border-color: var(--green);
+}

@@ -27,10 +27,28 @@ import { ServiceComponent } from './pages/service/service.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+<<<<<<< HEAD
+=======
+import { ProfileServiceCardComponent } from './components/profile-service-card/profile-service-card.component';
+import { JobCardComponent } from './components/job-card/job-card.component';
+import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-modal.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { Calendar } from '@fullcalendar/core';
+import esLocale from '@fullcalendar/core/locales/es';
+import { StarRatingModule } from 'angular-star-rating';
+import { RatingCardComponent } from './components/rating-card/rating-card.component';
+>>>>>>> fix_merge
 import { ResultsComponent } from './pages/results/results.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HeaderNavbarService } from './shared/header-navbar.service';
 import { CommonModule } from '@angular/common';
+<<<<<<< HEAD
+=======
+import { BookServiceComponent } from './pages/book-service/book-service.component';
+import { OrderByComponent } from './components/order-by/order-by.component';
+import { MatDialogModule } from '@angular/material/dialog';
+>>>>>>> fix_merge
 
 @NgModule({
   declarations: [
@@ -54,12 +72,15 @@ import { CommonModule } from '@angular/common';
     ServiceRatingComponent,
     ResultsComponent,
     FiltersComponent,
-
+    EditServiceComponent,
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
     RequestedServiceComponent,
     FavoritesComponent,
+    RatingCardComponent,
+    BookServiceComponent,
+    OrderByComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +88,14 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+<<<<<<< HEAD
     CommonModule,
+=======
+    FullCalendarModule,
+    StarRatingModule.forRoot(),
+    CommonModule,
+    MatDialogModule,
+>>>>>>> fix_merge
   ],
 
   providers: [HeaderNavbarService],
