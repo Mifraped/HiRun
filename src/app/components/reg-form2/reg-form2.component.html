@@ -210,7 +210,11 @@
     </div>
 
     <div class="btnContainer">
-      <button (click)="registerNext()" [disabled]="regForm2.invalid">
+      <button
+        (click)="registerNext()"
+        [disabled]="regForm2.invalid"
+        class="main_btn_effect"
+      >
         <h2>Siguiente</h2>
       </button>
     </div>

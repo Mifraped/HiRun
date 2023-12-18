@@ -35,10 +35,18 @@
   </ul>
 
   <div class="btnContainer">
-    <button *ngIf="!connected" (click)="setPreferences()">
+    <button
+      *ngIf="!connected"
+      (click)="setPreferences()"
+      class="main_btn_effect"
+    >
       <h2 class="btnText">Finalizar</h2>
     </button>
-    <button *ngIf="connected" (click)="setPreferencesLoggedIn()">
+    <button
+      *ngIf="connected"
+      (click)="setPreferencesLoggedIn()"
+      class="main_btn_effect"
+    >
       <h2 class="btnText">Guardar cambios</h2>
     </button>
   </div>

@@ -12,6 +12,8 @@ export class ServiceCardComponent implements OnInit {
   @Input() service: Service;
 
   jobs: Job[];
+  minPrice: number
+ 
 
   jobtext: string;
 
@@ -21,5 +23,6 @@ export class ServiceCardComponent implements OnInit {
 
   ngOnInit() {
     this.jobs = this.service ? this.service.jobs : [];
+    this.minPrice = this.jobs.reduce((min, job) => (job.price < min ? job.price : min), this.jobs[0].price);
   }
 }
