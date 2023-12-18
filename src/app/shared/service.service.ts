@@ -89,7 +89,7 @@ export class ServiceService {
     title: 'Service example 1',
     jobs: [this.job1, this.job2, this.job3],
     photo: '../../../assets/service_img/example.jpg',
-    rating: 3.5,
+    rating: 2,
     tags: [this.cat11, this.cat12, this.cat16],
   };
   service2: Service = {
