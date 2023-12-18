@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'newservice', component: NewServiceComponent },
+  { path: 'new-service', component: NewServiceComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'preferences', component: PreferencesComponent },
@@ -41,7 +41,7 @@ const routes: Routes = [
   { path: 'favorites', component: FavoritesComponent },
   { path: 'service', component: ServiceComponent },
 
-  { path: 'editservice', component: EditServiceComponent },
+  { path: 'edit-service', component: EditServiceComponent },
   { path: 'book-service', component: BookServiceComponent },
   { path: 'book-service/:id', component: BookServiceComponent },
 

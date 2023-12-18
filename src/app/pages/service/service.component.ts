@@ -21,8 +21,16 @@ constructor(public userService:UserService, public serviceService:ServiceService
   this.headerNavbarService.showNavbar=true }
 
 contactProvider(){
+
+  if (this.userService.connected){
+
+    this.router.navigate(['/chat'])
+  }else{
+    alert('inicia sesión para contactar con el vendedor')
+    this.router.navigate(['/login'])
+  }
   //pendiente lógica, tiene que llevarte a chat con el usuario service.provider
-this.router.navigate(['/chat'])
 }
+
 
 }
