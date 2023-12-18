@@ -8,8 +8,8 @@
   justify-content: space-around;
   align-items: center;
   gap: 20px;
-  margin-bottom: 40px;
-  margin-top: 20px;
+
+  border: 1px solid var(--green);
   background-color: var(--black);
   height: 80px;
 }
@@ -28,4 +28,10 @@
 
 .chat-card p {
   color: var(--white);
+}
+
+.separate-line {
+  height: 1px;
+  width: 100%;
+  background-color: var(--grey);
 }

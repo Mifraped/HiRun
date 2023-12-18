@@ -49,15 +49,20 @@
   margin-top: 1rem;
 }
 
-.categories {
+.categories-list {
   display: flex;
   justify-content: flex-start;
-
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
   margin-top: 20px;
   width: 100%;
+  scrollbar-width: none; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.categories-list::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari and Opera */
 }
 
 .icon-container {
@@ -126,7 +131,6 @@
   margin-top: 1.0313rem;
   margin-right: 4rem;
   width: 300px;
-  height: 300px;
   border-radius: 10px;
   flex: 0 0 auto;
   scroll-snap-align: center;

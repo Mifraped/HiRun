@@ -83,7 +83,7 @@ button {
 }
 
 .main_btn_effect {
-  transition: all linear 0.3s
+  transition: all linear 0.3s;
 }
 
 .main_btn_effect:active {
@@ -151,14 +151,4 @@ li {
 
 .fc-col-header {
   border: none;
-}
-
-html,
-body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
