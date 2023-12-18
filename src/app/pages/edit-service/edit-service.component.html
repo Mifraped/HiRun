@@ -85,6 +85,7 @@
 
     <app-timeframe-modal
       (closeWindow)="closeModal()"
+      (sendTimeFrame)="newTimeFrame($event)"
       *ngIf="timeFramesOpen"
     ></app-timeframe-modal>
 
@@ -92,7 +93,7 @@
     <ul class="timeframeContainer">
       <li *ngFor="let tf of timeFrameArray; let i = index">
         <div class="timeFrame">
-          <p>{{ tf.t0 }} - {{ tf.t1 }}</p>
+          <p>{{ tf.start }} - {{ tf.end }}</p>
 
           <div
             class="smallDayCircle"

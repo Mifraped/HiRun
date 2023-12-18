@@ -57,10 +57,10 @@ export class NewServiceComponent {
 timeFramesOpen: boolean=false
 
 //ejemplos timeframe -ELIMINAR AL AÑADIR FUNCIONALIDAD
-tf1 = {t0:'08:30', t1:'14:30', days: [true, true, true,true,true,false,false] }
-tf2 = {t0:'16:30', t1:'18:00', days: [true, true, true,true,false,false,false]  }
-tf3 = {t0:'10:00', t1:'14:00', days: [false, false, false,false,false,true,false]  }
-tf4 = {t0:'15:20', t1:'21:00', days: [true, true, true,true,true,true,true] }
+tf1 = {start:'08:30', end:'14:30', days: [true, true, true,true,true,false,false] }
+tf2 = {start:'16:30', end:'18:00', days: [true, true, true,true,false,false,false]  }
+tf3 = {start:'10:00', end:'14:00', days: [false, false, false,false,false,true,false]  }
+tf4 = {start:'15:20', end:'21:00', days: [true, true, true,true,true,true,true] }
 
 timeFrameArray=[this.tf1, this.tf2, this.tf3, this.tf4]
 
@@ -211,11 +211,19 @@ daySelected(day){
   ////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
   timeFramesWindow() {
     this.timeFramesOpen = true;
-    console.log(this.timeFramesOpen)
+    
+    console.log(this.timeFramesOpen);
   }
 
   closeModal() {
     this.timeFramesOpen = false;
+  }
+
+  newTimeFrame(newTimeFrame: any){
+    console.log(newTimeFrame)
+this.timeFrameArray.push(newTimeFrame)
+console.log(this.timeFrameArray)
+this.closeModal()
   }
 
 }
