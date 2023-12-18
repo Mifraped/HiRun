@@ -40,6 +40,6 @@ span {
   background-color: var(--fullBlack);
 }
 
-.active svg {
+.active svg, .active span {
   color: var(--green);
 }
