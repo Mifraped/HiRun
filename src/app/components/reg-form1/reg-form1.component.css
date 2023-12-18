@@ -5,6 +5,26 @@ main {
 
 }
 
+.upperContainer {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    align-items: center;
+    justify-items: center;
+    padding-top: 3.25rem
+}
+
+.btn-back {
+    background: none;
+
+
+}
+
+.btn-back span {
+    font-size: 28px;
+    color: var(--green);
+}
+
 form {
 
     display: flex;
@@ -46,7 +66,9 @@ i {
 h1 {
     font-weight: 300;
     color: var(--lightGrey);
-    padding-top: 3.25rem
+    font-size: 2.25rem;
+
+
 }
 
 
@@ -55,7 +77,7 @@ h1 {
 
 }
 
-button {
+.btn-big {
     width: 290px;
     height: 2.5rem;
     border-radius: 1.25rem;
