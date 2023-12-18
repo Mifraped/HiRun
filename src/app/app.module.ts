@@ -78,6 +78,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     RatingCardComponent,
     BookServiceComponent,
     OrderByComponent,
+    JobCardComponent,
+    TimeframeModalComponent,
+    ProfileServiceCardComponent
   ],
   imports: [
     BrowserModule,

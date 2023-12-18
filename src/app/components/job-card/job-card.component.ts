@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,6 +12,7 @@ export class JobCardComponent {
 
 bookService(){
 //pendiente creación página de reserva
+this.router.navigate([`/book-service/:${this.job.jobId}`]);
 console.log('reserva')
 }
 
@@ -20,4 +22,5 @@ expandInfo(){
   this.cardExtended=!this.cardExtended
   console.log(this.cardExtended)
 }
+constructor(private router: Router) { }
 }
