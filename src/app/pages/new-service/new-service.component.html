@@ -171,19 +171,19 @@
                 !addJobForm.get('description').valid
             }"
           ></textarea>
-        </div>
-        <div *ngIf="addJobForm.get('description').valid">
-          <i class="fa-solid fa-circle-check valid-feedback"></i>
-        </div>
+          <div *ngIf="addJobForm.get('description').valid">
+            <i class="fa-solid fa-circle-check valid-feedback--textArea"></i>
+          </div>
 
-        <i
-          *ngIf="
-            (addJobForm.get('description').dirty ||
-              addJobForm.get('description').touched) &&
-            !addJobForm.get('description').valid
-          "
-          class="fa-solid fa-circle-exclamation invalid-feedback"
-        ></i>
+          <i
+            *ngIf="
+              (addJobForm.get('description').dirty ||
+                addJobForm.get('description').touched) &&
+              !addJobForm.get('description').valid
+            "
+            class="fa-solid fa-circle-exclamation invalid-feedback--textArea"
+          ></i>
+        </div>
 
         <div
           *ngIf="

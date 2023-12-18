@@ -220,23 +220,28 @@ export class EditServiceComponent implements OnInit {
     this.timeFrameArray.splice(index, 1);
   }
 
-  //Nuevo servicio con la info del form + información adicional que viene del servicio, del formulario de jobs, etc.
-  newService() {
-    let newService = this.editServiceForm.value;
-    newService.jobs = this.jobs;
-    newService.tags = this.selectedCat;
-    newService.provider = this.user;
-    newService.otherFields = this.selectedOptions;
+  //editar servicio con la info del form + información adicional que viene del servicio, del formulario de jobs, etc. falta lógica solo recoge datos
+  editService() {
+    let editedService = this.editServiceForm.value;
+    editedService.jobs = this.jobs;
+    editedService.tags = this.selectedCat;
+    editedService.provider = this.user;
+    editedService.otherFields = this.selectedOptions;
 
-    console.log(newService);
+    console.log(editedService);
 
     this.selectedCat = [];
     this.selectedOptions = [];
     this.jobs = [];
     this.editServiceForm.reset();
   }
+  deleteService(){
+    alert('Seguro? bla bla')//pendinte modales
+    //lógica de eliminar
+  }
 
-  cancelNewService() {
+
+  cancelEditService() {
     //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
     this.editServiceForm.reset();
     this.router.navigate(['/profile']);

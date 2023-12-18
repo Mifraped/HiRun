@@ -355,9 +355,15 @@ label i {
 
 }
 
+.btn--red {
+    background-color: var(--red);
+    color: var(--darkGrey)
+}
+
+.btn--red h3,
 .btn--green h3 {
 
-    color: var(--darkGrey);
+    color: var(--black);
 
 }
 
@@ -377,6 +383,7 @@ label i {
 }
 
 /* //validaciones */
+.invalid-feedback--textArea,
 .invalid-feedback {
     color: var(--red);
 }
@@ -387,6 +394,15 @@ label i {
     position: absolute;
     left: .5rem;
     top: .8125rem
+}
+
+
+.invalid-feedback--textArea,
+.valid-feedback--textArea {
+    width: 18px;
+    position: absolute;
+    left: .5rem;
+    bottom: .8125rem
 }
 
 .errorMsg {

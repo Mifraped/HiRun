@@ -1,5 +1,10 @@
 <main>
-  <h1>Crea tu cuenta</h1>
+  <div class="upperContainer">
+    <button class="btn-back" routerLink="/">
+      <span class="material-symbols-outlined"> arrow_back_ios </span>
+    </button>
+    <h1>Crea tu cuenta</h1>
+  </div>
 
   <form [formGroup]="regForm1">
     <div class="formGroup">
@@ -170,8 +175,12 @@
 
     <div class="btnContainer">
       <!-- <button><h2>Crear cuenta</h2></button> -->
-      <button (click)="register()" [disabled]="regForm1.invalid">
-        <h2>Crear cuenta</h2>
+      <button
+        class="btn-big"
+        (click)="register()"
+        [disabled]="regForm1.invalid"
+      >
+        <h2>Regístrate</h2>
       </button>
     </div>
   </form>

@@ -1,43 +1,70 @@
-.cont{
+.cont {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.logo{
+
+.logo {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 1.0625rem;
 }
-img{
+
+.upperContainer {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+    align-items: center;
+    justify-items: center;
+    padding-top: 25px
+}
+
+.btn-back {
+    background: none;
+
+}
+
+.btn-back span {
+    color: var(--green);
+    font-size: 28px;
+
+}
+
+img {
     width: 11.25rem;
     height: 8.6875rem;
     width: 100%;
 }
-h1{
+
+h1 {
     font-size: 2.25rem;
+    font-weight: 300;
     color: var(--lightGrey);
-    margin-top: 1.5625rem;
+
 }
-form{
+
+form {
     margin-top: 2.8125rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.email{
+
+.email {
     display: flex;
     flex-direction: column;
     margin-bottom: 1.75rem;
 }
-.password{
+
+.password {
     display: flex;
     flex-direction: column;
     width: 18.75rem;
     margin-bottom: 0.75rem;
 }
 
-.fa-circle-exclamation{
+.fa-circle-exclamation {
     color: var(--red);
     width: 18px;
     position: absolute;
@@ -58,17 +85,20 @@ input {
     font-weight: 300;
     color: var(--darkGrey);
 }
-label{
+
+label {
     padding-left: 1.9375rem;
     margin-bottom: 0.25rem;
     color: var(--lightGrey);
     font-size: 1.125rem;
     font-weight: 300;
 }
-div.input{
+
+div.input {
     position: relative;
 }
-.icon{
+
+.icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -80,22 +110,26 @@ div.input{
     right: 3px;
     top: 3px;
 }
-i{
+
+i {
     color: var(--green);
 }
-.feedback{
+
+.feedback {
     display: flex;
     justify-content: center;
     color: var(--lightGrey);
     font-weight: 200;
     padding-top: .3125rem
 }
-.forget{
+
+.forget {
     font-size: 1rem;
     margin-bottom: 5.1875rem;
     color: var(--lightGrey);
 }
-button{
+
+.btn-main {
     width: 18.125rem;
     height: 2.5rem;
     border-radius: 1.25rem;
@@ -107,11 +141,13 @@ button{
     font-weight: 600;
     margin-bottom: 1.375rem;
 }
-span{
+
+span {
     font-size: 1rem;
     color: var(--lightGrey);
 }
-.registrate{
+
+.registrate {
     font-size: 1rem;
     font-weight: 600;
     color: var(--lightGrey);
