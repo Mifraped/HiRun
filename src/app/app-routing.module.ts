@@ -43,6 +43,7 @@ const routes: Routes = [
 
   { path: 'editservice', component: EditServiceComponent },
   { path: 'book-service', component: BookServiceComponent },
+  { path: 'book-service/:id', component: BookServiceComponent },
 
   { path: 'results', component: ResultsComponent },
   { path: 'filters', component: FiltersComponent },

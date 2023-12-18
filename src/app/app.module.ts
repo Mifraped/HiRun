@@ -80,8 +80,13 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     RatingCardComponent,
     BookServiceComponent,
     OrderByComponent,
+
     ChatCardComponent,
     ChatPageComponent,
+
+    JobCardComponent,
+    TimeframeModalComponent,
+    ProfileServiceCardComponent,
   ],
   imports: [
     BrowserModule,

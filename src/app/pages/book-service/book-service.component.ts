@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { Job } from 'src/app/models/job';
 import { Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'app-book-service',
@@ -27,6 +28,7 @@ export class BookServiceComponent implements OnInit {
   service: Service = this.serviceService.service;
 
   job: Job = this.service.jobs[0];
+  
 
   clientList: User[] = [this.userService.user1];
 
@@ -47,7 +49,8 @@ export class BookServiceComponent implements OnInit {
     private serviceService: ServiceService,
     private formBuilder: FormBuilder,
     public headerNavbarService: HeaderNavbarService,
-    private location: Location
+    private location: Location,
+    private route: ActivatedRoute
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -90,6 +93,11 @@ export class BookServiceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      const jobId = params['id'];
+      //aquí habrá que linkar el job con el servicio etc y hacer un select con filtros para para que nos dé la información necesaria, mientras tanto dejo el job como una selección del array por que se vea el funcionamiento
+    });
+
     this.clientList = [this.userService.user1];
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
