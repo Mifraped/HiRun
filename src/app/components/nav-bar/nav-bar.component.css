@@ -1,41 +1,45 @@
-.principal{
-    height: 3.75rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 999;
+.principal {
+  height: 3.75rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 999;
 }
-div.cont{
-    background-color: var(--fullBlack);
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-left: 1.6875rem;
-    padding-right: 1.6875rem;
-    border-top-right-radius: 1.875rem;
-    border-top-left-radius: 1.875rem;
+div.cont {
+  background-color: var(--fullBlack);
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1.6875rem;
+  padding-right: 1.6875rem;
+  border-top-right-radius: 1.875rem;
+  border-top-left-radius: 1.875rem;
 }
-a{
-    background-color: var(--fullBlack);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 0.125rem;
-    text-decoration: none;
+a {
+  background-color: var(--fullBlack);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.125rem;
+  text-decoration: none;
 }
-svg{
-    background-color: var(--fullBlack);
-    height: 2.3125rem;
-    width: 2.3125rem;
-    color: var(--lightGrey);
+svg {
+  background-color: var(--fullBlack);
+  height: 2.3125rem;
+  width: 2.3125rem;
+  color: var(--lightGrey);
 }
-path{
-    width: 100%;
+path {
+  width: 100%;
 }
-span{
-    color: var(--lightGrey);
-    font-size: 0.5625rem;
-    background-color: var(--fullBlack);
+span {
+  color: var(--lightGrey);
+  font-size: 0.5625rem;
+  background-color: var(--fullBlack);
+}
+
+.active svg {
+  color: var(--green);
 }
