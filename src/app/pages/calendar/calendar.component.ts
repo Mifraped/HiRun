@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -15,8 +16,6 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 })
 export class CalendarComponent {
  
-   
-
   calendarOptions: any = {
     initialView: 'dayGridMonth',
     plugins: [dayGridPlugin, interactionPlugin,timeGridPlugin ],
@@ -51,7 +50,7 @@ export class CalendarComponent {
     buttonText: {
       today: 'Hoy',
       month: 'Mes'},
-      
+    firstDay: 1
   }
 
   calendarInitialized(calendar: Calendar) {
@@ -90,7 +89,9 @@ export class CalendarComponent {
     // Actualizar las opciones del calendario con el nuevo encabezado
     this.calendarOptions.footerToolbar = { ...footerToolbar };
   }
-
+goBack(){
+  this.router.navigate(['/'])
+}
   
 
   constructor(private router: Router, public headerNavbarService: HeaderNavbarService) { 

@@ -185,3 +185,23 @@ main {
 
     color: var(--darkGrey)
 }
+
+.invalid-feedback {
+    color: var(--red);
+}
+
+.invalid-feedback,
+.valid-feedback {
+    width: 18px;
+    position: absolute;
+    left: .5rem;
+    top: .8125rem
+}
+
+.errorMsg {
+    display: flex;
+    justify-content: center;
+    color: var(--darkGrey);
+    font-weight: 200;
+    padding-top: .3125rem
+}

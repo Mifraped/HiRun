@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/shared/user.service';
 
 
 @Component({
@@ -11,9 +12,15 @@ export class JobCardComponent {
 @Input() job:any
 
 bookService(){
-//pendiente creación página de reserva
+  if (this.userService.connected){
 this.router.navigate([`/book-service/:${this.job.jobId}`]);
-console.log('reserva')
+   
+  }else{
+    alert('inicia sesión para reservar')
+    this.router.navigate(['/login'])
+  }
+  
+
 }
 
 cardExtended:boolean = false
@@ -22,5 +29,5 @@ expandInfo(){
   this.cardExtended=!this.cardExtended
   console.log(this.cardExtended)
 }
-constructor(private router: Router) { }
+constructor(private router: Router, private userService:UserService) { }
 }

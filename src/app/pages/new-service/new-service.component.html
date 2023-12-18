@@ -339,6 +339,7 @@
 
     <app-timeframe-modal
       (closeWindow)="closeModal()"
+      (sendTimeFrame)="newTimeFrame($event)"
       *ngIf="timeFramesOpen"
     ></app-timeframe-modal>
     `,
@@ -347,7 +348,7 @@
     <ul class="timeframeContainer">
       <li *ngFor="let tf of timeFrameArray; let i = index">
         <div class="timeFrame">
-          <p>{{ tf.t0 }} - {{ tf.t1 }}</p>
+          <p>{{ tf.start }} - {{ tf.end }}</p>
 
           <div
             class="smallDayCircle"
@@ -370,11 +371,7 @@
 
     <!-- botón enviar nuevo servicio -->
 
-    <button
-      class="btn btn--green main_btn_effect"
-      (click)="newService()"
-      [disabled]="newServiceForm.invalid"
-    >
+    <button class="btn btn--green main_btn_effect" (click)="newService()">
       <h3>Publicar</h3>
     </button>
     <button class="btn btn--white main_btn_effect" (click)="cancelNewService()">

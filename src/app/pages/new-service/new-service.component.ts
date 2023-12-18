@@ -36,7 +36,7 @@ export class NewServiceComponent {
   selectedOptions:string[] = []
 
   //array de trabajos, se inicializa vacío. Se popula con el form interno que hay dentro del otro form
-  jobs:Job[] = []
+  jobs:Job[]=[]
 
   //El usuario logeado, que será el proveedor del servicio
   user = this.userService.user
@@ -56,13 +56,9 @@ export class NewServiceComponent {
 //variable para ventana modal de timeframes
 timeFramesOpen: boolean=false
 
-//ejemplos timeframe -ELIMINAR AL AÑADIR FUNCIONALIDAD
-tf1 = {t0:'08:30', t1:'14:30', days: [true, true, true,true,true,false,false] }
-tf2 = {t0:'16:30', t1:'18:00', days: [true, true, true,true,false,false,false]  }
-tf3 = {t0:'10:00', t1:'14:00', days: [false, false, false,false,false,true,false]  }
-tf4 = {t0:'15:20', t1:'21:00', days: [true, true, true,true,true,true,true] }
 
-timeFrameArray=[this.tf1, this.tf2, this.tf3, this.tf4]
+
+timeFrameArray=[]
 
 
   constructor( public userService:UserService,public serviceService:ServiceService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService) { 
@@ -117,26 +113,13 @@ timeFrameArray=[this.tf1, this.tf2, this.tf3, this.tf4]
 private buildFormService(){
   this.newServiceForm = this.formBuilder.group({
     title:  [, [Validators.required, ]],
-    jobs:  [, [Validators.required]],
-    // jobs:  [, [Validators.required, this.atLeastOne]], //pendiente definir
+    jobs:  [, ], //quito el required porque da fallo con el botón, se maneja con el if/else
     photo:  [, ],
     otherFields: this.formBuilder.array([], Validators.required),
     
      })
 }
 
-
-
-//Validación
-// private atLeastOne(control: AbstractControl){
-//   let resultado = {checkResult:true}
-//   if (control.value.length > 0){
-//     resultado = null
-//   }else if(!control.value){
-//     resultado=null
-//   }
-//   return resultado
-// }
 
  
 //Añadir/eliminar etiquetas
@@ -175,19 +158,32 @@ deleteTimeframe(index){
 
 //Nuevo servicio con la info del form + información adicional que viene del servicio, del formulario de jobs, etc.
 newService() {
-  let newService = this.newServiceForm.value;
+ 
+if (this.jobs.length==0){
+  this.addJobForm.get('title').markAsTouched()
+ 
+  alert('añade al menos un trabajo')
+}else if(this.timeFrameArray.length==0){
+  alert('indica tus franjas horarias')
+}else{
+  
+   let newService = this.newServiceForm.value;
   newService.jobs = this.jobs
   newService.tags = this.selectedCat
   newService.provider = this.user
   newService.otherFields=this.selectedOptions
+  newService.timeframes =this.timeFrameArray
 
-  console.log(newService)
+  
 
   this.selectedCat=[];
   this.selectedOptions=[];
   this.jobs=[]
   this.newServiceForm.reset()
 
+}
+
+ 
 }
 
 cancelNewService(){
@@ -211,11 +207,19 @@ daySelected(day){
   ////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
   timeFramesWindow() {
     this.timeFramesOpen = true;
-    console.log(this.timeFramesOpen)
+    
+    console.log(this.timeFramesOpen);
   }
 
   closeModal() {
     this.timeFramesOpen = false;
+  }
+
+  newTimeFrame(newTimeFrame: any){
+    console.log(newTimeFrame)
+this.timeFrameArray.push(newTimeFrame)
+console.log(this.timeFrameArray)
+this.closeModal()
   }
 
 }

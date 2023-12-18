@@ -1,10 +1,47 @@
 <main class="timeFrameModal" *ngIf="timeFramesOpen">
-  <div class="timeFrames_container">
+  <form [formGroup]="timeframeForm" class="timeFrames_container">
     <h3>Nueva franja horaria</h3>
     <div class="separator"></div>
+
     <label for="">Hora inicio</label>
     <div class="inputContainer">
-      <input type="time" />
+      <input
+        type="time"
+        formControlName="start"
+        [ngClass]="{
+          'is-invalid':
+            (timeframeForm.get('start').dirty ||
+              timeframeForm.get('start').touched) &&
+            !timeframeForm.get('start').valid
+        }"
+      />
+      <div *ngIf="timeframeForm.get('start').valid">
+        <i class="fa-solid fa-circle-check valid-feedback"></i>
+      </div>
+
+      <i
+        *ngIf="
+          (timeframeForm.get('start').dirty ||
+            timeframeForm.get('start').touched) &&
+          !timeframeForm.get('start').valid
+        "
+        class="fa-solid fa-circle-exclamation invalid-feedback"
+      ></i>
+
+      <div
+        *ngIf="
+          (timeframeForm.get('start').dirty ||
+            timeframeForm.get('start').touched) &&
+          !timeframeForm.get('start').valid
+        "
+        class="errorMsg"
+      >
+        <div *ngIf="timeframeForm.get('start').errors.required">
+          Este campo es obligatorio
+        </div>
+      </div>
+
+      <!--  -->
 
       <i class="fa-regular fa-clock timeFramesIcon"></i>
     </div>
@@ -12,7 +49,52 @@
     <label for="">Hora fin</label>
     <!--  -->
     <div class="inputContainer">
-      <input type="time" />
+      <input
+        type="time"
+        formControlName="end"
+        [ngClass]="{
+          'is-invalid':
+            (timeframeForm.get('end').dirty ||
+              timeframeForm.get('end').touched) &&
+            !timeframeForm.get('end').valid
+        }"
+      />
+      <div *ngIf="timeframeForm.get('end').valid">
+        <i class="fa-solid fa-circle-check valid-feedback"></i>
+      </div>
+
+      <i
+        *ngIf="
+          (timeframeForm.get('end').dirty ||
+            timeframeForm.get('end').touched) &&
+          !timeframeForm.get('end').valid
+        "
+        class="fa-solid fa-circle-exclamation invalid-feedback"
+      ></i>
+
+      <div
+        *ngIf="
+          (timeframeForm.get('end').dirty ||
+            timeframeForm.get('end').touched) &&
+          !timeframeForm.get('end').valid
+        "
+        class="errorMsg"
+      >
+        <div *ngIf="timeframeForm.get('end').errors.required">
+          Este campo es obligatorio
+        </div>
+
+        <div
+          *ngIf="
+            !timeframeForm.get('end').errors.required &&
+            !timeframeForm.get('end').errors?.isGreater
+          "
+        >
+          Hora final menor que hora inicial
+        </div>
+      </div>
+
+      <!--  -->
 
       <i class="fa-regular fa-clock timeFramesIcon"></i>
     </div>
@@ -37,11 +119,15 @@
       </li>
     </ul>
 
-    <button class="btn btn--green" (click)="timeFrameAccept()">
+    <button
+      class="btn btn--green"
+      (click)="timeFrameAccept()"
+      [disabled]="timeframeForm.invalid"
+    >
       <h3>Aceptar</h3>
     </button>
     <button class="btn btn--black" (click)="timeFrameClose()">
       <h3>Cancelar</h3>
     </button>
-  </div>
+  </form>
 </main>

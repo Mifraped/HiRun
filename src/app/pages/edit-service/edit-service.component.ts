@@ -64,23 +64,23 @@ export class EditServiceComponent implements OnInit {
 
   //ejemplos timeframe -ELIMINAR AL AÑADIR FUNCIONALIDAD
   tf1 = {
-    t0: '08:30',
-    t1: '14:30',
+    start: '08:30',
+    end: '14:30',
     days: [true, true, true, true, true, false, false],
   };
   tf2 = {
-    t0: '16:30',
-    t1: '18:00',
+    start: '16:30',
+    end: '18:00',
     days: [true, true, true, true, false, false, false],
   };
   tf3 = {
-    t0: '10:00',
-    t1: '14:00',
+    start: '10:00',
+    end: '14:00',
     days: [false, false, false, false, false, true, false],
   };
   tf4 = {
-    t0: '15:20',
-    t1: '21:00',
+    start: '15:20',
+    end: '21:00',
     days: [true, true, true, true, true, true, true],
   };
 
@@ -257,11 +257,18 @@ export class EditServiceComponent implements OnInit {
   ////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
   timeFramesWindow() {
     this.timeFramesOpen = true;
+    
     console.log(this.timeFramesOpen);
   }
 
   closeModal() {
     this.timeFramesOpen = false;
+  }
+
+  newTimeFrame(newTimeFrame: any){
+    console.log(newTimeFrame)
+this.timeFrameArray.push(newTimeFrame)
+this.closeModal()
   }
 
   ngOnInit() {
