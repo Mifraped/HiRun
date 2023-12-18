@@ -9,6 +9,7 @@ import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-filters',
@@ -26,7 +27,14 @@ export class FiltersComponent implements OnInit {
     'Category 5',
     'Category 6',
   ];
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private HeaderNavbarService: HeaderNavbarService
+  ) {
+    this.HeaderNavbarService.showNavbar = false;
+    this.HeaderNavbarService.showHeader = true;
+  }
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
   sliderValues: number[] = [20, 80];
 
