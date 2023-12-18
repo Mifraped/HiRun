@@ -1,0 +1,15 @@
+<div class="chat-cnt">
+  <div
+    class="chat-card"
+    style="width: 100%"
+    *ngIf="chat"
+    routerLink="/chat-page"
+  >
+    <img
+      [src]="chat.participants[0].photo"
+      alt="{{ chat.participants[0].name }}'s photo"
+    />
+    <h4>{{ chat.participants[0].name }}</h4>
+    <p>{{ lastMessageTimestamp }}</p>
+  </div>
+</div>

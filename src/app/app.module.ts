@@ -46,6 +46,8 @@ import { CommonModule } from '@angular/common';
 import { BookServiceComponent } from './pages/book-service/book-service.component';
 import { OrderByComponent } from './components/order-by/order-by.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ChatCardComponent } from './components/chat-card/chat-card.component';
+import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +80,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     RatingCardComponent,
     BookServiceComponent,
     OrderByComponent,
+    ChatCardComponent,
+    ChatPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,9 +89,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-
     CommonModule,
-
     FullCalendarModule,
     StarRatingModule.forRoot(),
     CommonModule,

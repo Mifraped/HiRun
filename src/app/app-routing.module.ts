@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
@@ -22,6 +22,7 @@ import { EditServiceComponent } from './pages/edit-service/edit-service.componen
 import { BookServiceComponent } from './pages/book-service/book-service.component';
 
 import { OrderByComponent } from './components/order-by/order-by.component';
+import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path: 'results', component: ResultsComponent },
   { path: 'filters', component: FiltersComponent },
   { path: 'order-by', component: OrderByComponent },
+  { path: 'chat-page', component: ChatPageComponent },
 ];
 
 @NgModule({

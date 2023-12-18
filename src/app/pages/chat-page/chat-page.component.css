@@ -1,0 +1,120 @@
+.blue-line {
+  height: 1px;
+  background-color: var(--blue);
+}
+
+.chat-cnt {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 90%;
+}
+
+.chat-header {
+  width: 100%;
+  height: 62px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-header svg {
+  margin-right: 10%;
+}
+
+.chat-header h4 {
+  color: var(--white);
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.chat-header img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 25px;
+}
+
+.chat {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+.message {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  max-width: 200px;
+  background-color: var(--green);
+  border-radius: 5px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.message:nth-child(odd) {
+  align-self: flex-start;
+  background-color: var(--blue);
+}
+
+.message:nth-child(even) {
+  align-self: flex-end;
+  background-color: var(--green);
+}
+
+#time:nth-child(odd) {
+  color: black;
+}
+
+#time:nth-child(even) {
+  color: white;
+}
+
+#time {
+  color: var(--white);
+  font-size: 10px;
+  text-align: right;
+  margin-right: 5px;
+}
+
+.chat-input {
+}
+
+.input-box {
+  position: relative;
+  display: flex;
+}
+
+.input-box input {
+  padding-left: 50px;
+}
+
+.input-box input::placeholder {
+  text-align: left;
+  color: var(--black);
+  opacity: 1;
+}
+
+#smiley {
+  position: absolute;
+  top: 12%;
+  left: 2%;
+  width: 30px;
+  height: 30px;
+}
+
+#clip {
+  position: absolute;
+  right: 65px;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+}
+
+#send {
+  position: absolute;
+  right: 10px;
+}
