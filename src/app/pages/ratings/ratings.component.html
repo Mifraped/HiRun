@@ -17,10 +17,15 @@
         <hr>
     </header>
     <!-- contenedor valoraciones -->
-    <div class="contRatings">
-        <div class="card" *ngFor="let rate of userService.user.rates; let last= last">
-            <app-rating-card [rate]="rate"></app-rating-card>
-            <hr *ngIf="!last">
+    <ng-container *ngIf="userService.user.rates.length > 0; else noRates">
+        <div class="contRatings">
+            <div class="card" *ngFor="let rate of userService.user.rates; let last= last">
+                <app-rating-card [rate]="rate"></app-rating-card>
+                <hr *ngIf="!last">
+            </div>
         </div>
-    </div>
+    </ng-container>
+    <ng-template #noRates>
+        <h1 class="noRates">Todavia no tienes valoraciones</h1>
+    </ng-template>
 </div>

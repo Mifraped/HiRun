@@ -15,10 +15,15 @@
     <!-- separador -->
     <hr class="principal">
     <!-- contenedor de targetas -->
-    <div class="cardContainer" *ngFor="let job of serviceService.jobArray; let last = last">
-        <div class="cardHr">
-            <app-profile-service-card [jobPadre]="job"></app-profile-service-card>
-            <hr *ngIf="!last">
+    <ng-container *ngIf="serviceService.jobArray.length > 0; else noJobs">
+        <div class="cardContainer" *ngFor="let job of serviceService.jobArray; let last = last">
+            <div class="cardHr">
+                <app-profile-service-card [jobPadre]="job"></app-profile-service-card>
+                <hr *ngIf="!last">
+            </div>
         </div>
-    </div>
+    </ng-container>
+    <ng-template #noJobs>
+        <h1>Todavia no has solicitado ningun servicio</h1>
+    </ng-template>
 </div>
