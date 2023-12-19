@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OrderByComponent } from 'src/app/components/order-by/order-by.component';
 import { DialogService } from 'src/app/shared/dialog.service';
-import { Service } from 'src/app/models/service';
-import { ServiceService } from 'src/app/shared/service.service';
+import { Business } from 'src/app/models/business';
+import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
@@ -14,14 +14,14 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 })
 export class ResultsComponent implements OnInit {
   dialogRef: MatDialogRef<OrderByComponent>;
-  public service: Service = this.ServiceService.service;
-  servicio1: Service = this.ServiceService.service;
+  public business: Business = this.BusinessService.business;
+  negocio1: Business = this.BusinessService.business;
   showHeader = true;
 
   constructor(
     public dialog: MatDialog,
     private dialogService: DialogService,
-    private ServiceService: ServiceService,
+    private BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService
   ) {
     this.headerNavbarService.showHeader = true;

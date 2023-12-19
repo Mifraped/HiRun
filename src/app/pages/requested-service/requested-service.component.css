@@ -1,10 +1,11 @@
-.cont{
+.cont {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 /* contenedor enlace volver y titulo */
-.backTitle{
+.backTitle {
     display: flex;
     margin-top: 1.5625rem;
     justify-content: flex-end;
@@ -12,8 +13,9 @@
     width: 100%;
     margin-bottom: 2.1875rem;
 }
+
 /* enlace volver */
-.back{
+.back {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -23,49 +25,58 @@
     left: 1.25rem;
     top: -0.6875rem;
 }
-svg#back{
+
+svg#back {
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 /* titulo pagina */
-.title{
+.title {
     display: flex;
     flex-direction: column;
     margin-right: 1.125rem;
 }
-span{
+
+span {
     font-size: 1.75rem;
     font-weight: 600;
 }
-#servicios{
+
+#negocios {
     color: var(--lightGrey);
 }
-#activos{
+
+#activos {
     color: var(--blue);
     display: flex;
     justify-content: flex-end;
 }
-hr.principal{
+
+hr.principal {
     border-color: var(--green);
     width: 20.875rem;
     margin-bottom: 1.3125rem;
 }
+
 /* contenedores de las tarjetas con separador */
-.cardContainer{
+.cardContainer {
     margin-bottom: 3.75rem;
 }
-.cardHr{
+
+.cardHr {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-hr{
+
+hr {
     border-color: var(--green);
     width: 20.25rem;
 }
 
-h1{
+h1 {
     margin-top: 6.25rem;
     text-align: center;
 }

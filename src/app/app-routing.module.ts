@@ -2,11 +2,11 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { PreferencesComponent } from './pages/preferences/preferences.component';
-import { ServiceComponent } from './pages/service/service.component';
+import { BusinessComponent } from './pages/business/business.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { LoginComponent } from './pages/login/login.component';
-import { NewServiceComponent } from './pages/new-service/new-service.component';
+import { NewBusinessComponent } from './pages/new-business/new-business.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
@@ -18,7 +18,7 @@ import { ServiceProvidedComponent } from './pages/service-provided/service-provi
 import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
 
-import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { EditBusinessComponent } from './pages/edit-business/edit-business.component';
 import { BookServiceComponent } from './pages/book-service/book-service.component';
 
 import { OrderByComponent } from './components/order-by/order-by.component';
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'new-service', component: NewServiceComponent },
+  { path: 'new-business', component: NewBusinessComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'preferences', component: PreferencesComponent },
@@ -39,9 +39,9 @@ const routes: Routes = [
   { path: 'service-provided', component: ServiceProvidedComponent },
   { path: 'requested-service', component: RequestedServiceComponent },
   { path: 'favorites', component: FavoritesComponent },
-  { path: 'service', component: ServiceComponent },
+  { path: 'business', component: BusinessComponent },
 
-  { path: 'edit-service', component: EditServiceComponent },
+  { path: 'edit-business', component: EditBusinessComponent },
   { path: 'book-service', component: BookServiceComponent },
   { path: 'book-service/:id', component: BookServiceComponent },
 

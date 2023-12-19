@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { Service } from 'src/app/models/service';
-import { ServiceService } from 'src/app/shared/service.service';
+import { Business } from 'src/app/models/business';
+import { BusinessService } from 'src/app/shared/business.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
-  selector: 'app-service-provided',
+  selector: 'app-business-provided',
   templateUrl: './service-provided.component.html',
   styleUrls: ['./service-provided.component.css'],
 })
 export class ServiceProvidedComponent {
   constructor(
-    public serviceService: ServiceService,
+    public businessService: BusinessService,
     public headerNavbarService: HeaderNavbarService
   ) {
     this.headerNavbarService.showHeader = false;

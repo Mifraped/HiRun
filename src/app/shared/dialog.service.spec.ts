@@ -3,14 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { DialogService } from './dialog.service';
 
 describe('DialogService', () => {
-  let service: DialogService;
+  let business: DialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(DialogService);
+    business = TestBed.inject(DialogService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(business).toBeTruthy();
   });
 });

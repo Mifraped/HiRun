@@ -7,8 +7,8 @@
   </div>
 
   <div class="titleContainer">
-    <h1>{{ service.title }}</h1>
-    <h2>{{ job.title }}</h2>
+    <h1>{{ business.title }}</h1>
+    <h2>{{ service.title }}</h2>
   </div>
   <!-- fecha -->
   <form [formGroup]="bookingForm">
@@ -111,7 +111,7 @@
       </div>
     </div>
 
-    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del servicio -->
+    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del negocio -->
     <div class="form-group" *ngIf="user == provider">
       <label for="">Cliente</label>
       <div class="inputContainer">
@@ -161,7 +161,7 @@
     </div>
     <!-- Fin del bloque para el input del cliente -->
 
-    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del servicio -->
+    <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del negocio -->
 
     <div class="form-group">
       <label for="">Comentarios</label>
@@ -180,7 +180,7 @@
 
     <button
       class="btn"
-      (click)="bookService()"
+      (click)="bookBusiness()"
       [disabled]="bookingForm.invalid"
     >
       <h2>Confirmar</h2>

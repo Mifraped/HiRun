@@ -9,7 +9,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { CalendarComponent } from './pages/calendar/calendar.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { NewServiceComponent } from './pages/new-service/new-service.component';
+import { NewBusinessComponent } from './pages/new-business/new-business.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { RegForm1Component } from './components/reg-form1/reg-form1.component';
 import { RegForm2Component } from './components/reg-form2/reg-form2.component';
@@ -23,14 +23,14 @@ import { RatingsComponent } from './pages/ratings/ratings.component';
 import { ServiceProvidedComponent } from './pages/service-provided/service-provided.component';
 import { RequestedServiceComponent } from './pages/requested-service/requested-service.component';
 import { FavoritesComponent } from './pages/favorites/favorites.component';
-import { ServiceComponent } from './pages/service/service.component';
-import { ServiceCardComponent } from './components/service-card/service-card.component';
+import { BusinessComponent } from './pages/business/business.component';
+import { BusinessCardComponent } from './components/business-card/business-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ProfileServiceCardComponent } from './components/profile-service-card/profile-service-card.component';
-import { JobCardComponent } from './components/job-card/job-card.component';
-import { EditServiceComponent } from './pages/edit-service/edit-service.component';
+import { ProfileBusinessCardComponent } from './components/profile-business-card/profile-business-card.component';
+import { ServiceCardComponent } from './components/service-card/service-card.component';
+import { EditBusinessComponent } from './pages/edit-business/edit-business.component';
 import { TimeframeModalComponent } from './components/timeframe-modal/timeframe-modal.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { Calendar } from '@fullcalendar/core';
@@ -58,7 +58,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     ChatComponent,
     CalendarComponent,
     ProfileComponent,
-    NewServiceComponent,
+    NewBusinessComponent,
     SearchBarComponent,
     HeaderComponent,
     NavBarComponent,
@@ -66,12 +66,12 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     RegForm2Component,
     RegForm3Component,
     PreferencesComponent,
-    ServiceComponent,
-    ServiceCardComponent,
+    BusinessComponent,
+    BusinessCardComponent,
     ServiceRatingComponent,
     ResultsComponent,
     FiltersComponent,
-    EditServiceComponent,
+    EditBusinessComponent,
     EditProfileComponent,
     RatingsComponent,
     ServiceProvidedComponent,
@@ -84,9 +84,9 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     ChatCardComponent,
     ChatPageComponent,
 
-    JobCardComponent,
+    ServiceCardComponent,
     TimeframeModalComponent,
-    ProfileServiceCardComponent,
+    ProfileBusinessCardComponent,
   ],
   imports: [
     BrowserModule,

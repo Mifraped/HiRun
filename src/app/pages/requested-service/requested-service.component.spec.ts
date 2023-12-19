@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestedServiceComponent } from './requested-service.component';
+import { RequestedBusinessComponent } from './requested-business.component';
 
-describe('RequestedServiceComponent', () => {
-  let component: RequestedServiceComponent;
-  let fixture: ComponentFixture<RequestedServiceComponent>;
+describe('RequestedBusinessComponent', () => {
+  let component: RequestedBusinessComponent;
+  let fixture: ComponentFixture<RequestedBusinessComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [RequestedServiceComponent]
+      declarations: [RequestedBusinessComponent]
     });
-    fixture = TestBed.createComponent(RequestedServiceComponent);
+    fixture = TestBed.createComponent(RequestedBusinessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -57,12 +57,15 @@
   -webkit-overflow-scrolling: touch;
   margin-top: 20px;
   width: 100%;
-  scrollbar-width: none; /* For Firefox */
-  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+  scrollbar-width: none;
+  /* For Firefox */
+  -ms-overflow-style: none;
+  /* For Internet Explorer and Edge */
 }
 
 .categories-list::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari and Opera */
+  display: none;
+  /* For Chrome, Safari and Opera */
 }
 
 .icon-container {
@@ -113,11 +116,11 @@
   margin-bottom: 15px;
 }
 
-.servicios_best_review {
+.negocios_best_review {
   overflow-x: hidden;
 }
 
-.servicio_container {
+.negocio_container {
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
@@ -127,7 +130,7 @@
   padding-right: calc(50vw - 150px);
 }
 
-.servicio_valorado {
+.negocio_valorado {
   margin-top: 1.0313rem;
   margin-right: 4rem;
   width: 300px;
@@ -272,6 +275,7 @@
   width: 100%;
   z-index: 1;
 }
+
 .team_info {
   display: flex;
   flex-direction: column;

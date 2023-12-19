@@ -3,14 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { ChatService } from './chat.service';
 
 describe('ChatService', () => {
-  let service: ChatService;
+  let business: ChatService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ChatService);
+    business = TestBed.inject(ChatService);
   });
 
   it('should be created', () => {
-    expect(service).toBeTruthy();
+    expect(business).toBeTruthy();
   });
 });

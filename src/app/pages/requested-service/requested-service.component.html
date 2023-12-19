@@ -1,29 +1,43 @@
 <div class="cont">
-    <!-- contenedor enlace atras y titulo de la pagina -->
-    <div class="backTitle">
-        <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
-                viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
-            </svg>
-        </a>
-        <div class="title">
-            <span id="servicios">Servicios</span>
-            <span id="activos">solicitados</span>
-        </div>
+  <!-- contenedor enlace atras y titulo de la pagina -->
+  <div class="backTitle">
+    <a class="back" routerLink="/profile"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z"
+        />
+      </svg>
+    </a>
+    <div class="title">
+      <span id="negocios">Servicios</span>
+      <span id="activos">solicitados</span>
     </div>
-    <!-- separador -->
-    <hr class="principal">
-    <!-- contenedor de targetas -->
-    <ng-container *ngIf="serviceService.jobArray.length > 0; else noJobs">
-        <div class="cardContainer">
-            <div class="cardHr" *ngFor="let job of serviceService.jobArray; let last = last">
-                <app-profile-service-card [jobPadre]="job"></app-profile-service-card>
-                <hr *ngIf="!last">
-            </div>
-        </div>
-    </ng-container>
-    <ng-template #noJobs>
-        <h1>Todavia no has solicitado ningun servicio</h1>
-    </ng-template>
+  </div>
+  <!-- separador -->
+  <hr class="principal" />
+  <!-- contenedor de targetas -->
+  <ng-container
+    *ngIf="businessService.serviceArray.length > 0; else noServices"
+  >
+    <div class="cardContainer">
+      <div
+        class="cardHr"
+        *ngFor="let service of businessService.serviceArray; let last = last"
+      >
+        <app-profile-business-card
+          [servicePadre]="service"
+        ></app-profile-business-card>
+        <hr *ngIf="!last" />
+      </div>
+    </div>
+  </ng-container>
+  <ng-template #noServices>
+    <h1>Todavia no has solicitado ningun negocio</h1>
+  </ng-template>
 </div>

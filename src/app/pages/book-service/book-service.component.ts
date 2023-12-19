@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ServiceService } from 'src/app/shared/service.service';
+import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/models/user';
-import { Service } from 'src/app/models/service';
+import { Business } from 'src/app/models/business';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
-import { Job } from 'src/app/models/job';
+import { Service} from 'src/app/models/service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router'
 
@@ -21,13 +21,13 @@ export class BookServiceComponent implements OnInit {
   minDate: string;
   today = new Date();
   // user:User=this.userService.user
-  user: User = this.serviceService.provider;
+  user: User = this.businessService.provider;
   selectedDate;
-  provider: User = this.serviceService.provider;
+  provider: User = this.businessService.provider;
 
-  service: Service = this.serviceService.service;
+  business: Business = this.businessService.business;
 
-  job: Job = this.service.jobs[0];
+  service: Service = this.business.services[0];
   
 
   clientList: User[] = [this.userService.user1];
@@ -46,7 +46,7 @@ export class BookServiceComponent implements OnInit {
   selectedClient: User | null = null; // Inicializa selectedClient con null
   constructor(
     private userService: UserService,
-    private serviceService: ServiceService,
+    private businessService: BusinessService,
     private formBuilder: FormBuilder,
     public headerNavbarService: HeaderNavbarService,
     private location: Location,
@@ -82,20 +82,20 @@ export class BookServiceComponent implements OnInit {
     return validators;
   }
 
-  bookService() {
+  bookBusiness() {
     let newBooking = this.bookingForm.value;
 
+    newBooking.business = this.business;
     newBooking.service = this.service;
-    newBooking.job = this.job;
-    newBooking.provider = this.service.provider;
+    newBooking.provider = this.business.provider;
 
     console.log(newBooking);
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const jobId = params['id'];
-      //aquí habrá que linkar el job con el servicio etc y hacer un select con filtros para para que nos dé la información necesaria, mientras tanto dejo el job como una selección del array por que se vea el funcionamiento
+      const serviceId = params['id'];
+      //aquí habrá que linkar el service con el negocio etc y hacer un select con filtros para para que nos dé la información necesaria, mientras tanto dejo el service como una selección del array por que se vea el funcionamiento
     });
 
     this.clientList = [this.userService.user1];

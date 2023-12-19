@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Service } from 'src/app/models/service';
-import { ServiceService } from 'src/app/shared/service.service';
+import { Business } from 'src/app/models/business';
+import { BusinessService } from 'src/app/shared/business.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 export class RequestedServiceComponent {
   constructor(
     public headerNavbarService: HeaderNavbarService,
-    public serviceService: ServiceService
+    public businessService: BusinessService
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = true;

@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServiceProvidedComponent } from './service-provided.component';
+import { BusinessProvidedComponent } from './business-provided.component';
 
-describe('ServiceProvidedComponent', () => {
-  let component: ServiceProvidedComponent;
-  let fixture: ComponentFixture<ServiceProvidedComponent>;
+describe('BusinessProvidedComponent', () => {
+  let component: BusinessProvidedComponent;
+  let fixture: ComponentFixture<BusinessProvidedComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ServiceProvidedComponent]
+      declarations: [BusinessProvidedComponent]
     });
-    fixture = TestBed.createComponent(ServiceProvidedComponent);
+    fixture = TestBed.createComponent(BusinessProvidedComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -13,10 +13,10 @@ export class ChatPageComponent implements OnInit {
 
   constructor(
     private chatService: ChatService,
-    private headernavbarservice: HeaderNavbarService
+    private headernavbarbusiness: HeaderNavbarService
   ) {
-    this.headernavbarservice.showHeader = true;
-    this.headernavbarservice.showNavbar = false;
+    this.headernavbarbusiness.showHeader = true;
+    this.headernavbarbusiness.showNavbar = false;
   }
 
   ngOnInit() {

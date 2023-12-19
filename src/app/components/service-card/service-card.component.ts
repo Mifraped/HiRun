@@ -1,28 +1,33 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Job } from 'src/app/models/job';
-import { Service } from 'src/app/models/service';
-import { ServiceService } from 'src/app/shared/service.service';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/shared/user.service';
+
 
 @Component({
   selector: 'app-service-card',
   templateUrl: './service-card.component.html',
-  styleUrls: ['./service-card.component.css'],
+  styleUrls: ['./service-card.component.css']
 })
-export class ServiceCardComponent implements OnInit {
-  @Input() service: Service;
+export class ServiceCardComponent {
+@Input() service:any
 
-  jobs: Job[];
-  minPrice: number
- 
-
-  jobtext: string;
-
-  jobToText(jobArray) {}
-
-  constructor(public serviceService: ServiceService) {}
-
-  ngOnInit() {
-    this.jobs = this.service ? this.service.jobs : [];
-    this.minPrice = this.jobs.reduce((min, job) => (job.price < min ? job.price : min), this.jobs[0].price);
+bookBusiness(){
+  if (this.userService.connected){
+this.router.navigate([`/book-business/:${this.service.serviceId}`]);
+   
+  }else{
+    alert('inicia sesión para reservar')
+    this.router.navigate(['/login'])
   }
+  
+
+}
+
+cardExtended:boolean = false
+
+expandInfo(){
+  this.cardExtended=!this.cardExtended
+  console.log(this.cardExtended)
+}
+constructor(private router: Router, private userService:UserService) { }
 }

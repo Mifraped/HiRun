@@ -10,10 +10,10 @@ import { UserService } from 'src/app/shared/user.service';
 
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
-import { ServiceService } from 'src/app/shared/service.service';
+import { BusinessService } from 'src/app/shared/business.service';
 
-import { Service } from 'src/app/models/service';
-import { Job } from 'src/app/models/job';
+import { Business } from 'src/app/models/business';
+import { Service} from 'src/app/models/service';
 
 @Component({
   selector: 'app-home',
@@ -40,7 +40,7 @@ import { Job } from 'src/app/models/job';
   ],
 })
 export class HomeComponent {
-  servicio1: Service = this.ServiceService.service;
+  negocio1: Business = this.BusinessService.business;
 
   faqItems = [
     {
@@ -65,7 +65,7 @@ export class HomeComponent {
 
   constructor(
     public UserService: UserService,
-    public ServiceService: ServiceService,
+    public BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService
   ) {
     this.headerNavbarService.showHeader = true;

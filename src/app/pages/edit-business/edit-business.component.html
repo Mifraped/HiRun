@@ -1,0 +1,361 @@
+<main>
+  <h1>Editar negocio</h1>
+
+  <div class="separator"></div>
+  <!-- formulario -->
+  <form [formGroup]="editBusinessForm">
+    <div class="formGroup">
+      <label>Editar nombre del negocio</label>
+      <div class="inputContainer">
+        <input type="text" class="form-control" formControlName="title" />
+        <div class="circle">
+          <i class="fa-solid fa-arrows-rotate"></i>
+        </div>
+      </div>
+    </div>
+    <div class="separator"></div>
+    <!-- añadir foto: pendinte investigar -->
+    <div class="img-container">
+      <img src="{{ business.photo }}" alt="" />
+    </div>
+    <button class="photoEdit">
+      <!-- <input type="file" id="photoInput" (change)="onFileChange($event)" /> -->
+      <input type="file" accept="image/*;capture=camera" id="photoInput" />
+      <p>Editar foto</p>
+      <i class="fa-regular fa-pen-to-square"></i>
+    </button>
+    <div class="separator"></div>
+    <!-- categorías (tags en el objeto negocio) -->
+
+    <h3>Etiquetas</h3>
+    <ul class="catContainer">
+      <li *ngFor="let category of allCat; let i = index">
+        <button
+          class="category"
+          [class.selected]="category.selected"
+          (click)="catSelected(category)"
+        >
+          {{ category.title }}
+        </button>
+      </li>
+    </ul>
+    <!-- otras opciones: pendiente definir cuáles van a ser, meto 3 que se me ocurren y una extra  -->
+    <div class="separator"></div>
+    <h3>Otros</h3>
+    <div class="other-container">
+      <div class="formGroup otherOptions" *ngFor="let option of allOptions">
+        <label class="checkBoxGroup">
+          <input
+            class="inputCheck"
+            type="checkbox"
+            (change)="onCheckboxChange(option)"
+            [checked]="selectedOptions.includes(option.value)"
+          />
+          <i class="{{ option.icon }}"></i>{{ option.value }}
+        </label>
+      </div>
+    </div>
+
+    <!-- añadir franjas horarias: falta definir si van a ser tabla aparte o info dentro negocios -->
+
+    <!--  -->
+    <div class="separator"></div>
+    <h3>Calendario</h3>
+    <div class="textContainer">
+      Selecciona los días de la semana en los que vas a prestar estos servicios
+    </div>
+    <!-- botones seleccionar días -->
+    <ul class="weekContainer">
+      <li class="dayContainer" *ngFor="let day of week; let i = index">
+        <p>{{ day.initial }}</p>
+        <button
+          class="dayButton"
+          [class.selected]="day.selected"
+          (click)="daySelected(day)"
+        >
+          <i class="fa-solid fa-check" *ngIf="day.selected"></i>
+          <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
+        </button>
+      </li>
+    </ul>
+    <!-- franjas horarias -->
+    <div class="textContainer paddingTop">
+      Indica tus franjas horarias de trabajo
+    </div>
+
+    <!-- ventana de franjas -->
+
+    <app-timeframe-modal
+      (closeWindow)="closeModal()"
+      (sendTimeFrame)="newTimeFrame($event)"
+      *ngIf="timeFramesOpen"
+    ></app-timeframe-modal>
+
+    <!-- listado franjas -->
+    <ul class="timeframeContainer">
+      <li *ngFor="let tf of timeFrameArray; let i = index">
+        <div class="timeFrame">
+          <p>{{ tf.start }} - {{ tf.end }}</p>
+
+          <div
+            class="smallDayCircle"
+            *ngFor="let day of tf.days"
+            [class.applicableDay]="day"
+          ></div>
+          <button (click)="deleteTimeframe(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <!-- botón abrir modal timeframes -->
+
+    <button (click)="timeFramesWindow()" class="addTf">
+      <i class="fa-solid fa-plus"></i>
+    </button>
+    <div class="separator"></div>
+
+    <!-- listado de servicios añadidos, con opción de eliminar -->
+    <h3>Servicios</h3>
+    <div class="textContainer">
+      <p>
+        Selecciona un servicio para editarlo, o rellena los campos para añadir
+        un servicio
+      </p>
+    </div>
+    <ul class="serviceList" *ngIf="services.length > 0">
+      <li
+        *ngFor="let service of services; let i = index"
+        class="serviceListItem"
+        (click)="selectService(i)"
+        [class.serviceSelected]="services[i] === selectedService"
+      >
+        <div class="service">
+          <p>{{ service.title }}</p>
+          <p>{{ service.price }}€</p>
+          <p>{{ service.duration }} min.</p>
+          <button (click)="deleteService(i)">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+    <!-- form de creación de servicios dentro del form de negocios -->
+    <form [formGroup]="addServiceForm" class="paddingTop">
+      <!-- <form action=""> -->
+      <div class="formGroup">
+        <label>Añade al menos un servicio</label>
+        <div class="inputContainer">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="title"
+            [ngClass]="{
+              'is-invalid':
+                (addServiceForm.get('title').dirty ||
+                  addServiceForm.get('title').touched) &&
+                !addServiceForm.get('title').valid
+            }"
+          />
+          <div *ngIf="addServiceForm.get('title').valid">
+            <i class="fa-solid fa-circle-check valid-feedback"></i>
+          </div>
+
+          <i
+            *ngIf="
+              (addServiceForm.get('title').dirty ||
+                addServiceForm.get('title').touched) &&
+              !addServiceForm.get('title').valid
+            "
+            class="fa-solid fa-circle-exclamation invalid-feedback"
+          ></i>
+
+          <div
+            *ngIf="
+              (addServiceForm.get('title').dirty ||
+                addServiceForm.get('title').touched) &&
+              !addServiceForm.get('title').valid
+            "
+            class="errorMsg"
+          >
+            <div *ngIf="addServiceForm.get('title').errors.required">
+              Este campo es obligatorio
+            </div>
+            <div class="circle">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </div>
+          </div>
+          <div class="circle">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+        </div>
+      </div>
+      <div class="formGroup paddingTop">
+        <label>Pon un precio</label>
+        <div class="inputContainer">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="price"
+            [ngClass]="{
+              'is-invalid':
+                (addServiceForm.get('price').dirty ||
+                  addServiceForm.get('price').touched) &&
+                !addServiceForm.get('price').valid
+            }"
+          />
+          <div *ngIf="addServiceForm.get('price').valid">
+            <i class="fa-solid fa-circle-check valid-feedback"></i>
+          </div>
+
+          <i
+            *ngIf="
+              (addServiceForm.get('price').dirty ||
+                addServiceForm.get('price').touched) &&
+              !addServiceForm.get('price').valid
+            "
+            class="fa-solid fa-circle-exclamation invalid-feedback"
+          ></i>
+
+          <div
+            *ngIf="
+              (addServiceForm.get('price').dirty ||
+                addServiceForm.get('price').touched) &&
+              !addServiceForm.get('price').valid
+            "
+            class="errorMsg"
+          >
+            <div *ngIf="addServiceForm.get('price').errors.required">
+              Este campo es obligatorio
+            </div>
+          </div>
+          <div class="circle">
+            <i class="fa-solid fa-euro-sign"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="formGroup paddingTop">
+        <label>Añade una descripción</label>
+        <div class="textAreaContainer">
+          <textarea
+            name=""
+            id=""
+            cols="30"
+            rows="10"
+            placeholder="Procura indicar con claridad qué es lo que incluye este servicio."
+            class="form-control"
+            formControlName="description"
+            [ngClass]="{
+              'is-invalid':
+                (addServiceForm.get('description').dirty ||
+                  addServiceForm.get('description').touched) &&
+                !addServiceForm.get('description').valid
+            }"
+          ></textarea>
+
+          <div *ngIf="addServiceForm.get('description').valid">
+            <i class="fa-solid fa-circle-check valid-feedback--textArea"></i>
+          </div>
+
+          <i
+            *ngIf="
+              (addServiceForm.get('description').dirty ||
+                addServiceForm.get('description').touched) &&
+              !addServiceForm.get('description').valid
+            "
+            class="fa-solid fa-circle-exclamation invalid-feedback--textArea"
+          ></i>
+        </div>
+
+        <div
+          *ngIf="
+            (addServiceForm.get('description').dirty ||
+              addServiceForm.get('description').touched) &&
+            !addServiceForm.get('description').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="addServiceForm.get('description').errors.required">
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+
+      <div class="formGroup paddingTop">
+        <label>Duración del servicio</label>
+        <div class="inputContainer">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="duration"
+            [ngClass]="{
+              'is-invalid':
+                (addServiceForm.get('duration').dirty ||
+                  addServiceForm.get('duration').touched) &&
+                !addServiceForm.get('duration').valid
+            }"
+          />
+
+          <div *ngIf="addServiceForm.get('duration').valid">
+            <i class="fa-solid fa-circle-check valid-feedback"></i>
+          </div>
+
+          <i
+            *ngIf="
+              (addServiceForm.get('duration').dirty ||
+                addServiceForm.get('duration').touched) &&
+              !addServiceForm.get('duration').valid
+            "
+            class="fa-solid fa-circle-exclamation invalid-feedback"
+          ></i>
+
+          <div
+            *ngIf="
+              (addServiceForm.get('duration').dirty ||
+                addServiceForm.get('duration').touched) &&
+              !addServiceForm.get('duration').valid
+            "
+            class="errorMsg"
+          >
+            <div *ngIf="addServiceForm.get('duration').errors.required">
+              Este campo es obligatorio
+            </div>
+            <div
+              *ngIf="
+                !addServiceForm.get('duration').errors.required &&
+                !addServiceForm.get('duration').errors.minlength
+              "
+            >
+              Indica la duración en múltiplos de 15 min
+            </div>
+          </div>
+          <div class="circle">
+            <i class="fa-regular fa-clock"></i>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn_addService" (click)="addOrEditService()">
+        <i class="fa-solid fa-check"></i>
+      </button>
+    </form>
+    <!-- termina form de creación de servicios -->
+    <div class="separator"></div>
+
+    <!-- botón enviar nuevo negocio -->
+
+    <button class="btn btn--green" (click)="editBusiness()">
+      <h3>Publicar cambios</h3>
+    </button>
+
+    <button class="btn btn--red" (click)="deleteBusiness()">
+      <h3>Eliminar</h3>
+    </button>
+
+    <button class="btn btn--white" (click)="cancelEditBusiness()">
+      <h3>Cancelar</h3>
+    </button>
+  </form>
+</main>

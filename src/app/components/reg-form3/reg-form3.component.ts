@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { UserService } from 'src/app/shared/user.service';
-import { ServiceService } from 'src/app/shared/service.service';
+import { BusinessService } from 'src/app/shared/business.service';
 
 @Component({
   selector: 'app-reg-form3',
@@ -12,14 +12,14 @@ export class RegForm3Component {
   
   @Output() registerPartThree = new EventEmitter<any>();
   @Output() registerPartThreeLoggedIn = new EventEmitter<any>();
-  constructor(public userService:UserService, public serviceService: ServiceService){}
+  constructor(public userService:UserService, public businessService: BusinessService){}
   
   //para enlazar los a
   login = '/login' 
   profile = '/profile'
 
 
-  allCat = this.serviceService.allCat
+  allCat = this.businessService.allCat
   
   selectedCat = []
 
