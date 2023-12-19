@@ -11,9 +11,9 @@ import { UserService } from 'src/app/shared/user.service';
 export class ServiceCardComponent {
 @Input() service:any
 
-bookBusiness(){
+bookService(){
   if (this.userService.connected){
-this.router.navigate([`/book-business/:${this.service.serviceId}`]);
+this.router.navigate([`/book-service/:${this.service.serviceId}`]);
    
   }else{
     alert('inicia sesión para reservar')
