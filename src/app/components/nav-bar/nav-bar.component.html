@@ -1,7 +1,11 @@
 <ng-container *ngIf="userService.connected">
   <div class="principal">
     <div class="cont">
-      <a class="home" routerLink="home" routerLinkActive="active"
+      <a
+        class="home"
+        routerLink=""
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="28.46"

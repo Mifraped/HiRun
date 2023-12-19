@@ -31,5 +31,6 @@
   background-color: var(--blue);
 }
 
-.chats img {
+.chat-log {
+  padding-top: 10px;
 }

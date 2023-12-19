@@ -1,6 +1,6 @@
 @import "../../../../node_modules/nouislider/dist/nouislider.css";
 
-.line_blue {
+.line_blue_filters {
   width: 18.75rem;
   background-color: var(--blue);
   height: 1px;
@@ -204,7 +204,7 @@ app-filters .main-cnt {
   margin-left: 8px;
 }
 
-.categories {
+.categories-cnt {
   display: flex;
   flex-direction: column;
   width: 100%;
