@@ -16,8 +16,8 @@
     <hr class="principal">
     <!-- contenedor de targetas -->
     <ng-container *ngIf="serviceService.jobArray.length > 0; else noJobs">
-        <div class="cardContainer" *ngFor="let job of serviceService.jobArray; let last = last">
-            <div class="cardHr">
+        <div class="cardContainer">
+            <div class="cardHr" *ngFor="let job of serviceService.jobArray; let last = last">
                 <app-profile-service-card [jobPadre]="job"></app-profile-service-card>
                 <hr *ngIf="!last">
             </div>

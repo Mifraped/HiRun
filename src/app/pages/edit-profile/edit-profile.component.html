@@ -9,7 +9,8 @@
             </svg>
         </a>
         <!-- enlace para añadir foto -->
-        <a class="photo">
+        <div class="photo">
+            <input type="file" id="photoInput">
             <img src="{{userService.user.photo}}">
             <svg class="photoIcon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
                 <g fill="none">
@@ -28,7 +29,7 @@
                         mask="url(#pepiconsPopPhotoCameraCircleFilled0)" />
                 </g>
             </svg>
-        </a>
+        </div>
     </div>
     <!-- contenedor de inputs y botones -->
     <div class="contInputsButtons">

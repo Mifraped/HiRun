@@ -50,7 +50,13 @@ img{
     bottom: 0;
     right: 0;
 }
-path{}
+#photoInput{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: absolute;
+    opacity: 0;
+}
 /* contenedor inputs y botones */
 .contInputsButtons{
     display: flex;
@@ -85,5 +91,6 @@ label{
 }
 #save{
     background-color: var(--green);
-
+    color: var(--fullBlack);
+    margin-bottom: 6.25rem;
 }

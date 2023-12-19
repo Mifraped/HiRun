@@ -16,8 +16,8 @@
   <hr class="principal" />
   <!-- contenedor de targetas -->
   <ng-container *ngIf="serviceService.serviceArray.length > 0; else noServices">
-    <div class="cardContainer" *ngFor="let service of serviceService.serviceArray; let last = last">
-      <div class="cardHr">
+    <div class="cardContainer">
+      <div class="cardHr" *ngFor="let service of serviceService.serviceArray; let last = last">
         <app-profile-service-card [servicioPadre]="service"></app-profile-service-card>
         <hr *ngIf="!last" />
       </div>
