@@ -19,6 +19,8 @@
       <img src="{{ service.photo }}" alt="" />
     </div>
     <button class="photoEdit">
+      <!-- <input type="file" id="photoInput" (change)="onFileChange($event)" /> -->
+      <input type="file" accept="image/*;capture=camera" id="photoInput" />
       <p>Editar foto</p>
       <i class="fa-regular fa-pen-to-square"></i>
     </button>

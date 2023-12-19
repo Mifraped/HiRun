@@ -47,7 +47,15 @@ img {
     display: flex;
     justify-content: flex-end;
     width: 18.75rem;
-    padding: 10px 15px
+    padding: 10px 15px;
+    position: relative;
+}
+
+#photoInput {
+    opacity: 0;
+    width: 18.75rem;
+    height: 100%;
+    position: absolute;
 }
 
 .photoEdit p,
