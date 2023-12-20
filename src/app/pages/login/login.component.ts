@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms'
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/user.service';
+import { ResponseUser } from 'src/app/models/response-user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,25 +14,28 @@ import { UserService } from 'src/app/shared/user.service';
 })
 export class LoginComponent {
 
+  constructor(public headerNavbarService: HeaderNavbarService, private userService: UserService, private ruter: Router) { 
+    this.headerNavbarService.showHeader=false
+    this.headerNavbarService.showNavbar=false}
+
   public user: User = new User(null, null, null, null, null, null, null)
 
   public sendForm(form:NgForm){
-    console.log(this.user);
+
     
-    this.userService.login(this.user).subscribe((data:any) => {
-      if(data){
-        this.userService.logueado = true
-        this.userService.user = data.data
+    this.userService.login(this.user).subscribe((resp:ResponseUser) => {
+      if(resp.error == false){
+        this.userService.connected = true
+        this.userService.user = resp.data
+        this.ruter.navigate(["home"])   
+        console.log(this.userService.user);
+        
       }
       else {
-        this.userService.logueado = true
         console.log("Error")
+        alert(resp.message)
       }
     })
   }
-
-  constructor(public headerNavbarService: HeaderNavbarService, private userService: UserService) { 
-    this.headerNavbarService.showHeader=false
-    this.headerNavbarService.showNavbar=false}
 
 }

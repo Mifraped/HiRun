@@ -9,34 +9,36 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  public connected: boolean = true;
-  // public connected:boolean = false
-
-  public logueado: boolean
-  public user: User
   
-
-  public login(user: User):Observable<object>{
-    return this.http.post(this.url + "/login", user)
-  }
-
-
-
-
-
+  public connected: boolean
+  public user: User
+  public rates: Rate[]
+  private url = "https://api-hi-run.vercel.app/" 
+  
   constructor(private http: HttpClient) {
-    this.logueado = false
   }
 
-private url = "https://api-hi-run.vercel.app/" 
+  public login(user: User):Observable<object>{    
+    return this.http.post(this.url + "login", user)
+  }
+
+  postUser(newUser:User){
+    return this.http.post(`${this.url}register`,newUser)
+  }
+
+  public getRates():Observable<object>{
+    return this.http.get(this.url + `rates?id_user=${this.user.userId}`)
+  }
+
+
+
+
+
 
 
 //comprobado que con api local y web local funciona
 // private url = "http://localhost:3000/" 
 //registro de un nuevo usuario
-postUser(newUser:User){
-  return this.http.post(`${this.url}register`,newUser)
-}
 
 
    // de aquí abajo: BORRAR! valores inventados para pruebas

@@ -5,6 +5,6 @@ export class ResponseUser {
     constructor(
         public error: boolean,
         public code: number,
-        public msg:string,
+        public message:string,
         public data: User){}
 }
