@@ -61,11 +61,13 @@ app-service-rating {
   width: 100%;
   height: 100%;
   background: rgb(0, 0, 0);
-  background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0.8) 0%,
-      rgba(0, 0, 0, 0.2) 40%,
-      rgba(0, 0, 0, 0.2) 60%,
-      rgba(0, 0, 0, 0.8) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.2) 40%,
+    rgba(0, 0, 0, 0.2) 60%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
   padding: 0.8rem;
   display: flex;
   justify-content: flex-end;
@@ -75,7 +77,6 @@ app-service-rating {
 .imgGradient span {
   color: var(--lightGrey);
   font-size: 1.5rem;
-
 }
 
 .img-container--profile {
@@ -142,6 +143,7 @@ p.serviceInfo {
 
 .circle h1 {
   z-index: 0;
+  font-size: 22px;
 }
 
 .otherInfoContainer {

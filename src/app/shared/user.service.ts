@@ -7,7 +7,7 @@ import { Rate } from '../models/rate';
   providedIn: 'root',
 })
 export class UserService {
-  public connected: boolean = true;
+  public connected: boolean = false;
   // public connected:boolean = false
 
   user1: User = new User(
@@ -54,12 +54,39 @@ export class UserService {
     rates: [this.rate1, this.rate2, this.rate3],
   };
 
- 
-  public user2: User = {email:'a@mail', password:'Aa111111', name:'Leopoldo', surname:'Gutiérrez',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate1]}
-  public user3: User = {email:'a@mail', password:'Aa111111', name:'Elena', surname:'Fernández',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate2]}
-  public user4: User = {email:'a@mail', password:'Aa111111', name:'Conchi', surname:'García',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate2, this.rate3]}
+  public user2: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Leopoldo',
+    surname: 'Gutiérrez',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate1],
+  };
+  public user3: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Elena',
+    surname: 'Fernández',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate2],
+  };
+  public user4: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Conchi',
+    surname: 'García',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate2, this.rate3],
+  };
 
-  public preferences : Category[] = []
-
- 
+  public preferences: Category[] = [];
 }

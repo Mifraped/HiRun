@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import {
   trigger,
   state,
@@ -13,7 +13,8 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { BusinessService } from 'src/app/shared/business.service';
 
 import { Business } from 'src/app/models/business';
-import { Service} from 'src/app/models/service';
+import { Service } from 'src/app/models/service';
+import { FiltersService } from 'src/app/shared/filters.service';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +40,9 @@ import { Service} from 'src/app/models/service';
     ]),
   ],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  @Input() business: any;
+  businesses: Business[] = [];
   negocio1: Business = this.BusinessService.business;
 
   faqItems = [
@@ -66,10 +69,43 @@ export class HomeComponent {
   constructor(
     public UserService: UserService,
     public BusinessService: BusinessService,
-    public headerNavbarService: HeaderNavbarService
+    public headerNavbarService: HeaderNavbarService,
+    private FiltersService: FiltersService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
+  }
+
+  ngOnInit(): void {
+    this.FiltersService.getNewestBusiness().subscribe((business) => {
+      this.businesses = business.map(
+        ({
+          provider,
+          title,
+          photo,
+          rating,
+          location,
+          phoneNumber,
+          providerName,
+          providerSurname,
+          price,
+          description,
+          userPhoto,
+        }) => ({
+          provider,
+          title,
+          photo,
+          rating,
+          location,
+          phoneNumber,
+          providerName,
+          providerSurname,
+          price,
+          description,
+          userPhoto,
+        })
+      );
+    });
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);

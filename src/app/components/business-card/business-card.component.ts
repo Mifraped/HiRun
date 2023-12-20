@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Business} from 'src/app/models/business';
+import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { BusinessService } from 'src/app/shared/business.service';
 
@@ -12,8 +12,7 @@ export class BusinessCardComponent implements OnInit {
   @Input() business: Business;
 
   services: Service[];
-  minPrice: number
- 
+  minPrice: number;
 
   servicetext: string;
 
@@ -22,7 +21,14 @@ export class BusinessCardComponent implements OnInit {
   constructor(public businessService: BusinessService) {}
 
   ngOnInit() {
-    this.services = this.business ? this.business.services : [];
-    this.minPrice = this.services.reduce((min, service) => (service.price < min ? service.price : min), this.services[0].price);
+    this.services =
+      this.business && this.business.services ? this.business.services : [];
+    this.minPrice =
+      this.services.length > 0
+        ? this.services.reduce(
+            (min, service) => (service.price < min ? service.price : min),
+            this.services[0].price
+          )
+        : 0; // or some other default value
   }
 }

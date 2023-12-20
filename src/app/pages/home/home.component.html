@@ -104,7 +104,12 @@
           {{ UserService.connected ? "Novedades cerca de ti" : "Novedades" }}
         </p>
         <div id="b-l-news" class="line_blue"></div>
-        <app-business-card [business]="negocio1"></app-business-card>
+        <div class="news-cards">
+          <app-business-card
+            *ngFor="let business of businesses"
+            [business]="business"
+          ></app-business-card>
+        </div>
       </div>
     </div>
     <div class="best_review">
@@ -120,19 +125,8 @@
         <div class="negocio_container">
           <app-business-card
             class="negocio_valorado"
-            [business]="negocio1"
-          ></app-business-card>
-          <app-business-card
-            class="negocio_valorado"
-            [business]="negocio1"
-          ></app-business-card>
-          <app-business-card
-            class="negocio_valorado"
-            [business]="negocio1"
-          ></app-business-card>
-          <app-business-card
-            class="negocio_valorado"
-            [business]="negocio1"
+            *ngFor="let business of businesses"
+            [business]="business"
           ></app-business-card>
         </div>
       </div>

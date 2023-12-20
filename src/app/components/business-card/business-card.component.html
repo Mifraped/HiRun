@@ -19,25 +19,22 @@
   <div class="info">
     <div class="providerInfo">
       <div class="img-container--profile">
-        <img src="{{ business.provider.photo }}" alt="" />
+        <img src="{{ business.userPhoto }}" alt="" />
       </div>
 
       <p class="providerName">
-        {{ business.provider.name }} {{ business.provider.surname }}
+        {{ business.providerName }} {{ business.providerSurname }}
       </p>
     </div>
 
     <div class="businessInfo">
       <p class="serviceInfo">
-        <ng-container *ngFor="let service of services; let last = last">
-          {{ service.description }}
-          <ng-container *ngIf="!last"> / </ng-container>
-        </ng-container>
+        {{ business.description }}
       </p>
       <div class="price">
         <div class="circle">
           <p>desde</p>
-          <h1>{{ minPrice }}€</h1>
+          <h1>{{ business.price }}€</h1>
         </div>
       </div>
     </div>
