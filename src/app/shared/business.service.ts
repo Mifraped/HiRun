@@ -5,6 +5,7 @@ import { Service} from '../models/service';
 import { Category } from '../models/category';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,11 @@ export class BusinessService {
   
   private url = "https://api-hi-run.vercel.app/" 
   // private url = "http://localhost:3000/" 
+
+  public logedUserBusinesses: Business[]
   
   
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private userService: UserService) {
     
   }
   
@@ -23,6 +26,10 @@ export class BusinessService {
   postBusiness(newBusiness:Business):Observable<object>{
     console.log('business service OK')
     return this.http.post(`${this.url}business`, newBusiness)
+  }
+
+  public getBusiness():Observable<object>{
+    return this.http.get(this.url + `business?id_user=${this.userService.user.id_user}`)
   }
     
   

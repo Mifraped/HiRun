@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserService } from 'src/app/shared/user.service';
 import { ResponseUser } from 'src/app/models/response-user';
 import { Router } from '@angular/router';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 @Component({
   selector: 'app-login',
@@ -26,10 +27,11 @@ export class LoginComponent {
     this.userService.login(this.user).subscribe((resp:ResponseUser) => {
       if(resp.error == false){
         this.userService.connected = true
-        this.userService.user = resp.data
-        this.ruter.navigate(["home"])   
-        console.log(this.userService.user);
-        
+        this.userService.user = new User(resp.data.email, null, resp.data.name, resp.data.surname, resp.data.location, resp.data.phoneNumber, resp.data.photo, null, resp.data.company, resp.data.id_user)
+        this.ruter.navigate(["home"])
+        this.userService.getRates().subscribe((resp:ResponseRates) => {
+          this.userService.rates = resp.data
+        })  
       }
       else {
         console.log("Error")
