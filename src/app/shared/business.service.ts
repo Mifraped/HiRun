@@ -10,8 +10,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class BusinessService {
   
-  // private url = "https://api-hi-run.vercel.app/" 
-  private url = "http://localhost:3000/" 
+  private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
   
   
   constructor(private http: HttpClient) {
