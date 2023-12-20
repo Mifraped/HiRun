@@ -187,6 +187,7 @@ if (this.services.length==0){
   
    let newBusiness = this.newBusinessForm.value;
    newBusiness.provider = this.user
+   newBusiness.photo='img por defecto'
   // this.services
   // this.selectedCat
 //  this.selectedOptions
