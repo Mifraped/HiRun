@@ -48,6 +48,7 @@ import { OrderByComponent } from './components/order-by/order-by.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ChatCardComponent } from './components/chat-card/chat-card.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
+import { HttpClientModule } from '@angular/common/http'
 
 @NgModule({
   declarations: [
@@ -99,6 +100,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     StarRatingModule.forRoot(),
     CommonModule,
     MatDialogModule,
+    HttpClientModule
   ],
 
   providers: [HeaderNavbarService],

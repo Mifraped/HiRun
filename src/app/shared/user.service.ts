@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Category } from '../models/category';
 import { User } from '../models/user';
 import { Rate } from '../models/rate';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +11,19 @@ import { Rate } from '../models/rate';
 export class UserService {
   public connected: boolean = true;
   // public connected:boolean = false
+
+  private url: string = "https://api-hi-run.vercel.app"
+  public logueado: boolean
+  public user: User
+  
+  constructor(public http: HttpClient) {
+    this.logueado = false
+  }
+
+  public login(user: User):Observable<object>{
+    return this.http.post(this.url + "/login", user)
+  }
+
 
   user1: User = new User(
     'user1@example.com',
@@ -20,7 +35,7 @@ export class UserService {
     'url'
   );
 
-  constructor() {}
+
 
   // valores inventados para pruebas
   rate1 = new Rate(
@@ -42,17 +57,17 @@ export class UserService {
     'Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla'
   );
 
-  public user: User = {
-    email: 'a@mail',
-    password: 'Aa111111',
-    name: 'Paco',
-    surname: 'Pi',
-    phoneNumber: 123,
-    location: '28029, Madrid',
-    photo:
-      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
-    rates: [this.rate1, this.rate2, this.rate3],
-  };
+  // public user: User = {
+  //   email: 'a@mail',
+  //   password: 'Aa111111',
+  //   name: 'Paco',
+  //   surname: 'Pi',
+  //   phoneNumber: 123,
+  //   location: '28029, Madrid',
+  //   photo:
+  //     '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+  //   rates: [this.rate1, this.rate2, this.rate3],
+  // };
 
  
   public user2: User = {email:'a@mail', password:'Aa111111', name:'Leopoldo', surname:'Gutiérrez',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate1]}
