@@ -160,6 +160,7 @@ deleteTimeframe(index){
 }
 
 addBusiness(newBusiness:Business){
+  console.log('add business OK')
   this.businessService.postBusiness(newBusiness).subscribe((res:ResponseBusiness)=>{
     console.log(res)
     if (res.error){
@@ -173,7 +174,7 @@ addBusiness(newBusiness:Business){
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 newBusiness() {
- 
+  console.log('new business component ok')
 if (this.services.length==0){
   
   this.addServiceForm.get('title').markAsTouched()

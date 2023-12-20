@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Service} from '../models/service';
 import { Category } from '../models/category';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,11 @@ export class BusinessService {
   }
   
   //nuevo negocio
-  postBusiness(newBusiness:Business){
-    return this.http.post(`${this.url}new-business`,newBusiness)
+  postBusiness(newBusiness:Business):Observable<object>{
+    console.log('business service OK')
+    return this.http.post(`${this.url}new-business`, newBusiness)
   }
-  
-  
-  
+    
   
   
   
