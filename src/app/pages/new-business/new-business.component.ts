@@ -12,6 +12,8 @@ import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseCategory } from 'src/app/models/response-category';
 import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
+import { BusinessCat } from 'src/app/models/business-cat';
+import { ResponseBusCat } from 'src/app/models/response-bus-cat';
 
 
 
@@ -187,9 +189,16 @@ addBusiness(newBusiness:Business){
       this.newId= res.data[0].insertId
       console.log(this.newId)
       console.log(this.services)
+      //itera para crear los servicios dentro del negocio
       for (let service of this.services){
         service.id_business =this.newId
         this.addNewService(service)
+      }
+
+        //itera para asignar categorías o etiquetas al negocio
+      for (let cat of this.selectedCat){
+        console.log(cat)
+        this.addNewBusinessCat(this.newId, cat.id_category)
       }
       this.businessService.business=null
     }
@@ -208,6 +217,22 @@ addNewService(newService:Service){
     }
   })
 }
+
+addNewBusinessCat(bus:number, cat:number){
+  let busCat: BusinessCat = new BusinessCat(bus,cat);
+  this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseCategory)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('categoría añadida')
+      this.services=null
+    }
+  })
+}
+
+
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 newBusiness() {

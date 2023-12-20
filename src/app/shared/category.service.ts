@@ -3,14 +3,21 @@ import { Category } from '../models/category';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject  } from 'rxjs';
 import { ResponseCategory } from '../models/response-category';
+import { BusinessCat } from '../models/business-cat';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoryService {
 
-  private url = "https://api-hi-run.vercel.app/category" 
-  // private url = "http://localhost:3000/category" 
+  //para obtener categorías
+  private url1 = "https://api-hi-run.vercel.app/category" 
+  // private url1 = "http://localhost:3000/category" 
+
+  //para añadir categorías a bussines_cat
+  private url2 = "https://api-hi-run.vercel.app/business-cat" 
+  // private url2 = "http://localhost:3000/business-cat" 
+
   private allCategoriesSubject = new BehaviorSubject<Category[]>([]);
   public allCategories: Category[]
 
@@ -19,7 +26,11 @@ export class CategoryService {
   }  
 
   getAllCat(): Observable<ResponseCategory> {
-    return this.http.get<ResponseCategory>(this.url);
+    return this.http.get<ResponseCategory>(this.url1);
+  }
+
+  postBusinessCat(newBusCat:BusinessCat): Observable<ResponseCategory> {
+    return this.http.post<ResponseCategory>(this.url2, newBusCat );
   }
   
 }
