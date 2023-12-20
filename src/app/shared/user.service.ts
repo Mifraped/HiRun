@@ -12,19 +12,34 @@ export class UserService {
   public connected: boolean = true;
   // public connected:boolean = false
 
-  private url: string = "https://api-hi-run.vercel.app"
   public logueado: boolean
   public user: User
   
-  constructor(public http: HttpClient) {
-    this.logueado = false
-  }
 
   public login(user: User):Observable<object>{
     return this.http.post(this.url + "/login", user)
   }
 
 
+
+
+
+  constructor(private http: HttpClient) {
+    this.logueado = false
+  }
+
+private url = "https://api-hi-run.vercel.app/" 
+
+
+//comprobado que con api local y web local funciona
+// private url = "http://localhost:3000/" 
+//registro de un nuevo usuario
+postUser(newUser:User){
+  return this.http.post(`${this.url}register`,newUser)
+}
+
+
+   // de aquí abajo: BORRAR! valores inventados para pruebas
   user1: User = new User(
     'user1@example.com',
     '12345678',

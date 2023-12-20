@@ -21,10 +21,10 @@ user = this.userService.user
 
 
   registerPreferences(catArray){
-    this.user.preferences=catArray
+    // this.user.preferences=catArray
     // aquí actualizar el usuario (PUT), falta que si hay login coja el id
     
-    this.router.navigate(['/profile'])
+    this.router.navigate(['/profile']) 
   }
 
 }
