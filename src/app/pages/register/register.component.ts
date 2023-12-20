@@ -4,6 +4,7 @@ import { User } from 'src/app/models/user';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { ResponseUser } from 'src/app/models/response-user';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 export class RegisterComponent {
 
   constructor(private router: Router, public userService: UserService, public headerNavbarService: HeaderNavbarService) { 
+    this.userService.user=null
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false}
 
@@ -34,6 +36,8 @@ showForm2:boolean = false
 showForm3:boolean = false
 
 
+//imagen de perfil por defecto
+defaultProfilePic='assets/profile_img/default_picture.jpg'
 
 
   registerInfo({email, password, passwordRepeat}){
@@ -41,8 +45,21 @@ showForm3:boolean = false
     this.password = password
     this.showForm1 = false
     this.showForm2 = true
+    
   }
-
+  
+  registerUser(newUser:User){
+    
+    this.userService.postUser(newUser).subscribe((res:ResponseUser)=>{
+      console.log(res)
+      if (res.error){
+        alert(res.error)
+      }else{
+        alert('usuario creado')
+        this.userService.user=null
+      }
+    })
+  }
   registerInfoNext({name, surname, location, phoneNumber, company}){
     this.name = name
     this.surname = surname
@@ -53,23 +70,27 @@ showForm3:boolean = false
     this.showForm3 = true
 
     this.newUser = {
-       email: this.email,
+    email: this.email,
     password: this.password,
     name: this.name,
     surname: this.surname,
     location: this.location,
     phoneNumber: this.phoneNumber,
-    photo: 'assets/profile_img/default_picture.jpg',
+    photo: this.defaultProfilePic,
     company: this.company,
-
+    }
+    console.log('paso2')
     //aquí habría que hacer el POST new User cuando conectemos con la bbdd
+    this.registerUser(this.newUser)
      
-    }}
+    }
+
 
     registerPreferences(catArray){
-      this.newUser.preferences=catArray
+      // this.newUser.preferences=catArray
       // aquí actualizar el usuario (PUT), falta que si hay login coja el id
       console.log(this.newUser)
+      
       this.router.navigate(['/login'])
     }
 

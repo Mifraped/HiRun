@@ -2,10 +2,21 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
+import { Business } from 'src/app/models/business';
 import { Service} from 'src/app/models/service';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { ResponseBusiness } from 'src/app/models/response-business';
+import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseCategory } from 'src/app/models/response-category';
+import { ServiceService } from 'src/app/shared/service.service';
+import { ResponseService } from 'src/app/models/response-service';
+import { BusinessCat } from 'src/app/models/business-cat';
+import { ResponseBusCat } from 'src/app/models/response-bus-cat';
+import { TimeFrame } from 'src/app/models/time-frame';
+import { TimeframeService } from 'src/app/shared/timeframe.service';
+import { ResponseTimeframe } from 'src/app/models/response-timeframe';
 
 
 
@@ -14,7 +25,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
   templateUrl: './new-business.component.html',
   styleUrls: ['./new-business.component.css']
 })
-export class NewBusinessComponent {
+export class NewBusinessComponent implements OnInit {
   public addServiceForm: FormGroup
   public newBusinessForm: FormGroup
   
@@ -23,8 +34,12 @@ export class NewBusinessComponent {
   showNavBar:boolean=false
 
   //Importa las categorías del negocio 'business'
-  allCat = this.businessService.allCat
+  // allCat = this.businessService.allCat
+  allCat:Category[] = []
   selectedCat:Category[] = []
+
+  //business_id para crear los servicios, se rellena cuando se genera el negocio
+  newId:number
 
   //opciones adicionales: pago en efcetivo, negocio a domicilio, etc
   opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house'}
@@ -39,7 +54,8 @@ export class NewBusinessComponent {
   services:Service[]=[]
 
   //El usuario logeado, que será el proveedor del negocio
-  user = this.userService.user
+  // user = this.userService.user.userId
+  user = 19
 
   //días de la semana
   week = [
@@ -61,13 +77,21 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
     this.buildFormBusiness();
   }
-
+  ngOnInit(): void {
+    this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
+          if (res.error){
+            console.log(res)
+          }else{      
+            this.allCat=res.data        
+          }
+        })
+  }
   
 
 
@@ -156,30 +180,129 @@ deleteTimeframe(index){
 
 }
 
+addBusiness(newBusiness:Business){
+  console.log('add business OK')
+  this.businessService.postBusiness(newBusiness).subscribe((res:ResponseBusiness)=>{
+    console.log(res)
+    if (res.error){
+      alert(res.error)
+    }else{
+      
+      console.log(res.data)
+      this.newId= res.data[0].insertId
+   
+      //itera para crear los servicios dentro del negocio
+      for (let service of this.services){
+        service.id_business =this.newId
+        this.addNewService(service)
+      }
+
+      //itera para asignar categorías o etiquetas al negocio
+      if (this.selectedCat){
+        for (let cat of this.selectedCat){
+        
+        this.addNewBusinessCat(this.newId, cat.id_category)
+        }
+      }
+
+      console.log(this.timeFrameArray)
+      console.log(this.timeFrameArray[0])
+      // itera para añadir timeframes
+      for (let tf of this.timeFrameArray){
+        console.log(tf)
+        let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
+      
+        let strDays:string=""
+            for (let i=0; i<7; i++){
+            if (tf.days[i]) {
+             
+              strDays = strDays+this.week[i].initial;
+            }
+          }
+        
+          newTf.days=strDays
+          this.addNewTimeFrame(newTf)
+       
+      }
+
+      this.businessService.business=null
+    }
+  })
+}
+
+addNewService(newService:Service){
+  this.serviceService.postService(newService).subscribe((res:ResponseService)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('servicio creado')
+      this.services=null
+    }
+  })
+}
+
+addNewBusinessCat(bus:number, cat:number){
+  let busCat: BusinessCat = new BusinessCat(bus,cat);
+  this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseCategory)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('categoría añadida')
+      this.services=null
+    }
+  })
+}
+
+addNewTimeFrame(tf:TimeFrame){
+  
+  this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('franja horaria añadida')
+      
+    }
+  })
+}
+
+
+
+
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 newBusiness() {
- 
+
 if (this.services.length==0){
+  
   this.addServiceForm.get('title').markAsTouched()
  
   alert('añade al menos un servicio')
 }else if(this.timeFrameArray.length==0){
+  
   alert('indica tus franjas horarias')
 }else{
   
    let newBusiness = this.newBusinessForm.value;
-  newBusiness.services = this.services
-  newBusiness.tags = this.selectedCat
-  newBusiness.provider = this.user
-  newBusiness.otherFields=this.selectedOptions
-  newBusiness.timeframes =this.timeFrameArray
+   newBusiness.provider = this.user
+   newBusiness.photo='img por defecto'
+  // this.services
+  // this.selectedCat
+//  this.selectedOptions
+  //this.timeFrameArray
 
   
+  // llamada a la función que conecta con el servicio y la api
+  this.addBusiness(newBusiness)
 
-  this.selectedCat=[];
-  this.selectedOptions=[];
-  this.services=[]
-  this.newBusinessForm.reset()
+  // this.selectedCat=[];
+  // this.selectedOptions=[];
+  // this.services=[]
+  // this.newBusinessForm.reset()
 
 }
 
@@ -208,7 +331,7 @@ daySelected(day){
   timeFramesWindow() {
     this.timeFramesOpen = true;
     
-    console.log(this.timeFramesOpen);
+  
   }
 
   closeModal() {
@@ -216,9 +339,9 @@ daySelected(day){
   }
 
   newTimeFrame(newTimeFrame: any){
-    console.log(newTimeFrame)
+    
 this.timeFrameArray.push(newTimeFrame)
-console.log(this.timeFrameArray)
+
 this.closeModal()
   }
 

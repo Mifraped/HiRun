@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Category } from '../models/category';
 import { User } from '../models/user';
 import { Rate } from '../models/rate';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +12,29 @@ export class UserService {
   public connected: boolean = false;
   // public connected:boolean = false
 
+  public user: User;
+  public rates: Rate[];
+  private url = 'https://api-hi-run.vercel.app/';
+
+  constructor(private http: HttpClient) {}
+
+  public login(user: User): Observable<object> {
+    return this.http.post(this.url + 'login', user);
+  }
+
+  postUser(newUser: User) {
+    return this.http.post(`${this.url}register`, newUser);
+  }
+
+  public getRates(): Observable<object> {
+    return this.http.get(this.url + `rates?id_user=${this.user.id_user}`);
+  }
+
+  //comprobado que con api local y web local funciona
+  // private url = "http://localhost:3000/"
+  //registro de un nuevo usuario
+
+  // de aquí abajo: BORRAR! valores inventados para pruebas
   user1: User = new User(
     'user1@example.com',
     '12345678',
@@ -19,8 +44,6 @@ export class UserService {
     12341234,
     'url'
   );
-
-  constructor() {}
 
   // valores inventados para pruebas
   rate1 = new Rate(
@@ -42,17 +65,17 @@ export class UserService {
     'Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla'
   );
 
-  public user: User = {
-    email: 'a@mail',
-    password: 'Aa111111',
-    name: 'Paco',
-    surname: 'Pi',
-    phoneNumber: 123,
-    location: '28029, Madrid',
-    photo:
-      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
-    rates: [this.rate1, this.rate2, this.rate3],
-  };
+  // public user: User = {
+  //   email: 'a@mail',
+  //   password: 'Aa111111',
+  //   name: 'Paco',
+  //   surname: 'Pi',
+  //   phoneNumber: 123,
+  //   location: '28029, Madrid',
+  //   photo:
+  //     '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+  //   rates: [this.rate1, this.rate2, this.rate3],
+  // };
 
   public user2: User = {
     email: 'a@mail',

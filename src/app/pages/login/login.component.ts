@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { NgForm } from '@angular/forms'
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/shared/user.service';
+import { ResponseUser } from 'src/app/models/response-user';
+import { Router } from '@angular/router';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 @Component({
   selector: 'app-login',
@@ -10,14 +15,29 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 })
 export class LoginComponent {
 
-  public user: User
-
-  public sendForm(form:NgForm){
-    console.log(this.user);
-  }
-
-  constructor(public headerNavbarService: HeaderNavbarService) { 
+  constructor(public headerNavbarService: HeaderNavbarService, private userService: UserService, private ruter: Router) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false}
+
+  public user: User = new User(null, null, null, null, null, null, null)
+
+  public sendForm(form:NgForm){
+
+    
+    this.userService.login(this.user).subscribe((resp:ResponseUser) => {
+      if(resp.error == false){
+        this.userService.connected = true
+        this.userService.user = new User(resp.data.email, null, resp.data.name, resp.data.surname, resp.data.location, resp.data.phoneNumber, resp.data.photo, null, resp.data.company, resp.data.id_user)
+        this.ruter.navigate(["home"])
+        this.userService.getRates().subscribe((resp:ResponseRates) => {
+          this.userService.rates = resp.data
+        })  
+      }
+      else {
+        console.log("Error")
+        alert(resp.message)
+      }
+    })
+  }
 
 }
