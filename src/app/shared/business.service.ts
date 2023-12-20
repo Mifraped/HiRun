@@ -22,7 +22,7 @@ export class BusinessService {
   //nuevo negocio
   postBusiness(newBusiness:Business):Observable<object>{
     console.log('business service OK')
-    return this.http.post(`${this.url}new-business`, newBusiness)
+    return this.http.post(`${this.url}business`, newBusiness)
   }
     
   

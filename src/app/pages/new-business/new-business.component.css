@@ -120,7 +120,7 @@ h3 {
 }
 
 .category {
-    width: 99px;
+    width: 7rem;
     height: 28px;
     background-color: var(--lightGrey);
     color: var(--black);

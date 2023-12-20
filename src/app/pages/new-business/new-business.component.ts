@@ -8,6 +8,10 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '
 import { Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { ResponseBusiness } from 'src/app/models/response-business';
+import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseCategory } from 'src/app/models/response-category';
+import { ServiceService } from 'src/app/shared/service.service';
+import { ResponseService } from 'src/app/models/response-service';
 
 
 
@@ -16,7 +20,7 @@ import { ResponseBusiness } from 'src/app/models/response-business';
   templateUrl: './new-business.component.html',
   styleUrls: ['./new-business.component.css']
 })
-export class NewBusinessComponent {
+export class NewBusinessComponent implements OnInit {
   public addServiceForm: FormGroup
   public newBusinessForm: FormGroup
   
@@ -25,8 +29,12 @@ export class NewBusinessComponent {
   showNavBar:boolean=false
 
   //Importa las categorías del negocio 'business'
-  allCat = this.businessService.allCat
+  // allCat = this.businessService.allCat
+  allCat:Category[] = []
   selectedCat:Category[] = []
+
+  //business_id para crear los servicios, se rellena cuando se genera el negocio
+  newId:number
 
   //opciones adicionales: pago en efcetivo, negocio a domicilio, etc
   opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house'}
@@ -64,13 +72,21 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
     this.buildFormBusiness();
   }
-
+  ngOnInit(): void {
+    this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
+          if (res.error){
+            console.log(res)
+          }else{      
+            this.allCat=res.data        
+          }
+        })
+  }
   
 
 
@@ -166,8 +182,29 @@ addBusiness(newBusiness:Business){
     if (res.error){
       alert(res.error)
     }else{
-      alert('negocio creado')
+      console.log('negocio creado')
+      console.log(res.data)
+      this.newId= res.data[0].insertId
+      console.log(this.newId)
+      console.log(this.services)
+      for (let service of this.services){
+        service.id_business =this.newId
+        this.addNewService(service)
+      }
       this.businessService.business=null
+    }
+  })
+}
+
+addNewService(newService:Service){
+  this.serviceService.postService(newService).subscribe((res:ResponseService)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('servicio creado')
+      this.services=null
     }
   })
 }
@@ -197,10 +234,10 @@ if (this.services.length==0){
   // llamada a la función que conecta con el servicio y la api
   this.addBusiness(newBusiness)
 
-  this.selectedCat=[];
-  this.selectedOptions=[];
-  this.services=[]
-  this.newBusinessForm.reset()
+  // this.selectedCat=[];
+  // this.selectedOptions=[];
+  // this.services=[]
+  // this.newBusinessForm.reset()
 
 }
 
