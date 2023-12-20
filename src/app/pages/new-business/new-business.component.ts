@@ -14,6 +14,9 @@ import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
 import { BusinessCat } from 'src/app/models/business-cat';
 import { ResponseBusCat } from 'src/app/models/response-bus-cat';
+import { TimeFrame } from 'src/app/models/time-frame';
+import { TimeframeService } from 'src/app/shared/timeframe.service';
+import { ResponseTimeframe } from 'src/app/models/response-timeframe';
 
 
 
@@ -74,7 +77,7 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -184,22 +187,44 @@ addBusiness(newBusiness:Business){
     if (res.error){
       alert(res.error)
     }else{
-      console.log('negocio creado')
+      
       console.log(res.data)
       this.newId= res.data[0].insertId
-      console.log(this.newId)
-      console.log(this.services)
+   
       //itera para crear los servicios dentro del negocio
       for (let service of this.services){
         service.id_business =this.newId
         this.addNewService(service)
       }
 
-        //itera para asignar categorías o etiquetas al negocio
-      for (let cat of this.selectedCat){
-        console.log(cat)
+      //itera para asignar categorías o etiquetas al negocio
+      if (this.selectedCat){
+        for (let cat of this.selectedCat){
+        
         this.addNewBusinessCat(this.newId, cat.id_category)
+        }
       }
+
+      console.log(this.timeFrameArray)
+      console.log(this.timeFrameArray[0])
+      // itera para añadir timeframes
+      for (let tf of this.timeFrameArray){
+        console.log(tf)
+        let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
+      
+        let strDays:string=""
+            for (let i=0; i<7; i++){
+            if (tf.days[i]) {
+             
+              strDays = strDays+this.week[i].initial;
+            }
+          }
+        
+          newTf.days=strDays
+          this.addNewTimeFrame(newTf)
+       
+      }
+
       this.businessService.business=null
     }
   })
@@ -232,11 +257,26 @@ addNewBusinessCat(bus:number, cat:number){
   })
 }
 
+addNewTimeFrame(tf:TimeFrame){
+  
+  this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('franja horaria añadida')
+      
+    }
+  })
+}
+
+
 
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 newBusiness() {
-  console.log('new business component ok')
+
 if (this.services.length==0){
   
   this.addServiceForm.get('title').markAsTouched()
@@ -255,7 +295,7 @@ if (this.services.length==0){
 //  this.selectedOptions
   //this.timeFrameArray
 
-  console.log(newBusiness)
+  
   // llamada a la función que conecta con el servicio y la api
   this.addBusiness(newBusiness)
 
@@ -291,7 +331,7 @@ daySelected(day){
   timeFramesWindow() {
     this.timeFramesOpen = true;
     
-    console.log(this.timeFramesOpen);
+  
   }
 
   closeModal() {
@@ -299,9 +339,9 @@ daySelected(day){
   }
 
   newTimeFrame(newTimeFrame: any){
-    console.log(newTimeFrame)
+    
 this.timeFrameArray.push(newTimeFrame)
-console.log(this.timeFrameArray)
+
 this.closeModal()
   }
 
