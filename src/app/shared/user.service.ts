@@ -17,6 +17,10 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
 private url = "https://api-hi-run.vercel.app/" 
+
+
+//comprobado que con api local y web local funciona
+// private url = "http://localhost:3000/" 
 //registro de un nuevo usuario
 postUser(newUser:User){
   return this.http.post(`${this.url}register`,newUser)

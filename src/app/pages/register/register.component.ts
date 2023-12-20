@@ -36,6 +36,8 @@ showForm2:boolean = false
 showForm3:boolean = false
 
 
+//imagen de perfil por defecto
+defaultProfilePic='assets/profile_img/default_picture.jpg'
 
 
   registerInfo({email, password, passwordRepeat}){
@@ -74,7 +76,7 @@ showForm3:boolean = false
     surname: this.surname,
     location: this.location,
     phoneNumber: this.phoneNumber,
-    photo: 'assets/profile_img/default_picture.jpg',
+    photo: this.defaultProfilePic,
     company: this.company,
     }
     console.log('paso2')
