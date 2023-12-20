@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FiltersService } from 'src/app/shared/filters.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -7,8 +8,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./search-bar.component.css'],
 })
 export class SearchBarComponent {
-  constructor(private router: Router) {}
-  navigateToResults() {
-    this.router.navigate(['/results']);
+  searchTerm: string;
+  constructor(private router: Router, private filterService: FiltersService) {}
+
+  onSubmit(): void {
+    this.filterService.getResults(this.searchTerm).subscribe(() => {
+      this.router.navigate(['/results']);
+    });
   }
 }

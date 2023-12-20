@@ -6,6 +6,7 @@ import { Business } from 'src/app/models/business';
 import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { FiltersService } from 'src/app/shared/filters.service';
 
 @Component({
   selector: 'app-results',
@@ -18,16 +19,21 @@ export class ResultsComponent implements OnInit {
   negocio1: Business = this.BusinessService.business;
   showHeader = true;
 
+  results: any[];
+
   constructor(
     public dialog: MatDialog,
     private dialogService: DialogService,
     private BusinessService: BusinessService,
-    public headerNavbarService: HeaderNavbarService
+    public headerNavbarService: HeaderNavbarService,
+    private filterService: FiltersService
   ) {
     this.headerNavbarService.showHeader = true;
   }
 
   ngOnInit() {
+    this.results = this.filterService.results;
+
     this.dialogService.closeDialog$.subscribe(() => {
       if (this.dialogRef) {
         this.dialogRef.close();

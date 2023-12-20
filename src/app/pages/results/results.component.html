@@ -38,8 +38,11 @@
     </button>
   </div>
   <div class="results">
-    <app-business-card [business]="negocio1"></app-business-card>
-    <app-business-card [business]="negocio1"></app-business-card>
-    <app-business-card [business]="negocio1"></app-business-card>
+    <div class="business-cards">
+      <app-business-card
+        *ngFor="let result of results"
+        [business]="result"
+      ></app-business-card>
+    </div>
   </div>
 </div>
