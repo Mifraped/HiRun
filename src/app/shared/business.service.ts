@@ -3,11 +3,34 @@ import { Business } from '../models/business';
 import { User } from '../models/user';
 import { Service} from '../models/service';
 import { Category } from '../models/category';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
+  
+  private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
+  
+  
+  constructor(private http: HttpClient) {
+    
+  }
+  
+  //nuevo negocio
+  postBusiness(newBusiness:Business):Observable<object>{
+    console.log('business service OK')
+    return this.http.post(`${this.url}business`, newBusiness)
+  }
+    
+  
+  
+  
+  
+  
+  //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',
     price: 75,
@@ -40,26 +63,26 @@ export class BusinessService {
     photo: '../../../assets/profile_img/example_provider.jpg',
   };
 
-  cat1: Category = { categoryId: 1, title: 'Fontanería' };
-  cat2: Category = { categoryId: 2, title: 'Estética' };
-  cat3: Category = { categoryId: 3, title: 'Peluquería' };
-  cat4: Category = { categoryId: 4, title: 'Diseño' };
-  cat5: Category = { categoryId: 5, title: 'Maquillaje' };
-  cat6: Category = { categoryId: 6, title: 'Música' };
-  cat7: Category = { categoryId: 7, title: 'Informática' };
-  cat8: Category = { categoryId: 8, title: 'Cuidados' };
-  cat9: Category = { categoryId: 9, title: 'Hogar' };
-  cat10: Category = { categoryId: 10, title: 'Mascotas' };
-  cat11: Category = { categoryId: 11, title: 'Fontanería2' };
-  cat12: Category = { categoryId: 12, title: 'Estética2' };
-  cat13: Category = { categoryId: 13, title: 'Peluquería2' };
-  cat14: Category = { categoryId: 14, title: 'Diseño2' };
-  cat15: Category = { categoryId: 15, title: 'Maquillaje2' };
-  cat16: Category = { categoryId: 16, title: 'Música2' };
-  cat17: Category = { categoryId: 17, title: 'Informática2' };
-  cat18: Category = { categoryId: 18, title: 'Cuidados2' };
-  cat19: Category = { categoryId: 19, title: 'Hogar2' };
-  cat20: Category = { categoryId: 20, title: 'Mascotas2' };
+  cat1: Category = { id_category: 1, title: 'Fontanería' };
+  cat2: Category = { id_category: 2, title: 'Estética' };
+  cat3: Category = { id_category: 3, title: 'Peluquería' };
+  cat4: Category = { id_category: 4, title: 'Diseño' };
+  cat5: Category = { id_category: 5, title: 'Maquillaje' };
+  cat6: Category = { id_category: 6, title: 'Música' };
+  cat7: Category = { id_category: 7, title: 'Informática' };
+  cat8: Category = { id_category: 8, title: 'Cuidados' };
+  cat9: Category = { id_category: 9, title: 'Hogar' };
+  cat10: Category = { id_category: 10, title: 'Mascotas' };
+  cat11: Category = { id_category: 11, title: 'Fontanería2' };
+  cat12: Category = { id_category: 12, title: 'Estética2' };
+  cat13: Category = { id_category: 13, title: 'Peluquería2' };
+  cat14: Category = { id_category: 14, title: 'Diseño2' };
+  cat15: Category = { id_category: 15, title: 'Maquillaje2' };
+  cat16: Category = { id_category: 16, title: 'Música2' };
+  cat17: Category = { id_category: 17, title: 'Informática2' };
+  cat18: Category = { id_category: 18, title: 'Cuidados2' };
+  cat19: Category = { id_category: 19, title: 'Hogar2' };
+  cat20: Category = { id_category: 20, title: 'Mascotas2' };
 
   allCat = [
     this.cat1,
@@ -124,5 +147,5 @@ export class BusinessService {
     this.business4,
   ];
 
-  constructor() {}
+ 
 }

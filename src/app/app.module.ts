@@ -101,7 +101,7 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';
     StarRatingModule.forRoot(),
     CommonModule,
     MatDialogModule,
-    HttpClientModule
+    
   ],
 
   providers: [HeaderNavbarService],
