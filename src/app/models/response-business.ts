@@ -1,10 +1,12 @@
+import { Business } from "./business";
 
-import { User } from "./user";
-export class ResponseUser {
+export class ResponseBusiness {
 
     constructor(
         public error: boolean,
         public code: number,
         public message:string,
-        public data: User){}
+        public data: Business[]){}
 }
+
+

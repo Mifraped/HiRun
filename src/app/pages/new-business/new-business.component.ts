@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
+import { Business } from 'src/app/models/business';
 import { Service} from 'src/app/models/service';
 import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { ResponseBusiness } from 'src/app/models/response-business';
 
 
 
@@ -39,7 +41,7 @@ export class NewBusinessComponent {
   services:Service[]=[]
 
   //El usuario logeado, que será el proveedor del negocio
-  user = this.userService.user
+  user = this.userService.user.userId
 
   //días de la semana
   week = [
@@ -156,25 +158,41 @@ deleteTimeframe(index){
 
 }
 
+addBusiness(newBusiness:Business){
+  this.businessService.postBusiness(newBusiness).subscribe((res:ResponseBusiness)=>{
+    console.log(res)
+    if (res.error){
+      alert(res.error)
+    }else{
+      alert('usuario creado')
+      this.businessService.business=null
+    }
+  })
+}
+
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 newBusiness() {
  
 if (this.services.length==0){
+  
   this.addServiceForm.get('title').markAsTouched()
  
   alert('añade al menos un servicio')
 }else if(this.timeFrameArray.length==0){
+  
   alert('indica tus franjas horarias')
 }else{
   
    let newBusiness = this.newBusinessForm.value;
-  newBusiness.services = this.services
-  newBusiness.tags = this.selectedCat
-  newBusiness.provider = this.user
-  newBusiness.otherFields=this.selectedOptions
-  newBusiness.timeframes =this.timeFrameArray
+   newBusiness.provider = this.user
+  // this.services
+  // this.selectedCat
+//  this.selectedOptions
+  //this.timeFrameArray
 
-  
+  console.log(newBusiness)
+  // llamada a la función que conecta con el servicio y la api
+  this.addBusiness(newBusiness)
 
   this.selectedCat=[];
   this.selectedOptions=[];

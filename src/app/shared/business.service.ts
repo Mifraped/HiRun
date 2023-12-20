@@ -3,11 +3,34 @@ import { Business } from '../models/business';
 import { User } from '../models/user';
 import { Service} from '../models/service';
 import { Category } from '../models/category';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusinessService {
+  
+  // private url = "https://api-hi-run.vercel.app/" 
+  private url = "http://localhost:3000/" 
+  
+  
+  constructor(private http: HttpClient) {
+    
+  }
+  
+  //nuevo negocio
+  postBusiness(newBusiness:Business){
+    return this.http.post(`${this.url}new-business`,newBusiness)
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',
     price: 75,
@@ -124,5 +147,5 @@ export class BusinessService {
     this.business4,
   ];
 
-  constructor() {}
+ 
 }

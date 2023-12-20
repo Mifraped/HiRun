@@ -45,11 +45,11 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
     this.password = password
     this.showForm1 = false
     this.showForm2 = true
-    console.log('paso1')
+    
   }
   
   registerUser(newUser:User){
-    console.log('paso3')
+    
     this.userService.postUser(newUser).subscribe((res:ResponseUser)=>{
       console.log(res)
       if (res.error){
