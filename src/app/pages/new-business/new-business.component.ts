@@ -42,7 +42,7 @@ export class NewBusinessComponent {
 
   //El usuario logeado, que será el proveedor del negocio
   // user = this.userService.user.userId
-  user = 4
+  user = 19
 
   //días de la semana
   week = [
