@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Category } from '../models/category';
 import { User } from '../models/user';
 import { Rate } from '../models/rate';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,19 @@ export class UserService {
   public connected: boolean = true;
   // public connected:boolean = false
 
+
+
+
+  constructor(private http: HttpClient) {}
+
+private url = "https://api-hi-run.vercel.app/" 
+//registro de un nuevo usuario
+postUser(newUser:User){
+  return this.http.post(`${this.url}register`,newUser)
+}
+
+
+   // de aquí abajo: BORRAR! valores inventados para pruebas
   user1: User = new User(
     'user1@example.com',
     '12345678',
@@ -19,10 +33,7 @@ export class UserService {
     12341234,
     'url'
   );
-
-  constructor() {}
-
-  // valores inventados para pruebas
+ 
   rate1 = new Rate(
     'Paco',
     'https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2018/03/nariz-selfie.jpg?tf=3840x',

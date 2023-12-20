@@ -1,4 +1,3 @@
-import { Category } from "./category";
 import { Rate } from "./rate";
 
 export class User {
@@ -12,8 +11,9 @@ export class User {
         public photo: string, //poner imagen por defecto
         public rates?: Rate[],
         public company?: string,
-        public preferences?: Category [],
         public userId?: number
     ) {}
 
 }
+
+//he quitado la parte de preferencias porque va en tabla aparte, dejo rates para que no se rompa, pero cuando hagamos la tabla habrá que quitarlo
