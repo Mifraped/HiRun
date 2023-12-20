@@ -13,7 +13,9 @@ export class SearchBarComponent {
 
   onSubmit(): void {
     this.filterService.getResults(this.searchTerm).subscribe(() => {
-      this.router.navigate(['/results']);
+      this.router.navigate(['/results'], {
+        queryParams: { searchTerm: this.searchTerm },
+      });
     });
   }
 }

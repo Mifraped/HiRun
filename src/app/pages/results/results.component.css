@@ -58,6 +58,12 @@
   gap: 60px;
 }
 
+.business-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
 /* ? Dialogo order-by  */
 
 .dialogo-order-by {

@@ -7,6 +7,7 @@ import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-results',
@@ -26,13 +27,19 @@ export class ResultsComponent implements OnInit {
     private dialogService: DialogService,
     private BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService,
-    private filterService: FiltersService
+    private filterService: FiltersService,
+    private route: ActivatedRoute
   ) {
     this.headerNavbarService.showHeader = true;
   }
 
   ngOnInit() {
-    this.results = this.filterService.results;
+    this.route.queryParams.subscribe((params) => {
+      const searchTerm = params['searchTerm'];
+      this.filterService.getResults(searchTerm).subscribe((results) => {
+        this.results = results;
+      });
+    });
 
     this.dialogService.closeDialog$.subscribe(() => {
       if (this.dialogRef) {
