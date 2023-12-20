@@ -26,8 +26,8 @@ export class UserService {
     return this.http.post(`${this.url}register`,newUser)
   }
 
-  public getRates():Observable<object>{
-    return this.http.get(this.url + `rates?id_user=${this.user.userId}`)
+  public getRates():Observable<object>{    
+    return this.http.get(this.url + `rates?id_user=${this.user.id_user}`)
   }
 
 

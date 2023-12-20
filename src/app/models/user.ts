@@ -11,7 +11,7 @@ export class User {
         public photo: string, //poner imagen por defecto
         public rates?: Rate[],
         public company?: string,
-        public userId?: number
+        public id_user?: number
     ) {}
 
 }

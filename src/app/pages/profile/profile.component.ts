@@ -23,6 +23,7 @@ export class ProfileComponent {
     public getRates(){
       this.userService.getRates().subscribe((resp:ResponseRates) => {
         this.userService.rates = resp.data
+        console.log(this.userService.rates);
       })
     }
 }
