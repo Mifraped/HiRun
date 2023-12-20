@@ -41,7 +41,8 @@ export class NewBusinessComponent {
   services:Service[]=[]
 
   //El usuario logeado, que será el proveedor del negocio
-  user = this.userService.user.userId
+  // user = this.userService.user.userId
+  user = 4
 
   //días de la semana
   week = [
@@ -164,7 +165,7 @@ addBusiness(newBusiness:Business){
     if (res.error){
       alert(res.error)
     }else{
-      alert('usuario creado')
+      alert('negocio creado')
       this.businessService.business=null
     }
   })
