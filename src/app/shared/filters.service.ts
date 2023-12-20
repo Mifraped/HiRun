@@ -7,8 +7,8 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class FiltersService {
-  private url = 'http://localhost:3000';
-  // private url = 'https://api-hi-run.vercel.app/';
+  // private url = 'http://localhost:3000';
+  private url = 'https://api-hi-run.vercel.app';
 
   constructor(private http: HttpClient) {}
 
