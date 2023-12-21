@@ -15,7 +15,8 @@
   <!-- separador -->
   <hr class="principal" />
   <!-- contenedor de targetas -->
-  <ng-container *ngIf="userService.requestedServices.length > 0; else noServices">
+  <ng-container
+    *ngIf="userService && userService.requestedServices && userService.requestedServices.length > 0; else noServices">
     <div class="cardContainer">
       <div class="cardHr" *ngFor="let service of userService.requestedServices; let last = last">
         <app-profile-business-card [servicePadre]="service"></app-profile-business-card>

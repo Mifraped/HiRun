@@ -27,8 +27,6 @@ export class ProfileComponent {
     public getBusiness(){
       return this.businesService.getBusiness().subscribe((resp: ResponseBusiness) => {
         this.businesService.logedUserBusinesses = resp.data
-        console.log(this.businesService.logedUserBusinesses);
-        
       })
     }
 
@@ -41,10 +39,6 @@ export class ProfileComponent {
     public getServices(){
       this.userService.getUserRequestedServices().subscribe((res: ResponseRequestedService) => {
         this.userService.requestedServices = res.data
-        console.log(res.data)
-        console.log(this.userService.requestedServices);
-        
-        
       })
     }
 }

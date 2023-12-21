@@ -34,7 +34,6 @@ export class LoginComponent {
         })  
       }
       else {
-        console.log("Error")
         alert(resp.message)
       }
     })

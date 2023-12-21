@@ -20,9 +20,13 @@ export class ProfileBusinessCardComponent {
   public page: string
   public status: string
 
-    ngOnInit(){
-      this.status = this.servicePadre.canceled == 0 ? "Pendiente" : "Cancelado"
+  ngOnInit() {
+    if (this.servicePadre && typeof this.servicePadre.canceled !== 'undefined') {
+      this.status = this.servicePadre.canceled === 0 ? "Pendiente" : "Cancelado";
+    } else {
+      this.status = "Estado no disponible";
     }
+  }
 
 
   public cambioFecha(date: string){
