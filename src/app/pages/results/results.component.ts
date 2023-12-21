@@ -39,6 +39,7 @@ export class ResultsComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['searchTerm'];
       const ratingFilter = params['rating'];
+      this.filtersService.updateSearchTerm(searchTerm); // update the searchTerm in the FiltersService
       this.filtersService
         .getResults(searchTerm, ratingFilter)
         .subscribe((results) => {

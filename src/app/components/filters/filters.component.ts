@@ -76,10 +76,13 @@ export class FiltersComponent implements OnInit {
 
   applyFilters() {
     const ratingFilter = this.filtersForm.get('rating').value;
-    this.filtersService.getResults(null, ratingFilter).subscribe((results) => {
-      this.results = results;
-      let queryParams = { rating: ratingFilter };
-      this.router.navigate(['/results'], { queryParams: queryParams });
-    });
+    const searchTerm = this.filtersService.getCurrentSearchTerm(); // get the current searchTerm
+    this.filtersService
+      .getResults(searchTerm, ratingFilter)
+      .subscribe((results) => {
+        this.results = results;
+        let queryParams = { searchTerm: searchTerm, rating: ratingFilter }; // include searchTerm in the query parameters
+        this.router.navigate(['/results'], { queryParams: queryParams });
+      });
   }
 }

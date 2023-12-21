@@ -9,6 +9,8 @@ import { tap } from 'rxjs/internal/operators/tap';
 export class FiltersService {
   private url = 'http://localhost:3000';
 
+  private searchTerm: string;
+
   constructor(private http: HttpClient) {}
 
   getNewestBusiness(): Observable<any> {
@@ -28,5 +30,13 @@ export class FiltersService {
     return this.http
       .get<any[]>(this.url + '/results', { params })
       .pipe(tap((results) => (this.searchResults = results)));
+  }
+
+  updateSearchTerm(searchTerm: string): void {
+    this.searchTerm = searchTerm;
+  }
+
+  getCurrentSearchTerm(): string {
+    return this.searchTerm;
   }
 }
