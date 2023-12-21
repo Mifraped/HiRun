@@ -43,7 +43,7 @@ import { ResultsComponent } from './pages/results/results.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HeaderNavbarService } from './shared/header-navbar.service';
 import { CommonModule } from '@angular/common';
-import { ToastrModule } from 'ngx-toastr';
+
 import { BookServiceComponent } from './pages/book-service/book-service.component';
 import { OrderByComponent } from './components/order-by/order-by.component';
 import { MatDialogModule } from '@angular/material/dialog';

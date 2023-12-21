@@ -55,8 +55,9 @@ export class FiltersService {
       // Check if maxPrice is not null or undefined
       params = params.set('maxPrice', maxPrice.toString());
     }
-    return this.http.get<any[]>(this.url + '/results', { params });
-    // .pipe(tap((results) => (this.searchResults = results)));
+    return this.http
+      .get<any[]>(this.url + '/results', { params })
+      .pipe(tap((results) => (this.searchResults = results)));
   }
 
   updateSearchTerm(searchTerm: string): void {
