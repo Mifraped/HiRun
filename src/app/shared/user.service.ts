@@ -9,14 +9,15 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class UserService {
-  public connected: boolean = false;
-  // public connected:boolean = false
-
-  public user: User;
-  public rates: Rate[];
-  private url = 'https://api-hi-run.vercel.app/';
-
-  constructor(private http: HttpClient) {}
+  
+  public connected: boolean
+  public user: User
+  public rates: Rate[]
+  private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
+  
+  constructor(private http: HttpClient) {
+  }
 
   public login(user: User): Observable<object> {
     return this.http.post(this.url + 'login', user);

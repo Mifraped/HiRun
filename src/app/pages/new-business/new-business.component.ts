@@ -17,6 +17,10 @@ import { ResponseBusCat } from 'src/app/models/response-bus-cat';
 import { TimeFrame } from 'src/app/models/time-frame';
 import { TimeframeService } from 'src/app/shared/timeframe.service';
 import { ResponseTimeframe } from 'src/app/models/response-timeframe';
+import { BusinessOpt } from 'src/app/models/business-opt';
+import { ResponseBusOpt } from 'src/app/models/response-bus-opt';
+import { OptionService } from 'src/app/shared/option.service';
+import { User } from 'src/app/models/user';
 
 
 
@@ -42,21 +46,21 @@ export class NewBusinessComponent implements OnInit {
   newId:number
 
   //opciones adicionales: pago en efcetivo, negocio a domicilio, etc
-  opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house'}
-  opt2 ={value:'Pago en efectivo', icon:'fa-solid fa-coins'}
-  opt3 ={value:'Pago con tarjeta', icon:'fa-regular fa-credit-card'}
-  opt4 ={value:'Otra opción extra', icon:'fa-solid fa-face-grin-stars'}
+  opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house', i:1}
+  opt2 ={value:'Servicio online', icon:'fa-solid fa-laptop', i:2}
+  opt3 ={value:'Pago con tarjeta', icon:'fa-regular fa-credit-card', i:3}
+  opt4 ={value:'Pago en efectivo', icon:'fa-solid fa-coins', i:4}
 
   allOptions = [this.opt1, this.opt2, this.opt3, this.opt4]
-  selectedOptions:string[] = []
+  // selectedOptions:string[] = []
+  selectedOptions:number[] = []
 
   //array de servicios, se inicializa vacío. Se popula con el form interno que hay dentro del otro form
   services:Service[]=[]
 
   //El usuario logeado, que será el proveedor del negocio
-  // user = this.userService.user.userId
-  user = 19
-
+  user:User
+  
   //días de la semana
   week = [
     {number: 1, initial:'L', name:'lunes'},
@@ -66,18 +70,16 @@ export class NewBusinessComponent implements OnInit {
     {number: 5, initial:'V', name:'viernes'},
     {number: 6, initial:'S', name:'sábado'},
     {number: 7, initial:'D', name:'domingo'}
-  
-]
+  ]
 
 //variable para ventana modal de timeframes
 timeFramesOpen: boolean=false
 
-
-
+//se inicializa vacío
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -91,26 +93,23 @@ timeFrameArray=[]
             this.allCat=res.data        
           }
         })
-  }
+       this.user = this.userService.user
+ }
   
-
-
-  // Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
+// Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
   onCheckboxChange(option: any): void {
-    const index = this.selectedOptions.indexOf(option.value);
+    const index = this.selectedOptions.indexOf(option.i);
   
     if (index !== -1) {
       // Si el valor ya está en el array, lo quitamos (deseleccionamos)
       this.selectedOptions.splice(index, 1);
     } else {
       // Si el valor no está en el array, lo agregamos (seleccionamos)
-      this.selectedOptions.push(option.value);
+      this.selectedOptions.push(option.i);
     }
 
-    console.log(this.selectedOptions)
   }
-  
-  
+
 //formulario interior de crear servicios
   private buildFormServices(){
     this.addServiceForm = this.formBuilder.group({
@@ -144,8 +143,6 @@ private buildFormBusiness(){
      })
 }
 
-
- 
 //Añadir/eliminar etiquetas
 catSelected(category){
   const i = this.selectedCat.indexOf(category)
@@ -180,56 +177,34 @@ deleteTimeframe(index){
 
 }
 
-addBusiness(newBusiness:Business){
-  console.log('add business OK')
-  this.businessService.postBusiness(newBusiness).subscribe((res:ResponseBusiness)=>{
-    console.log(res)
-    if (res.error){
-      alert(res.error)
-    }else{
-      
-      console.log(res.data)
-      this.newId= res.data[0].insertId
-   
-      //itera para crear los servicios dentro del negocio
-      for (let service of this.services){
-        service.id_business =this.newId
-        this.addNewService(service)
-      }
+ //crea el negocio
 
-      //itera para asignar categorías o etiquetas al negocio
-      if (this.selectedCat){
-        for (let cat of this.selectedCat){
-        
-        this.addNewBusinessCat(this.newId, cat.id_category)
+async addBusiness(newBusiness: Business): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    this.businessService.postBusiness(newBusiness).subscribe(
+      (res: ResponseBusiness) => {
+        console.log(res);
+        if (res.error) {
+          alert(res.error);
+          reject();
+        } else {
+          console.log(res.data);
+          this.newId = res.data[0].insertId;
+          console.log(this.newId);
+          resolve();
         }
+      },
+      (error) => {
+        console.error(error);
+        reject();
       }
-
-      console.log(this.timeFrameArray)
-      console.log(this.timeFrameArray[0])
-      // itera para añadir timeframes
-      for (let tf of this.timeFrameArray){
-        console.log(tf)
-        let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
-      
-        let strDays:string=""
-            for (let i=0; i<7; i++){
-            if (tf.days[i]) {
-             
-              strDays = strDays+this.week[i].initial;
-            }
-          }
-        
-          newTf.days=strDays
-          this.addNewTimeFrame(newTf)
-       
-      }
-
-      this.businessService.business=null
-    }
-  })
+    );
+  });
 }
 
+
+
+//añadir servicio
 addNewService(newService:Service){
   this.serviceService.postService(newService).subscribe((res:ResponseService)=>{
     console.log(res)
@@ -243,6 +218,16 @@ addNewService(newService:Service){
   })
 }
 
+//bucle servicios
+async addAllServices(){
+  for (let service of this.services){
+    service.id_business =this.newId
+     this.addNewService(service)
+  }
+}
+
+
+//añadir categorías (business-cat)
 addNewBusinessCat(bus:number, cat:number){
   let busCat: BusinessCat = new BusinessCat(bus,cat);
   this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseCategory)=>{
@@ -256,9 +241,38 @@ addNewBusinessCat(bus:number, cat:number){
     }
   })
 }
+async addAllCats(){
+  for (let cat of this.selectedCat){  
+    this.addNewBusinessCat(this.newId, cat.id_category)
+  }
+}
 
-addNewTimeFrame(tf:TimeFrame){
-  
+
+//añadir opciones (business-option)
+addNewBusinessOpt(bus:number, opt:number){
+  let busOpt:BusinessOpt = new BusinessOpt(bus, opt);
+  console.log(busOpt)
+  this.optionService.postBusinessOpt(busOpt).subscribe((res:ResponseBusOpt)=>{
+    console.log(res)
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{
+      console.log('opción añadida')
+    }
+  })
+}
+
+//bucle opciones
+async addAllBusOptions(){
+  for (let opt of this.selectedOptions){
+    this.addNewBusinessOpt(this.newId, opt)
+  }
+
+}
+
+//añadir franja horaria
+addNewTimeFrame(tf:TimeFrame){  
   this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
     console.log(res)
     if (res.error){
@@ -266,44 +280,70 @@ addNewTimeFrame(tf:TimeFrame){
       alert(res.error)
     }else{
       console.log('franja horaria añadida')
-      
     }
   })
 }
 
+//bucle timeframes
+async addAllTimeframes(){
+ for (let tf of this.timeFrameArray){
+  console.log(tf)
+  let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
 
+  let strDays:string=""
+      for (let i=0; i<7; i++){
+      if (tf.days[i]) {
+      
+        strDays = strDays+this.week[i].initial;
+      }
+    }
+  
+    newTf.days=strDays
+    this.addNewTimeFrame(newTf)
+} 
+}
 
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
-newBusiness() {
+async newBusiness() {
 
-if (this.services.length==0){
-  
-  this.addServiceForm.get('title').markAsTouched()
+  if (this.services.length==0){  
+    this.addServiceForm.get('title').markAsTouched() 
+    alert('añade al menos un servicio')
+  }else if(this.timeFrameArray.length==0){  
+    alert('indica tus franjas horarias')
+  }else{
+    let newBusiness = this.newBusinessForm.value;
+    newBusiness.provider = this.userService.user.id_user
+    newBusiness.photo='img por defecto'
  
-  alert('añade al menos un servicio')
-}else if(this.timeFrameArray.length==0){
-  
-  alert('indica tus franjas horarias')
-}else{
-  
-   let newBusiness = this.newBusinessForm.value;
-   newBusiness.provider = this.user
-   newBusiness.photo='img por defecto'
-  // this.services
-  // this.selectedCat
-//  this.selectedOptions
-  //this.timeFrameArray
+    // llamada a la función que conecta con el servicio y la api
+    await this.addBusiness(newBusiness)
+    console.log('newbusiness')
+    console.log(this.newId)
 
-  
-  // llamada a la función que conecta con el servicio y la api
-  this.addBusiness(newBusiness)
+    //itera para añadir los servicios dentro del negocio
+    await this.addAllServices()
+    console.log('services')
 
-  // this.selectedCat=[];
-  // this.selectedOptions=[];
-  // this.services=[]
-  // this.newBusinessForm.reset()
+  //itera para asignar categorías o etiquetas al negocio
+    if (this.selectedCat){
+      await this.addAllCats()
+    }
+    console.log('cats')
 
+    // itera para añadir timeframes
+    await this.addAllTimeframes()
+    console.log('timeframes')
+
+    await this.addAllBusOptions()
+    console.log('options')
+
+  this.selectedCat=[];
+  this.selectedOptions=[];
+  this.services=[]
+  this.newBusinessForm.reset()
+  this.router.navigate(['/service-provided'])
 }
 
  
