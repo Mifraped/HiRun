@@ -106,7 +106,7 @@
         <div id="b-l-news" class="line_blue"></div>
         <div class="news-cards">
           <app-business-card
-            *ngFor="let business of businesses"
+            *ngFor="let business of LatestBusinesses"
             [business]="business"
           ></app-business-card>
         </div>
@@ -125,7 +125,7 @@
         <div class="negocio_container">
           <app-business-card
             class="negocio_valorado"
-            *ngFor="let business of businesses"
+            *ngFor="let business of BestRatedBusinesses"
             [business]="business"
           ></app-business-card>
         </div>

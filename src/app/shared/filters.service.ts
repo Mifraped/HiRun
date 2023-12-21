@@ -21,6 +21,10 @@ export class FiltersService {
     return this.http.get(this.url + '/novedades');
   }
 
+  getPopularBusiness(): Observable<any> {
+    return this.http.get(this.url + '/bestRated');
+  }
+
   searchResults: any[];
 
   getResults(
@@ -40,7 +44,7 @@ export class FiltersService {
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
-    if (ratingFilter) {
+    if (ratingFilter > 0) {
       params = params.set('rating', ratingFilter);
     }
     if (minPrice != null) {

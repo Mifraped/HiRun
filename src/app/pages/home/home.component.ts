@@ -42,7 +42,8 @@ import { FiltersService } from 'src/app/shared/filters.service';
 })
 export class HomeComponent implements OnInit {
   @Input() business: any;
-  businesses: Business[] = [];
+  LatestBusinesses: Business[] = [];
+  BestRatedBusinesses: Business[] = [];
   negocio1: Business = this.BusinessService.business;
 
   faqItems = [
@@ -78,7 +79,37 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.FiltersService.getNewestBusiness().subscribe((business) => {
-      this.businesses = business.map(
+      this.LatestBusinesses = business.map(
+        ({
+          provider,
+          title,
+          photo,
+          rating,
+          location,
+          phoneNumber,
+          providerName,
+          providerSurname,
+          price,
+          description,
+          userPhoto,
+        }) => ({
+          provider,
+          title,
+          photo,
+          rating,
+          location,
+          phoneNumber,
+          providerName,
+          providerSurname,
+          price,
+          description,
+          userPhoto,
+        })
+      );
+    });
+
+    this.FiltersService.getPopularBusiness().subscribe((business) => {
+      this.BestRatedBusinesses = business.map(
         ({
           provider,
           title,
