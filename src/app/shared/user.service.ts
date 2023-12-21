@@ -14,6 +14,7 @@ export class UserService {
   public user: User
   public rates: Rate[]
   private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
   
   constructor(private http: HttpClient) {
   }
@@ -27,7 +28,7 @@ export class UserService {
   }
 
   public getRates():Observable<object>{
-    return this.http.get(this.url + `rates?id_user=${this.user.userId}`)
+    return this.http.get(this.url + `rates?id_user=${this.user.id_user}`)
   }
 
 
