@@ -26,7 +26,8 @@
         <div class="rating">
           <!-- contenedor de las estrellas -->
           <div class="stars">
-            <star-rating [starType]="'svg'" [rating]="4" staticColor="ok" size="medium" [readOnly]="true"></star-rating>
+            <star-rating [starType]="'svg'" [rating]="userService.user.rate" staticColor="ok" size="medium"
+              [readOnly]="true"></star-rating>
           </div>
           <!-- numero de valoraciones -->
           <div class="rates">
@@ -74,7 +75,7 @@
         </div>
       </a>
       <!-- enlace valoraciones -->
-      <a class="profileLink" routerLink="/ratings">
+      <a class="profileLink" routerLink="/ratings" (click)="getRates()">
         <div class="icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
             <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"
@@ -110,7 +111,7 @@
         </div>
       </a>
       <!-- enlace negocios pedidos -->
-      <a class="profileLink" routerLink="/requested-service">
+      <a class="profileLink" routerLink="/requested-service" (click)="getServices()">
         <div class="icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
             <path fill="currentColor"

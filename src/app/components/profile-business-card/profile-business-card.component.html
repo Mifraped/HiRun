@@ -1,7 +1,8 @@
 <div class="principal">
   <div class="cont">
     <div class="photoBusiness">
-      <img id="imgBusiness" src="{{negocioPadre.photo}}" />
+      <img *ngIf="page === 'activos'" id="imgBusiness" src="{{negocioPadre.photo}}" />
+      <img *ngIf="page === 'solicitados'" id="imgBusiness" src="{{servicePadre.businessPhoto}}" />
     </div>
     <!-- contenedor nombre del servicio y datos del negocio -->
     <div class="data">
@@ -19,7 +20,7 @@
                   ? 'var(--orange)'
                   : 'var(--green)'
             }">{{ status }}</span>
-          el 24 de dicciembre</span>
+          {{"el "+ cambioFecha(servicePadre.date)}}</span>
       </ng-container>
       <!-- en caso de que la pagina sea negocios activos se muestra la valoracion del negocio -->
       <ng-container *ngIf="page === 'activos'">
@@ -37,7 +38,7 @@
       <!-- caso de que la pagina sea "solicitados" -->
       <ng-container class="photoPrice" *ngIf="page === 'solicitados'">
         <div class="photoUser">
-          <img id="photoUser" src="../../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif" />
+          <img id="photoUser" src="{{servicePadre.userPhoto}}" />
         </div>
         <span class="price">{{ servicePadre.price }}€</span>
       </ng-container>

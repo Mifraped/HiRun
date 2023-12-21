@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { Rate } from '../models/rate';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RequestedService } from '../models/requested-service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class UserService {
   public connected: boolean
   public user: User
   public rates: Rate[]
+  public requestedServices: RequestedService[]
   private url = "https://api-hi-run.vercel.app/" 
   
   constructor(private http: HttpClient) {
@@ -28,6 +30,10 @@ export class UserService {
 
   public getRates():Observable<object>{    
     return this.http.get(this.url + `rates?id_user=${this.user.id_user}`)
+  }
+
+  public getUserRequestedServices():Observable<object>{
+    return this.http.get(this.url + `service?id_user=${this.user.id_user}`)
   }
 
 

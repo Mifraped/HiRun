@@ -28,10 +28,10 @@
 
 /* contenedor del nombre del servicio y los datos dependiendo si estas en una pagina u otra */
 .data {
-    padding-top: 12px;
     display: flex;
     flex-direction: column;
     width: 50%;
+    justify-content: flex-start;
 }
 
 /* nombre del servicio */
