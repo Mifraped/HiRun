@@ -41,6 +41,8 @@ export class FiltersComponent implements OnInit {
   sliderValues: number[] = [20, 80];
 
   ngOnInit() {
+    this.filtersService.minPrice = 0;
+    this.filtersService.maxPrice = 100;
     this.form = this.fb.group({
       categories: this.fb.array([]),
     });
@@ -64,21 +66,16 @@ export class FiltersComponent implements OnInit {
       },
     });
 
-    // Listen for the 'update' event
     slider.on('update', (values, handle) => {
-      // Convert the slider values to numbers
       const minPrice = Number(values[0]);
       const maxPrice = Number(values[1]);
 
-      // Update minPrice and maxPrice in the FiltersService
       this.filtersService.minPrice = minPrice;
       this.filtersService.maxPrice = maxPrice;
 
-      // Get searchTerm and rating from the FiltersService
       const searchTerm = this.filtersService.searchTerm;
       const rating = this.filtersService.rating;
 
-      // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
         .getResults(searchTerm, Number(rating), minPrice, maxPrice)
         .subscribe((results) => {
@@ -97,8 +94,9 @@ export class FiltersComponent implements OnInit {
   }
 
   applyFilters() {
-    const ratingFilter = Number(this.filtersForm.get('rating').value); // Convert to number
-    const searchTerm = this.filtersService.getCurrentSearchTerm(); // get the current searchTerm
+    console.log('applyFilters called');
+    const ratingFilter = Number(this.filtersForm.get('rating').value);
+    const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
 
@@ -108,10 +106,16 @@ export class FiltersComponent implements OnInit {
         this.results = results;
         let queryParams = {
           searchTerm: searchTerm,
-          rating: ratingFilter,
           minPrice: minPrice,
           maxPrice: maxPrice,
-        }; // include searchTerm, minPrice, and maxPrice in the query parameters
+          rating: ratingFilter,
+        };
+
+        console.log('searchTerm:', searchTerm);
+        console.log('minPrice:', minPrice);
+        console.log('maxPrice:', maxPrice);
+        console.log('ratingFilter:', ratingFilter);
+
         this.router.navigate(['/results'], { queryParams: queryParams });
       });
   }

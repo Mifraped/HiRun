@@ -12,8 +12,8 @@ export class FiltersService {
 
   public searchTerm: string;
   public rating: string;
-  private _minPrice: number = 0;
-  private _maxPrice: number = 100;
+  public minPrice: number = 0;
+  public maxPrice: number = 100;
 
   constructor(private http: HttpClient) {}
 
@@ -55,9 +55,8 @@ export class FiltersService {
       // Check if maxPrice is not null or undefined
       params = params.set('maxPrice', maxPrice.toString());
     }
-    return this.http
-      .get<any[]>(this.url + '/results', { params })
-      .pipe(tap((results) => (this.searchResults = results)));
+    return this.http.get<any[]>(this.url + '/results', { params });
+    // .pipe(tap((results) => (this.searchResults = results)));
   }
 
   updateSearchTerm(searchTerm: string): void {
@@ -66,21 +65,5 @@ export class FiltersService {
 
   getCurrentSearchTerm(): string {
     return this.searchTerm;
-  }
-
-  get minPrice(): number {
-    return this._minPrice;
-  }
-
-  set minPrice(value: number) {
-    this._minPrice = value;
-  }
-
-  get maxPrice(): number {
-    return this._maxPrice;
-  }
-
-  set maxPrice(value: number) {
-    this._maxPrice = value;
   }
 }
