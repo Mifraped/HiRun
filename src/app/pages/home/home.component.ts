@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
+          id_business
         }) => ({
           provider,
           title,
@@ -104,6 +105,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
+          id_business
         })
       );
     });
@@ -122,6 +124,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
+          id_business
         }) => ({
           provider,
           title,
@@ -134,6 +137,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
+          id_business
         })
       );
     });

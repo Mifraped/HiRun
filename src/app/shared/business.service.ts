@@ -30,6 +30,12 @@ export class BusinessService {
     );
   }
 
+  public getBusinessById(id:number):Observable<object> {
+    return this.http.get(
+      this.url + `business?id_business=${id}`
+    );
+  }
+
   //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',
@@ -108,7 +114,7 @@ export class BusinessService {
   ];
 
   business: Business = {
-    provider: this.provider,
+    provider: 1,
     title: 'Business example 1',
     services: [this.service1, this.service2, this.service3],
     photo: '../../../assets/business_img/example.jpg',
@@ -116,7 +122,7 @@ export class BusinessService {
     tags: [this.cat11, this.cat12, this.cat16],
   };
   business2: Business = {
-    provider: this.provider,
+    provider: 1,
     title: 'Business example 2',
     services: [this.service1, this.service2, this.service3],
     photo: '../../../assets/business_img/example.jpg',
@@ -124,7 +130,7 @@ export class BusinessService {
     tags: [this.cat1, this.cat10],
   };
   business3: Business = {
-    provider: this.provider,
+    provider: 1,
     title: 'Business example 3',
     services: [this.service1, this.service2, this.service3],
     photo: '../../../assets/business_img/example.jpg',
@@ -132,7 +138,7 @@ export class BusinessService {
     tags: [this.cat11, this.cat12, this.cat16],
   };
   business4: Business = {
-    provider: this.provider,
+    provider: 1,
     title: 'Business example 4',
     services: [this.service1, this.service2, this.service3],
     photo: '../../../assets/business_img/example.jpg',

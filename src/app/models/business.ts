@@ -9,16 +9,16 @@ export class Business {
   public price?: number;
   public description?: string;
   public userPhoto?: string;
+  public tags?: Category[];
   constructor(
-    public provider: User,
+    public provider: number,
     public title: string,
     public services: Service[],
-    // public timeFrames: Timeframe[]; //pendiente de definir clase
+    
     public photo: string, //poner imagen por defecto
 
     public rating: number = -1,
-    public tags?: Category[],
-    // public otherOptions?: string[], //pendiente de definir las opciones
-    public businessId?: number
+    
+    public id_business?: number
   ) {}
 }
