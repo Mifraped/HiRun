@@ -11,8 +11,8 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class BusinessService {
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = 'http://localhost:3000/';
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = 'http://localhost:3000/';
 
   public logedUserBusinesses: Business[];
 
@@ -27,6 +27,12 @@ export class BusinessService {
   public getBusiness(): Observable<object> {
     return this.http.get(
       this.url + `business?id_user=${this.userService.user.id_user}`
+    );
+  }
+
+  public getBusinessById(id):Observable<object> {
+    return this.http.get(
+      this.url + `business?id_business=${id}`
     );
   }
 

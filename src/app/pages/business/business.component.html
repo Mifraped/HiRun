@@ -18,10 +18,10 @@
     </div>
     <div class="providerInfo">
       <div class="img-container--profile">
-        <img src="{{ business.provider.photo }}" alt="" />
+        <img src="{{ userPic }}" alt="" />
       </div>
 
-      <p>{{ business.provider.name }} {{ business.provider.surname }}</p>
+      <p>{{ name }} {{ surname }}</p>
 
       <app-service-rating [ratingInput]="business.rating"></app-service-rating>
     </div>
