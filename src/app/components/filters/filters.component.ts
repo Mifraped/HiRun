@@ -9,6 +9,7 @@ import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FiltersService } from 'src/app/shared/filters.service';
 
 @Component({
   selector: 'app-filters',
@@ -17,6 +18,11 @@ import { Router } from '@angular/router';
   encapsulation: ViewEncapsulation.None,
 })
 export class FiltersComponent implements OnInit {
+  results: any[];
+  filtersForm = this.fb.group({
+    rating: [''],
+  });
+
   form: FormGroup;
   categories = [
     'Category 1',
@@ -26,7 +32,11 @@ export class FiltersComponent implements OnInit {
     'Category 5',
     'Category 6',
   ];
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private filtersService: FiltersService
+  ) {}
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
   sliderValues: number[] = [20, 80];
 
@@ -34,6 +44,8 @@ export class FiltersComponent implements OnInit {
     this.form = this.fb.group({
       categories: this.fb.array([]),
     });
+
+    this.results = this.filtersService.searchResults;
 
     this.categories.forEach(() => {
       const control = this.fb.control(false);
@@ -60,5 +72,14 @@ export class FiltersComponent implements OnInit {
 
   getClass(url: string) {
     return this.router.url.includes(url) ? 'first-other' : 'hola';
+  }
+
+  applyFilters() {
+    const ratingFilter = this.filtersForm.get('rating').value;
+    this.filtersService.getResults(null, ratingFilter).subscribe((results) => {
+      this.results = results;
+      let queryParams = { rating: ratingFilter };
+      this.router.navigate(['/results'], { queryParams: queryParams });
+    });
   }
 }

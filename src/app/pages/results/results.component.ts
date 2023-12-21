@@ -8,6 +8,7 @@ import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-results',
@@ -27,24 +28,32 @@ export class ResultsComponent implements OnInit {
     private dialogService: DialogService,
     private BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService,
-    private filterService: FiltersService,
-    private route: ActivatedRoute
+    private filtersService: FiltersService,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) {
     this.headerNavbarService.showHeader = true;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['searchTerm'];
-      this.filterService.getResults(searchTerm).subscribe((results) => {
-        this.results = results;
-      });
-    });
-
-    this.dialogService.closeDialog$.subscribe(() => {
-      if (this.dialogRef) {
-        this.dialogRef.close();
-      }
+      const ratingFilter = params['rating'];
+      this.filtersService
+        .getResults(searchTerm, ratingFilter)
+        .subscribe((results) => {
+          this.results = results;
+          if (results.length === 0) {
+            this.snackBar.open(
+              'No results matching your search were found.',
+              'Close',
+              {
+                duration: 2000,
+                panelClass: ['snackbar-result'],
+              }
+            );
+          }
+        });
     });
   }
 

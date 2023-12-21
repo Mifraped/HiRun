@@ -8,14 +8,17 @@ import { FiltersService } from 'src/app/shared/filters.service';
   styleUrls: ['./search-bar.component.css'],
 })
 export class SearchBarComponent {
-  searchTerm: string;
+  searchTerm: string = '';
   constructor(private router: Router, private filterService: FiltersService) {}
 
   onSubmit(): void {
-    this.filterService.getResults(this.searchTerm).subscribe(() => {
-      this.router.navigate(['/results'], {
-        queryParams: { searchTerm: this.searchTerm },
-      });
+    if (this.searchTerm.trim() === '') {
+      return;
+    }
+
+    this.filterService.getResults(this.searchTerm).subscribe((results) => {
+      let queryParams = { searchTerm: this.searchTerm };
+      this.router.navigate(['/results'], { queryParams: queryParams });
     });
   }
 }

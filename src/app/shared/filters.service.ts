@@ -1,14 +1,13 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap } from 'rxjs/internal/operators/tap';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FiltersService {
-  // private url = 'http://localhost:3000';
-  private url = 'https://api-hi-run.vercel.app';
+  private url = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
@@ -16,11 +15,18 @@ export class FiltersService {
     return this.http.get(this.url + '/novedades');
   }
 
-  results: any[];
+  searchResults: any[];
 
-  getResults(searchTerm: string): Observable<any> {
+  getResults(searchTerm?: string, ratingFilter?: string) {
+    let params = new HttpParams();
+    if (searchTerm) {
+      params = params.set('searchTerm', searchTerm);
+    }
+    if (ratingFilter) {
+      params = params.set('rating', ratingFilter);
+    }
     return this.http
-      .get(`${this.url}/results?searchTerm=${encodeURIComponent(searchTerm)}`)
-      .pipe(tap((results) => (this.results = results)));
+      .get<any[]>(this.url + '/results', { params })
+      .pipe(tap((results) => (this.searchResults = results)));
   }
 }

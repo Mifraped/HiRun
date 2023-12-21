@@ -152,3 +152,29 @@ li {
 .fc-col-header {
   border: none;
 }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* ! Estilos para MatSnackBar  */
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-result {
+    --mdc-snackbar-container-color: var(--green);
+    --mat-mdc-snack-bar-button-color: var(--black);
+    --mdc-snackbar-supporting-text-color: var(--black);
+
+    /* Add these lines to center the snack bar */
+    position: fixed !important;
+    top: 30% !important;
+    left: 48% !important;
+    width: 300px;
+    transform: translate(-50%, -50%) !important;
+  }
+}

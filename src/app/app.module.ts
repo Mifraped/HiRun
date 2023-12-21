@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,7 +28,7 @@ import { BusinessComponent } from './pages/business/business.component';
 import { BusinessCardComponent } from './components/business-card/business-card.component';
 import { ServiceRatingComponent } from './components/service-rating/service-rating.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileBusinessCardComponent } from './components/profile-business-card/profile-business-card.component';
 import { ServiceCardComponent } from './components/service-card/service-card.component';
 import { EditBusinessComponent } from './pages/edit-business/edit-business.component';
@@ -43,7 +43,7 @@ import { ResultsComponent } from './pages/results/results.component';
 import { FiltersComponent } from './components/filters/filters.component';
 import { HeaderNavbarService } from './shared/header-navbar.service';
 import { CommonModule } from '@angular/common';
-
+import { ToastrModule } from 'ngx-toastr';
 import { BookServiceComponent } from './pages/book-service/book-service.component';
 import { OrderByComponent } from './components/order-by/order-by.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -51,6 +51,8 @@ import { ChatCardComponent } from './components/chat-card/chat-card.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FiltersService } from './shared/filters.service';
+
+import { Router } from 'express';
 @NgModule({
   declarations: [
     AppComponent,
@@ -82,10 +84,8 @@ import { FiltersService } from './shared/filters.service';
     RatingCardComponent,
     BookServiceComponent,
     OrderByComponent,
-
     ChatCardComponent,
     ChatPageComponent,
-
     ServiceCardComponent,
     TimeframeModalComponent,
     ProfileBusinessCardComponent,
@@ -103,6 +103,8 @@ import { FiltersService } from './shared/filters.service';
     CommonModule,
     MatDialogModule,
     HttpClientModule,
+    RouterModule,
+    MatSnackBarModule,
   ],
 
   providers: [HeaderNavbarService, FiltersService],
