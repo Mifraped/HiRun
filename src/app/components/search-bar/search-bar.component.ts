@@ -16,9 +16,18 @@ export class SearchBarComponent {
       return;
     }
 
-    this.filterService.getResults(this.searchTerm).subscribe((results) => {
-      let queryParams = { searchTerm: this.searchTerm };
-      this.router.navigate(['/results'], { queryParams: queryParams });
-    });
+    const minPrice = this.filterService.minPrice;
+    const maxPrice = this.filterService.maxPrice;
+
+    this.filterService
+      .getResults(this.searchTerm, null, minPrice, maxPrice)
+      .subscribe((results) => {
+        let queryParams = {
+          searchTerm: this.searchTerm,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+        };
+        this.router.navigate(['/results'], { queryParams: queryParams });
+      });
   }
 }

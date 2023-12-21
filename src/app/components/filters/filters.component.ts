@@ -66,9 +66,13 @@ export class FiltersComponent implements OnInit {
 
     // Listen for the 'update' event
     slider.on('update', (values, handle) => {
-      // values is an array with the current slider values
-      const minPrice = values[0];
-      const maxPrice = values[1];
+      // Convert the slider values to numbers
+      const minPrice = Number(values[0]);
+      const maxPrice = Number(values[1]);
+
+      // Update minPrice and maxPrice in the FiltersService
+      this.filtersService.minPrice = minPrice;
+      this.filtersService.maxPrice = maxPrice;
 
       // Get searchTerm and rating from the FiltersService
       const searchTerm = this.filtersService.searchTerm;
@@ -76,7 +80,7 @@ export class FiltersComponent implements OnInit {
 
       // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, rating, minPrice, maxPrice)
+        .getResults(searchTerm, Number(rating), minPrice, maxPrice)
         .subscribe((results) => {
           this.results = results;
         });
@@ -93,13 +97,21 @@ export class FiltersComponent implements OnInit {
   }
 
   applyFilters() {
-    const ratingFilter = this.filtersForm.get('rating').value;
+    const ratingFilter = Number(this.filtersForm.get('rating').value); // Convert to number
     const searchTerm = this.filtersService.getCurrentSearchTerm(); // get the current searchTerm
+    const minPrice = this.filtersService.minPrice;
+    const maxPrice = this.filtersService.maxPrice;
+
     this.filtersService
-      .getResults(searchTerm, ratingFilter)
+      .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
       .subscribe((results) => {
         this.results = results;
-        let queryParams = { searchTerm: searchTerm, rating: ratingFilter }; // include searchTerm in the query parameters
+        let queryParams = {
+          searchTerm: searchTerm,
+          rating: ratingFilter,
+          minPrice: minPrice,
+          maxPrice: maxPrice,
+        }; // include searchTerm, minPrice, and maxPrice in the query parameters
         this.router.navigate(['/results'], { queryParams: queryParams });
       });
   }

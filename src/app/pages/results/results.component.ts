@@ -39,10 +39,15 @@ export class ResultsComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['searchTerm'];
       const ratingFilter = params['rating'];
+      const minPrice = Number(params['minPrice']); // convert to number
+      const maxPrice = Number(params['maxPrice']); // convert to number
+
       this.filtersService.updateSearchTerm(searchTerm); // update the searchTerm in the FiltersService
+
       this.filtersService
-        .getResults(searchTerm, ratingFilter)
+        .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
         .subscribe((results) => {
+          console.log('results:', results); // Log the results
           this.results = results;
           if (results.length === 0) {
             this.snackBar.open(

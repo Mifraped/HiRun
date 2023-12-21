@@ -7,10 +7,13 @@ import { tap } from 'rxjs/internal/operators/tap';
   providedIn: 'root',
 })
 export class FiltersService {
-  // private url = 'http://localhost:3000';
-  private url = 'https://api-hi-run.vercel.app';
+  private url = 'http://localhost:3000';
+  // private url = 'https://api-hi-run.vercel.app';
 
-  private searchTerm: string;
+  public searchTerm: string;
+  public rating: string;
+  private _minPrice: number = 0;
+  private _maxPrice: number = 100;
 
   constructor(private http: HttpClient) {}
 
@@ -21,11 +24,18 @@ export class FiltersService {
   searchResults: any[];
 
   getResults(
-    searchTerm?: string,
-    ratingFilter?: string,
-    minPrice?: number,
-    maxPrice?: number
+    searchTerm: string,
+    ratingFilter: number,
+    minPrice: number,
+    maxPrice: number
   ) {
+    console.log('getResults called'); // Log at the start of the function
+
+    console.log('searchTerm:', searchTerm); // Log outside the if condition
+    console.log('ratingFilter:', ratingFilter); // Log outside the if condition
+    console.log('minPrice:', minPrice); // Log outside the if condition
+    console.log('maxPrice:', maxPrice); // Log outside the if condition
+
     let params = new HttpParams();
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
@@ -33,10 +43,12 @@ export class FiltersService {
     if (ratingFilter) {
       params = params.set('rating', ratingFilter);
     }
-    if (minPrice) {
+    if (minPrice != null) {
+      // Check if minPrice is not null or undefined
       params = params.set('minPrice', minPrice.toString());
     }
-    if (maxPrice) {
+    if (maxPrice != null) {
+      // Check if maxPrice is not null or undefined
       params = params.set('maxPrice', maxPrice.toString());
     }
     return this.http
@@ -50,5 +62,21 @@ export class FiltersService {
 
   getCurrentSearchTerm(): string {
     return this.searchTerm;
+  }
+
+  get minPrice(): number {
+    return this._minPrice;
+  }
+
+  set minPrice(value: number) {
+    this._minPrice = value;
+  }
+
+  get maxPrice(): number {
+    return this._maxPrice;
+  }
+
+  set maxPrice(value: number) {
+    this._maxPrice = value;
   }
 }
