@@ -1,6 +1,6 @@
 <main class="container--ext">
   <div class="img-container">
-    <img src="{{ business.photo }}" alt="" />
+    <img src="{{ business?.photo }}" alt="" />
     <div class="imgGradient">
       <!-- va a la home, modificar cuando esté la página de resultados -->
       <button routerLink="/">
@@ -8,7 +8,7 @@
         <span class="material-symbols-outlined"> arrow_back_ios </span>
       </button>
 
-      <h1>{{ business.title }}</h1>
+      <h1>{{ business?.title }}</h1>
 
       <!-- compartir por whatsapp: cuando la web esté lista modificar en enlace para que se envíe el negocio en cuestión -->
       <a
@@ -18,12 +18,12 @@
     </div>
     <div class="providerInfo">
       <div class="img-container--profile">
-        <img src="{{ userPic }}" alt="" />
+        <img src="{{ provider?.photo }}" alt="" />
       </div>
 
-      <p>{{ name }} {{ surname }}</p>
+      <p>{{ provider?.name }} {{ provider?.surname }}</p>
 
-      <app-service-rating [ratingInput]="business.rating"></app-service-rating>
+      <app-service-rating [ratingInput]="business?.rating"></app-service-rating>
     </div>
   </div>
 

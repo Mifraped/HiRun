@@ -20,4 +20,9 @@ export class ServiceService {
     
     return this.http.post(`${this.url}service`, newService)
   }
+
+  getAllServices(id_business:number):Observable<object>{
+    
+    return this.http.get(`${this.url}service?id_business=${id_business}`)
+  }
 }

@@ -8,6 +8,9 @@ import { ActivatedRoute } from '@angular/router';
 import { ResponseBusiness } from 'src/app/models/response-business';
 import { Service } from 'src/app/models/service';
 import { User } from 'src/app/models/user';
+import { ServiceService } from 'src/app/shared/service.service';
+import { ResponseService } from 'src/app/models/response-service';
+import { ResponseUser } from 'src/app/models/response-user';
 
 @Component({
   selector: 'app-business',
@@ -16,26 +19,18 @@ import { User } from 'src/app/models/user';
 })
 export class BusinessComponent {
 
-
-
-// business = this.businessService.business
 business:Business
 
 services: Service[]
 
-providerId:number
-provider:User
-name:string
-surname:string
-userPic:string
+provider: User
+providerId: number
 
-
-
-constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute) { 
+constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService) { 
   this.headerNavbarService.showHeader=true
   this.headerNavbarService.showNavbar=true }
 
-contactProvider(){
+contactProvider(){ 
 
   if (this.userService.connected){
 
@@ -44,28 +39,47 @@ contactProvider(){
     alert('inicia sesión para contactar con el vendedor')
     this.router.navigate(['/login'])
   }
-  //pendiente lógica, tiene que llevarte a chat con el usuario business.provider
+  // pendiente lógica, tiene que llevarte a chat con el usuario business.provider
 }
 
-ngOnInit(): void {
+ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id_business');
   
-const data=this.businessService.getBusinessById(id).subscribe((res:ResponseBusiness)=>{
+  this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
+    
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{    
+      this.business=res.data[0]
+      this.providerId=res.data[0].provider
+
+      this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
+        
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{    
+          this.provider=res.data[0]
+         
+        }
+      })
+      
+    }
+  })
+
+  this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
+    
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{    
+      this.services=res.data
+    }
+    
+  })
+
   
-  if (res.error){
-    console.log('error')
-    alert(res.error)
-  }else{
-    console.log(res.data)
-    return res.data
-  }
-})
-
-this.business=data[0]
-
-
-
-
 }
 
 

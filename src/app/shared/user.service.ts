@@ -13,8 +13,8 @@ export class UserService {
   public connected: boolean
   public user: User
   public rates: Rate[]
-  // private url = "https://api-hi-run.vercel.app/" 
-  private url = "http://localhost:3000/" 
+  private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
   
   constructor(private http: HttpClient) {
   }
@@ -32,7 +32,7 @@ export class UserService {
   }
 
   public getUserInfo(id:number): Observable<object>{
-    return this.http.get(`${this.url}/user?id_user=${id}`)
+    return this.http.get(`${this.url}user?id_user=${id}`)
   }
 
   //comprobado que con api local y web local funciona

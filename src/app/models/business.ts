@@ -11,7 +11,7 @@ export class Business {
   public userPhoto?: string;
   public tags?: Category[];
   constructor(
-    public provider: User,
+    public provider: number,
     public title: string,
     public services: Service[],
     
