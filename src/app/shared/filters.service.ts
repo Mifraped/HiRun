@@ -20,13 +20,24 @@ export class FiltersService {
 
   searchResults: any[];
 
-  getResults(searchTerm?: string, ratingFilter?: string) {
+  getResults(
+    searchTerm?: string,
+    ratingFilter?: string,
+    minPrice?: number,
+    maxPrice?: number
+  ) {
     let params = new HttpParams();
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
     if (ratingFilter) {
       params = params.set('rating', ratingFilter);
+    }
+    if (minPrice) {
+      params = params.set('minPrice', minPrice.toString());
+    }
+    if (maxPrice) {
+      params = params.set('maxPrice', maxPrice.toString());
     }
     return this.http
       .get<any[]>(this.url + '/results', { params })

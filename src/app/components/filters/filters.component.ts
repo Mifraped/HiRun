@@ -63,6 +63,24 @@ export class FiltersComponent implements OnInit {
         max: 100,
       },
     });
+
+    // Listen for the 'update' event
+    slider.on('update', (values, handle) => {
+      // values is an array with the current slider values
+      const minPrice = values[0];
+      const maxPrice = values[1];
+
+      // Get searchTerm and rating from the FiltersService
+      const searchTerm = this.filtersService.searchTerm;
+      const rating = this.filtersService.rating;
+
+      // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
+      this.filtersService
+        .getResults(searchTerm, rating, minPrice, maxPrice)
+        .subscribe((results) => {
+          this.results = results;
+        });
+    });
   }
 
   selectCategory(index: number) {
