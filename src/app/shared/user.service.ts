@@ -16,38 +16,32 @@ export class UserService {
   public rates: Rate[]
   public requestedServices: RequestedService[]
   private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
   
   constructor(private http: HttpClient) {
   }
 
-  public login(user: User):Observable<object>{    
-    return this.http.post(this.url + "login", user)
+  public login(user: User): Observable<object> {
+    return this.http.post(this.url + 'login', user);
   }
 
-  postUser(newUser:User){
-    return this.http.post(`${this.url}register`,newUser)
+  postUser(newUser: User) {
+    return this.http.post(`${this.url}register`, newUser);
   }
 
-  public getRates():Observable<object>{    
-    return this.http.get(this.url + `rates?id_user=${this.user.id_user}`)
+  public getRates(): Observable<object> {
+    return this.http.get(this.url + `rates?id_user=${this.user.id_user}`);
   }
 
   public getUserRequestedServices():Observable<object>{
     return this.http.get(this.url + `service?id_user=${this.user.id_user}`)
   }
 
+  //comprobado que con api local y web local funciona
+  // private url = "http://localhost:3000/"
+  //registro de un nuevo usuario
 
-
-
-
-
-
-//comprobado que con api local y web local funciona
-// private url = "http://localhost:3000/" 
-//registro de un nuevo usuario
-
-
-   // de aquí abajo: BORRAR! valores inventados para pruebas
+  // de aquí abajo: BORRAR! valores inventados para pruebas
   user1: User = new User(
     'user1@example.com',
     '12345678',
@@ -57,8 +51,6 @@ export class UserService {
     12341234,
     'url'
   );
-
-
 
   // valores inventados para pruebas
   rate1 = new Rate(
@@ -92,12 +84,39 @@ export class UserService {
   //   rates: [this.rate1, this.rate2, this.rate3],
   // };
 
- 
-  public user2: User = {email:'a@mail', password:'Aa111111', name:'Leopoldo', surname:'Gutiérrez',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate1]}
-  public user3: User = {email:'a@mail', password:'Aa111111', name:'Elena', surname:'Fernández',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate2]}
-  public user4: User = {email:'a@mail', password:'Aa111111', name:'Conchi', surname:'García',phoneNumber: 123, location:'28029, Madrid', photo: '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif', rates: [this.rate2, this.rate3]}
+  public user2: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Leopoldo',
+    surname: 'Gutiérrez',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate1],
+  };
+  public user3: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Elena',
+    surname: 'Fernández',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate2],
+  };
+  public user4: User = {
+    email: 'a@mail',
+    password: 'Aa111111',
+    name: 'Conchi',
+    surname: 'García',
+    phoneNumber: 123,
+    location: '28029, Madrid',
+    photo:
+      '../../assets/img/primer-plano-mujer-joven-al-aire-libre_1098-1638.avif',
+    rates: [this.rate2, this.rate3],
+  };
 
-  public preferences : Category[] = []
-
- 
+  public preferences: Category[] = [];
 }

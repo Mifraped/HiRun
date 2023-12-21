@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Business } from '../models/business';
 import { User } from '../models/user';
-import { Service} from '../models/service';
+import { Service } from '../models/service';
 import { Category } from '../models/category';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -11,32 +11,25 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class BusinessService {
-  
-  private url = "https://api-hi-run.vercel.app/" 
-  // private url = "http://localhost:3000/" 
+  private url = 'https://api-hi-run.vercel.app/';
+  // private url = 'http://localhost:3000/';
 
-  public logedUserBusinesses: Business[]
-  
-  
-  constructor(private http: HttpClient, private userService: UserService) {
-    
-  }
-  
+  public logedUserBusinesses: Business[];
+
+  constructor(private http: HttpClient, private userService: UserService) {}
+
   //nuevo negocio
-  postBusiness(newBusiness:Business):Observable<object>{
-    console.log('business service OK')
-    return this.http.post(`${this.url}business`, newBusiness)
+  postBusiness(newBusiness: Business): Observable<object> {
+    console.log('business service OK');
+    return this.http.post(`${this.url}business`, newBusiness);
   }
 
-  public getBusiness():Observable<object>{
-    return this.http.get(this.url + `business?id_user=${this.userService.user.id_user}`)
+  public getBusiness(): Observable<object> {
+    return this.http.get(
+      this.url + `business?id_user=${this.userService.user.id_user}`
+    );
   }
-    
-  
-  
-  
-  
-  
+
   //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',
@@ -153,6 +146,4 @@ export class BusinessService {
     this.business3,
     this.business4,
   ];
-
- 
 }

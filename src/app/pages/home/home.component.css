@@ -112,6 +112,23 @@
   gap: 0.375rem;
 }
 
+.news-cards {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  width: 100vw;
+  padding-left: calc(50vw - 150px);
+  padding-right: calc(50vw - 150px);
+}
+
+app-business-card {
+  margin-right: 4rem;
+  width: 300px;
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+}
+
 #b-l-news {
   margin-bottom: 15px;
 }
