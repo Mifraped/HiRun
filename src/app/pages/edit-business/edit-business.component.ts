@@ -10,9 +10,24 @@ import {
   AbstractControl,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { CommonModule } from '@angular/common';
+import { ResponseBusiness } from 'src/app/models/response-business';
+import { ResponseService } from 'src/app/models/response-service';
+import { ServiceService } from 'src/app/shared/service.service';
+import { TimeframeService } from 'src/app/shared/timeframe.service';
+import { TimeFrame } from 'src/app/models/time-frame';
+import { ResponseTimeframe } from 'src/app/models/response-timeframe';
+import { CategoryService } from 'src/app/shared/category.service';
+import { OptionService } from 'src/app/shared/option.service';
+import { ResponseCategory } from 'src/app/models/response-category';
+import { ResponseBusOpt } from 'src/app/models/response-bus-opt';
+import { BusinessOpt } from 'src/app/models/business-opt';
+import { ResponseBusCat } from 'src/app/models/response-bus-cat';
+import { BusinessCat } from 'src/app/models/business-cat';
+import { Time } from "@angular/common";
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-edit-business',
@@ -20,6 +35,8 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./edit-business.component.css'],
 })
 export class EditBusinessComponent implements OnInit {
+
+  
   business = this.businessService.business;
   services: Service[] = this.business.services;
 
@@ -32,19 +49,20 @@ export class EditBusinessComponent implements OnInit {
   showHeader: boolean = false;
   showNavBar: boolean = false;
 
-  //Importa las categorías del negocio 'business'
-  allCat = this.businessService.allCat;
-  selectedCat: Category[];
+ //se importan en oninit
+  allCat:Category[] = []
+  selectedCat:Category[] = []
+  busCat:BusinessCat[]
 
   //opciones adicionales: pago en efcetivo, negocio a domicilio, etc
-  opt1 = { value: 'Servicio a domicilio', icon: 'fa-solid fa-house' };
-  opt2 = { value: 'Pago en efectivo', icon: 'fa-solid fa-coins' };
-  opt3 = { value: 'Pago con tarjeta', icon: 'fa-regular fa-credit-card' };
-  opt4 = { value: 'Otra opción extra', icon: 'fa-solid fa-face-grin-stars' };
+  opt1 ={value:'Servicio a domicilio', icon:'fa-solid fa-house', i:1}
+  opt2 ={value:'Servicio online', icon:'fa-solid fa-laptop', i:2}
+  opt3 ={value:'Pago con tarjeta', icon:'fa-regular fa-credit-card', i:3}
+  opt4 ={value:'Pago en efectivo', icon:'fa-solid fa-coins', i:4}
 
   allOptions = [this.opt1, this.opt2, this.opt3, this.opt4];
-  selectedOptions: string[] = [];
-
+  selectedOptions:number[] = []
+  
   //El usuario logeado, que será el proveedor del negocio
   user = this.userService.user;
 
@@ -84,36 +102,41 @@ export class EditBusinessComponent implements OnInit {
     days: [true, true, true, true, true, true, true],
   };
 
-  timeFrameArray = [this.tf1, this.tf2, this.tf3, this.tf4];
+  timeframes: TimeFrame[]
+  timeFrameArray = [];
 
   constructor(
     public userService: UserService,
     public businessService: BusinessService,
     private formBuilder: FormBuilder,
     private router: Router,
-
+    private route: ActivatedRoute,
+    public serviceService:ServiceService,
     public headerNavbarService: HeaderNavbarService,
-    private commonModule: CommonModule
+    private commonModule: CommonModule,
+    public timeframeService: TimeframeService,
+    public categoryService: CategoryService,
+    public optionsService:OptionService
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
     this.buildFormServices();
     this.buildFormBusiness();
+    
   }
 
   // Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
   onCheckboxChange(option: any): void {
-    const index = this.selectedOptions.indexOf(option.value);
-
+    const index = this.selectedOptions.indexOf(option.i);
+  
     if (index !== -1) {
       // Si el valor ya está en el array, lo quitamos (deseleccionamos)
       this.selectedOptions.splice(index, 1);
     } else {
       // Si el valor no está en el array, lo agregamos (seleccionamos)
-      this.selectedOptions.push(option.value);
+      this.selectedOptions.push(option.i);
     }
 
-    console.log(this.selectedOptions);
   }
 
   //formulario interior de crear servicios
@@ -162,14 +185,16 @@ export class EditBusinessComponent implements OnInit {
   //Añadir/eliminar etiquetas
   catSelected(category) {
     const i = this.selectedCat.indexOf(category);
-
-    if (!category.selected) {
+    if (i === -1) {
+      // si no está se añade
       this.selectedCat.push(category);
     } else {
+      // Si está se elimina
       this.selectedCat.splice(i, 1);
-    }
+    }  
+    // cambiar .selected
     category.selected = !category.selected;
-    console.log(this.selectedCat);
+    
   }
 
   //Añade los servicios generados al array services del negocio, o los edita
@@ -271,7 +296,132 @@ this.timeFrameArray.push(newTimeFrame)
 this.closeModal()
   }
 
+  //para cambiar de hh:mm:ss de la bbd a hh:mm del front
+  timeFormat(hora:Time){
+    const { hours, minutes } = hora;
+    return hora;
+  }
+
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id_business');
+    //para obtener todas las categorías de la bbdd
+    this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
+      if (res.error){
+        console.log(res)
+      }else{
+        this.allCat=res.data
+        // categorías del negocio a editar
+        this.categoryService.getBusinessCat(+id).subscribe((res:ResponseBusCat)=>{
+          console.log('id categorías:'+id)
+          if (res.error){
+            console.log('error')
+            alert(res.error)
+          }else{    
+            this.busCat=res.data        
+            console.log('this.busCat')
+            console.log(this.busCat)
+          }
+          console.log('hola')
+          this.selectedCat = this.allCat.filter(category =>
+            this.busCat.find(item => item.category === category.id_category) !== undefined);
+          
+          console.log(this.selectedCat)
+        })
+      }
+    })
+      
+    //datos del negocio
+    this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
+      
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{    
+        this.business=res.data[0]
+        this.editBusinessForm.patchValue({
+          title: this.business.title,
+        });
+        
+    }
+    //servicios del negocio a editar
+    this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
+    
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{    
+        this.services=res.data
+      }
+    })
+    //timeframes del negocio a editar
+    this.timeframeService.getBusinessTimeframe(+id).subscribe((res:ResponseTimeframe)=>{
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{    
+        this.timeframes=res.data
+      
+        for (let tf of this.timeframes){
+          
+          let boolDays:Boolean[] = [false, false, false,false, false,false,false]
+
+          const modStart = tf.start.toString().slice(0, -3)
+          const modEnd = tf.end.toString().slice(0, -3)
+
+          for (let i=0;i<tf.days.length; i++){
+            const initial = tf.days[i]
+            const weekIndex = this.week.find(d => d.initial ===initial)
+            boolDays[weekIndex.number-1]=true
+          }
+
+          let tfMod = { start: modStart, end: modEnd, days:boolDays ,id_tf: tf.id_timeframe}
+          console.log(tf)
+          console.log(tfMod)
+          this.timeFrameArray.push(tfMod)
+        }
+      }
+
+      //opciones extra del negocio a editar
+      this.optionsService.getBusinessOpt(+id).subscribe((res:ResponseBusOpt)=>{
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{    
+          for  (let i=0; i<res.data.length;i++){
+            this.selectedOptions.push(res.data[i].id_options)
+          }
+          console.log(res.data)
+          console.log(this.selectedOptions)
+        }
+      })
+
+    
+  //tests
+    console.log('negocio')
+    console.log(this.business)
+    console.log('servicios')
+    console.log(this.services)
+    console.log('timeframes')
+    console.log(this.timeframes)
+    console.log('catds')
+    console.log(this.selectedCat)
+    
+  })
+
+  
+
+    
+      
+ 
+ 
+
+
+  
+
+    
+  })
+
+
     //para que el formulario coja por defecto los valores del servici a editar
     this.selectedCat = this.business.tags;
     //pendiente de ver como seleccionar de iniciolas que ya tenga el negocio

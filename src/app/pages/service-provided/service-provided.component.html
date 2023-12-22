@@ -1,10 +1,17 @@
 <div class="cont">
   <!-- contenedor enlace atras y titulo de la pagina -->
   <div class="backTitle">
-    <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
-        viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
+    <a class="back" routerLink="/profile"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z"
+        />
       </svg>
     </a>
     <div class="title">
@@ -16,10 +23,24 @@
   <hr class="principal" />
   <!-- contenedor de targetas -->
   <ng-container
-    *ngIf="businessService && businessService.logedUserBusinesses && businessService.logedUserBusinesses.length > 0; else noBusinesss">
+    *ngIf="
+      businessService &&
+        businessService.logedUserBusinesses &&
+        businessService.logedUserBusinesses.length > 0;
+      else noBusinesss
+    "
+  >
     <div class="cardContainer">
-      <div class="cardHr" *ngFor="let business of businessService.logedUserBusinesses; let last = last">
-        <app-profile-business-card [negocioPadre]="business"></app-profile-business-card>
+      <div
+        class="cardHr"
+        *ngFor="
+          let business of businessService.logedUserBusinesses;
+          let last = last
+        "
+      >
+        <app-profile-business-card
+          [negocioPadre]="business"
+        ></app-profile-business-card>
         <hr *ngIf="!last" />
       </div>
     </div>
