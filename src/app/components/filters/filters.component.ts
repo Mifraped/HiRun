@@ -25,12 +25,12 @@ export class FiltersComponent implements OnInit {
 
   form: FormGroup;
   categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
+    'Música',
+    'Informática',
+    'Pelúquería',
+    'Estética',
+    'Maquillaje',
+    'Fontanería',
   ];
   constructor(
     private fb: FormBuilder,
@@ -101,6 +101,14 @@ export class FiltersComponent implements OnInit {
     const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
+    const categories = this.form.value.categories;
+
+    let selectedCategoryName; // Declare selectedCategoryName here
+    const selectedCategoryIndex = categories.findIndex((category) => category);
+
+    if (selectedCategoryIndex !== -1) {
+      selectedCategoryName = this.categories[selectedCategoryIndex]; // Assign value here
+    }
 
     this.filtersService
       .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null)
@@ -111,6 +119,7 @@ export class FiltersComponent implements OnInit {
           rating: ratingFilter,
           minPrice: minPrice,
           maxPrice: maxPrice,
+          category: selectedCategoryName,
         }; // include searchTerm, minPrice, and maxPrice in the query parameters
         this.router.navigate(['/results'], { queryParams: queryParams });
       });
