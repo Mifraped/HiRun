@@ -77,7 +77,7 @@ export class FiltersComponent implements OnInit {
       const rating = this.filtersService.rating;
 
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice)
+        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null)
         .subscribe((results) => {
           this.results = results;
         });
@@ -94,14 +94,13 @@ export class FiltersComponent implements OnInit {
   }
 
   applyFilters() {
-    console.log('applyFilters called');
     const ratingFilter = Number(this.filtersForm.get('rating').value);
     const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
 
     this.filtersService
-      .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
+      .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null)
       .subscribe((results) => {
         this.results = results;
         let queryParams = {

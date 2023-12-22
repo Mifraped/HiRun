@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { Category } from 'src/app/models/category';
 import { FiltersService } from 'src/app/shared/filters.service';
 
 @Component({
@@ -20,7 +21,7 @@ export class SearchBarComponent {
     const maxPrice = this.filterService.maxPrice;
 
     this.filterService
-      .getResults(this.searchTerm, null, minPrice, maxPrice)
+      .getResults(this.searchTerm, null, minPrice, maxPrice, null)
       .subscribe((results) => {
         let queryParams = {
           searchTerm: this.searchTerm,

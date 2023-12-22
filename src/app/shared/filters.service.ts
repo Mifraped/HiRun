@@ -31,7 +31,8 @@ export class FiltersService {
     searchTerm: string,
     ratingFilter: number,
     minPrice: number,
-    maxPrice: number
+    maxPrice: number,
+    category: string
   ) {
     console.log('getResults called'); // Log at the start of the function
 
@@ -39,21 +40,23 @@ export class FiltersService {
     console.log('ratingFilter:', ratingFilter); // Log outside the if condition
     console.log('minPrice:', minPrice); // Log outside the if condition
     console.log('maxPrice:', maxPrice); // Log outside the if condition
+    console.log('category:', category); // Log outside the if condition
 
     let params = new HttpParams();
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
-    if (ratingFilter > 0) {
-      params = params.set('rating', ratingFilter);
+    if (ratingFilter !== null && !isNaN(ratingFilter)) {
+      params = params.set('ratingFilter', ratingFilter.toString());
     }
-    if (minPrice != null) {
-      // Check if minPrice is not null or undefined
+    if (!isNaN(minPrice)) {
       params = params.set('minPrice', minPrice.toString());
     }
-    if (maxPrice != null) {
-      // Check if maxPrice is not null or undefined
+    if (!isNaN(maxPrice)) {
       params = params.set('maxPrice', maxPrice.toString());
+    }
+    if (category) {
+      params = params.set('category', category);
     }
     return this.http
       .get<any[]>(this.url + '/results', { params })

@@ -20,6 +20,7 @@ export class ResultsComponent implements OnInit {
   public business: Business = this.BusinessService.business;
   negocio1: Business = this.BusinessService.business;
   showHeader = true;
+  searchTerm: string;
 
   results: any[];
 
@@ -44,8 +45,18 @@ export class ResultsComponent implements OnInit {
 
       this.filtersService.updateSearchTerm(searchTerm);
 
+      const category = params['category'];
+
+      this.filtersService.updateSearchTerm(searchTerm);
+
+      this.searchTerm = this.filtersService.getCurrentSearchTerm();
+
+      if (!this.searchTerm && category) {
+        this.searchTerm = category;
+      }
+
       this.filtersService
-        .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
+        .getResults(searchTerm, ratingFilter, minPrice, maxPrice, category)
         .subscribe((results) => {
           console.log('results:', results);
           this.results = results;
