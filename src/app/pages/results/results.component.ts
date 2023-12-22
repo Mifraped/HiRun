@@ -42,9 +42,6 @@ export class ResultsComponent implements OnInit {
       const ratingFilter = params['rating'];
       const minPrice = Number(params['minPrice']);
       const maxPrice = Number(params['maxPrice']);
-
-      this.filtersService.updateSearchTerm(searchTerm);
-
       const category = params['category'];
 
       this.filtersService.updateSearchTerm(searchTerm);
