@@ -20,6 +20,12 @@ export class ProfileBusinessCardComponent {
   public page: string
   public status: string
 
+  goToBusinessEdit() {
+    console.log(this.negocioPadre);
+        this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
+}
+
+
   ngOnInit() {
     if (this.servicePadre && typeof this.servicePadre.canceled !== 'undefined') {
       this.status = this.servicePadre.canceled === 0 ? "Pendiente" : "Cancelado";

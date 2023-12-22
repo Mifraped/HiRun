@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject  } from 'rxjs';
 import { ResponseCategory } from '../models/response-category';
 import { BusinessCat } from '../models/business-cat';
+import { ResponseBusCat } from '../models/response-bus-cat';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,12 @@ import { BusinessCat } from '../models/business-cat';
 export class CategoryService {
 
   //para obtener categorías
-  private url1 = "https://api-hi-run.vercel.app/category" 
-  // private url1 = "http://localhost:3000/category" 
+  // private url1 = "https://api-hi-run.vercel.app/category" 
+  private url1 = "http://localhost:3000/category" 
 
   //para añadir categorías a bussines_cat
-  private url2 = "https://api-hi-run.vercel.app/business-cat" 
-  // private url2 = "http://localhost:3000/business-cat" 
+  // private url2 = "https://api-hi-run.vercel.app/business-cat" 
+  private url2 = "http://localhost:3000/business-cat" 
 
   private allCategoriesSubject = new BehaviorSubject<Category[]>([]);
   public allCategories: Category[]
@@ -31,6 +32,10 @@ export class CategoryService {
 
   postBusinessCat(newBusCat:BusinessCat): Observable<ResponseCategory> {
     return this.http.post<ResponseCategory>(this.url2, newBusCat );
+  }
+
+  getBusinessCat(busId:number):  Observable<ResponseBusCat> {
+    return this.http.get<ResponseBusCat>(`${this.url2}?business=${busId}`);;
   }
   
 }

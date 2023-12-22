@@ -37,8 +37,7 @@ export class NewBusinessComponent implements OnInit {
   showHeader:boolean=false
   showNavBar:boolean=false
 
-  //Importa las categorías del negocio 'business'
-  // allCat = this.businessService.allCat
+ //se importan en oninit
   allCat:Category[] = []
   selectedCat:Category[] = []
 

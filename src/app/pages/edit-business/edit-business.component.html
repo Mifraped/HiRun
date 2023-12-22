@@ -32,7 +32,7 @@
       <li *ngFor="let category of allCat; let i = index">
         <button
           class="category"
-          [class.selected]="category.selected"
+          [class.selected]="selectedCat.includes(category)"
           (click)="catSelected(category)"
         >
           {{ category.title }}
@@ -49,7 +49,7 @@
             class="inputCheck"
             type="checkbox"
             (change)="onCheckboxChange(option)"
-            [checked]="selectedOptions.includes(option.value)"
+            [checked]="selectedOptions.includes(option.i)"
           />
           <i class="{{ option.icon }}"></i>{{ option.value }}
         </label>

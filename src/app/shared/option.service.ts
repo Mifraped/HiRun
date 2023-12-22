@@ -9,12 +9,16 @@ import { ResponseBusOpt } from '../models/response-bus-opt';
 })
 export class OptionService {
 
-   private url = "https://api-hi-run.vercel.app/bus-option" 
-  //  private url = "http://localhost:3000/bus-option" 
+  //  private url = "https://api-hi-run.vercel.app/bus-option" 
+   private url = "http://localhost:3000/bus-option" 
 
   constructor(private http: HttpClient) { } 
 
   postBusinessOpt(newBusOpt:BusinessOpt): Observable<ResponseBusOpt> {
     return this.http.post<ResponseBusOpt>(this.url, newBusOpt );
+  }
+
+  getBusinessOpt(id_business:number):Observable<ResponseBusOpt> {
+    return this.http.get<ResponseBusOpt>(`${this.url}?business=${id_business}`);
   }
 }

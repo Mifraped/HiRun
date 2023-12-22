@@ -39,10 +39,8 @@ const routes: Routes = [
   { path: 'service-provided', component: ServiceProvidedComponent },
   { path: 'requested-service', component: RequestedServiceComponent },
   { path: 'favorites', component: FavoritesComponent },
-  // { path: 'business', component: BusinessComponent },
   { path: 'business/:id_business', component: BusinessComponent },
-
-  { path: 'edit-business', component: EditBusinessComponent },
+  { path: 'edit-business/:id_business', component: EditBusinessComponent },
   { path: 'book-service', component: BookServiceComponent },
   { path: 'book-service/:id', component: BookServiceComponent },
 

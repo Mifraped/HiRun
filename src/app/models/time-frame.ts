@@ -6,6 +6,7 @@ export class TimeFrame {
         public end: Time,
         public days: string,
         public id_business: number,
+        public id_timeframe?:number
       
     ) {}
 }
