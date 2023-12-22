@@ -325,7 +325,7 @@
             <div
               *ngIf="
                 !addServiceForm.get('duration').errors.required &&
-                !addServiceForm.get('duration').errors.minlength
+                !addServiceForm.get('duration').errors.fifteenMinutes
               "
             >
               Indica la duración en múltiplos de 15 min
@@ -337,7 +337,11 @@
         </div>
       </div>
 
-      <button class="btn_addService" (click)="addOrEditService()">
+      <button
+        class="btn_addService"
+        (click)="addOrEditService()"
+        [disabled]="addServiceForm.invalid"
+      >
         <i class="fa-solid fa-check"></i>
       </button>
     </form>

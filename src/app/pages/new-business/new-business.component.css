@@ -120,13 +120,13 @@ h3 {
 }
 
 .category {
-    width: 7rem;
+    width: 100px;
     height: 28px;
     background-color: var(--lightGrey);
     color: var(--black);
     border-radius: 14px;
     border: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 600;
 }
 
@@ -135,11 +135,12 @@ h3 {
 }
 
 .catContainer {
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-flow: row;
     gap: 14px;
-    padding-top: 1.6875rem;
+    padding: 28px 14px 0;
 }
 
 .serviceList {

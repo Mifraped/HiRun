@@ -28,6 +28,7 @@ import { ResponseBusCat } from 'src/app/models/response-bus-cat';
 import { BusinessCat } from 'src/app/models/business-cat';
 import { Time } from "@angular/common";
 import { formatDate } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-business',
@@ -39,6 +40,12 @@ export class EditBusinessComponent implements OnInit {
   
   business = this.businessService.business;
   services: Service[] = this.business.services;
+
+  //almacenar aparte los cambios para editar después
+  newServices:Service[]=[]
+  editServices:Service[]=[]
+  deleteServices:Service[]=[]
+
 
   selectedService: Service;
 
@@ -79,28 +86,6 @@ export class EditBusinessComponent implements OnInit {
 
   //variable para ventana modal de timeframes
   timeFramesOpen: boolean = false;
-
-  //ejemplos timeframe -ELIMINAR AL AÑADIR FUNCIONALIDAD
-  tf1 = {
-    start: '08:30',
-    end: '14:30',
-    days: [true, true, true, true, true, false, false],
-  };
-  tf2 = {
-    start: '16:30',
-    end: '18:00',
-    days: [true, true, true, true, false, false, false],
-  };
-  tf3 = {
-    start: '10:00',
-    end: '14:00',
-    days: [false, false, false, false, false, true, false],
-  };
-  tf4 = {
-    start: '15:20',
-    end: '21:00',
-    days: [true, true, true, true, true, true, true],
-  };
 
   timeframes: TimeFrame[]
   timeFrameArray = [];
@@ -202,12 +187,51 @@ export class EditBusinessComponent implements OnInit {
     console.log('entra');
     if (!this.selectedService) {
       let newService = this.addServiceForm.value;
+      newService.id_business=this.business.id_business
       this.services.push(newService);
+       //añade el servicio modificado al array de servicios a incluir (post)
+      this.newServices.push(newService)
       this.addServiceForm.reset();
       alert('Servicio añadido correctamente');
     } else {
-      this.selectedService = this.addServiceForm.value;
-      console.log(this.selectedService);
+
+      Swal.fire({        
+        title: "¿Estás seguro?",
+        text: "Esta acción no se puede deshacer",
+        icon: "warning",
+        showCancelButton: true,
+        
+        confirmButtonColor: "var(--green)",
+        cancelButtonColor: "var(--red)",
+        confirmButtonText: "Sí, guardar cambios",
+        cancelButtonText: "Cancelar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const i = this.services.indexOf(this.selectedService)
+          const id_service =this.selectedService.id_service
+          const id_business =this.selectedService.id_business
+          this.selectedService = this.addServiceForm.value;
+          this.selectedService.id_service=id_service
+          this.selectedService.id_business=id_business
+          this.serviceService.putService(this.selectedService).subscribe((res:ResponseService)=>{
+            if (res.error){
+              console.log('error')
+              alert(res.error)
+            }else{
+              console.log('servicio modificado')
+              this.services[i]=this.selectedService
+            }
+          })
+          Swal.fire({
+            title: "¡Guardado!",
+            text: "Tu servicio se ha modificado correctamente.",
+            icon: "success",
+            confirmButtonColor: "var(--green)",
+          });
+        }
+      });
+
+      
     }
 
     console.log(this.services);
@@ -215,10 +239,36 @@ export class EditBusinessComponent implements OnInit {
 
   //Elimina un servicio creado por medio de addServiceForm antes de guardar el negocio
   deleteService(index) {
-    this.selectedService = null;
-    this.services.splice(index, 1);
-    console.log(this.services);
-    console.log(this.selectedService);
+    
+    Swal.fire({        
+      title: "¿Eliminar servicio?",
+      text: "Tendrás que cancelar la edición del negocio si quieres recuperar este servicio",
+      icon: "warning",
+      showCancelButton: true,
+      
+      confirmButtonColor: "var(--green)",
+      cancelButtonColor: "var(--red)",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //añade el servicio modificado al array de servicios a incluir (post)
+        this.deleteServices.push(this.services[index])
+        this.selectedService = null;
+        this.services.splice(index, 1);
+        console.log(this.deleteServices);
+        
+        Swal.fire({
+          title: "¡Eliminado!",
+          text: "El servicio se ha eliminado.",
+          icon: "success",
+          confirmButtonColor: "var(--green)",
+        });
+      }
+    });
+
+    
+    
   }
   //seleccionar/deseleccionar servicios en el listado
   selectService(index) {
@@ -244,25 +294,121 @@ export class EditBusinessComponent implements OnInit {
   deleteTimeframe(index) {
     this.timeFrameArray.splice(index, 1);
   }
+  //funciones para ir haciendo los cambios al llamar a editBusiness()
+  //eliminar servicios
+  serviceDeletion(){
+    for (let service of this.deleteServices){
+      if (service.id_service){
+        this.serviceService.deleteService(service.id_service).subscribe((res:ResponseService)=>{
+        if (res.error){
+          console.log(res)
+          alert(res.error)
+        }else{
+          console.log(res)
+          
+        }
+      })
+      }
+      
+    }
+  }
+
+  serviceAddition(){
+    for (let service of this.newServices){
+      this.serviceService.postService(service).subscribe((res:ResponseService)=>{
+        console.log(res)
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{
+          console.log('servicio añadido')
+        }
+      })
+    }
+  }
+
+  
+
 
   //editar negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc. falta lógica solo recoge datos
   editBusiness() {
-    let editedBusiness = this.editBusinessForm.value;
-    editedBusiness.services = this.services;
-    editedBusiness.tags = this.selectedCat;
-    editedBusiness.provider = this.user;
-    editedBusiness.otherFields = this.selectedOptions;
 
-    console.log(editedBusiness);
-
-    this.selectedCat = [];
-    this.selectedOptions = [];
-    this.services = [];
-    this.editBusinessForm.reset();
+    if(this.deleteServices){
+      this.serviceDeletion()
+    }
+    if (this.newServices){
+      this.serviceAddition()
+    }
   }
+
   deleteBusiness(){
-    alert('Seguro? bla bla')//pendinte modales
-    //lógica de eliminar
+
+    //cuando esté el calendario habrá que confirmar que no hay citas activas
+    Swal.fire({        
+      title: "¿Estás seguro?",
+      text: "Esta acción es irreversible",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "var(--green)",
+      cancelButtonColor: "var(--red)",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const id = this.business.id_business
+        //eliminar timeframes
+        this.timeframeService.deleteBusinessTimeframe(id).subscribe((res:ResponseTimeframe)=>{
+          console.log(res)
+          if (res.error){
+            console.log('error')
+            alert(res.error)
+          }
+        })
+        //eliminar opciones
+        this.optionsService.deleteAllBusinessOpt(id).subscribe((res:ResponseBusOpt)=>{
+          console.log(res)
+          if (res.error){
+            console.log('error')
+            alert(res.error)
+          }
+        })
+        //eliminar categorías
+        this.categoryService.deleteAllBusinessCat(id).subscribe((res:ResponseBusCat)=>{
+          console.log(res)
+          if (res.error){
+            console.log('error')
+            alert(res.error)
+          }
+        })
+        //eliminar servicios
+        this.serviceService.deleteAllService(id).subscribe((res:ResponseService)=>{
+          if (res.error){
+            console.log(res)
+            alert(res.error)
+          }else{
+            console.log(res)
+            
+          }})
+
+        //eliminar negocio
+        this.businessService.deleteBusiness(id).subscribe((res:ResponseBusiness)=>{
+          if (res.error){
+            console.log(res)
+            alert(res.error)
+          }else{
+            console.log(res)
+          }
+        })
+        
+        Swal.fire({
+          title: "¡Eliminado!",
+          text: "El negocio ha sido borrado.",
+          icon: "success",
+          confirmButtonColor: "var(--green)",
+        });
+      }
+      this.router.navigate(['/service-provided']);
+    });
   }
 
 
@@ -272,14 +418,12 @@ export class EditBusinessComponent implements OnInit {
     this.router.navigate(['/profile']);
   }
 
-  //Cambiar los días seleccionados
-
+  //Cambiar los días seleccionados - pendiente ver si se puede coger la info de lso timeframes
   daySelected(day) {
-    //por ahora solo se cambia el color y el icono, falta funcionalidad y ver cómo vamos a añadir los horarios
     day.selected = !day.selected;
   }
 
-  ////funciones para ventana modal de timeframes - no es funcional: solo abre y cierra la ventana
+  ////funciones para ventana modal de timeframes
   timeFramesWindow() {
     this.timeFramesOpen = true;
     
@@ -292,15 +436,14 @@ export class EditBusinessComponent implements OnInit {
 
   newTimeFrame(newTimeFrame: any){
     console.log(newTimeFrame)
-this.timeFrameArray.push(newTimeFrame)
-this.closeModal()
+  this.timeFrameArray.push(newTimeFrame)
+  this.closeModal()
   }
 
-  //para cambiar de hh:mm:ss de la bbd a hh:mm del front
-  timeFormat(hora:Time){
-    const { hours, minutes } = hora;
-    return hora;
-  }
+  
+
+
+
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id_business');
@@ -312,20 +455,14 @@ this.closeModal()
         this.allCat=res.data
         // categorías del negocio a editar
         this.categoryService.getBusinessCat(+id).subscribe((res:ResponseBusCat)=>{
-          console.log('id categorías:'+id)
           if (res.error){
             console.log('error')
             alert(res.error)
           }else{    
-            this.busCat=res.data        
-            console.log('this.busCat')
-            console.log(this.busCat)
+            this.busCat=res.data 
           }
-          console.log('hola')
           this.selectedCat = this.allCat.filter(category =>
             this.busCat.find(item => item.category === category.id_category) !== undefined);
-          
-          console.log(this.selectedCat)
         })
       }
     })
@@ -342,7 +479,9 @@ this.closeModal()
           title: this.business.title,
         });
         
-    }
+      }
+    })
+
     //servicios del negocio a editar
     this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
     
@@ -375,58 +514,22 @@ this.closeModal()
           }
 
           let tfMod = { start: modStart, end: modEnd, days:boolDays ,id_tf: tf.id_timeframe}
-          console.log(tf)
-          console.log(tfMod)
+          
           this.timeFrameArray.push(tfMod)
         }
       }
-
-      //opciones extra del negocio a editar
-      this.optionsService.getBusinessOpt(+id).subscribe((res:ResponseBusOpt)=>{
-        if (res.error){
-          console.log('error')
-          alert(res.error)
-        }else{    
-          for  (let i=0; i<res.data.length;i++){
-            this.selectedOptions.push(res.data[i].id_options)
-          }
-          console.log(res.data)
-          console.log(this.selectedOptions)
+    })
+    //opciones extra del negocio a editar
+    this.optionsService.getBusinessOpt(+id).subscribe((res:ResponseBusOpt)=>{
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{    
+        for  (let i=0; i<res.data.length;i++){
+          this.selectedOptions.push(res.data[i].id_options)
         }
-      })
-
-    
-  //tests
-    console.log('negocio')
-    console.log(this.business)
-    console.log('servicios')
-    console.log(this.services)
-    console.log('timeframes')
-    console.log(this.timeframes)
-    console.log('catds')
-    console.log(this.selectedCat)
-    
-  })
-
+      }
+    })
   
-
-    
-      
- 
- 
-
-
-  
-
-    
-  })
-
-
-    //para que el formulario coja por defecto los valores del servici a editar
-    this.selectedCat = this.business.tags;
-    //pendiente de ver como seleccionar de iniciolas que ya tenga el negocio
-    this.editBusinessForm.patchValue({
-      title: this.business.title,
-    });
   }
 }

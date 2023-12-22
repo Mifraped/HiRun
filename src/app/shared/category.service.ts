@@ -38,6 +38,13 @@ export class CategoryService {
     return this.http.get<ResponseBusCat>(`${this.url2}?business=${busId}`);;
   }
   
+  deleteBusinessCat(id_business_cat:number):Observable<ResponseBusCat> {
+    return this.http.delete<ResponseBusCat>(`${this.url2}?id_business_cat=${id_business_cat}`);
+  }
+  deleteAllBusinessCat(id_business:number):Observable<ResponseBusCat> {
+    return this.http.delete<ResponseBusCat>(`${this.url2}?business=${id_business}`);
+  }
+
 }
 
 

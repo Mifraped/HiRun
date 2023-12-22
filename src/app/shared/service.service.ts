@@ -25,4 +25,21 @@ export class ServiceService {
     
     return this.http.get(`${this.url}service?id_business=${id_business}`)
   }
+
+  deleteService(id_service:number):Observable<object>{
+    
+    return this.http.delete(`${this.url}service?id_service=${id_service}`)
+  }
+
+  deleteAllService(id_business:number):Observable<object>{
+    
+    return this.http.delete(`${this.url}service?id_business=${id_business}`)
+  }
+
+  putService(service:Service):Observable<object>{
+    
+    return this.http.put(`${this.url}service`, service)
+  }
+
+
 }

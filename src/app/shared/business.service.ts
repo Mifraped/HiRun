@@ -36,6 +36,11 @@ export class BusinessService {
     );
   }
 
+  public deleteBusiness(id:number): Observable<object> {
+    return this.http.delete(this.url + `business?id_business=${id}`
+    );
+  }
+
   //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',

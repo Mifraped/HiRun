@@ -94,7 +94,7 @@ export class BookServiceComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      const serviceId = params['id'];
+      const id_service = params['id'];
       //aquí habrá que linkar el service con el negocio etc y hacer un select con filtros para para que nos dé la información necesaria, mientras tanto dejo el service como una selección del array por que se vea el funcionamiento
     });
 
