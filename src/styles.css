@@ -172,7 +172,7 @@ body {
 
     /* Add these lines to center the snack bar */
     position: fixed !important;
-    top: 30% !important;
+    top: 40% !important;
     left: 48% !important;
     width: 300px;
     transform: translate(-50%, -50%) !important;

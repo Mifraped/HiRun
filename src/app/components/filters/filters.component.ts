@@ -80,7 +80,7 @@ export class FiltersComponent implements OnInit {
 
       // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice)
+        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null)
         .subscribe((results) => {
           this.results = results;
         });
@@ -97,13 +97,13 @@ export class FiltersComponent implements OnInit {
   }
 
   applyFilters() {
-    const ratingFilter = Number(this.filtersForm.get('rating').value); // Convert to number
-    const searchTerm = this.filtersService.getCurrentSearchTerm(); // get the current searchTerm
+    const ratingFilter = Number(this.filtersForm.get('rating').value);
+    const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
 
     this.filtersService
-      .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
+      .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null)
       .subscribe((results) => {
         this.results = results;
         let queryParams = {

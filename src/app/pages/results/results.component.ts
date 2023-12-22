@@ -20,6 +20,7 @@ export class ResultsComponent implements OnInit {
   public business: Business = this.BusinessService.business;
   negocio1: Business = this.BusinessService.business;
   showHeader = true;
+  searchTerm: string;
 
   results: any[];
 
@@ -39,15 +40,22 @@ export class ResultsComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const searchTerm = params['searchTerm'];
       const ratingFilter = params['rating'];
-      const minPrice = Number(params['minPrice']); // convert to number
-      const maxPrice = Number(params['maxPrice']); // convert to number
+      const minPrice = Number(params['minPrice']);
+      const maxPrice = Number(params['maxPrice']);
+      const category = params['category'];
 
-      this.filtersService.updateSearchTerm(searchTerm); // update the searchTerm in the FiltersService
+      this.filtersService.updateSearchTerm(searchTerm);
+
+      this.searchTerm = this.filtersService.getCurrentSearchTerm();
+
+      if (!this.searchTerm && category) {
+        this.searchTerm = category;
+      }
 
       this.filtersService
-        .getResults(searchTerm, ratingFilter, minPrice, maxPrice)
+        .getResults(searchTerm, ratingFilter, minPrice, maxPrice, category)
         .subscribe((results) => {
-          console.log('results:', results); // Log the results
+          console.log('results:', results);
           this.results = results;
           if (results.length === 0) {
             this.snackBar.open(

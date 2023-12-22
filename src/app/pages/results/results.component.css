@@ -49,6 +49,11 @@
   border-bottom-right-radius: 20px;
 }
 
+#result-txt {
+  margin-top: 20px;
+  color: var(--white);
+}
+
 .results {
   display: flex;
   flex-direction: column;
