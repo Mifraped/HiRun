@@ -7,8 +7,8 @@ import { tap } from 'rxjs/internal/operators/tap';
   providedIn: 'root',
 })
 export class FiltersService {
-  // private url = 'http://localhost:3000';
-  private url = 'https://api-hi-run.vercel.app';
+  private url = 'http://localhost:3000';
+  // private url = 'https://api-hi-run.vercel.app';
 
   public searchTerm: string;
   public rating: string;
@@ -46,7 +46,7 @@ export class FiltersService {
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
-    if (ratingFilter !== null && !isNaN(ratingFilter)) {
+    if (ratingFilter) {
       params = params.set('ratingFilter', ratingFilter.toString());
     }
     if (!isNaN(minPrice)) {
