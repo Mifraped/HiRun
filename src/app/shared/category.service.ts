@@ -30,8 +30,8 @@ export class CategoryService {
     return this.http.get<ResponseCategory>(this.url1);
   }
 
-  postBusinessCat(newBusCat:BusinessCat): Observable<ResponseCategory> {
-    return this.http.post<ResponseCategory>(this.url2, newBusCat );
+  postBusinessCat(newBusCat:BusinessCat): Observable<ResponseBusCat> {
+    return this.http.post<ResponseBusCat>(this.url2, newBusCat );
   }
 
   getBusinessCat(busId:number):  Observable<ResponseBusCat> {

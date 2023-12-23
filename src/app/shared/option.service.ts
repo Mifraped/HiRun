@@ -22,8 +22,8 @@ export class OptionService {
     return this.http.get<ResponseBusOpt>(`${this.url}?business=${id_business}`);
   }
 
-  deleteBusinessOpt(id_business_option:number):Observable<ResponseBusOpt> {
-    return this.http.delete<ResponseBusOpt>(`${this.url}?id_business_option=${id_business_option}`);
+  deleteBusinessOpt(id_business_options:number):Observable<ResponseBusOpt> {
+    return this.http.delete<ResponseBusOpt>(`${this.url}?id_business_options=${id_business_options}`);
   }
   deleteAllBusinessOpt(id_business:number):Observable<ResponseBusOpt> {
     return this.http.delete<ResponseBusOpt>(`${this.url}?business=${id_business}`);
