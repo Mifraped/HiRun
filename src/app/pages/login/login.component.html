@@ -13,23 +13,12 @@
       <div class="email">
         <label for="email">Email</label>
         <div class="input">
-          <input
-            type="email"
-            name="email"
-            [(ngModel)]="user.email"
-            #emailId="ngModel"
-            [ngClass]="{
+          <input type="email" name="email" [(ngModel)]="user.email" #emailId="ngModel" [ngClass]="{
               'is-invalid':
                 (emailId.touched || emailId.dirty) && emailId.invalid
-            }"
-            email
-            required
-          />
+            }" email required />
           <div class="icon"><i class="fa-solid fa-envelope"></i></div>
-          <div
-            *ngIf="(emailId.touched || emailId.dirty) && emailId.invalid"
-            class="invalid-feedback"
-          >
+          <div *ngIf="(emailId.touched || emailId.dirty) && emailId.invalid" class="invalid-feedback">
             <div *ngIf="emailId.errors.required" class="feedback">
               Introduce una direccion
             </div>
@@ -45,24 +34,14 @@
       <div class="password">
         <label for="password">Contraseña</label>
         <div class="input">
-          <input
-            type="password"
-            name="password"
-            [(ngModel)]="user.password"
-            #passwordId="ngModel"
-            [ngClass]="{
+          <input type="password" name="password" [(ngModel)]="user.password" #passwordId="ngModel" [ngClass]="{
               'is-invalid':
                 (passwordId.dirty || passwordId.touched) && passwordId.invalid
-            }"
-            required
-          />
+            }" required />
           <div class="icon"><i class="fa-solid fa-lock"></i></div>
-          <div
-            *ngIf="
+          <div *ngIf="
               (passwordId.dirty || passwordId.touched) && passwordId.invalid
-            "
-            class="invalid-feedback"
-          >
+            " class="invalid-feedback">
             <div *ngIf="passwordId.errors.required" class="feedback">
               Introduce la contraseña
             </div>
@@ -75,9 +54,7 @@
       <a class="forget">¿Has olvidado tu contraseña?</a>
       <button class="btn-main main_btn_effect">Iniciar sesion</button>
     </form>
-    <span
-      >No tienes una cuenta aun?
-      <a routerLink="/register" class="registrate">Registrate</a></span
-    >
+    <span>No tienes una cuenta aun?
+      <a routerLink="/register" class="registrate">Registrate</a></span>
   </div>
 </div>

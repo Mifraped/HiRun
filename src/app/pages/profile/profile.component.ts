@@ -6,6 +6,7 @@ import { ResponseRates } from 'src/app/models/response-rates';
 import { BusinessService } from 'src/app/shared/business.service';
 import { ResponseBusiness } from 'src/app/models/response-business';
 import { ResponseRequestedService } from 'src/app/models/response-requested-service';
+import { User } from 'src/app/models/user';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,9 @@ export class ProfileComponent {
 
     public logOut(){
       this.userService.connected = false
+      this.userService.user = new User(null, null, null, null, null, null, null)
+      this.businesService.logedUserBusinesses = null
+      this.userService.requestedServices = null
       this.router.navigate(["/home"])
     }
 

@@ -7,6 +7,8 @@ import { UserService } from 'src/app/shared/user.service';
 import { ResponseUser } from 'src/app/models/response-user';
 import { Router } from '@angular/router';
 import { ResponseRates } from 'src/app/models/response-rates';
+import Swal from 'sweetalert2'
+
 
 @Component({
   selector: 'app-login',
@@ -34,7 +36,13 @@ export class LoginComponent {
         })  
       }
       else {
-        alert(resp.message)
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "Email o contraseña incorrectos",
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     })
   }

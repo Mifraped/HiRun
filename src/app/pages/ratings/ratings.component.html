@@ -9,7 +9,8 @@
     <div class="photo"><img src="{{ userService.user.photo }}" /></div>
     <h1>{{ userService.user.name }} {{ userService.user.surname }}</h1>
     <div class="ratings">
-      <star-rating [starType]="'svg'" [rating]="rating" staticColor="ok" size="medium" [readOnly]="true"></star-rating>
+      <star-rating [starType]="'svg'" [rating]="userService.user.rate" staticColor="ok" size="medium"
+        [readOnly]="true"></star-rating>
       <div class="rates">
         {{ "(" + userService.rates.length + ")" }}
       </div>

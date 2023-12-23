@@ -15,16 +15,20 @@
   <!-- separador -->
   <hr class="principal" />
   <!-- contenedor de targetas -->
-  <ng-container
-    *ngIf="userService && userService.requestedServices && userService.requestedServices.length > 0; else noServices">
-    <div class="cardContainer">
-      <div class="cardHr" *ngFor="let service of userService.requestedServices; let last = last">
-        <app-profile-business-card [servicePadre]="service"></app-profile-business-card>
-        <hr *ngIf="!last" />
+  <ng-container *ngIf="userService && userService.requestedServices; else noLoaded">
+    <ng-container *ngIf="userService.requestedServices.length > 0; else noServices">
+      <div class="cardContainer">
+        <div class="cardHr" *ngFor="let service of userService.requestedServices; let last = last">
+          <app-profile-business-card [servicePadre]="service"></app-profile-business-card>
+          <hr *ngIf="!last" />
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #noServices>
+      <h1>Todavia no has solicitado ningun negocio</h1>
+    </ng-template>
   </ng-container>
-  <ng-template #noServices>
-    <h1>Todavia no has solicitado ningun negocio</h1>
+  <ng-template #noLoaded>
   </ng-template>
+
 </div>

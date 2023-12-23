@@ -44,7 +44,9 @@ svg#back{
 /* contenedor de la foto, nombre, valoraciones y ubicacion */
 .photoNameRating{
     display: flex;
+    justify-content: center;
     gap: 0.5625rem;
+    max-width: 80%;
 }
 .photo{
     height: 4.125rem;
