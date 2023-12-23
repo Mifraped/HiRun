@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject  } from 'rxjs';
 import { ResponseCategory } from '../models/response-category';
 import { BusinessCat } from '../models/business-cat';
+import { ResponseBusCat } from '../models/response-bus-cat';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,21 @@ export class CategoryService {
     return this.http.get<ResponseCategory>(this.url1);
   }
 
-  postBusinessCat(newBusCat:BusinessCat): Observable<ResponseCategory> {
-    return this.http.post<ResponseCategory>(this.url2, newBusCat );
+  postBusinessCat(newBusCat:BusinessCat): Observable<ResponseBusCat> {
+    return this.http.post<ResponseBusCat>(this.url2, newBusCat );
+  }
+
+  getBusinessCat(busId:number):  Observable<ResponseBusCat> {
+    return this.http.get<ResponseBusCat>(`${this.url2}?business=${busId}`);;
   }
   
+  deleteBusinessCat(id_business_cat:number):Observable<ResponseBusCat> {
+    return this.http.delete<ResponseBusCat>(`${this.url2}?id_business_cat=${id_business_cat}`);
+  }
+  deleteAllBusinessCat(id_business:number):Observable<ResponseBusCat> {
+    return this.http.delete<ResponseBusCat>(`${this.url2}?business=${id_business}`);
+  }
+
 }
 
 

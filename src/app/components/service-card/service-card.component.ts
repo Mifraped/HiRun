@@ -13,7 +13,7 @@ export class ServiceCardComponent {
 
 bookService(){
   if (this.userService.connected){
-this.router.navigate([`/book-service/:${this.service.serviceId}`]);
+this.router.navigate([`/book-service/:${this.service.id_service}`]);
    
   }else{
     alert('inicia sesión para reservar')

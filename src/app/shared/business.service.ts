@@ -19,8 +19,8 @@ export class BusinessService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   //nuevo negocio
-  postBusiness(newBusiness: Business): Observable<object> {
-    console.log('business service OK');
+  public postBusiness(newBusiness: Business): Observable<object> {
+    
     return this.http.post(`${this.url}business`, newBusiness);
   }
 
@@ -34,6 +34,16 @@ export class BusinessService {
     return this.http.get(
       this.url + `business?id_business=${id}`
     );
+  }
+
+  public deleteBusiness(id:number): Observable<object> {
+    return this.http.delete(this.url + `business?id_business=${id}`
+    );
+  }
+
+  public updateBusiness(modBus:Business):Observable<object> {
+   
+    return this.http.put(`${this.url}business`, modBus);
   }
 
   //instancias falsas, borrar después

@@ -26,9 +26,7 @@ export class BusinessCardComponent implements OnInit {
   }
 
   goToBusiness() {
-    console.log(this.business)
-    console.log(this.thisId)
-    this.router.navigate(['/business', this.business.id_business]);
+       this.router.navigate(['/business', this.business.id_business]);
   }
 
   ngOnInit() {

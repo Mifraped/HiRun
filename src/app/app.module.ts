@@ -53,6 +53,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FiltersService } from './shared/filters.service';
 
 import { Router } from 'express';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -89,6 +90,7 @@ import { Router } from 'express';
     ServiceCardComponent,
     TimeframeModalComponent,
     ProfileBusinessCardComponent,
+
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,8 @@ import { BusinessOpt } from 'src/app/models/business-opt';
 import { ResponseBusOpt } from 'src/app/models/response-bus-opt';
 import { OptionService } from 'src/app/shared/option.service';
 import { User } from 'src/app/models/user';
-
+import {HttpClient} from '@angular/common/http'
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -37,8 +38,7 @@ export class NewBusinessComponent implements OnInit {
   showHeader:boolean=false
   showNavBar:boolean=false
 
-  //Importa las categorías del negocio 'business'
-  // allCat = this.businessService.allCat
+ //se importan en oninit
   allCat:Category[] = []
   selectedCat:Category[] = []
 
@@ -79,7 +79,7 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -96,6 +96,28 @@ timeFrameArray=[]
        this.user = this.userService.user
  }
   
+
+
+//  incluir http en contructor
+ 
+ selectedFile:File
+ 
+ 
+//  recoge la foto
+ onFileChange(event){
+   this.selectedFile = event.target.files[0]
+   console.log(event)
+   this.upload()
+ }
+ 
+ upload(){
+   const uploadData = new FormData();
+   uploadData.append('myFile', this.selectedFile, this.selectedFile.name)
+ 
+   //Aquí iría la llamada a la API
+ }
+
+
 // Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
   onCheckboxChange(option: any): void {
     const index = this.selectedOptions.indexOf(option.i);
@@ -162,7 +184,11 @@ addService()  {
 let newService = this.addServiceForm.value
 this.services.push(newService)
 this.addServiceForm.reset()
-alert('Servicio añadido correctamente')
+Swal.fire({
+  text: "Servicio añadido.",
+  icon: "success",
+  confirmButtonColor: "var(--green)",
+});
 console.log(this.services)
 }
 
@@ -230,7 +256,7 @@ async addAllServices(){
 //añadir categorías (business-cat)
 addNewBusinessCat(bus:number, cat:number){
   let busCat: BusinessCat = new BusinessCat(bus,cat);
-  this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseCategory)=>{
+  this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseBusCat)=>{
     console.log(res)
     if (res.error){
       console.log('error')
@@ -309,9 +335,21 @@ async newBusiness() {
 
   if (this.services.length==0){  
     this.addServiceForm.get('title').markAsTouched() 
-    alert('añade al menos un servicio')
+    Swal.fire({
+      title: "ERROR",
+    text: "El negocio debe incluir al menos un servicio",
+    icon: "error",
+    confirmButtonColor: "var(--green)",
+    confirmButtonText: "OK"
+    })
   }else if(this.timeFrameArray.length==0){  
-    alert('indica tus franjas horarias')
+    Swal.fire({
+      title: "ERROR",
+    text: "Debes indicar tus horarios",
+    icon: "error",
+    confirmButtonColor: "var(--green)",
+    confirmButtonText: "OK"
+    })
   }else{
     let newBusiness = this.newBusinessForm.value;
     newBusiness.provider = this.userService.user.id_user
@@ -343,6 +381,13 @@ async newBusiness() {
   this.selectedOptions=[];
   this.services=[]
   this.newBusinessForm.reset()
+  Swal.fire({
+    title: "Negocio creado",
+  text: "Tu nuevo negocio se ha añadido correctamente",
+  icon: "success",
+  confirmButtonColor: "var(--green)",
+  confirmButtonText: "OK"
+  })
   this.router.navigate(['/service-provided'])
 }
 
@@ -390,23 +435,3 @@ this.closeModal()
 
 ////// SUBIDA DE FOTO - DEJO COMENTADO Y PENDIENTE DE TENER BBDD Y API
 
-// import {HttpClient} from '@angular/common/http'
-
-// incluir http en contructor
-
-//selectedFile:File
-
-
-//recoge la foto
-// onFileChange(event){
-//   this.selectedFile = event.target.files[0]
-//   console.log(event)
-//   this.upload()
-// }
-
-// upload(){
-//   const uploadData = new FormData();
-//   uploadData.append('myFile', this.selectedFile, this.selectedFile.name)
-
-//   //Aquí iría la llamada a la API
-// }

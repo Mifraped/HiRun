@@ -1,6 +1,6 @@
 .card-container {
     width: 18.75rem;
-    height: 11.25rem;
+    min-height: 11.25rem;
     min-height: 11.25rem;
     background-color: var(--lightGrey);
     border-radius: 10px;

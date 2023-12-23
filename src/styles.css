@@ -86,6 +86,8 @@ button {
   transition: all linear 0.3s;
 }
 
+
+button:disabled,
 .main_btn_effect:active {
   filter: brightness(0.8);
 }
@@ -157,6 +159,7 @@ html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -178,3 +181,36 @@ body {
     transform: translate(-50%, -50%) !important;
   }
 }
+
+
+/* Estilos sweet alert*/
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation {
+  background: rgba(0, 0, 0, 0.68);
+
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.6px);
+  -webkit-backdrop-filter: blur(6.6px);
+
+
+}
+
+.swal2-container button {
+  height: 40px !important;
+  border-radius: 20px !important;
+  color: var(--black) !important;
+}
+
+.swal2-container button:focus,
+.swal2-container button:hover,
+.swal2-container button:active {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+/*
+para meter en los swal
+    confirmButtonColor: "var(--green)",
+    cancelButtonColor: "var(--red)",
+*/

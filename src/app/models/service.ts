@@ -7,6 +7,6 @@ export class Service {
         public description: string,
         public duration: number,
         public id_business?: number, //quitar interrogación cuando no de fallos
-        public serviceId?: number
+        public id_service?: number
     ) {}
 }
