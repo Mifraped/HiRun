@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Business } from 'src/app/models/business';
 import { Service} from 'src/app/models/service';
 import { RequestedService } from 'src/app/models/requested-service';
+import { ImageService } from 'src/app/shared/image.service';
 
 
 @Component({
@@ -19,12 +20,16 @@ export class ProfileBusinessCardComponent {
 
   public page: string
   public status: string
+  imageUrl:string
 
   goToBusinessEdit() {
     console.log(this.negocioPadre);
         this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
 }
 
+getImageUrl(imageName: string): string {
+  return `${this.imageService.serverUrl}${imageName}`;
+}
 
   ngOnInit() {
     if (this.servicePadre && typeof this.servicePadre.canceled !== 'undefined') {
@@ -32,6 +37,7 @@ export class ProfileBusinessCardComponent {
     } else {
       this.status = "Estado no disponible";
     }
+    this.imageUrl=this.negocioPadre.photo
   }
 
 
@@ -46,7 +52,7 @@ export class ProfileBusinessCardComponent {
     else if(this.router.url.includes("/requested-service")) this.page = 'solicitados'
   }
 
-  constructor(public businessService: BusinessService, public router: Router){
+  constructor(public businessService: BusinessService, public router: Router, public imageService: ImageService){
 
     this.changePage()
 

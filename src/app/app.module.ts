@@ -51,6 +51,7 @@ import { ChatCardComponent } from './components/chat-card/chat-card.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FiltersService } from './shared/filters.service';
+import {  DatePipe } from '@angular/common';
 
 import { Router } from 'express';
 
@@ -109,7 +110,7 @@ import { Router } from 'express';
     MatSnackBarModule,
   ],
 
-  providers: [HeaderNavbarService, FiltersService],
+  providers: [HeaderNavbarService, FiltersService, DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 <main class="container--ext">
   <div class="img-container">
-    <img src="{{ business?.photo }}" alt="" />
+    <img [src]="getImageUrl(imageUrl)" alt="" />
     <div class="imgGradient">
       <!-- va a la home, modificar cuando esté la página de resultados -->
       <button routerLink="/">

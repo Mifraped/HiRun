@@ -16,11 +16,26 @@
     <div class="separator"></div>
     <!-- añadir foto: pendinte investigar -->
     <div class="img-container">
-      <img src="{{ business.photo }}" alt="" />
+      <img
+        *ngIf="!selectedImageUrl"
+        [src]="getImageUrl(imageUrl)"
+        alt="Imagen"
+      />
+      <img
+        *ngIf="selectedImageUrl"
+        [src]="selectedImageUrl"
+        alt="Selected Image"
+      />
     </div>
     <button class="photoEdit">
-      <!-- <input type="file" id="photoInput" (change)="onFileChange($event)" /> -->
-      <input type="file" accept="image/*;capture=camera" id="photoInput" />
+      <input
+        type="file"
+        accept="image/*;capture=camera"
+        id="photoInput"
+        name="photo"
+        (change)="onFileSelected($event)"
+      />
+      <!-- <input type="file" accept="image/*;capture=camera" id="photoInput" /> -->
       <p>Editar foto</p>
       <i class="fa-regular fa-pen-to-square"></i>
     </button>

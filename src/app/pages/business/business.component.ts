@@ -11,6 +11,7 @@ import { User } from 'src/app/models/user';
 import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
 import { ResponseUser } from 'src/app/models/response-user';
+import { ImageService } from 'src/app/shared/image.service';
 
 @Component({
   selector: 'app-business',
@@ -26,7 +27,7 @@ services: Service[]
 provider: User
 providerId: number
 
-constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService) { 
+constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService, public imageService:ImageService) { 
   this.headerNavbarService.showHeader=true
   this.headerNavbarService.showNavbar=true }
 
@@ -42,6 +43,11 @@ contactProvider(){
   // pendiente lógica, tiene que llevarte a chat con el usuario business.provider
 }
 
+imageUrl:string
+getImageUrl(imageName: string): string {
+  return `${this.imageService.serverUrl}${imageName}`;
+}
+
 ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id_business');
   
@@ -53,6 +59,7 @@ ngOnInit() {
     }else{    
       this.business=res.data[0]
       this.providerId=res.data[0].provider
+      this.imageUrl=this.business.photo
 
       this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
         
