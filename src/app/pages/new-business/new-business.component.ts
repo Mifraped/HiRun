@@ -23,6 +23,9 @@ import { OptionService } from 'src/app/shared/option.service';
 import { User } from 'src/app/models/user';
 import {HttpClient} from '@angular/common/http'
 import Swal from 'sweetalert2';
+import { ImageService } from 'src/app/shared/image.service';
+import { ResponseImg } from 'src/app/models/response-img';
+import { CommonModule, DatePipe } from '@angular/common';
 
 
 @Component({
@@ -79,7 +82,7 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient, private imageService: ImageService, private datePipe: DatePipe) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -98,25 +101,38 @@ timeFrameArray=[]
   
 
 
-//  incluir http en contructor
+//  incluir http en constructor
  
- selectedFile:File
+selectedFile: File | null = null;
  
  
-//  recoge la foto
- onFileChange(event){
-   this.selectedFile = event.target.files[0]
-   console.log(event)
-   this.upload()
- }
- 
- upload(){
-   const uploadData = new FormData();
-   uploadData.append('myFile', this.selectedFile, this.selectedFile.name)
- 
-   //Aquí iría la llamada a la API
- }
 
+
+addPhoto (file:File, id_business:number){
+  
+
+    this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
+      console.log(res)
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{
+        console.log('imagen ok')
+        
+      }
+    })
+
+}
+//fecha creación en formato yyyy-mm-dd
+getCreationDate(): string {
+  const today = new Date();
+  return this.datePipe.transform(today, 'yyyy-MM-dd');
+}
+
+//selecciona la imagentitle
+onFileSelected(event: any) {
+  this.selectedFile = event.target.files[0];
+}
 
 // Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
   onCheckboxChange(option: any): void {
@@ -291,8 +307,11 @@ addNewBusinessOpt(bus:number, opt:number){
 
 //bucle opciones
 async addAllBusOptions(){
-  for (let opt of this.selectedOptions){
-    this.addNewBusinessOpt(this.newId, opt)
+  if(this.selectedOptions){
+
+    for (let opt of this.selectedOptions){
+      this.addNewBusinessOpt(this.newId, opt)
+    }
   }
 
 }
@@ -332,7 +351,7 @@ async addAllTimeframes(){
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 async newBusiness() {
-
+ 
   if (this.services.length==0){  
     this.addServiceForm.get('title').markAsTouched() 
     Swal.fire({
@@ -352,8 +371,9 @@ async newBusiness() {
     })
   }else{
     let newBusiness = this.newBusinessForm.value;
+    newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-    newBusiness.photo='img por defecto'
+    // newBusiness.photo='img por defecto'
  
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
@@ -376,6 +396,13 @@ async newBusiness() {
 
     await this.addAllBusOptions()
     console.log('options')
+  
+    if(this.selectedFile){
+      console.log()
+      await this.addPhoto(this.selectedFile, this.newId)
+
+      console.log(this.selectedFile)
+    }
 
   this.selectedCat=[];
   this.selectedOptions=[];

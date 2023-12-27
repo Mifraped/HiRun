@@ -1,6 +1,6 @@
 <div class="card-container" (click)="goToBusiness()">
   <div class="img-container">
-    <img src="{{ business.photo }}" alt="" />
+    <img [src]="getImageUrl(imageUrl)" alt="" />
     <div class="imgGradient">
       <!-- se elimina porque no tiene sentido -->
       <!-- <button routerLink="/"><i class="fa-solid fa-chevron-left"></i></button> -->
