@@ -15,8 +15,8 @@ export class UserService {
   public user: User
   public rates: Rate[]
   public requestedServices: RequestedService[]
-  // private url = "https://api-hi-run.vercel.app/" 
-  private url = "http://localhost:3000/" 
+  private url = "https://api-hi-run.vercel.app/" 
+  // private url = "http://localhost:3000/" 
   
   constructor(private http: HttpClient) {
   }
