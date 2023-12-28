@@ -18,6 +18,7 @@ export class Business {
     public photo: string, //poner imagen por defecto
 
     public rating: number = -1,
+    public create_date?: string,
     
     public id_business?: number
   ) {}

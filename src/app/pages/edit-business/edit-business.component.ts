@@ -30,6 +30,8 @@ import { Time } from "@angular/common";
 import { formatDate } from '@angular/common';
 import Swal from 'sweetalert2';
 import { Business } from 'src/app/models/business';
+import { ImageService } from 'src/app/shared/image.service';
+import { ResponseImg } from 'src/app/models/response-img';
 
 @Component({
   selector: 'app-edit-business',
@@ -51,6 +53,9 @@ export class EditBusinessComponent implements OnInit {
 
 
   selectedService: Service;
+
+  selectedFile:File
+  selectedImageUrl: string | null=null
 
   public addServiceForm: FormGroup;
   public editBusinessForm: FormGroup;
@@ -94,6 +99,9 @@ export class EditBusinessComponent implements OnInit {
   timeFrameArray = [];
   tfDelete=[]
 
+  imageUrl:string
+
+  
   constructor(
     public userService: UserService,
     public businessService: BusinessService,
@@ -105,7 +113,8 @@ export class EditBusinessComponent implements OnInit {
     private commonModule: CommonModule,
     public timeframeService: TimeframeService,
     public categoryService: CategoryService,
-    public optionsService:OptionService
+    public optionsService:OptionService,
+    public imageService:ImageService
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
@@ -124,6 +133,21 @@ export class EditBusinessComponent implements OnInit {
     } else {
       // Si el valor no está en el array, lo agregamos (seleccionamos)
       this.selectedOptions.push(option.i);
+    }
+
+  }
+//foto
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+
+    if ( this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.selectedImageUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL( this.selectedFile);
+    } else {
+      this.selectedImageUrl = null; 
     }
 
   }
@@ -348,6 +372,25 @@ export class EditBusinessComponent implements OnInit {
     })
   }
 
+  addPhoto (file:File, id_business:number){
+  
+
+    this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
+      console.log(res)
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{
+        console.log('imagen ok')
+        
+      }
+    })
+  
+
+
+ 
+}
+
   //editar negocio con la info del form + info adicional que viene del negocio, del formulario de services, etc. falta lógica solo recoge datos
   editBusiness() {
 
@@ -491,12 +534,20 @@ export class EditBusinessComponent implements OnInit {
             this.addNewTimeFrame(newTf)
           }
         }
+        //foto
+        if(this.selectedFile){
+          console.log()
+         this.addPhoto(this.selectedFile, this.business.id_business)
+    
+          console.log(this.selectedFile)
+        }
 
         //cambios en el propio business
         let modBusiness:Business =this.editBusinessForm.value
         
         modBusiness.id_business=this.business.id_business
       
+
 
         this.businessService.updateBusiness(modBusiness).subscribe((res:ResponseBusiness)=>{
           if (res.error) {
@@ -616,7 +667,9 @@ export class EditBusinessComponent implements OnInit {
   this.closeModal()
   }
 
-  
+  getImageUrl(imageName: string): string {
+    return `${this.imageService.serverUrl}${imageName}`;
+  }
 
 
 
@@ -650,6 +703,14 @@ export class EditBusinessComponent implements OnInit {
         alert(res.error)
       }else{    
         this.business=res.data[0]
+        console.log(this.business)
+        //foto
+
+        this.imageUrl=this.business.photo
+
+           
+
+      
         this.editBusinessForm.patchValue({
           title: this.business.title,
         });
@@ -710,6 +771,7 @@ export class EditBusinessComponent implements OnInit {
         
       }
     })
-  
+
+    
   }
 }
