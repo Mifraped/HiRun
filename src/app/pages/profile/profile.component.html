@@ -30,7 +30,7 @@
               [readOnly]="true"></star-rating>
           </div>
           <!-- numero de valoraciones -->
-          <div class="rates">
+          <div class="rates" *ngIf="userService && userService.rates && userService.rates.length">
             {{ "(" + userService.rates.length + ")" }}
           </div>
         </div>

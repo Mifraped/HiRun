@@ -10,8 +10,8 @@
     </a>
     <!-- enlace para añadir foto -->
     <div class="photo">
-      <input type="file" id="photoInput" />
-      <img [src]="userService.user.photo" />
+      <input type="file" id="photoInput" (change)="onFileSelected($event)" />
+      <img [src]="imagePreview ? imagePreview : userService.user.photo" />
       <svg class="photoIcon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
         <g fill="none">
           <defs>
@@ -30,22 +30,22 @@
     </div>
   </div>
   <!-- contenedor de inputs y botones -->
-  <form #formUser="ngForm" (ngSubmit)="sendForm(formUser)" class="contInputsButtons">
+  <form #formUser="ngForm" (ngSubmit)="sendForm()" class="contInputsButtons">
     <div class="input">
       <label>Nombre</label>
-      <input type="text" name="name" #nameId="ngModel" [(ngModel)]="userService.user.name" />
+      <input type="text" name="name" #nameId="ngModel" [(ngModel)]="name" />
     </div>
     <div class="input">
       <label>Apellido</label>
-      <input type="text" name="surname" #surnameId="ngModel" [(ngModel)]="userService.user.surname" />
+      <input type="text" name="surname" #surnameId="ngModel" [(ngModel)]="surname" />
     </div>
     <div class="input">
       <label>Ubicacion</label>
-      <input type="text" name="location" #locationId="ngModel" [(ngModel)]="userService.user.location" />
+      <input type="text" name="location" #locationId="ngModel" [(ngModel)]="location" />
     </div>
     <div class="input">
       <label>Telefono</label>
-      <input type="text" name="phoneNumber" #phoneNumberId="ngModel" [(ngModel)]="userService.user.phoneNumber" />
+      <input type="text" name="phoneNumber" #phoneNumberId="ngModel" [(ngModel)]="phoneNumber" />
     </div>
     <a routerLink="/preferences" id="edit">Editar preferencias</a>
     <button id="save">Guardar cambios</button>

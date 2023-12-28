@@ -45,6 +45,7 @@ export class UserService {
     return this.http.put(this.url + `user?id_user=${this.user.id_user}`, newUser)
   }
 
+
   //comprobado que con api local y web local funciona
   // private url = "http://localhost:3000/"
   //registro de un nuevo usuario

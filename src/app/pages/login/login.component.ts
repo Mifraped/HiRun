@@ -29,11 +29,8 @@ export class LoginComponent {
     this.userService.login(this.user).subscribe((resp:ResponseUser) => {
       if(resp.error == false){
         this.userService.connected = true
-        this.userService.user = new User(resp.data.email, null, resp.data.name, resp.data.surname, resp.data.location, resp.data.phoneNumber, resp.data.photo, null, resp.data.company, resp.data.id_user)
-        this.ruter.navigate(["home"])
-        this.userService.getRates().subscribe((resp:ResponseRates) => {
-          this.userService.rates = resp.data
-        })  
+        this.userService.user = new User(resp.data.email, null, resp.data.name, resp.data.surname, resp.data.location, resp.data.phoneNumber, resp.data.photo, null, resp.data.company, resp.data.id_user,resp.data.rate)
+        this.ruter.navigate(["home"])        
       }
       else {
         Swal.fire({

@@ -5,6 +5,9 @@ import { NgForm } from '@angular/forms';
 import { User } from 'src/app/models/user';
 import { ResponseUser } from 'src/app/models/response-user';
 import Swal from 'sweetalert2'
+import { ResponsePhoto } from 'src/app/models/response-photo';
+import * as e from 'express';
+import { PhotoService } from 'src/app/shared/photo.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -13,34 +16,85 @@ import Swal from 'sweetalert2'
 })
 export class EditProfileComponent {
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService) { 
+  public name = this.userService.user.name
+  public surname = this.userService.user.surname
+  public location = this.userService.user.location
+  public phoneNumber = this.userService.user.phoneNumber
+
+  public fileToUpload: File = null;
+  public imagePreview: string;
+
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true
   }
 
-  public sendForm(form:NgForm){
-  this.userService.putUser(this.userService.user).subscribe((resp: ResponseUser) => {
-    if(resp.error == false){
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Perfil actualizado",
-        showConfirmButton: false,
-        timer: 1500
-      });
-    }else{
-      this.userService.user.name = resp.data.name
-      this.userService.user.surname = resp.data.surname
-      this.userService.user.location = resp.data.location
-      this.userService.user.phoneNumber = resp.data.phoneNumber
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: "No se pudo actualizar el perfil",
-        showConfirmButton: false,
-        timer: 1500
-      });
+  onFileSelected(event) {
+    if (event.target.files && event.target.files[0]) {
+      this.fileToUpload = event.target.files[0];
+  
+      const reader = new FileReader();
+      reader.onload = e => this.imagePreview = reader.result as string;
+  
+      reader.readAsDataURL(this.fileToUpload);
     }
-  })    
+  }
+
+  private setUser(){
+    this.userService.user.name = this.name
+    this.userService.user.surname = this.surname
+    this.userService.user.location = this.location
+    this.userService.user.phoneNumber = this.phoneNumber
+  }
+
+  private updateUser(){
+    this.setUser()
+    this.userService.putUser(this.userService.user).subscribe((resp: ResponseUser) => {
+      if(resp.error == false){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Perfil actualizado",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }else{
+        this.userService.user.name = resp.data.name
+        this.userService.user.surname = resp.data.surname
+        this.userService.user.location = resp.data.location
+        this.userService.user.phoneNumber = resp.data.phoneNumber
+        this.userService.user.photo = resp.data.photo
+        Swal.fire({
+          position: "top-end",
+          icon: "error",
+          title: "No se pudo actualizar el perfil",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+  })
+  }
+
+  public sendForm(){
+    if(this.fileToUpload){
+          const formData = new FormData();
+          formData.append('photo', this.fileToUpload, this.fileToUpload.name);
+          this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+            if(resp.error == false){
+              this.setUser()
+              this.userService.user.photo = resp.data
+            
+              this.updateUser()
+            }else{
+              Swal.fire({
+                position: "top-end",
+                icon: "error",
+                title: "No se pudo actualizar el perfil",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+    })
+    }else this.updateUser()
   }
 }

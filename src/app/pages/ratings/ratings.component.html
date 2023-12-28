@@ -11,22 +11,25 @@
     <div class="ratings">
       <star-rating [starType]="'svg'" [rating]="userService.user.rate" staticColor="ok" size="medium"
         [readOnly]="true"></star-rating>
-      <div class="rates">
+      <div class="rates" *ngIf="userService && userService.rates && userService.rates.length">
         {{ "(" + userService.rates.length + ")" }}
       </div>
     </div>
     <hr />
   </header>
   <!-- contenedor valoraciones -->
-  <ng-container *ngIf="userService.rates.length > 0; else noRates">
-    <div class="contRatings">
-      <div class="card" *ngFor="let rate of userService.rates; let last = last">
-        <app-rating-card [rate]="rate"></app-rating-card>
-        <hr *ngIf="!last" />
+  <ng-container *ngIf="userService && userService.rates; else noLoaded">
+    <ng-container *ngIf="userService.rates.length > 0; else noRates">
+      <div class="contRatings">
+        <div class="card" *ngFor="let rate of userService.rates; let last = last">
+          <app-rating-card [rate]="rate"></app-rating-card>
+          <hr *ngIf="!last" />
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-template #noRates>
+      <h1 class="noRates">Todavia no tienes valoraciones</h1>
+    </ng-template>
   </ng-container>
-  <ng-template #noRates>
-    <h1 class="noRates">Todavia no tienes valoraciones</h1>
-  </ng-template>
+  <ng-template #noLoaded></ng-template>
 </div>
