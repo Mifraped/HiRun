@@ -8,7 +8,7 @@
 
   <div class="titleContainer">
     <h1>{{ business.title }}</h1>
-    <h2>{{ service.title }}</h2>
+    <h2>{{ service?.title }}</h2>
   </div>
   <!-- fecha -->
   <form [formGroup]="bookingForm">
@@ -23,6 +23,7 @@
           class="transparent"
           formControlName="date"
           [min]="minDate"
+          (change)="onDateChange($event)"
           [ngClass]="{
             'is-invalid':
               (bookingForm.get('date').dirty ||
@@ -71,13 +72,20 @@
               !bookingForm.get('time').valid
           }"
         >
-          <option value="" disabled selected>Escoge la hora</option>
           <option
-            *ngFor="let time of timeFrames"
-            [value]="time.time"
+            *ngIf="availableTimeframes.length != 0"
+            value=""
+            disabled
+            selected
+          >
+            Escoge la hora
+          </option>
+          <option
+            *ngFor="let time of availableTimeframes"
+            [value]="time.time0"
             [disabled]="!time.available"
           >
-            {{ time.time }}
+            {{ time.time0 }}-{{ time.time1 }}
             <p class="pSelect" *ngIf="!time.available">- NO DISPONIBLE</p>
           </option>
         </select>
@@ -112,7 +120,7 @@
     </div>
 
     <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del negocio -->
-    <div class="form-group" *ngIf="user == provider">
+    <div class="form-group" *ngIf="user.id_user === providerId">
       <label for="">Cliente</label>
       <div class="inputContainer">
         <select

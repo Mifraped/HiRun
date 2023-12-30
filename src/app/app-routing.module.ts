@@ -41,8 +41,8 @@ const routes: Routes = [
   { path: 'favorites', component: FavoritesComponent },
   { path: 'business/:id_business', component: BusinessComponent },
   { path: 'edit-business/:id_business', component: EditBusinessComponent },
-  { path: 'book-service', component: BookServiceComponent },
-  { path: 'book-service/:id', component: BookServiceComponent },
+  // { path: 'book-service', component: BookServiceComponent },
+  { path: 'book-service/:id_business/:id_service', component: BookServiceComponent },
 
   { path: 'results', component: ResultsComponent },
   { path: 'filters', component: FiltersComponent },

@@ -12,12 +12,12 @@ import { ResponseBusCat } from '../models/response-bus-cat';
 export class CategoryService {
 
   //para obtener categorías
-  private url1 = "https://api-hi-run.vercel.app/category" 
-  // private url1 = "http://localhost:3000/category" 
+  // private url1 = "https://api-hi-run.vercel.app/category" 
+  private url1 = "http://localhost:3000/category" 
 
   //para añadir categorías a bussines_cat
-  private url2 = "https://api-hi-run.vercel.app/business-cat" 
-  // private url2 = "http://localhost:3000/business-cat" 
+  // private url2 = "https://api-hi-run.vercel.app/business-cat" 
+  private url2 = "http://localhost:3000/business-cat" 
 
   private allCategoriesSubject = new BehaviorSubject<Category[]>([]);
   public allCategories: Category[]
