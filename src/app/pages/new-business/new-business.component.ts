@@ -110,24 +110,24 @@ selectedFile: File | null = null;
  
 
 
-addPhoto (file:File){
+// addPhoto (file:File){
 
-  // Obtener la extensión del archivo
-const fileExtension = file.name.split('.').pop();
+//   // Obtener la extensión del archivo
+// const fileExtension = file.name.split('.').pop();
 
-// Crear un nombre único usando un timestamp
-const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+// // Crear un nombre único usando un timestamp
+// const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
 
 
-  const formData = new FormData();
-  formData.append('photo', file, uniqueFileName);
-          this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-            if(resp.error == false){
+//   const formData = new FormData();
+//   formData.append('photo', file, uniqueFileName);
+//           this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+//             if(resp.error == false){
               
-              this.businessService.business.photo = resp.data
+//               this.businessService.business.photo = resp.data
             
-            }
-          })
+//             }
+//           })
 
     // this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
     //   console.log(res)
@@ -140,7 +140,7 @@ const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
     //   }
     // })
 
-}
+// }
 
 
 //fecha creación en formato yyyy-mm-dd
@@ -336,6 +336,31 @@ async addAllBusOptions(){
 
 }
 
+photoUrl:string
+
+async addPhoto(){
+  if(this.selectedFile){
+     
+    // Crear un nombre único usando un timestamp
+    const fileExtension = this.selectedFile.name.split('.').pop();
+    const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+    
+    
+      const formData = new FormData();
+      formData.append('photo', this.selectedFile, uniqueFileName);
+              this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+                if(resp.error == false){
+                  
+                  this.photoUrl = resp.data
+                                 
+                }else{
+                  console.log('error foto')
+                }
+              })
+
+  }
+}
+
 //añadir franja horaria
 addNewTimeFrame(tf:TimeFrame){  
   this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
@@ -427,33 +452,13 @@ async newBusiness() {
     confirmButtonText: "OK"
     })
   }else{
+
+    await this.addPhoto()
+
     let newBusiness = this.newBusinessForm.value;
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-
-    if(this.selectedFile){
-     
-      // Crear un nombre único usando un timestamp
-      const fileExtension = this.selectedFile.name.split('.').pop();
-      const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
-      
-      
-        const formData = new FormData();
-        await formData.append('photo', this.selectedFile, uniqueFileName);
-                this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-                  if(resp.error == false){
-                    
-                    newBusiness.photo = resp.data
-                    console.log(newBusiness.photo)
-                  
-                  }else{
-                    console.log('error foto')
-                  }
-                })
-
-    }else{
-      console.log('no file selected')
-    }
+    newBusiness.photo = this.photoUrl    
  
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
