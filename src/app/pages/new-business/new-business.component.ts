@@ -26,6 +26,8 @@ import Swal from 'sweetalert2';
 import { ImageService } from 'src/app/shared/image.service';
 import { ResponseImg } from 'src/app/models/response-img';
 import { CommonModule, DatePipe } from '@angular/common';
+import { PhotoService } from 'src/app/shared/photo.service';
+import { ResponsePhoto } from 'src/app/models/response-photo';
 
 
 @Component({
@@ -82,7 +84,7 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient, private imageService: ImageService, private datePipe: DatePipe) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient, private imageService: ImageService, private datePipe: DatePipe, private photoService: PhotoService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -108,21 +110,39 @@ selectedFile: File | null = null;
  
 
 
-addPhoto (file:File, id_business:number){
-  
+addPhoto (file:File){
 
-    this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
-      console.log(res)
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{
-        console.log('imagen ok')
+  // Obtener la extensión del archivo
+const fileExtension = file.name.split('.').pop();
+
+// Crear un nombre único usando un timestamp
+const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+
+
+  const formData = new FormData();
+  formData.append('photo', file, uniqueFileName);
+          this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+            if(resp.error == false){
+              
+              this.businessService.business.photo = resp.data
+            
+            }
+          })
+
+    // this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
+    //   console.log(res)
+    //   if (res.error){
+    //     console.log('error')
+    //     alert(res.error)
+    //   }else{
+    //     console.log('imagen ok')
         
-      }
-    })
+    //   }
+    // })
 
 }
+
+
 //fecha creación en formato yyyy-mm-dd
 getCreationDate(): string {
   const today = new Date();
@@ -410,7 +430,25 @@ async newBusiness() {
     let newBusiness = this.newBusinessForm.value;
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-    // newBusiness.photo='img por defecto'
+
+    if(this.selectedFile){
+     
+      // Crear un nombre único usando un timestamp
+      const fileExtension = this.selectedFile.name.split('.').pop();
+      const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+      
+      
+        const formData = new FormData();
+        await formData.append('photo', this.selectedFile, uniqueFileName);
+                this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+                  if(resp.error == false){
+                    
+                    newBusiness.photo = resp.data
+                  
+                  }
+                })
+
+    }
  
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
@@ -434,13 +472,7 @@ async newBusiness() {
     await this.addAllBusOptions()
     console.log('options')
   
-    if(this.selectedFile){
-      console.log()
-      await this.addPhoto(this.selectedFile, this.newId)
-
-      console.log(this.selectedFile)
-    }
-
+  
     let texto:string = (this.timeFrameOverlap)? "Revisa tus horarios: algunas franjas horarias no se han añadido por solapamiento con otros negocios activos":"Tu nuevo negocio se ha añadido correctamente"
 
   this.selectedCat=[];

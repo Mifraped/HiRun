@@ -9,8 +9,8 @@ import { ResponseBusOpt } from '../models/response-bus-opt';
 })
 export class OptionService {
 
-  //  private url = "https://api-hi-run.vercel.app/bus-option" 
-   private url = "http://localhost:3000/bus-option" 
+   private url = "https://api-hi-run.vercel.app/bus-option" 
+  //  private url = "http://localhost:3000/bus-option" 
 
   constructor(private http: HttpClient) { } 
 
