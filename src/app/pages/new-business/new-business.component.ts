@@ -329,23 +329,60 @@ addNewTimeFrame(tf:TimeFrame){
   })
 }
 
+timeFrameOverlap: boolean
+
 //bucle timeframes
 async addAllTimeframes(){
+  try {
+    const res: ResponseTimeframe = await this.timeframeService.getUserTimeframe(this.userService.user.id_user).toPromise();
+    console.log(res);
+
+    if (res.error) {
+      console.log('error');
+      alert(res.error);
+      return;
+    }
+
+    const allTfs = res.data;
+  
  for (let tf of this.timeFrameArray){
+  let overlap: Boolean = false
   console.log(tf)
   let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
-
   let strDays:string=""
       for (let i=0; i<7; i++){
-      if (tf.days[i]) {
-      
-        strDays = strDays+this.week[i].initial;
-      }
-    }
-  
+        if (tf.days[i]) {
+          strDays = strDays+this.week[i].initial;
+        }
+      }  
     newTf.days=strDays
-    this.addNewTimeFrame(newTf)
+    
+    for (let oldTf of allTfs){
+      for (let tfDay of strDays){
+        for (let oldTfDay of oldTf.days){
+          
+          if (tfDay===oldTfDay){
+            
+            if ((newTf.start >= oldTf.start && newTf.start < oldTf.end) ||
+            (newTf.end > oldTf.start && newTf.end <= oldTf.end) ||
+            (newTf.start <= oldTf.start && newTf.end >= oldTf.end)) {
+              overlap = true
+            }
+           
+          }
+        }
+      }
+
+    }
+    if (!overlap) {
+      this.addNewTimeFrame(newTf);
+    }else{
+      this.timeFrameOverlap=true
+    }
 } 
+} catch (error) {
+  console.error('Error fetching user timeframes:', error);
+}
 }
 
 
@@ -404,13 +441,15 @@ async newBusiness() {
       console.log(this.selectedFile)
     }
 
+    let texto:string = (this.timeFrameOverlap)? "Revisa tus horarios: algunas franjas horarias no se han añadido por solapamiento con otros negocios activos":"Tu nuevo negocio se ha añadido correctamente"
+
   this.selectedCat=[];
   this.selectedOptions=[];
   this.services=[]
   this.newBusinessForm.reset()
   Swal.fire({
     title: "Negocio creado",
-  text: "Tu nuevo negocio se ha añadido correctamente",
+  text: texto,
   icon: "success",
   confirmButtonColor: "var(--green)",
   confirmButtonText: "OK"

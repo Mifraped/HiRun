@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { Business } from 'src/app/models/business';
 import { UserService } from 'src/app/shared/user.service';
 
 
@@ -10,10 +11,13 @@ import { UserService } from 'src/app/shared/user.service';
 })
 export class ServiceCardComponent {
 @Input() service:any
+@Input() business:Business
 
 bookService(){
   if (this.userService.connected){
-this.router.navigate([`/book-service/:${this.service.id_service}`]);
+    console.log(this.business.id_business)
+    console.log(this.service.id_service)
+  this.router.navigate(['/book-service',this.business.id_business, this.service.id_service]);
    
   }else{
     alert('inicia sesión para reservar')

@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class ServiceService {
 
-  private url = "https://api-hi-run.vercel.app/" 
-  // private url = "http://localhost:3000/" 
+  // private url = "https://api-hi-run.vercel.app/" 
+  private url = "http://localhost:3000/" 
   
   
   constructor(private http: HttpClient) {}
@@ -24,6 +24,10 @@ export class ServiceService {
   getAllServices(id_business:number):Observable<object>{
     
     return this.http.get(`${this.url}service?id_business=${id_business}`)
+  }
+  getOneService(id_service:number):Observable<object>{
+    
+    return this.http.get(`${this.url}service?id_service=${id_service}`)
   }
 
   deleteService(id_service:number):Observable<object>{
