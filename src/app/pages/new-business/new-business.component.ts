@@ -444,10 +444,15 @@ async newBusiness() {
                   if(resp.error == false){
                     
                     newBusiness.photo = resp.data
+                    console.log(newBusiness.photo)
                   
+                  }else{
+                    console.log('error foto')
                   }
                 })
 
+    }else{
+      console.log('no file selected')
     }
  
     // llamada a la función que conecta con el servicio y la api
