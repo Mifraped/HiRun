@@ -30,6 +30,7 @@
   <app-service-card
     *ngFor="let service of services"
     [service]="service"
+    [business]="business"
   ></app-service-card>
 
   <button class="contact" (click)="contactProvider()">

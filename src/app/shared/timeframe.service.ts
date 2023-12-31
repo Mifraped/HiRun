@@ -23,6 +23,10 @@ private url= "https://api-hi-run.vercel.app/timeframe"
     return this.http.get<ResponseTimeframe>(`${this.url}?id_business=${busId}`);
   }
 
+  getUserTimeframe(userId:number): Observable<ResponseTimeframe> {
+    return this.http.get<ResponseTimeframe>(`${this.url}?id_user=${userId}`);
+  }
+
   deleteTimeframe(tfId:number): Observable<ResponseTimeframe> {
     return this.http.delete<ResponseTimeframe>(`${this.url}?id_timeframe=${tfId}`);
   }

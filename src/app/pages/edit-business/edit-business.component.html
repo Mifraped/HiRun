@@ -16,11 +16,7 @@
     <div class="separator"></div>
     <!-- añadir foto: pendinte investigar -->
     <div class="img-container">
-      <img
-        *ngIf="!selectedImageUrl"
-        [src]="getImageUrl(imageUrl)"
-        alt="Imagen"
-      />
+      <img *ngIf="!selectedImageUrl" src="{{ business.photo }}" alt="Imagen" />
       <img
         *ngIf="selectedImageUrl"
         [src]="selectedImageUrl"

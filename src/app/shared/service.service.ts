@@ -25,6 +25,10 @@ export class ServiceService {
     
     return this.http.get(`${this.url}service?id_business=${id_business}`)
   }
+  getOneService(id_service:number):Observable<object>{
+    
+    return this.http.get(`${this.url}service?id_service=${id_service}`)
+  }
 
   deleteService(id_service:number):Observable<object>{
     

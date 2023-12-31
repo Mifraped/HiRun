@@ -30,8 +30,9 @@ import { Time } from "@angular/common";
 import { formatDate } from '@angular/common';
 import Swal from 'sweetalert2';
 import { Business } from 'src/app/models/business';
-import { ImageService } from 'src/app/shared/image.service';
 import { ResponseImg } from 'src/app/models/response-img';
+import { PhotoService } from 'src/app/shared/photo.service';
+import { ResponsePhoto } from 'src/app/models/response-photo';
 
 @Component({
   selector: 'app-edit-business',
@@ -54,7 +55,9 @@ export class EditBusinessComponent implements OnInit {
 
   selectedService: Service;
 
-  selectedFile:File
+  public fileToUpload: File = null;
+public imagePreview: string;
+photoUrl
   selectedImageUrl: string | null=null
 
   public addServiceForm: FormGroup;
@@ -114,7 +117,8 @@ export class EditBusinessComponent implements OnInit {
     public timeframeService: TimeframeService,
     public categoryService: CategoryService,
     public optionsService:OptionService,
-    public imageService:ImageService
+    public photoService:PhotoService
+    
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
@@ -138,16 +142,13 @@ export class EditBusinessComponent implements OnInit {
   }
 //foto
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-
-    if ( this.selectedFile) {
+    if (event.target.files && event.target.files[0]) {
+      this.fileToUpload = event.target.files[0];
+  
       const reader = new FileReader();
-      reader.onload = (e) => {
-        this.selectedImageUrl = e.target?.result as string;
-      };
-      reader.readAsDataURL( this.selectedFile);
-    } else {
-      this.selectedImageUrl = null; 
+      reader.onload = e => this.imagePreview = reader.result as string;
+  
+      reader.readAsDataURL(this.fileToUpload);
     }
 
   }
@@ -372,24 +373,28 @@ export class EditBusinessComponent implements OnInit {
     })
   }
 
-  addPhoto (file:File, id_business:number){
+  async addPhoto() {
+    return new Promise<void>((resolve, reject) => {
+      const fileExtension = this.fileToUpload.name.split('.').pop();
+      const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
   
-
-    this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
-      console.log(res)
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{
-        console.log('imagen ok')
-        
-      }
-    })
+      console.log('nombre foto: ' + uniqueFileName);
   
-
-
- 
-}
+      const formData = new FormData();
+      formData.append('photo', this.fileToUpload, uniqueFileName);
+  
+      this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+        if (resp.error === false) {
+          this.photoUrl = resp.data;
+          console.log('resp.data: ' + this.photoUrl);
+          resolve(); // Resuelve la promesa cuando la carga de la foto es exitosa
+        } else {
+          console.log('error foto');
+          reject(new Error('Error al cargar la foto')); // Rechaza la promesa en caso de error
+        }
+      });
+    });
+  }
 
   //editar negocio con la info del form + info adicional que viene del negocio, del formulario de services, etc. falta lógica solo recoge datos
   editBusiness() {
@@ -535,11 +540,11 @@ export class EditBusinessComponent implements OnInit {
           }
         }
         //foto
-        if(this.selectedFile){
+        if(this.fileToUpload){
           console.log()
-         this.addPhoto(this.selectedFile, this.business.id_business)
+          this.addPhoto()
     
-          console.log(this.selectedFile)
+          console.log(this.fileToUpload)
         }
 
         //cambios en el propio business
@@ -667,9 +672,9 @@ export class EditBusinessComponent implements OnInit {
   this.closeModal()
   }
 
-  getImageUrl(imageName: string): string {
-    return `${this.imageService.serverUrl}${imageName}`;
-  }
+  // getImageUrl(imageName: string): string {
+  //   return `${this.imageService.serverUrl}${imageName}`;
+  // }
 
 
 
