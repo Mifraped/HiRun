@@ -84,6 +84,11 @@ timeFramesOpen: boolean=false
 timeFrameArray=[]
 
 
+//para loa foto copio lo del perfil
+public fileToUpload: File = null;
+public imagePreview: string;
+
+
   constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient, private imageService: ImageService, private datePipe: DatePipe, private photoService: PhotoService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
@@ -101,33 +106,36 @@ timeFrameArray=[]
        this.user = this.userService.user
  }
   
+ onFileSelected(event) {
+  if (event.target.files && event.target.files[0]) {
+    this.fileToUpload = event.target.files[0];
+
+    const reader = new FileReader();
+    reader.onload = e => this.imagePreview = reader.result as string;
+
+    reader.readAsDataURL(this.fileToUpload);
+  }
+}
 
 
-//  incluir http en constructor
- 
-selectedFile: File | null = null;
- 
- 
+// addPhoto (file:File){
+
+//   // Obtener la extensión del archivo
+// const fileExtension = file.name.split('.').pop();
+
+// // Crear un nombre único usando un timestamp
+// const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
 
 
-addPhoto (file:File){
-
-  // Obtener la extensión del archivo
-const fileExtension = file.name.split('.').pop();
-
-// Crear un nombre único usando un timestamp
-const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
-
-
-  const formData = new FormData();
-  formData.append('photo', file, uniqueFileName);
-          this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-            if(resp.error == false){
+//   const formData = new FormData();
+//   formData.append('photo', file, uniqueFileName);
+//           this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+//             if(resp.error == false){
               
-              this.businessService.business.photo = resp.data
+//               this.businessService.business.photo = resp.data
             
-            }
-          })
+//             }
+//           })
 
     // this.imageService.postBusinessImage(file, id_business).subscribe((res:ResponseImg)=>{
     //   console.log(res)
@@ -140,7 +148,7 @@ const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
     //   }
     // })
 
-}
+// }
 
 
 //fecha creación en formato yyyy-mm-dd
@@ -149,10 +157,7 @@ getCreationDate(): string {
   return this.datePipe.transform(today, 'yyyy-MM-dd');
 }
 
-//selecciona la imagentitle
-onFileSelected(event: any) {
-  this.selectedFile = event.target.files[0];
-}
+
 
 // Método para agregar o quitar opciones del array 'selectedOptions' con las opciones extra
   onCheckboxChange(option: any): void {
@@ -336,6 +341,33 @@ async addAllBusOptions(){
 
 }
 
+photoUrl:string
+
+async addPhoto(){
+  if(this.fileToUpload){
+     
+    // Crear un nombre único usando un timestamp
+    const fileExtension = this.fileToUpload.name.split('.').pop();
+    const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+
+    console.log('nombre foto: '+uniqueFileName)
+    
+    
+      const formData = new FormData();
+      formData.append('photo', this.fileToUpload, uniqueFileName);
+              this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+                if(resp.error == false){
+                  
+                  this.photoUrl = resp.data
+                                 
+                }else{
+                  console.log('error foto')
+                }
+              })
+
+  }
+}
+
 //añadir franja horaria
 addNewTimeFrame(tf:TimeFrame){  
   this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
@@ -426,71 +458,71 @@ async newBusiness() {
     confirmButtonColor: "var(--green)",
     confirmButtonText: "OK"
     })
-  }else{
+  }else if(this.fileToUpload){     
+    // Crear un nombre único usando un timestamp
+    const fileExtension = this.fileToUpload.name.split('.').pop();
+    const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
+
+    console.log('nombre foto: '+uniqueFileName)
+    
+    
+      const formData = new FormData();
+      formData.append('photo', this.fileToUpload, uniqueFileName);
+              this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+                if(resp.error == false){
+                  
+                  this.photoUrl = resp.data
+                  console.log('resp.data: '+this.photoUrl)                                 
+                }else{
+                  console.log('error foto')
+                }
+              })
+
+  }
+
     let newBusiness = this.newBusinessForm.value;
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
+    newBusiness.photo = this.photoUrl   
 
-    if(this.selectedFile){
-     
-      // Crear un nombre único usando un timestamp
-      const fileExtension = this.selectedFile.name.split('.').pop();
-      const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
-      
-      
-        const formData = new FormData();
-        await formData.append('photo', this.selectedFile, uniqueFileName);
-                this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-                  if(resp.error == false){
-                    
-                    newBusiness.photo = resp.data
-                  
-                  }
-                })
-
-    }
  
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
     console.log('newbusiness')
+    console.log(newBusiness)
     console.log(this.newId)
 
     //itera para añadir los servicios dentro del negocio
     await this.addAllServices()
-    console.log('services')
 
   //itera para asignar categorías o etiquetas al negocio
     if (this.selectedCat){
       await this.addAllCats()
     }
-    console.log('cats')
 
     // itera para añadir timeframes
     await this.addAllTimeframes()
-    console.log('timeframes')
-
+    
     await this.addAllBusOptions()
-    console.log('options')
-  
-  
+    
     let texto:string = (this.timeFrameOverlap)? "Revisa tus horarios: algunas franjas horarias no se han añadido por solapamiento con otros negocios activos":"Tu nuevo negocio se ha añadido correctamente"
 
-  this.selectedCat=[];
-  this.selectedOptions=[];
-  this.services=[]
-  this.newBusinessForm.reset()
-  Swal.fire({
-    title: "Negocio creado",
-  text: texto,
-  icon: "success",
-  confirmButtonColor: "var(--green)",
-  confirmButtonText: "OK"
-  })
-  this.router.navigate(['/service-provided'])
+    this.selectedCat=[];
+    this.selectedOptions=[];
+    this.services=[]
+    this.newBusinessForm.reset()
+    Swal.fire({
+      title: "Negocio creado",
+    text: texto,
+    icon: "success",
+    confirmButtonColor: "var(--green)",
+    confirmButtonText: "OK"
+    })
+    this.router.navigate(['/service-provided'])
 }
 
  
-}
+
 
 cancelNewBusiness(){
   //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
