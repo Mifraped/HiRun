@@ -4,7 +4,7 @@
       <img
         *ngIf="page === 'activos'"
         id="imgBusiness"
-        [src]="getImageUrl(imageUrl)"
+        src="{{ negocioPadre.photo }}"
       />
       <img
         *ngIf="page === 'solicitados'"
