@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { NgForm } from '@angular/forms';
@@ -9,12 +9,15 @@ import { ResponsePhoto } from 'src/app/models/response-photo';
 import * as e from 'express';
 import { PhotoService } from 'src/app/shared/photo.service';
 
+
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent {
+
+  @ViewChild('formUser') form: NgForm
 
   public name = this.userService.user.name
   public surname = this.userService.user.surname
@@ -23,6 +26,8 @@ export class EditProfileComponent {
 
   public fileToUpload: File = null;
   public imagePreview: string;
+
+  public isUpdating = false
 
   constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService) { 
     this.headerNavbarService.showHeader=false
@@ -48,7 +53,10 @@ export class EditProfileComponent {
   }
 
   private updateUser(){
-    this.setUser()
+    this.isUpdating = true
+    if(this.form.dirty){
+      this.setUser()
+    }
     this.userService.putUser(this.userService.user).subscribe((resp: ResponseUser) => {
       if(resp.error == false){
         Swal.fire({
@@ -72,29 +80,31 @@ export class EditProfileComponent {
           timer: 1500
         });
       }
-  })
+      this.isUpdating = false
+    })
   }
 
   public sendForm(){
+    this.isUpdating = true
     if(this.fileToUpload){
-          const formData = new FormData();
-          formData.append('photo', this.fileToUpload, this.fileToUpload.name);
-          this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-            if(resp.error == false){
-              this.setUser()
-              this.userService.user.photo = resp.data
-            
-              this.updateUser()
-            }else{
-              Swal.fire({
-                position: "top-end",
-                icon: "error",
-                title: "No se pudo actualizar el perfil",
-                showConfirmButton: false,
-                timer: 1500
-              });
-            }
+      const formData = new FormData();
+      formData.append('photo', this.fileToUpload, this.fileToUpload.name);
+      this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
+        if(resp.error == false){
+          this.userService.user.photo = resp.data
+          this.updateUser()
+        }else{
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "No se pudo actualizar el perfil",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.isUpdating = false
+        }
     })
+    this.fileToUpload = null
     }else this.updateUser()
   }
 }

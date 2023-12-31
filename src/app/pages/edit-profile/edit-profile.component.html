@@ -48,6 +48,6 @@
       <input type="text" name="phoneNumber" #phoneNumberId="ngModel" [(ngModel)]="phoneNumber" />
     </div>
     <a routerLink="/preferences" id="edit">Editar preferencias</a>
-    <button id="save">Guardar cambios</button>
+    <button id="save" [disabled]="isUpdating">Guardar cambios</button>
   </form>
 </div>

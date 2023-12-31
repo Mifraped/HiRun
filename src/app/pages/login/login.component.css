@@ -70,7 +70,7 @@ form {
     position: absolute;
     left: .5rem;
     top: .8125rem;
-    background-color: var(--white);
+    background-color: var(--lightGrey);
 }
 
 input {

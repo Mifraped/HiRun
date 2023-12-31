@@ -46,7 +46,8 @@ export class RegForm3Component {
       this.selectedCat.splice(index, 1);
       this.allCat.push(currentCat);
     }
-
+    console.log(this.selectedCat);
+    
   }
 
   setPreferences(){

@@ -5,6 +5,7 @@ import { Business } from 'src/app/models/business';
 import { Service} from 'src/app/models/service';
 import { RequestedService } from 'src/app/models/requested-service';
 import { ImageService } from 'src/app/shared/image.service';
+import { UserService } from 'src/app/shared/user.service';
 
 
 @Component({
@@ -37,7 +38,7 @@ getImageUrl(imageName: string): string {
     } else {
       this.status = "Estado no disponible";
     }
-    this.imageUrl=this.negocioPadre.photo
+    this.imageUrl= this.negocioPadre && this.negocioPadre.photo ? this.negocioPadre.photo : null;
   }
 
 

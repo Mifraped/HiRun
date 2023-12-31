@@ -10,6 +10,8 @@ import wNumb from 'wnumb';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+
 
 @Component({
   selector: 'app-filters',
@@ -35,8 +37,11 @@ export class FiltersComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private filtersService: FiltersService
-  ) {}
+    private filtersService: FiltersService,
+    public headerNavbarService: HeaderNavbarService,
+  ) {
+    this.headerNavbarService.showNavbar=false
+  }
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
   sliderValues: number[] = [20, 80];
 
