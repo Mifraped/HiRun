@@ -42,18 +42,14 @@ export class ResultsComponent implements OnInit {
       const ratingFilter = params['rating'];
       const minPrice = Number(params['minPrice']);
       const maxPrice = Number(params['maxPrice']);
-      const category = params['category'];
+      const otherValues = params['other'] ? params['other'].split(',') : [];
 
       this.filtersService.updateSearchTerm(searchTerm);
 
       this.searchTerm = this.filtersService.getCurrentSearchTerm();
 
-      if (!this.searchTerm && category) {
-        this.searchTerm = category;
-      }
-
       this.filtersService
-        .getResults(searchTerm, ratingFilter, minPrice, maxPrice, category)
+        .getResults(searchTerm, ratingFilter, minPrice, maxPrice, otherValues)
         .subscribe((results) => {
           console.log('results:', results);
           this.results = results;
