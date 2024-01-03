@@ -70,6 +70,28 @@ app-filters .main-cnt {
   gap: 20px;
 }
 
+.star-elements {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+#label-r5 {
+  width: 149px;
+}
+
+.checkbox-0 {
+  display: flex;
+  align-items: center;
+}
+
+#rating5 {
+  width: 32px;
+  height: 32px;
+}
+
 .checkbox-1 {
   display: flex;
   align-items: center;
@@ -263,9 +285,14 @@ app-filters .main-cnt {
   margin-left: -30px;
   display: flex;
   flex-direction: column;
-
   width: 300px;
   gap: 30px;
+}
+
+.other-elements {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .other h3 {

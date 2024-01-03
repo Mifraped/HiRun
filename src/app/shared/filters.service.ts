@@ -48,6 +48,7 @@ export class FiltersService {
     ratingFilter: number,
     minPrice: number,
     maxPrice: number,
+    categories: string[],
     options: string[]
   ) {
     console.log('getResults called');
@@ -55,6 +56,7 @@ export class FiltersService {
     console.log('ratingFilter:', ratingFilter);
     console.log('minPrice:', minPrice);
     console.log('maxPrice:', maxPrice);
+    console.log('categories:', categories);
     console.log('options:', options);
 
     let params = new HttpParams();
@@ -69,6 +71,11 @@ export class FiltersService {
     }
     if (!isNaN(maxPrice)) {
       params = params.set('maxPrice', maxPrice.toString());
+    }
+    if (categories && categories.length > 0) {
+      categories.forEach((category) => {
+        params = params.append('category', category);
+      });
     }
     if (options && options.length > 0) {
       options.forEach((option) => {

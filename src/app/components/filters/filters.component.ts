@@ -11,6 +11,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
+import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 @Component({
   selector: 'app-filters',
@@ -28,19 +29,36 @@ export class FiltersComponent implements OnInit {
 
   form: FormGroup;
   categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
+    'Fontanería',
+    'Música',
+    'Carpintería',
+    'Informática',
+    'Fotografía',
+    'Diseño web',
+    'Albañilería',
+    'Mecánica',
+    'Idiomas',
+    'Electricidad',
+    'Carrocería',
+    'Entretenimiento',
+    'Tratamientos',
+    'Peluquería',
+    'Abogados',
+    'Programación',
+    'Particulares',
+    'Maquillaje',
+    'Contabilidad',
   ];
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private filtersService: FiltersService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    public headerNavbarService: HeaderNavbarService
+  ) {
+    this.headerNavbarService.showNavbar = false;
+  }
+
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
   sliderValues: number[] = [0, 100];
 
@@ -48,8 +66,9 @@ export class FiltersComponent implements OnInit {
     // Add a new FormControl for each checkbox
     this.otherForm = this.fb.group({
       'Servicio a domicilio': false,
-      'Pago en Efectivo': false,
-      Disponibilidad: false,
+      'Servicio online': false,
+      'Pago en efectivo': false,
+      'Pago con tarjeta': false,
       // other form controls...
     });
 
@@ -97,7 +116,7 @@ export class FiltersComponent implements OnInit {
 
       // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null)
+        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null, null)
         .subscribe((results) => {
           this.results = results;
         });
@@ -132,6 +151,12 @@ export class FiltersComponent implements OnInit {
     const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
+    const categories = this.form.value.categories;
+    const selectedCategories = this.form.value.categories
+      .map((selected, index) =>
+        selected ? this.categories[index].toLowerCase() : null
+      )
+      .filter((name) => name !== null);
 
     this.filtersService
       .getResults(
@@ -139,6 +164,7 @@ export class FiltersComponent implements OnInit {
         ratingFilter,
         minPrice,
         maxPrice,
+        selectedCategories,
         otherValuesArray
       )
       .subscribe((results) => {
@@ -148,6 +174,7 @@ export class FiltersComponent implements OnInit {
           rating: ratingFilter,
           minPrice: minPrice,
           maxPrice: maxPrice,
+          categories: selectedCategories.join(','),
           other: otherValuesArray.join(','),
         };
 
