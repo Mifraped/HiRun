@@ -51,7 +51,10 @@
       </div>
     </div>
     <div class="separator"></div>
-    <!-- añadir foto: pendinte investigar -->
+    <!-- añadir foto: si ya se ha subido sale la imagen encima del botón -->
+    <div class="img-container" *ngIf="imagePreview">
+      <img [src]="imagePreview" alt="Selected Image" />
+    </div>
     <div class="btn_addPhoto">
       <input
         type="file"
@@ -60,6 +63,7 @@
         name="photo"
         (change)="onFileSelected($event)"
       />
+
       <!-- <input type="file" accept="image/*;capture=camera" id="photoInput" /> -->
       <span class="material-symbols-outlined"> photo_camera </span>
     </div>
@@ -381,7 +385,10 @@
 
     <!-- botón enviar nuevo negocio -->
 
-    <button class="btn btn--green main_btn_effect" (click)="newBusiness()">
+    <button
+      class="btn btn--green main_btn_effect"
+      (click)="preliminaryChecks()"
+    >
       <h3>Publicar</h3>
     </button>
     <button
