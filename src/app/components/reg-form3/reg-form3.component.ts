@@ -2,6 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { UserService } from 'src/app/shared/user.service';
 import { BusinessService } from 'src/app/shared/business.service';
+import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseCategory } from 'src/app/models/response-category';
 
 @Component({
   selector: 'app-reg-form3',
@@ -12,16 +14,18 @@ export class RegForm3Component {
   
   @Output() registerPartThree = new EventEmitter<any>();
   @Output() registerPartThreeLoggedIn = new EventEmitter<any>();
-  constructor(public userService:UserService, public businessService: BusinessService){}
+  constructor(public userService:UserService, public businessService: BusinessService, public categoryService: CategoryService){}
   
   //para enlazar los a
   login = '/login' 
   profile = '/profile'
+  editProfile = '/edit-profile'
 
 
-  allCat = this.businessService.allCat
+  // allCat = this.businessService.allCat
+  allCat: Category[] = []
   
-  selectedCat = []
+  selectedCat: Category[] = []
 
   connected:boolean = this.userService.connected
 
@@ -77,8 +81,25 @@ export class RegForm3Component {
 
     
   }
+  ngOnInit(){
+    
+    if(this.connected){
+      this.categoryService.getPreferences().subscribe((res: ResponseCategory)=>{
+      this.selectedCat = res.data
+      
+      this.categoryService.getAllCat().subscribe((res: ResponseCategory)=>{
+      this.allCat = res.data.filter(cat => !this.selectedCat.some(cat2 => cat.id_category === cat2.id_category))
+      })
 
-
-  
+      // this.allCat = this.allCat
+    })
+    }else{
+      this.selectedCat = []
+      this.categoryService.getAllCat().subscribe((res: ResponseCategory)=>{
+      this.allCat = res.data
+      })
+    }
+    
+  }
 
 }

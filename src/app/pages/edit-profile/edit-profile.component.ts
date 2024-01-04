@@ -8,6 +8,8 @@ import Swal from 'sweetalert2'
 import { ResponsePhoto } from 'src/app/models/response-photo';
 import * as e from 'express';
 import { PhotoService } from 'src/app/shared/photo.service';
+import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseCategory } from 'src/app/models/response-category';
 
 
 @Component({
@@ -29,7 +31,7 @@ export class EditProfileComponent {
 
   public isUpdating = false
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService) { 
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService, private categoryService: CategoryService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true
   }
@@ -81,6 +83,7 @@ export class EditProfileComponent {
         });
       }
       this.isUpdating = false
+      this.form.form.markAsPristine()
     })
   }
 
@@ -107,4 +110,5 @@ export class EditProfileComponent {
     this.fileToUpload = null
     }else this.updateUser()
   }
+
 }

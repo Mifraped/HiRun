@@ -35,21 +35,13 @@
   </ul>
 
   <div class="btnContainer">
-    <button
-      *ngIf="!connected"
-      (click)="setPreferences()"
-      class="main_btn_effect"
-    >
+    <button *ngIf="!connected" (click)="setPreferences()" class="main_btn_effect">
       <h2 class="btnText">Finalizar</h2>
     </button>
-    <button
-      *ngIf="connected"
-      (click)="setPreferencesLoggedIn()"
-      class="main_btn_effect"
-    >
+    <button *ngIf="connected" (click)="setPreferencesLoggedIn()" class="main_btn_effect">
       <h2 class="btnText">Guardar cambios</h2>
     </button>
   </div>
   <a *ngIf="!connected" [routerLink]="login">Hacerlo más tarde</a>
-  <a *ngIf="connected" [routerLink]="profile">Cancelar</a>
+  <a *ngIf="connected" [routerLink]="editProfile">Cancelar</a>
 </main>
