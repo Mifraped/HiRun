@@ -6,6 +6,7 @@ import { User } from "./user";
 export class Booking {
     public provider?: User;
     public business?: Business;
+    public id_booking?:number;
     
     constructor (    
         
@@ -14,6 +15,7 @@ export class Booking {
         public service: number,
         public user:number,
         public cancelled: number = 0,
-        public comment?:string
+        public comment?:string,
+       
     ) {}
 }

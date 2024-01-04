@@ -108,6 +108,16 @@ li {
   color: var(--lightGrey);
 }
 
+.fc-timegrid-event-harness-inset .fc-timegrid-event {
+  box-shadow: none;
+  border-radius: 0;
+
+}
+
+.fc-timegrid-event-harness-inset .fc-timegrid-event {
+  margin: 0
+}
+
 /* días de la semana */
 .fc-toolbar-title {
   color: var(--lightGrey);
@@ -195,6 +205,14 @@ body {
 
 }
 
+.swal2-html-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+
 .swal2-container button {
   height: 40px !important;
   border-radius: 20px !important;
@@ -208,6 +226,11 @@ body {
   outline: none;
   box-shadow: none;
 }
+
+.swal2-container .img-container {
+  justify-self: center;
+}
+
 
 /*
 para meter en los swal
