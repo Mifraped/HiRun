@@ -69,12 +69,7 @@ export class CalendarComponent implements OnInit {
 
 user: number
 allBookings: Booking[]
-servId: number
-busId: number
-titleServ: string
-titleBus:string
-duration:number
-photoBus:string
+
 
 
 
@@ -101,7 +96,7 @@ photoBus:string
 
       html: `
       <div class="img-container" *ngIf="photoBus" style= "width: 300px; height: 170px; overflow: hidden; position:relative; margin-bottom:1rem">
-        <img  src="${this.photoBus}" alt="Imagen" style="width: 100%; height:100%; object-fit: cover; border-radius: .625rem;"/>
+        <img  src="${arg.event.extendedProps.url}" alt="Imagen" style="width: 100%; height:100%; object-fit: cover; border-radius: .625rem;"/>
       </div>
      <p>Reserva: ${arg.event.extendedProps.day} a las ${arg.event.extendedProps.time}</p>
      <p >Comentario: ${arg.event.extendedProps.comment}</p>
@@ -225,6 +220,12 @@ goBack(){
           for (let booking of this.allBookings){
             let comment:string = 'Sin comentarios'
             let provider: number
+            let photoBus: string = '../../../assets/img/logo_booking.png' 
+            let servId: number
+            let busId: number
+            let titleServ: string
+            let titleBus:string
+            let duration:number
             if(booking.comment){
               comment=booking.comment}
            
@@ -235,18 +236,22 @@ goBack(){
               console.log('error')
               alert(res.error)
             }else{    
-              this.servId = res.data[0].id_service
-              this.titleServ=res.data[0].title
-              this.duration=res.data[0].duration
-              this.busId = res.data[0].id_business
+              servId = res.data[0].id_service
+              titleServ=res.data[0].title
+              duration=res.data[0].duration
+              busId = res.data[0].id_business
               
-              this.businessService.getBusinessById(this.busId).subscribe((res:ResponseBusiness)=>{
+              this.businessService.getBusinessById(busId).subscribe((res:ResponseBusiness)=>{
                 if(res.error){
                   console.log('error')
                   alert(res.error)
                 }else{  
-                  this.titleBus = res.data[0].title
-                  this.photoBus=res.data[0].photo
+                  titleBus = res.data[0].title
+
+                  if (res.data[0].photo){
+
+                    photoBus=res.data[0].photo
+                  }
                   provider = res.data[0].provider
 
 
@@ -260,11 +265,11 @@ goBack(){
                console.log(eventDateStart)
      
                const eventDateEnd = new Date(eventDateStart);
-               eventDateEnd.setMinutes(eventDateEnd.getMinutes() + this.duration);
+               eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);
      
               let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
                const newEvent = {
-                   title: `${this.titleBus} - ${this.titleServ}`,
+                   title: `${titleBus} - ${titleServ}`,
                    start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)
                    end: eventDateEnd,   // Fecha de fin del evento (puedes personalizar esto)
                    extendedProps:{
@@ -273,7 +278,8 @@ goBack(){
                      day: `${(eventDateStart.getDate() + '').padStart(2, '0')}/${(eventDateStart.getMonth() + 1 + '').padStart(2, '0')}/${eventDateStart.getFullYear()}`,
                      time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
                      bookId: booking.id_booking,
-                     provider: provider
+                     provider: provider,
+                     url: photoBus
                    },
                    color: color,
                   //  eventColor: color,
