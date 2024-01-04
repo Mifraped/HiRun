@@ -14,14 +14,11 @@ export class FiltersService {
   public rating: string;
   private _minPrice: number = 0;
   private _maxPrice: number = 100;
+  public categories: string[] = [];
   public options: string[] = [];
+  public orderBy: string;
 
-  constructor(private http: HttpClient) {
-    const storedOptions = localStorage.getItem('options');
-    if (storedOptions) {
-      this.options = JSON.parse(storedOptions);
-    }
-  }
+  constructor(private http: HttpClient) {}
 
   getNewestBusiness(): Observable<any> {
     return this.http.get(this.url + '/novedades');
@@ -49,7 +46,8 @@ export class FiltersService {
     minPrice: number,
     maxPrice: number,
     categories: string[],
-    options: string[]
+    options: string[],
+    orderBy: string // Add this parameter
   ) {
     console.log('getResults called');
     console.log('searchTerm:', searchTerm);
@@ -58,8 +56,10 @@ export class FiltersService {
     console.log('maxPrice:', maxPrice);
     console.log('categories:', categories);
     console.log('options:', options);
+    console.log('orderBy:', orderBy); // Log the orderBy parameter
 
     let params = new HttpParams();
+
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
@@ -81,6 +81,10 @@ export class FiltersService {
       options.forEach((option) => {
         params = params.append('other', option);
       });
+    }
+    if (orderBy) {
+      // Add this if statement
+      params = params.set('orderBy', orderBy);
     }
     return this.http
       .get<any[]>(this.url + '/results', { params })

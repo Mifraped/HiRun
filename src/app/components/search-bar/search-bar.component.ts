@@ -21,7 +21,7 @@ export class SearchBarComponent {
     const maxPrice = this.filterService.maxPrice;
 
     this.filterService
-      .getResults(this.searchTerm, null, minPrice, maxPrice, null, null)
+      .getResults(this.searchTerm, null, minPrice, maxPrice, null, null, null)
       .subscribe((results) => {
         let queryParams = {
           searchTerm: this.searchTerm,

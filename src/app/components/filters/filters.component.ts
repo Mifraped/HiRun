@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
+import { FiltersStateService } from 'src/app/shared/filters-state.service';
 
 @Component({
   selector: 'app-filters',
@@ -28,6 +29,7 @@ export class FiltersComponent implements OnInit {
   otherForm: FormGroup;
 
   form: FormGroup;
+
   categories = [
     'Fontanería',
     'Música',
@@ -49,12 +51,14 @@ export class FiltersComponent implements OnInit {
     'Maquillaje',
     'Contabilidad',
   ];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private filtersService: FiltersService,
     private route: ActivatedRoute,
-    public headerNavbarService: HeaderNavbarService
+    public headerNavbarService: HeaderNavbarService,
+    private filtersStateService: FiltersStateService
   ) {
     this.headerNavbarService.showNavbar = false;
   }
@@ -116,7 +120,15 @@ export class FiltersComponent implements OnInit {
 
       // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null, null)
+        .getResults(
+          searchTerm,
+          Number(rating),
+          minPrice,
+          maxPrice,
+          null,
+          null,
+          null
+        )
         .subscribe((results) => {
           this.results = results;
         });
@@ -165,7 +177,8 @@ export class FiltersComponent implements OnInit {
         minPrice,
         maxPrice,
         selectedCategories,
-        otherValuesArray
+        otherValuesArray,
+        null
       )
       .subscribe((results) => {
         this.results = results;

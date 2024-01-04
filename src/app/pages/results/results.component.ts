@@ -9,6 +9,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrderByService } from 'src/app/shared/order-by.service';
 
 @Component({
   selector: 'app-results',
@@ -21,6 +22,12 @@ export class ResultsComponent implements OnInit {
   negocio1: Business = this.BusinessService.business;
   showHeader = true;
   searchTerm: string;
+  ratingFilter: number;
+  minPrice: number;
+  maxPrice: number;
+  categories: string[];
+  otherValues: string[];
+  selectedOrderBy: string;
 
   results: any[];
 
@@ -31,9 +38,15 @@ export class ResultsComponent implements OnInit {
     public headerNavbarService: HeaderNavbarService,
     private filtersService: FiltersService,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private order: OrderByService
   ) {
     this.headerNavbarService.showHeader = true;
+  }
+
+  onOrderByChange(event: any) {
+    // Update selectedOrderBy when the user makes a selection
+    this.selectedOrderBy = event.target.value;
   }
 
   ngOnInit(): void {
@@ -51,30 +64,50 @@ export class ResultsComponent implements OnInit {
 
       this.searchTerm = this.filtersService.getCurrentSearchTerm();
 
-      this.filtersService
-        .getResults(
-          searchTerm,
-          ratingFilter,
-          minPrice,
-          maxPrice,
-          categories,
-          otherValues
-        )
-        .subscribe((results) => {
-          console.log('results:', results);
-          this.results = results;
-          if (results.length === 0) {
-            this.snackBar.open(
-              'No results matching your search were found.',
-              'Close',
-              {
-                duration: 2000,
-                panelClass: ['snackbar-result'],
-              }
-            );
-          }
-        });
+      this.order.currentOrderBy.subscribe((orderBy) => {
+        this.filtersService
+          .getResults(
+            searchTerm,
+            ratingFilter,
+            minPrice,
+            maxPrice,
+            categories,
+            otherValues,
+            orderBy // Pass the selected order by value
+          )
+          .subscribe((results) => {
+            console.log('results:', results);
+            this.results = results;
+            if (results.length === 0) {
+              this.snackBar.open(
+                'No results matching your search were found.',
+                'Close',
+                {
+                  duration: 2000,
+                  panelClass: ['snackbar-result'],
+                }
+              );
+            }
+          });
+      });
     });
+  }
+
+  onOrderBySelected(orderBy: string) {
+    this.filtersService
+      .getResults(
+        this.searchTerm,
+        this.ratingFilter,
+        this.minPrice,
+        this.maxPrice,
+        this.categories,
+        this.otherValues,
+        orderBy // Pass the selected order by value
+      )
+      .subscribe((results) => {
+        console.log('results:', results);
+        this.results = results;
+      });
   }
 
   openDialog() {

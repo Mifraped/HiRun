@@ -24,18 +24,12 @@
         <button
           *ngFor="let category of categories; let i = index"
           [class.selected]="form.controls.categories.controls[i].value"
-          (click)="onSelect(i)"
+          (click)="onSelect(category)"
         >
           {{ category }}
         </button>
       </div>
     </div>
     <div id="line-pr" class="blue-line"></div>
-  </div>
-
-  <div class="show-results">
-    <button (click)="closeDialog()" class="main_btn_effect">
-      Mostrar resultados
-    </button>
   </div>
 </div>
