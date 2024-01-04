@@ -15,6 +15,9 @@ import { ResponseTimeframe } from 'src/app/models/response-timeframe';
 import { TimeFrame } from 'src/app/models/time-frame';
 import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
+import { BookingService } from 'src/app/shared/booking.service';
+import { ResponseBooking } from 'src/app/models/response-booking';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-book-service',
@@ -58,7 +61,8 @@ export class BookServiceComponent implements OnInit {
     public headerNavbarService: HeaderNavbarService,
     private location: Location,
     private route: ActivatedRoute,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private bookingService: BookingService, private router:Router
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -71,7 +75,6 @@ export class BookServiceComponent implements OnInit {
   }
 
   private buildForm() {
-    const minPassLength = 8;
 
     this.bookingForm = this.formBuilder.group({
       date: [, [Validators.required, this.dateAvailable]],
@@ -118,16 +121,13 @@ export class BookServiceComponent implements OnInit {
     let currentDateTime = startDateTime;
 
     while (currentDateTime.getTime() + durationInMillis <= endDateTime.getTime()) {
-      let time0=currentDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-      console.log(this.availableTimeframes)
+      let time0=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+      // console.log(this.availableTimeframes)
       currentDateTime = new Date(currentDateTime.getTime() + durationInMillis);
-      let time1=currentDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      let time1=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
       this.availableTimeframes.push({time0:time0, time1: time1, available: true})
     }
-
-
       }
-      console.log(appTf)
     }
 
   }
@@ -154,6 +154,27 @@ export class BookServiceComponent implements OnInit {
     newBooking.cancelled=0
 
     console.log(newBooking);
+    this.bookingService.postBooking(newBooking).subscribe((res:ResponseBooking)=>{
+      if(res.error){
+        console.log('error')
+        alert(res.error)
+      }else{
+        Swal.fire({        
+          title: "Reserva completada",
+          text: "Puedes consultar la información en tu calendario",
+          icon: "success",        
+          confirmButtonColor: "var(--green)",
+          confirmButtonText: "OK",
+         
+        }).then((result)=>{
+          if (result.isConfirmed){
+            
+            this.router.navigate(['/calendar'])
+          }
+        })
+        
+      }
+    })
   }
 
   ngOnInit() {

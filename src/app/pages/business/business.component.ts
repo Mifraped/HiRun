@@ -44,9 +44,7 @@ contactProvider(){
 }
 
 imageUrl:string
-getImageUrl(imageName: string): string {
-  return `${this.imageService.serverUrl}${imageName}`;
-}
+
 
 ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id_business');
@@ -60,6 +58,8 @@ ngOnInit() {
       this.business=res.data[0]
       this.providerId=res.data[0].provider
       this.imageUrl=this.business.photo
+
+      
 
       this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
         
