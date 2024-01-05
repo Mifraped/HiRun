@@ -73,8 +73,6 @@ export class BusinessCardComponent implements OnInit {
           this.selectedOptions.push(res.data[i].id_options-1)
           
         }
-        console.log(this.initialOptions)
-        console.log(this.selectedOptions)
       }
     })
 

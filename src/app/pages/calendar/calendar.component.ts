@@ -299,7 +299,8 @@ goBack(){
       if (res.error){
         console.log('error')
         alert(res.error)
-      }else{    
+      }else{   
+        console.log(res.data) 
         this.allBookings=res.data
         if (this.allBookings.length>0){
           for (let booking of this.allBookings){
@@ -378,7 +379,6 @@ goBack(){
           alert(res.error)
       }else{
         this.userBusiness=res.data
-        console.log(this.userBusiness)
         if (this.userBusiness.length>0){
           for (let bus of this.userBusiness){
             let str = `<option value=${bus.id_business}>${bus.title}</option>\n`

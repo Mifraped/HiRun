@@ -21,6 +21,6 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chats = this.chatService.getChats();
+    // this.chats = this.chatService.getChats();
   }
 }
