@@ -4,6 +4,9 @@ import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { BusinessService } from 'src/app/shared/business.service';
 import { ImageService } from 'src/app/shared/image.service';
+import { BusinessOpt } from 'src/app/models/business-opt';
+import { ResponseBusOpt } from 'src/app/models/response-bus-opt';
+import { OptionService } from 'src/app/shared/option.service';
 
 @Component({
   selector: 'app-business-card',
@@ -17,15 +20,23 @@ export class BusinessCardComponent implements OnInit {
   minPrice: number;
 
   servicetext: string;
-
+  initialOptions:BusinessOpt[] = []
+  
   thisId:number
 
   serviceToText(serviceArray) {}
 
-  constructor(public businessService: BusinessService, private router:Router, public imageService:ImageService) {
+  constructor(public businessService: BusinessService, private router:Router, public imageService:ImageService, public optionsService: OptionService) {
 
   }
 
+  opt1 ={selected:false, icon:'fa-solid fa-house', i:1}
+  opt2 ={selected:false, icon:'fa-solid fa-laptop', i:2}
+  opt3 ={selected:false, icon:'fa-regular fa-credit-card', i:3}
+  opt4 ={selected:false, icon:'fa-solid fa-coins', i:4}
+
+  allOptions = [this.opt1, this.opt2, this.opt3, this.opt4];
+  selectedOptions:number[] = []
 
 
   goToBusiness() {
@@ -50,6 +61,25 @@ export class BusinessCardComponent implements OnInit {
 
     this.thisId=this.business.id_business
     this.imageUrl=this.business.photo
+
+    //opciones extra para los iconos
+    this.optionsService.getBusinessOpt(this.thisId).subscribe((res:ResponseBusOpt)=>{
+      if (res.error){
+        console.log('error')
+        alert(res.error)
+      }else{    
+        for  (let i=0; i<res.data.length;i++){         
+          this.initialOptions.push(res.data[i])
+          this.selectedOptions.push(res.data[i].id_options-1)
+          
+        }
+        console.log(this.initialOptions)
+        console.log(this.selectedOptions)
+      }
+    })
+
+
+
     
   }
 }

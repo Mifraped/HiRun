@@ -30,13 +30,18 @@ h1 {
 
 .iconContainer {
     display: grid;
-    grid-template-columns: repeat(4, 2rem) auto;
+    grid-template-areas: "i1 i2 i3 i4 b b b";
+    grid-template-columns: repeat(5, 2rem) auto;
     align-items: center;
 
 }
 
 .iconContainer i {
     color: var(--blue)
+}
+
+.iconContainer button {
+    grid-area: b;
 }
 
 .price {

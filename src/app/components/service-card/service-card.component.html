@@ -13,10 +13,10 @@
   </div>
 
   <div class="iconContainer">
-    <i class="fa-solid fa-house"></i>
-    <i class="fa-solid fa-coins"></i>
-    <i class="fa-regular fa-credit-card"></i>
-    <i class="fa-solid fa-face-grin-stars"></i>
+    <i
+      *ngFor="let option of selectedOptions"
+      [class]="allOptions[option].icon"
+    ></i>
     <button (click)="bookService()">Reservar</button>
   </div>
 </div>

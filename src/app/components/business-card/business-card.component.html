@@ -38,12 +38,9 @@
         </div>
       </div>
     </div>
-    <div class="otherInfoContainer">
-      <div class="iconContainer">
-        <i class="fa-solid fa-house"></i>
-        <i class="fa-solid fa-coins"></i>
-        <i class="fa-regular fa-credit-card"></i>
-        <i class="fa-solid fa-face-grin-stars"></i>
+    <div class="other-container">
+      <div class="otherOptions" *ngFor="let option of selectedOptions">
+        <i [class]="allOptions[option].icon"></i>
       </div>
     </div>
   </div>
