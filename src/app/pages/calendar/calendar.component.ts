@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CalendarOptions, EventClickArg  } from '@fullcalendar/core';
+import { Component, OnInit, } from '@angular/core';
+import { CalendarOptions, EventClickArg, DateSelectArg  } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Calendar } from '@fullcalendar/core';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -14,7 +14,9 @@ import { BusinessService } from 'src/app/shared/business.service';
 import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
 import { ResponseBusiness } from 'src/app/models/response-business';
+import { Business } from 'src/app/models/business';
 import Swal from 'sweetalert2';
+import { Service } from 'src/app/models/service';
 
 
 
@@ -64,28 +66,118 @@ export class CalendarComponent implements OnInit {
     
     events:[],
     eventClick: this.handleEventClick.bind(this),
-   
+    
+
   }
 
 user: number
 allBookings: Booking[]
 
-
-
+//datos de negocios del usuario para que en caso de querer hacer reserva manual
+userBusiness: Business[]
+businessListString:string =`<select id="businessSelect">\n`
+userBusinessService:Service[]
+serviceListString:string =`<select id="serviceSelect">\n`
+dateTimeData :string
 
 
 
   calendarInitialized(calendar: Calendar) {
     //no entiendo muy bien que hace, pero sin esto no funciona
-     console.log('Calendar initialized', calendar);
+    console.log('Calendar initialized', calendar);
   }
 
   openDate(arg: any) {
     console.log('Date clicked: ' + arg.dateStr);
-    this.calendarInitialized(arg.view.calendar);
-    arg.view.calendar.changeView('timeGridDay', arg.date);
-   
+    if (arg.view.type === 'timeGridDay') {
+      // Ejecutar acciones específicas para la vista 'timeGridDay'
+      console.log('formato día de la agenda');
+      this.dateTimeData =arg.dateStr
+      this.manualBooking()
+
+    }else{
+       
+      this.calendarInitialized(arg.view.calendar);
+      arg.view.calendar.changeView('timeGridDay', arg.date);   
+    }
+
+    }
+
+  manualBooking(){
+    
+
+
+    Swal.fire({
+      title: "Selecciona el negocio",
+      html:this.businessListString,
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: "var(--green)",
+      cancelButtonColor: "var(--red)",
+ 
+      preConfirm: () => {
+        const selectedValue = (document.getElementById('businessSelect') as HTMLSelectElement).value;
+        return selectedValue;
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const sendBusId = result.value;
+        console.log('Opción seleccionada:', sendBusId);
+        // obtener todos los servicios de el negocio seleccionado
+        this.serviceService.getAllServices(sendBusId).subscribe((res:ResponseService)=>{
+          if (res.error){
+            console.log("error")
+            alert(res.error)
+          }else{            
+            this.userBusinessService=res.data        
+            if (this.userBusinessService.length>0){
+              for (let serv of this.userBusinessService){
+                let str = `<option value=${serv.id_service}>${serv.title}</option>\n`
+                this.serviceListString += str
+              }
+            this.serviceListString += '</select>'
+            }
+
+            Swal.fire({
+              title: "Selecciona el servicio",
+              html:this.serviceListString,
+              showCancelButton: true,
+              confirmButtonText: 'Continuar',
+              cancelButtonText: 'Cancelar',
+              confirmButtonColor: "var(--green)",
+              cancelButtonColor: "var(--red)",
+         
+              preConfirm: () => {
+                const selectedValue = (document.getElementById('serviceSelect') as HTMLSelectElement).value;
+                return selectedValue;
+              },
+            }).then((result)=>{
+              if (result.isConfirmed){
+                const sendServId = result.value;
+
+                this.bookingService.setDateTimeData(this.dateTimeData);
+                console.log(this.bookingService.dateTimeData)
+                this.router.navigate(['/book-service',sendBusId, sendServId])
+              }
+            })
+
+
+          }
+        })
+
+
+
+      }
+    });
+
+    
+  
   }
+
+
+
+  
 
   handleEventClick(arg: EventClickArg) {
     // Aquí puedes ejecutar el código que desees cuando se hace clic en un evento
@@ -98,10 +190,8 @@ allBookings: Booking[]
       <div class="img-container" *ngIf="photoBus" style= "width: 300px; height: 170px; overflow: hidden; position:relative; margin-bottom:1rem">
         <img  src="${arg.event.extendedProps.url}" alt="Imagen" style="width: 100%; height:100%; object-fit: cover; border-radius: .625rem;"/>
       </div>
-     <p>Reserva: ${arg.event.extendedProps.day} a las ${arg.event.extendedProps.time}</p>
-     <p >Comentario: ${arg.event.extendedProps.comment}</p>
-     
-    `,
+      <p>Reserva: ${arg.event.extendedProps.day} a las ${arg.event.extendedProps.time}</p>
+      <p >Comentario: ${arg.event.extendedProps.comment}</p>`,
       showCloseButton: true,
       confirmButtonColor: "var(--red)",
       confirmButtonText: "Cancelar reserva"
@@ -129,17 +219,13 @@ allBookings: Booking[]
               this.calendarOptions.events.splice(index, 1);
               
             }
-
-
                 Swal.fire({        
                   title: "Cita eliminada",
                   text: "Tu reserva se ha eliminado correctamente",
                   icon: "success",        
                   confirmButtonColor: "var(--green)",
-                  confirmButtonText: "OK",
-                 
+                  confirmButtonText: "OK",                 
                 }).then(()=>{
-                  console.log('navigate')
                   this.calendarOptions.events = []
                   this.ngOnInit()
                 })
@@ -215,7 +301,6 @@ goBack(){
         alert(res.error)
       }else{    
         this.allBookings=res.data
-        console.log(this.allBookings)
         if (this.allBookings.length>0){
           for (let booking of this.allBookings){
             let comment:string = 'Sin comentarios'
@@ -227,8 +312,7 @@ goBack(){
             let titleBus:string
             let duration:number
             if(booking.comment){
-              comment=booking.comment}
-           
+              comment=booking.comment}          
           
           //datos del negocio/servicio
           this.serviceService.getOneService(booking.service).subscribe((res:ResponseService)=>{
@@ -247,51 +331,37 @@ goBack(){
                   alert(res.error)
                 }else{  
                   titleBus = res.data[0].title
-
                   if (res.data[0].photo){
-
                     photoBus=res.data[0].photo
                   }
                   provider = res.data[0].provider
-
-
-                  
                   const eventDateStart = new Date(booking.date)
-               const [h, m, s]=booking.time.split(':')
-               eventDateStart.setHours(parseInt(h,10))
-               eventDateStart.setMinutes(parseInt(m,10))
-               eventDateStart.setSeconds(parseInt(s,10))
-         
-               console.log(eventDateStart)
-     
-               const eventDateEnd = new Date(eventDateStart);
-               eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);
-     
-              let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
-               const newEvent = {
-                   title: `${titleBus} - ${titleServ}`,
-                   start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)
-                   end: eventDateEnd,   // Fecha de fin del evento (puedes personalizar esto)
-                   extendedProps:{
-
-                     comment: comment,
-                     day: `${(eventDateStart.getDate() + '').padStart(2, '0')}/${(eventDateStart.getMonth() + 1 + '').padStart(2, '0')}/${eventDateStart.getFullYear()}`,
-                     time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
-                     bookId: booking.id_booking,
-                     provider: provider,
-                     url: photoBus
-                   },
-                   color: color,
-                  //  eventColor: color,
-                  //   eventBorderColor: color,
-
-                   
-                 };
-                 console.log(newEvent)
-             
-                 // Agrega el nuevo evento a la lista de eventos
-                 this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
-                }
+                  const [h, m, s]=booking.time.split(':')
+                  eventDateStart.setHours(parseInt(h,10))
+                  eventDateStart.setMinutes(parseInt(m,10))
+                  eventDateStart.setSeconds(parseInt(s,10)) 
+                  const eventDateEnd = new Date(eventDateStart);
+                  eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);     
+                  let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
+                  const newEvent = {
+                      title: `${titleBus} - ${titleServ}`,
+                      start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)
+                      end: eventDateEnd,   // Fecha de fin del evento (puedes personalizar esto)
+                      extendedProps:{
+                        comment: comment,
+                        day: `${(eventDateStart.getDate() + '').padStart(2, '0')}/${(eventDateStart.getMonth() + 1 + '').padStart(2, '0')}/${eventDateStart.getFullYear()}`,
+                        time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+                        bookId: booking.id_booking,
+                        provider: provider,
+                        url: photoBus
+                      },
+                      color: color,
+                    //  eventColor: color,
+                    //   eventBorderColor: color,
+                    }; 
+                    // Agrega el nuevo evento a la lista de eventos
+                    this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
+                  }
               })
             }
           })
@@ -301,11 +371,30 @@ goBack(){
         }
       }
     })
+  
+    this.businessService.getBusiness().subscribe((res:ResponseBusiness)=>{
+      if (res.error){
+          console.log('error')
+          alert(res.error)
+      }else{
+        this.userBusiness=res.data
+        console.log(this.userBusiness)
+        if (this.userBusiness.length>0){
+          for (let bus of this.userBusiness){
+            let str = `<option value=${bus.id_business}>${bus.title}</option>\n`
+            this.businessListString += str
+            
+          }
+          this.businessListString += '</select>'
+        }
+      }
+    })
 
-    //crear los eventos en el calendario
 
 
-  }
+  } //fin onoInit
+
+  
 
 };
   
