@@ -14,6 +14,7 @@ export class FiltersService {
   public rating: string;
   private _minPrice: number = 0;
   private _maxPrice: number = 100;
+  public options: string[];
 
   constructor(private http: HttpClient) {}
 
@@ -32,7 +33,8 @@ export class FiltersService {
     ratingFilter: number,
     minPrice: number,
     maxPrice: number,
-    category: string
+    category: string,
+    options: string[]
   ) {
     console.log('getResults called'); // Log at the start of the function
 
@@ -41,6 +43,7 @@ export class FiltersService {
     console.log('minPrice:', minPrice); // Log outside the if condition
     console.log('maxPrice:', maxPrice); // Log outside the if condition
     console.log('category:', category); // Log outside the if condition
+    console.log('options:', options); // Log outside the if condition
 
     let params = new HttpParams();
     if (searchTerm) {
@@ -57,6 +60,10 @@ export class FiltersService {
     }
     if (category) {
       params = params.set('category', category);
+    }
+
+    if (options) {
+      params = params.set('options', options.toString());
     }
     return this.http
       .get<any[]>(this.url + '/results', { params })

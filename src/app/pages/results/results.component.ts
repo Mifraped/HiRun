@@ -9,6 +9,7 @@ import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { options } from '@fullcalendar/core/preact';
 
 @Component({
   selector: 'app-results',
@@ -53,7 +54,14 @@ export class ResultsComponent implements OnInit {
       }
 
       this.filtersService
-        .getResults(searchTerm, ratingFilter, minPrice, maxPrice, category)
+        .getResults(
+          searchTerm,
+          ratingFilter,
+          minPrice,
+          maxPrice,
+          category,
+          options
+        )
         .subscribe((results) => {
           console.log('results:', results);
           this.results = results;

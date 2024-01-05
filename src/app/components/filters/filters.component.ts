@@ -31,6 +31,7 @@ export class FiltersComponent implements OnInit {
     'Estética',
     'Maquillaje',
     'Fontanería',
+    'Fotografía',
   ];
   constructor(
     private fb: FormBuilder,
@@ -80,7 +81,7 @@ export class FiltersComponent implements OnInit {
 
       // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null)
+        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null, null)
         .subscribe((results) => {
           this.results = results;
         });
@@ -111,7 +112,7 @@ export class FiltersComponent implements OnInit {
     }
 
     this.filtersService
-      .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null)
+      .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null, null)
       .subscribe((results) => {
         this.results = results;
         let queryParams = {
