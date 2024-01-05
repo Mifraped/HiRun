@@ -80,6 +80,9 @@
           >
             Escoge la hora
           </option>
+          <option *ngIf="inputTime" value="inputTime0" selected>
+            {{ inputTime0 }}-{{ inputTime1 }}
+          </option>
           <option
             *ngFor="let time of availableTimeframes"
             [value]="time.time0"

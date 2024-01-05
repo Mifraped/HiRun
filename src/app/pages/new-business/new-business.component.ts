@@ -383,6 +383,7 @@ async addAllTimeframes(){
 }
 }
 
+photoError:Boolean=false
 
 async addPhoto() {
   return new Promise<void>((resolve, reject) => {
@@ -398,18 +399,21 @@ async addPhoto() {
       if (resp.error === false) {
         this.photoUrl = resp.data;
         console.log('resp.data: ' + this.photoUrl);
-        resolve(); // Resuelve la promesa cuando la carga de la foto es exitosa
+        // resolve(); 
       } else {
-        console.log('error foto');
-        reject(new Error('Error al cargar la foto')); // Rechaza la promesa en caso de error
+        this.photoError=true
+
+        // resolve(); 
       }
+      
     });
+    resolve();
   });
 }
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 async preliminaryChecks() {
- 
+ console.log('entra en checks')
   if (this.services.length==0){  
     this.addServiceForm.get('title').markAsTouched() 
     Swal.fire({
@@ -432,10 +436,13 @@ async preliminaryChecks() {
       if (result.isDenied){
         Swal.fire("Changes are not saved", "", "info")
       }else if (result.isConfirmed){
-
+        
         this.newBusiness()
       }
-    })}}
+    })}else{
+      this.newBusiness()
+    }
+  }
   
 
 async newBusiness(){
@@ -473,7 +480,15 @@ async newBusiness(){
     
     await this.addAllBusOptions()
     
-    let texto:string = (this.timeFrameOverlap)? "Revisa tus horarios: algunas franjas horarias no se han añadido por solapamiento con otros negocios activos":"Tu nuevo negocio se ha añadido correctamente"
+    let textoHtml:string = "<p>Tu nuevo negocio se ha añadido correctamente.</p>";
+    
+    if (this.timeFrameOverlap){
+      textoHtml += '<p>Revisa tus horarios: algunas franjas horarias no se han añadido por solapamiento con otros negocios activos.</p>'
+    }
+
+    if (this.photoError || !this.photoUrl){
+      textoHtml += '<p>Error al cargar la foto, inténtalo en la sección editar negocio con un archivo de menor tamaño.</p>'
+    }
 
     this.selectedCat=[];
     this.selectedOptions=[];
@@ -481,7 +496,7 @@ async newBusiness(){
     this.newBusinessForm.reset()
     Swal.fire({
       title: "Negocio creado",
-    text: texto,
+    html: textoHtml,
     icon: "success",
     confirmButtonColor: "var(--green)",
     confirmButtonText: "OK"

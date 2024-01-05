@@ -30,4 +30,18 @@ export class BookingService {
     );
   }
 
+  public dateTimeData: string = null
+
+  setDateTimeData(dateTime: string): void {
+    this.dateTimeData = dateTime;
+  }
+
+  getDateTimeData(): string {
+    return this.dateTimeData;
+  }
+
+  resetDateTimeData(): void {
+    this.dateTimeData = null;
+  }
+
 }
