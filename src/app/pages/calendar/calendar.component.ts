@@ -182,7 +182,24 @@ dateTimeData :string
   handleEventClick(arg: EventClickArg) {
     // Aquí puedes ejecutar el código que desees cuando se hace clic en un evento
     console.log('Evento clickeado:', arg.event);
-    
+    const bookingDate:Date=arg.event.start
+    const now :Date = new Date()
+    console.log(bookingDate)
+    console.log(now)
+    console.log(bookingDate>now)
+    const diffTime: number = (bookingDate.getTime() - now.getTime()) / (1000 * 60 * 60);
+    console.log(diffTime)
+
+    //si quedan más de 24h se puede cancelar
+    let buttonColor
+    let buttonText
+    if(diffTime>0){
+      buttonColor = "var(--red)"
+     buttonText = "Cancelar reserva"
+    }else{
+      buttonColor = "var(--green)"
+     buttonText = "Valorar servicio"
+    }
     Swal.fire({        
       title: `${arg.event.title}`,
 
@@ -193,11 +210,11 @@ dateTimeData :string
       <p>Reserva: ${arg.event.extendedProps.day} a las ${arg.event.extendedProps.time}</p>
       <p >Comentario: ${arg.event.extendedProps.comment}</p>`,
       showCloseButton: true,
-      confirmButtonColor: "var(--red)",
-      confirmButtonText: "Cancelar reserva"
+      confirmButtonColor: buttonColor,
+      confirmButtonText: buttonText
       
     }).then((result) => {
-      if (result.isConfirmed){
+      if (result.isConfirmed && diffTime>=24){
         Swal.fire({        
           title: "¿Seguro?",
           text: "Esta acción no se puede deshacer",
@@ -232,6 +249,19 @@ dateTimeData :string
               }
             })
           }
+        })
+      }else if (result.isConfirmed && diffTime<0){
+        //pendinete logica valoraciones
+        this.router.navigate(['/home'])
+
+      }else if (result.isConfirmed && diffTime<24){
+        Swal.fire({        
+          title: "Imposible anular cita",
+          text: "Las reservas no se pueden cancelar automáticamente con menos de 24 horas de antelación. Ponte en contacto con el vendedor si no vas a poder acudir a la cita.",
+          icon: "error",         
+          confirmButtonColor: "var(--green)",          
+          confirmButtonText: "OK",
+          
         })
       }
 
@@ -284,9 +314,6 @@ goBack(){
     this.user = this.userService.user.id_user
   }
 
-
-
-
   ngOnInit(){
     //recoger todos los eventos
     //reservas en servicios proporionados por el usuario
@@ -300,7 +327,6 @@ goBack(){
         console.log('error')
         alert(res.error)
       }else{   
-        console.log(res.data) 
         this.allBookings=res.data
         if (this.allBookings.length>0){
           for (let booking of this.allBookings){

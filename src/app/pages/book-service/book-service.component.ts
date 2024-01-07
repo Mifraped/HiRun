@@ -126,9 +126,9 @@ export class BookServiceComponent implements OnInit {
       }
     }else{
       // let duration = this.service.duration
-      console.log('aqui')
+     
       for (let tf of appTf){
-        console.log('aca')
+       
         const startDateTime = new Date(`1970-01-01T${tf.start}`);
       const endDateTime = new Date(`1970-01-01T${tf.end}`);
       const durationInMillis = this.duration * 60 * 1000;
@@ -216,10 +216,6 @@ export class BookServiceComponent implements OnInit {
 
         if(this.user.id_user === this.providerId){
 
-          console.log('user es '+this.user.id_user)
-          console.log('provider es '+ this.business.provider)
-          console.log('provider es '+ this.providerId)
-          console.log('entra aqui loinea219')
 
           this.chatService.getAllUserChats(this.user.id_user).subscribe((res: ResponseChat)=>{
             if (res.error){
@@ -229,6 +225,7 @@ export class BookServiceComponent implements OnInit {
               console.log(this.chatList)
               for (let chat of this.chatList){
                 let otherUserId = chat.user1===this.user.id_user? chat.user2: chat.user1
+                console.log(otherUserId)
                 this.userService.getUserInfo(otherUserId).subscribe((res:ResponseUser)=>{
                   if (res.error){
                     alert(res.error)
