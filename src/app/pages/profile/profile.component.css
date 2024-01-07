@@ -1,10 +1,11 @@
-.cont{
+.cont {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
+
 /* contenedor flecha atras y boton log out */
-.backLogOut{
+.backLogOut {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,7 +14,8 @@
     margin-bottom: 1.875rem;
     width: 100%;
 }
-.back{
+
+.back {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,15 +23,18 @@
     height: 100%;
     color: var(--lightGrey);
 }
-svg#back{
+
+svg#back {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-#locationIcon{
+
+#locationIcon {
     color: var(--lightGrey);
 }
-.logOut{
+
+.logOut {
     margin-right: 2.125rem;
     width: 4.375rem;
     height: 1.875rem;
@@ -41,75 +46,88 @@ svg#back{
     font-size: 0.75rem;
     font-weight: 600;
 }
+
 /* contenedor de la foto, nombre, valoraciones y ubicacion */
-.photoNameRating{
+.photoNameRating {
     display: flex;
     justify-content: center;
     gap: 0.5625rem;
     max-width: 80%;
 }
-.photo{
+
+.photo {
     height: 4.125rem;
     width: 4.125rem;
 }
-img{
+
+img {
     height: 100%;
     width: 100%;
     object-fit: cover;
     border-radius: 50%;
 }
-.nameRating{
+
+.nameRating {
     display: flex;
     flex-direction: column;
     position: relative;
 }
-h1{
+
+h1 {
     font-size: 2rem;
     color: var(--lightGrey);
 }
-.rating{
+
+.rating {
     display: flex;
     justify-content: flex-start;
 }
-.stars{
+
+.stars {
     display: flex;
     align-items: center;
 }
 
-.rates{
+.rates {
     color: var(--lightGrey);
+
     font-size: 0.9375rem;
     align-self: self-start;
     padding-top: 0.25rem;
 }
+
 /* contenedor localizacion */
-.location{
+.location {
     display: flex;
     align-items: center;
     position: relative;
     left: -0.75rem;
 }
+
 /* localizacion */
-span{
+span {
     color: var(--lightGrey);
     font-size: 0.6875rem;
 }
+
 /* enlace a ubicacion en maps o donde sea */
-.locationLink{
+.locationLink {
     color: var(--green);
     font-size: 0.6875rem;
     margin-left: 0.1875rem;
 }
+
 /* contenedor enlaces del perfil */
-.profileLinks{
+.profileLinks {
     margin-top: 2.875rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.875rem;
 }
+
 /* enlaces del perfil */
-.profileLink{
+.profileLink {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -121,13 +139,15 @@ span{
     padding-right: 0.6875rem;
     position: relative;
 }
-.profileLink span{
+
+.profileLink span {
     color: var(--fullBlack);
     font-size: 1rem;
     font-weight: 800;
     position: absolute;
     left: 3.125rem;
 }
-.icon path{
+
+.icon path {
     color: var(--darkGrey);
 }

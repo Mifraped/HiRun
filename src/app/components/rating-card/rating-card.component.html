@@ -1,15 +1,20 @@
 <div class="contPrinc">
-    <div class="cont">
-        <header>
-            <div class="photo"><img id="photoUser" src="{{rate.photo}}"></div>
-            <h4 class="nombre">{{rate.name}}</h4>
-        </header>
-        <div class="rating">
-            <star-rating [starType]="'svg'" [rating]="rate.rate" staticColor="ok" size="small"
-                [readOnly]="true"></star-rating>
-        </div>
-        <div class="comment">
-            <p>{{rate.comment}}</p>
-        </div>
+  <div class="cont">
+    <header>
+      <div class="photo"><img id="photoUser" src="{{ rateUser.photo }}" /></div>
+      <h4 class="nombre">{{ rateUser.name }} {{ rateUser.surname }}</h4>
+    </header>
+    <div class="rating">
+      <star-rating
+        [starType]="'svg'"
+        [rating]="rate.rate"
+        staticColor="ok"
+        size="small"
+        [readOnly]="true"
+      ></star-rating>
     </div>
+    <div class="comment">
+      <p>{{ rate.comment }}</p>
+    </div>
+  </div>
 </div>

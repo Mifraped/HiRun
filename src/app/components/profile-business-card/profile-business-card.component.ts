@@ -6,6 +6,8 @@ import { Service} from 'src/app/models/service';
 import { RequestedService } from 'src/app/models/requested-service';
 import { ImageService } from 'src/app/shared/image.service';
 import { UserService } from 'src/app/shared/user.service';
+import { RatingService } from 'src/app/shared/rating.service';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 
 @Component({
@@ -23,22 +25,41 @@ export class ProfileBusinessCardComponent {
   public status: string
   imageUrl:string
 
+  businessRating:number
+
   goToBusinessEdit() {
     console.log(this.negocioPadre);
         this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
 }
 
-getImageUrl(imageName: string): string {
-  return `${this.imageService.serverUrl}${imageName}`;
-}
+
 
   ngOnInit() {
     if (this.servicePadre && typeof this.servicePadre.canceled !== 'undefined') {
-      this.status = this.servicePadre.canceled === 0 ? "Pendiente" : "Cancelado";
+      // this.status = this.servicePadre.canceled === 0 ? "Pendiente" : "Cancelado";
+      if (this.servicePadre.canceled){
+        this.status='Cancelado'
+      }else if (new Date (this.servicePadre.date) < new Date()){
+        this.status='Completado'
+      }else{
+        this.status='Pendiente'
+      }
+
+
     } else {
       this.status = "Estado no disponible";
     }
     this.imageUrl= this.negocioPadre && this.negocioPadre.photo ? this.negocioPadre.photo : null;
+
+    if (this.negocioPadre){
+      this.ratingService.getAvgBusinessRates(this.negocioPadre.id_business).subscribe((res: ResponseRates)=>{
+        if (res.error){
+          alert('error')
+        }else{
+          this.businessRating=res.data[0].rate
+        }
+      })
+    }
   }
 
 
@@ -53,7 +74,7 @@ getImageUrl(imageName: string): string {
     else if(this.router.url.includes("/requested-service")) this.page = 'solicitados'
   }
 
-  constructor(public businessService: BusinessService, public router: Router, public imageService: ImageService){
+  constructor(public businessService: BusinessService, public router: Router, public ratingService: RatingService){
 
     this.changePage()
 

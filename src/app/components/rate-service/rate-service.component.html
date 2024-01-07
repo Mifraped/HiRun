@@ -1,0 +1,44 @@
+<main *ngIf="ratingWindowOpen">
+  <div class="rateServiceContainer">
+    <h1>Valora el servicio</h1>
+    <!-- cambiar con input del servicio -->
+    <div class="separator"></div>
+    <h2 class="business">{{ business?.title }}</h2>
+    <h2 class="service">>{{ service?.title }}</h2>
+    <div class="providerContainer">
+      <div class="imgContainer">
+        <img src="{{ serviceProvider?.photo }}" alt="" />
+      </div>
+      <h3>{{ serviceProvider?.name }} {{ serviceProvider?.surname }}</h3>
+    </div>
+    <div class="separator"></div>
+    <div class="starContainer">
+      <button *ngFor="let star of stars; let i = index">
+        <i
+          class="fa-star"
+          [ngClass]="{ 'fa-regular': !star.isSolid, 'fa-solid': star.isSolid }"
+          (click)="fillStars(i)"
+        ></i>
+      </button>
+    </div>
+    <div class="separator"></div>
+    <h2>Comentario</h2>
+    <div class="textAreaContainer">
+      <textarea
+        [(ngModel)]="commentContent"
+        name="comment"
+        id="comment"
+        cols="30"
+        rows="10"
+        placeholder="Ayuda a otros usuarios con un comentario sincero sobre el servicio recibido"
+      ></textarea>
+    </div>
+    <div class="separator"></div>
+    <button class="btn btn--green main_btn_effect" (click)="sendRating()">
+      <h2>Enviar reseña</h2>
+    </button>
+    <button class="btn btn--red main_btn_effect" (click)="cancel()">
+      <h2>Cancelar</h2>
+    </button>
+  </div>
+</main>

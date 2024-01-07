@@ -80,7 +80,11 @@ userBusinessService:Service[]
 serviceListString:string =`<select id="serviceSelect">\n`
 dateTimeData :string
 
+serviceToRate:number
+serviceProvider:number
+businessToRate:number
 
+ratingWindowOpen:boolean=false
 
   calendarInitialized(calendar: Calendar) {
     //no entiendo muy bien que hace, pero sin esto no funciona
@@ -182,13 +186,17 @@ dateTimeData :string
   handleEventClick(arg: EventClickArg) {
     // Aquí puedes ejecutar el código que desees cuando se hace clic en un evento
     console.log('Evento clickeado:', arg.event);
+    this.serviceToRate = arg.event.extendedProps.id_service
+    this.businessToRate=arg.event.extendedProps.id_business
+    this.serviceProvider=arg.event.extendedProps.provider
+    
+    console.log('user:'+this.user)
+    console.log('provider:'+this.serviceProvider)
+
     const bookingDate:Date=arg.event.start
-    const now :Date = new Date()
-    console.log(bookingDate)
-    console.log(now)
-    console.log(bookingDate>now)
+    const now :Date = new Date()    
     const diffTime: number = (bookingDate.getTime() - now.getTime()) / (1000 * 60 * 60);
-    console.log(diffTime)
+  
 
     //si quedan más de 24h se puede cancelar
     let buttonColor
@@ -252,7 +260,22 @@ dateTimeData :string
         })
       }else if (result.isConfirmed && diffTime<0){
         //pendinete logica valoraciones
-        this.router.navigate(['/home'])
+        if(this.user===this.serviceProvider){
+          Swal.fire({        
+            title: "¡No hagas trampas!",
+            text: "No puedes valorar un servicio del que eres proveedor",
+            icon: "error",         
+            confirmButtonColor: "var(--green)",          
+            confirmButtonText: "OK",
+            
+          })
+        }else{          
+          this.ratingWindowOpen=true    
+          
+        }
+
+
+        
 
       }else if (result.isConfirmed && diffTime<24){
         Swal.fire({        
@@ -312,6 +335,10 @@ goBack(){
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.user = this.userService.user.id_user
+  }
+
+  onRatingWindowOpenChange(value: boolean) {
+    this.ratingWindowOpen = value;
   }
 
   ngOnInit(){
@@ -380,7 +407,10 @@ goBack(){
                         time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
                         bookId: booking.id_booking,
                         provider: provider,
-                        url: photoBus
+                        url: photoBus,
+                        id_service: servId,
+                        id_business: busId
+
                       },
                       color: color,
                     //  eventColor: color,

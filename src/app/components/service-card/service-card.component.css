@@ -22,7 +22,7 @@ h1 {
 }
 
 .container {
-    padding-right: 0.5rem;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -46,13 +46,25 @@ h1 {
 
 .price {
     padding-left: 1rem;
-    font-size: 34px;
+    font-size: 1.7rem;
     font-weight: 800;
-    color: var(--black);
+    display: inline-block;
+    color: var(--darkGrey);
+}
+
+.integer-part {
+    font-size: 1.7rem;
+    vertical-align: top;
+}
+
+.decimal-part {
+    font-size: 1rem;
+    vertical-align: super;
+
 }
 
 .price span {
-    color: var(--darkGrey)
+    color: var(--black)
 }
 
 button {

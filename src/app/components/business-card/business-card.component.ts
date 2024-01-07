@@ -7,6 +7,8 @@ import { ImageService } from 'src/app/shared/image.service';
 import { BusinessOpt } from 'src/app/models/business-opt';
 import { ResponseBusOpt } from 'src/app/models/response-bus-opt';
 import { OptionService } from 'src/app/shared/option.service';
+import { RatingService } from 'src/app/shared/rating.service';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 @Component({
   selector: 'app-business-card',
@@ -23,10 +25,13 @@ export class BusinessCardComponent implements OnInit {
   initialOptions:BusinessOpt[] = []
   
   thisId:number
+  businessRating:number
+
+  imageUrl:string ="../../../assets/img/logo_business_home.png"
 
   serviceToText(serviceArray) {}
 
-  constructor(public businessService: BusinessService, private router:Router, public imageService:ImageService, public optionsService: OptionService) {
+  constructor(public businessService: BusinessService, private router:Router, public optionsService: OptionService, public ratingService:RatingService) {
 
   }
 
@@ -43,11 +48,9 @@ export class BusinessCardComponent implements OnInit {
        this.router.navigate(['/business', this.business.id_business]);
   }
 
-  imageUrl:string
+ 
 
-  getImageUrl(imageName: string): string {
-    return `${this.imageService.serverUrl}${imageName}`;
-  }
+  
   ngOnInit() {
     this.services =
       this.business && this.business.services ? this.business.services : [];
@@ -60,7 +63,11 @@ export class BusinessCardComponent implements OnInit {
         : 0; 
 
     this.thisId=this.business.id_business
-    this.imageUrl=this.business.photo
+
+    if (this.business.photo.length>0){
+
+      this.imageUrl=this.business.photo
+    }
 
     //opciones extra para los iconos
     this.optionsService.getBusinessOpt(this.thisId).subscribe((res:ResponseBusOpt)=>{
@@ -73,6 +80,15 @@ export class BusinessCardComponent implements OnInit {
           this.selectedOptions.push(res.data[i].id_options-1)
           
         }
+      }
+    })
+
+    //rating
+    this.ratingService.getAvgBusinessRates(this.thisId).subscribe((res:ResponseRates)=>{
+      if (res.error){
+        alert('error')
+      }else{
+        this.businessRating=res.data[0].rate
       }
     })
 
