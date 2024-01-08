@@ -28,6 +28,7 @@ export class ResultsComponent implements OnInit {
   categories: string[];
   otherValues: string[];
   selectedOrderBy: string;
+  categoryName: string;
 
   results: any[];
   private isReordering = false;
@@ -52,6 +53,9 @@ export class ResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
+      console.log(params);
+
+      const displayName = params['displayName'];
       const searchTerm = params['searchTerm'];
       const ratingFilter = params['rating'];
       const minPrice = Number(params['minPrice']);
@@ -60,6 +64,7 @@ export class ResultsComponent implements OnInit {
         ? params['categories'].split(',')
         : [];
       const otherValues = params['other'] ? params['other'].split(',') : [];
+      this.categoryName = displayName;
 
       this.filtersService.updateSearchTerm(searchTerm);
 
