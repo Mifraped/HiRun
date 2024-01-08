@@ -429,7 +429,7 @@ photoUrl
       cancelButtonColor: "var(--red)",
       confirmButtonText: "Publicar cambios",
       cancelButtonText: "Cancelar"
-    }).then( (result) => {
+    }).then( async(result) => {
       if (result.isConfirmed) {
         if(this.deleteServices){
           this.serviceDeletion()
@@ -542,7 +542,7 @@ photoUrl
         //foto
         if(this.fileToUpload){
           console.log()
-          this.addPhoto()
+          await this.addPhoto()
     
           console.log(this.fileToUpload)
         }
@@ -551,6 +551,7 @@ photoUrl
         let modBusiness:Business =this.editBusinessForm.value
         
         modBusiness.id_business=this.business.id_business
+        modBusiness.photo=this.photoUrl
       
 
 

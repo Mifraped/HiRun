@@ -399,15 +399,15 @@ async addPhoto() {
       if (resp.error === false) {
         this.photoUrl = resp.data;
         console.log('resp.data: ' + this.photoUrl);
-        // resolve(); 
+        resolve(); 
       } else {
         this.photoError=true
-
+        reject();
         // resolve(); 
       }
       
     });
-    resolve();
+    // resolve();
   });
 }
 
