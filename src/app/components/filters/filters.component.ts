@@ -67,6 +67,17 @@ export class FiltersComponent implements OnInit {
   sliderValues: number[] = [0, 100];
 
   ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      const category = params['category'];
+      if (category) {
+        const index = this.categories.findIndex(
+          (cat) => cat.toLowerCase() === category.toLowerCase()
+        );
+        if (index !== -1) {
+          this.form.controls.categories.patchValue({ [index]: true });
+        }
+      }
+    });
     // Add a new FormControl for each checkbox
     this.otherForm = this.fb.group({
       'Servicio a domicilio': false,

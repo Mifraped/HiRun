@@ -16,15 +16,13 @@ export class ChatCardComponent implements OnInit {
   constructor(private datePipe: DatePipe, private chatService: ChatService) {}
 
   ngOnInit() {
-    // this.chat = this.chatService
-    //   .getChats()
-    //   .find((chat) => chat.id === this.chat.id);
-    // if (this.chat && this.chat.messages.length > 0) {
-    //   let lastMessage = this.chat.messages[this.chat.messages.length - 1];
-    //   this.lastMessageTimestamp = this.datePipe.transform(
-    //     lastMessage.timestamp,
-    //     'dd/MM'
-    //   );
-    // }
+    console.log(this.chat);
+    if (this.chat && this.chat.messages) {
+      let lastMessage = this.chat.messages[this.chat.messages.length - 1];
+      this.lastMessageTimestamp = this.datePipe.transform(
+        lastMessage.timestamp,
+        'dd/MM'
+      );
+    }
   }
 }

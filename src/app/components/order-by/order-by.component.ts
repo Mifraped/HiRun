@@ -64,6 +64,8 @@ export class OrderByComponent {
 
     // Update the selected order by value in the service
     this.orderByService.changeOrderBy(orderBy);
+
+    this.closeDialog();
   }
 
   closeDialog() {

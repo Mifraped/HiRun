@@ -3,6 +3,10 @@ import { ChatService } from 'src/app/shared/chat.service';
 import { Chat } from 'src/app/models/chat';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { Head } from 'rxjs';
+import { UserService } from 'src/app/shared/user.service';
+import { forkJoin } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat',
@@ -10,17 +14,20 @@ import { Head } from 'rxjs';
   styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit {
-  chats: Chat[];
+  chats: Chat[] = [];
 
   constructor(
     private chatService: ChatService,
-    private HeaderNavbarService: HeaderNavbarService
+    private HeaderNavbarService: HeaderNavbarService,
+    private userService: UserService
   ) {
     this.HeaderNavbarService.showHeader = true;
     this.HeaderNavbarService.showNavbar = true;
   }
 
   ngOnInit() {
-    // this.chats = this.chatService.getChats();
+    this.fetchChats();
   }
+
+  fetchChats() {}
 }

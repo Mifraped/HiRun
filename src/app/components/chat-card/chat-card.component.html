@@ -5,11 +5,23 @@
     *ngIf="chat"
     routerLink="/chat-page"
   >
-    <img
-      [src]="chat.participants[0].photo"
-      alt="{{ chat.participants[0].name }}'s photo"
-    />
-    <h4>{{ chat.participants[0].name }}</h4>
+    <ng-container
+      *ngIf="
+        chat.participants && chat.participants.length > 0;
+        else noParticipants
+      "
+    >
+      <img
+        [src]="chat.participants[0].photo"
+        alt="{{ chat.participants[0].name }}'s photo"
+      />
+      <div>
+        {{ chat.participants[0].name }}
+      </div>
+    </ng-container>
+    <ng-template #noParticipants>
+      <div>No participants</div>
+    </ng-template>
 
     <p>{{ lastMessageTimestamp }}</p>
   </div>

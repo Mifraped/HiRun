@@ -9,11 +9,10 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ChatService {
+  // private url = 'https://api-hi-run.vercel.app/chat';
+  private url = 'http://localhost:3000';
 
-  private url = 'https://api-hi-run.vercel.app/chat';
-  // private url = 'http://localhost:3000/chat';
-
-  constructor(private http:HttpClient){}
+  constructor(private http: HttpClient) {}
 
   user1 = new User(
     'juan@example.com',
@@ -44,17 +43,14 @@ export class ChatService {
   );
   message2 = new Message(this.user2, new Date(), 'Bye');
 
-
   // Zuriñe: dejo comentado porque al cambiar el modelo chat para coincidir con la bbdd da errores
   //pongo las funciones en blanco para que no den errores los componentes que las llaman
 
+  setChats(chats: Chat[]) {}
 
-  setChats(chats: Chat[]) {
-     
-  }
-
-  getChats() {
-     
+  createChat(userId: string, providerId: string): Observable<Chat> {
+    // Replace with your actual API endpoint to create a chat
+    return this.http.post<Chat>(`${this.url}/chat`, { userId, providerId });
   }
 
   // // create some Chat instances
@@ -79,11 +75,7 @@ export class ChatService {
   //    return this.chats;
   // }
 
-
-
-  
-
-  public getAllUserChats(id_user:number) :Observable<object> {
-    return this.http.get(`${this.url}?id_user=${id_user}`)
+  public getAllUserChats(id_user: number): Observable<object> {
+    return this.http.get(`${this.url}?id_user=${id_user}`);
   }
 }

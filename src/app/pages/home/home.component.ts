@@ -15,6 +15,7 @@ import { BusinessService } from 'src/app/shared/business.service';
 import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -72,13 +73,18 @@ export class HomeComponent implements OnInit {
     public UserService: UserService,
     public BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService,
-    private FiltersService: FiltersService
+    private FiltersService: FiltersService,
+    private route: ActivatedRoute
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
   }
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe((params) => {
+      const category = params['categories'];
+      console.log('Categoria en home: ' + category);
+    });
     this.FiltersService.getNewestBusiness().subscribe((business) => {
       this.LatestBusinesses = business.map(
         ({

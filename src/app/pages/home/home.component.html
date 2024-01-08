@@ -8,7 +8,7 @@
     <div id="categories_line" class="line"></div>
     <div class="categories-list">
       <div class="icon-container">
-        <a [routerLink]="['/results']" [queryParams]="{ category: 'música' }">
+        <a [routerLink]="['/results']" [queryParams]="{ categories: 'música' }">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -27,7 +27,7 @@
       <div class="icon-container">
         <a
           [routerLink]="['/results']"
-          [queryParams]="{ category: 'peluquería' }"
+          [queryParams]="{ categories: 'peluquería' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@
       <div class="icon-container">
         <a
           [routerLink]="['/results']"
-          [queryParams]="{ category: 'diseño web' }"
+          [queryParams]="{ categories: 'diseño web' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -72,7 +72,7 @@
       <div class="icon-container">
         <a
           [routerLink]="['/results']"
-          [queryParams]="{ category: 'informática' }"
+          [queryParams]="{ categories: 'informática' }"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +90,10 @@
         </a>
       </div>
       <div class="icon-container">
-        <a [routerLink]="['/results']" [queryParams]="{ category: 'estética' }">
+        <a
+          [routerLink]="['/results']"
+          [queryParams]="{ categories: 'estética' }"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"

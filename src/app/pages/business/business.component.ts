@@ -14,96 +14,104 @@ import { ResponseUser } from 'src/app/models/response-user';
 import { ImageService } from 'src/app/shared/image.service';
 import { RatingService } from 'src/app/shared/rating.service';
 import { ResponseRates } from 'src/app/models/response-rates';
+import { ChatService } from 'src/app/shared/chat.service';
 
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
-  styleUrls: ['./business.component.css']
+  styleUrls: ['./business.component.css'],
 })
 export class BusinessComponent {
+  business: Business;
 
-business:Business
+  services: Service[];
 
-services: Service[]
+  provider: User;
+  providerId: number;
 
-provider: User
-providerId: number
-
-constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService, public imageService:ImageService, public ratingService:RatingService) { 
-  this.headerNavbarService.showHeader=true
-  this.headerNavbarService.showNavbar=true }
-
-contactProvider(){ 
-
-  if (this.userService.connected){
-
-    this.router.navigate(['/chat'])
-  }else{
-    alert('inicia sesión para contactar con el vendedor')
-    this.router.navigate(['/login'])
+  constructor(
+    public userService: UserService,
+    public businessService: BusinessService,
+    private router: Router,
+    public headerNavbarService: HeaderNavbarService,
+    private route: ActivatedRoute,
+    public serviceService: ServiceService,
+    public imageService: ImageService,
+    public ratingService: RatingService,
+    public chatService: ChatService
+  ) {
+    this.headerNavbarService.showHeader = true;
+    this.headerNavbarService.showNavbar = true;
   }
-  // pendiente lógica, tiene que llevarte a chat con el usuario business.provider
-}
 
-imageUrl:string ="../../../assets/img/logo_servicios.png"
-businessRating:number
-
-ngOnInit() {
-  const id = this.route.snapshot.paramMap.get('id_business');
-  
-  this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
-    
-    if (res.error){
-      console.log('error')
-      alert(res.error)
-    }else{    
-      this.business=res.data[0]
-      this.providerId=res.data[0].provider
-
-      if (res.data[0].photo.length>0){
-
-        this.imageUrl=res.data[0].photo
-      }
-
-      this.ratingService.getAvgBusinessRates(+id).subscribe((res:ResponseRates)=>{
-        if (res.error){
-          alert('error')
-        }else{
-          this.businessRating=res.data[0].rate
-        }
-      })
-      
-
-      
-
-      this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
-        
-        if (res.error){
-          console.log('error')
-          alert(res.error)
-        }else{    
-          this.provider=res.data[0]
-         
-        }
-      })
-      
-      this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
-        
-        if (res.error){
-          console.log('error')
-          alert(res.error)
-        }else{    
-          this.services=res.data
-        }
-        
-      })
+  contactProvider() {
+    if (this.userService.connected) {
+      this.chatService
+        .createChat(
+          this.userService.user.id_user.toString(),
+          this.providerId.toString()
+        )
+        .subscribe(() => {
+          this.router.navigate(['/chat']);
+        });
+    } else {
+      alert('inicia sesión para contactar con el vendedor');
+      this.router.navigate(['/login']);
     }
-  })
+  }
 
+  imageUrl: string = '../../../assets/img/logo_servicios.png';
+  businessRating: number;
 
-  
-}
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id_business');
 
+    this.businessService
+      .getBusinessById(+id)
+      .subscribe((res: ResponseBusiness) => {
+        if (res.error) {
+          console.log('error');
+          alert(res.error);
+        } else {
+          this.business = res.data[0];
+          this.providerId = res.data[0].provider;
 
+          if (res.data[0].photo.length > 0) {
+            this.imageUrl = res.data[0].photo;
+          }
 
+          this.ratingService
+            .getAvgBusinessRates(+id)
+            .subscribe((res: ResponseRates) => {
+              if (res.error) {
+                alert('error');
+              } else {
+                this.businessRating = res.data[0].rate;
+              }
+            });
+
+          this.userService
+            .getUserInfo(this.providerId)
+            .subscribe((res: ResponseUser) => {
+              if (res.error) {
+                console.log('error');
+                alert(res.error);
+              } else {
+                this.provider = res.data[0];
+              }
+            });
+
+          this.serviceService
+            .getAllServices(+id)
+            .subscribe((res: ResponseService) => {
+              if (res.error) {
+                console.log('error');
+                alert(res.error);
+              } else {
+                this.services = res.data;
+              }
+            });
+        }
+      });
+  }
 }
