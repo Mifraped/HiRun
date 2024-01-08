@@ -23,6 +23,14 @@ img {
 
 }
 
+#map {
+    width: 83%;
+    max-width: 400px;
+    aspect-ratio: 10/7;
+    border-radius: .625rem;
+    margin-bottom: 4.5rem;
+}
+
 .imgGradient {
     border-radius: .625rem;
     position: absolute;
@@ -80,15 +88,11 @@ img {
 }
 
 .contact {
-    margin-top: 3rem;
+    margin: 2.5rem 0;
     background-color: var(--green);
     width: 230px;
     height: 40px;
     border-radius: 20px;
     font-size: 20px;
 
-}
-
-.mapa {
-    margin-top: 2rem;
 }

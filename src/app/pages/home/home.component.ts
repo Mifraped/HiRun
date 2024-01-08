@@ -15,6 +15,7 @@ import { BusinessService } from 'src/app/shared/business.service';
 import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { GeolocationService } from 'src/app/shared/geolocation.service';
 
 @Component({
   selector: 'app-home',
@@ -72,10 +73,24 @@ export class HomeComponent implements OnInit {
     public UserService: UserService,
     public BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService,
-    private FiltersService: FiltersService
+    private FiltersService: FiltersService,
+    private geolocationService:GeolocationService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
+  }
+
+  getGeoLocation(){
+    this.geolocationService.getCurrentPosition().subscribe({
+      next: (position) => {
+        console.log('Latitude:', position.coords.latitude);
+        console.log('Longitude:', position.coords.longitude);
+        console.log(position.coords)
+      },
+      error: (error) => {
+        console.error('Error getting geolocation:', error);
+      },
+    });
   }
 
   ngOnInit(): void {
@@ -142,6 +157,7 @@ export class HomeComponent implements OnInit {
         })
       );
     });
+    this.getGeoLocation();
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);
@@ -149,4 +165,6 @@ export class HomeComponent implements OnInit {
   togglePVisibility(index: number) {
     this.isPVisible[index] = !this.isPVisible[index];
   }
+
+
 }

@@ -103,7 +103,7 @@
       </div>
     </div>
 
-    <div class="formGroup">
+    <!-- <div class="formGroup">
       <label>Ciudad</label>
       <div class="inputContainer">
         <input
@@ -147,6 +147,63 @@
             Introduce una ciudad
           </div>
         </div>
+        <div class="circle">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="formGroup">
+      <div class="inputContainer inputContainer--location">
+        <label
+          >Selecciona tu ciudad:
+
+          <input
+            formControlName="location"
+            list="ciudad"
+            name="myBrowser"
+            (change)="seleccionar($event)"
+            [ngClass]="{
+              'is-invalid':
+                (regForm2.get('location').dirty ||
+                  regForm2.get('location').touched) &&
+                !regForm2.get('location').valid
+            }"
+        /></label>
+        <datalist id="ciudad">
+          <option *ngFor="let m of municipios" [value]="m.municipio"></option>
+        </datalist>
+
+        <div *ngIf="regForm2.get('location').valid">
+          <i class="fa-solid fa-circle-check valid-feedback"></i>
+        </div>
+
+        <i
+          *ngIf="
+            (regForm2.get('location').dirty ||
+              regForm2.get('location').touched) &&
+            !regForm2.get('location').valid
+          "
+          class="fa-solid fa-circle-exclamation invalid-feedback"
+        ></i>
+
+        <div
+          *ngIf="
+            (regForm2.get('location').dirty ||
+              regForm2.get('location').touched) &&
+            !regForm2.get('location').valid
+          "
+          class="errorMsg"
+        >
+          <div *ngIf="regForm2.get('location').errors.required">
+            Este campo es obligatorio
+          </div>
+
+          <div *ngIf="regForm2.get('location').errors?.notInList">
+            Debes seleccionar una ciudad de la lista
+          </div>
+        </div>
+
         <div class="circle">
           <i class="fa-solid fa-location-dot"></i>
         </div>

@@ -19,7 +19,7 @@ export class Business {
 
     public rating: number = -1,
     public create_date?: string,
-    
+    public address?:string,    
     public id_business?: number
   ) {}
 }
