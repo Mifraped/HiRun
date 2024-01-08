@@ -35,12 +35,6 @@ export class ProfileComponent implements OnInit{
       this.router.navigate(["/home"])
     }
 
-    public getBusiness(){
-      return this.businesService.getBusiness().subscribe((resp: ResponseBusiness) => {
-        this.businesService.logedUserBusinesses = resp.data
-      })
-    }
-
     public getRates(){
        this.ratingService.getRates().subscribe((resp:ResponseRates) => {
         this.userService.rates = resp.data

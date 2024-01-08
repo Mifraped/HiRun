@@ -256,6 +256,7 @@ async addBusiness(newBusiness: Business): Promise<void> {
           console.log(res.data);
           this.newId = res.data[0].insertId;
           console.log(this.newId);
+          this.router.navigate(['/service-provided'])
           resolve();
         }
       },
@@ -503,7 +504,7 @@ async newBusiness(){
 
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-    // newBusiness.photo = this.photoUrl 
+    newBusiness.photo = this.photoUrl 
     
     console.log(newBusiness.address)
 
@@ -555,7 +556,7 @@ async newBusiness(){
     confirmButtonColor: "var(--green)",
     confirmButtonText: "OK"
     })
-    this.router.navigate(['/service-provided'])
+    // this.router.navigate(['/service-provided'])
    
 }
 

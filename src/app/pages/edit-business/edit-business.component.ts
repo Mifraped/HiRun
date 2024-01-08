@@ -560,6 +560,7 @@ photoUrl
             alert(res.error);        
           } else {
             console.log('negocio editado');
+            this.router.navigate(['/service-provided']);
           
           }
         })
@@ -575,7 +576,6 @@ photoUrl
     
     
     
-    this.router.navigate(['/service-provided']);
   }}
   
 
@@ -629,6 +629,7 @@ photoUrl
             console.log(res)
             alert(res.error)
           }else{
+            this.router.navigate(['/service-provided']);
             console.log(res)
           }
         })
@@ -640,7 +641,6 @@ photoUrl
           confirmButtonColor: "var(--green)",
         });
       }
-      this.router.navigate(['/service-provided']);
     });
   }
 
@@ -648,7 +648,7 @@ photoUrl
   cancelEditBusiness() {
     //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
     this.editBusinessForm.reset();
-    this.router.navigate(['/profile']);
+    this.router.navigate(['/service-provided']);
   }
 
   //Cambiar los días seleccionados - pendiente ver si se puede coger la info de lso timeframes
