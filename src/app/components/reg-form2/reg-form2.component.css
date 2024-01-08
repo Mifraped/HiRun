@@ -32,6 +32,10 @@ form {
     margin-top: 4px;
 }
 
+.inputContainer--location {
+    height: 3.75rem;
+}
+
 .circle {
     width: 2.125rem;
     height: 2.125rem;
@@ -44,6 +48,10 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.inputContainer--location .circle {
+    top: 1.5rem;
 }
 
 i {
@@ -97,6 +105,12 @@ a {
     left: .5rem;
     top: .8125rem
 }
+
+.inputContainer--location .invalid-feedback,
+.inputContainer--location .valid-feedback {
+    top: 33px
+}
+
 
 .errorMsg {
     display: flex;
