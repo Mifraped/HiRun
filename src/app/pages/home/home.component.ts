@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
   LatestBusinesses: Business[] = [];
   BestRatedBusinesses: Business[] = [];
   negocio1: Business = this.BusinessService.business;
+  RecommendedBusinesses: Business[] = [];
 
   faqItems = [
     {
@@ -92,7 +93,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
-          id_business
+          id_business,
         }) => ({
           provider,
           title,
@@ -105,7 +106,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
-          id_business
+          id_business,
         })
       );
     });
@@ -124,7 +125,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
-          id_business
+          id_business,
         }) => ({
           provider,
           title,
@@ -137,7 +138,7 @@ export class HomeComponent implements OnInit {
           price,
           description,
           userPhoto,
-          id_business
+          id_business,
         })
       );
     });

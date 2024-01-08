@@ -30,6 +30,7 @@ export class ResultsComponent implements OnInit {
   selectedOrderBy: string;
 
   results: any[];
+  private isReordering = false;
 
   constructor(
     public dialog: MatDialog,
@@ -94,6 +95,7 @@ export class ResultsComponent implements OnInit {
   }
 
   onOrderBySelected(orderBy: string) {
+    this.isReordering = true;
     this.filtersService
       .getResults(
         this.searchTerm,
@@ -107,6 +109,7 @@ export class ResultsComponent implements OnInit {
       .subscribe((results) => {
         console.log('results:', results);
         this.results = results;
+        this.isReordering = false;
       });
   }
 
