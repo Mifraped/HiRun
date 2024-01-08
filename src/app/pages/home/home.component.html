@@ -123,11 +123,7 @@
     </div>
     <div class="best_review">
       <p class="white_txt" id="best_txt">
-        {{
-          UserService.connected
-            ? "Recomendaciones para ti"
-            : "Mejores Valorados"
-        }}
+        {{ UserService.connected ? "Mejores Valorados" : "Mejores Valorados" }}
       </p>
       <div class="line_blue"></div>
       <div class="negocios_best_review">

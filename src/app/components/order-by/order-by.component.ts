@@ -5,6 +5,7 @@ import { OrderByService } from 'src/app/shared/order-by.service';
 import { EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-order-by',
@@ -32,8 +33,13 @@ export class OrderByComponent {
     private dialogService: DialogService,
     private orderByService: OrderByService,
     private http: HttpClient,
-    private filtersService: FiltersService
-  ) {}
+    private filtersService: FiltersService,
+    private dialogRef: MatDialogRef<OrderByComponent>
+  ) {
+    this.dialogService.closeDialog$.subscribe(() => {
+      this.dialogRef.close();
+    });
+  }
 
   ngOnInit() {
     this.form = this.fb.group({
