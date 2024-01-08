@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
 import { Business } from 'src/app/models/business';
 import { Service} from 'src/app/models/service';
-import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormArray, NgModel, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { ResponseBusiness } from 'src/app/models/response-business';
@@ -23,6 +23,7 @@ import { OptionService } from 'src/app/shared/option.service';
 import { User } from 'src/app/models/user';
 import {HttpClient} from '@angular/common/http'
 import Swal from 'sweetalert2';
+declare var google: any;
 
 import { ResponseImg } from 'src/app/models/response-img';
 import { CommonModule, DatePipe } from '@angular/common';
@@ -36,9 +37,17 @@ import { ResponsePhoto } from 'src/app/models/response-photo';
   styleUrls: ['./new-business.component.css']
 })
 export class NewBusinessComponent implements OnInit {
+
+  @ViewChild('addressNgModel') addressNgModel: NgModel;
+
   public addServiceForm: FormGroup
   public newBusinessForm: FormGroup
-  
+
+ //mapa
+ addressControl = new FormControl();
+ autocomplete: any;
+ //
+    
   //variables para mostras/ocultar header y navbar  
   showHeader:boolean=false
   showNavBar:boolean=false
@@ -89,14 +98,32 @@ photoUrl: string = ""
 public fileToUpload: File = null;
 public imagePreview: string;
 
+initAutocomplete() {
+  // Inicializa el servicio de autocompletado de Google Maps
+  this.autocomplete = new google.maps.places.Autocomplete(
+    document.getElementById('address'),
+    { types: ['geocode'] }
+  );
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient,  private datePipe: DatePipe, private photoService: PhotoService) { 
+  // Escucha el evento de selección de un lugar y actualiza el formulario
+  this.autocomplete.addListener('place_changed', () => {
+    this.zone.run(() => {
+      const place = this.autocomplete.getPlace();
+      this.newBusinessForm.patchValue({ address: place.formatted_address });
+      this.cdr.detectChanges(); // Notifica a Angular sobre el cambio
+    });
+  });
+}
+
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient,  private datePipe: DatePipe, private photoService: PhotoService, private zone: NgZone, private cdr: ChangeDetectorRef) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
     this.buildFormBusiness();
   }
   ngOnInit(): void {
+    this.initAutocomplete();
+
     this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
           if (res.error){
             console.log(res)
@@ -149,6 +176,7 @@ getCreationDate(): string {
       price:  [, [Validators.required,]],
       description:  [, [Validators.required, ]],
       duration:  [, [Validators.required, this.fifteenMinutes]],
+      address:[,]
      
     })
   }
@@ -171,6 +199,7 @@ private buildFormBusiness(){
     services:  [, ], //quito el required porque da fallo con el botón, se maneja con el if/else
     photo:  [, ],
     otherFields: this.formBuilder.array([], Validators.required),
+    address:[,]
     
      })
 }
@@ -302,12 +331,10 @@ addNewBusinessOpt(bus:number, opt:number){
 //bucle opciones
 async addAllBusOptions(){
   if(this.selectedOptions){
-
     for (let opt of this.selectedOptions){
       this.addNewBusinessOpt(this.newId, opt)
     }
   }
-
 }
 
 
@@ -366,7 +393,6 @@ async addAllTimeframes(){
             (newTf.start <= oldTf.start && newTf.end >= oldTf.end)) {
               overlap = true
             }
-           
           }
         }
       }
@@ -384,6 +410,27 @@ async addAllTimeframes(){
 }
 
 photoError:Boolean=false
+coordValue:string = ''
+
+//convierte la dirección en coordenadas y en string tipo el de location
+async convertAddressToCoordinates(address: string):Promise<string> {
+  const geocoder = new google.maps.Geocoder();
+  await geocoder.geocode({ 'address': address }, (results, status) => {
+    if (status === 'OK' && results[0]) {
+      const coordinates = {
+        lat: results[0].geometry.location.lat(),
+        lng: results[0].geometry.location.lng()
+      };
+      console.log('Coordenadas:', coordinates);
+      this.coordValue= `{"latitude":${coordinates.lat}, "longitude": ${coordinates.lng}}`
+      // Aquí puedes enviar las coordenadas al servidor o realizar cualquier acción necesaria
+    } else {
+      console.error('Error al convertir la dirección a coordenadas:', status);
+      
+    }
+  });
+  return this.coordValue
+}
 
 async addPhoto() {
   return new Promise<void>((resolve, reject) => {
@@ -436,30 +483,37 @@ async preliminaryChecks() {
       if (result.isDenied){
         Swal.fire("Changes are not saved", "", "info")
       }else if (result.isConfirmed){
-        
-        this.newBusiness()
+         this.newBusiness()
       }
     })}else{
-      this.newBusiness()
+       this.newBusiness()
     }
   }
   
 
 async newBusiness(){
-
-
-   if(this.fileToUpload){     
-    // Crear un nombre único usando un timestamp
-    
-   await this.addPhoto()
-   console.log('foto ok')
   
-  }
+   if(this.fileToUpload){         
+    // Crear un nombre único usando un timestamp    
+    await this.addPhoto()
+    console.log('foto ok')
+    }
+
     let newBusiness = this.newBusinessForm.value;
+
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-    newBusiness.photo = this.photoUrl   
-  console.log(this.photoUrl)
+    // newBusiness.photo = this.photoUrl 
+    
+    console.log(newBusiness.address)
+
+    if (newBusiness.address){
+      newBusiness.address = await this.convertAddressToCoordinates(newBusiness.address)  
+      console.log(newBusiness.address)
+    }
+      
+      
+
  
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
@@ -502,6 +556,7 @@ async newBusiness(){
     confirmButtonText: "OK"
     })
     this.router.navigate(['/service-provided'])
+   
 }
 
 

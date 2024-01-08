@@ -16,6 +16,7 @@ import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
+import { GeolocationService } from 'src/app/shared/geolocation.service';
 
 @Component({
   selector: 'app-home',
@@ -74,16 +75,36 @@ export class HomeComponent implements OnInit {
     public BusinessService: BusinessService,
     public headerNavbarService: HeaderNavbarService,
     private FiltersService: FiltersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private geolocationService:GeolocationService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
   }
 
+  //geolocalización
+  lat:number
+  lng: number
+
+  getGeoLocation(){
+    this.geolocationService.getCurrentPosition().subscribe({
+      next: (position) => {
+        this.lat = position.coords.latitude
+        this.lng = position.coords.longitude
+        // console.log('Latitude:', position.coords.latitude);
+        // console.log('Longitude:', position.coords.longitude);
+        // console.log(position.coords)
+      },
+      error: (error) => {
+        console.error('Error getting geolocation:', error);
+      },
+    });
+  }
+  //fin geolocalización
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
-      console.log('Categoria en home: ' + category);
+      // console.log('Categoria en home: ' + category);
     });
     this.FiltersService.getNewestBusiness().subscribe((business) => {
       this.LatestBusinesses = business.map(
@@ -148,6 +169,7 @@ export class HomeComponent implements OnInit {
         })
       );
     });
+    this.getGeoLocation();
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);
@@ -155,4 +177,6 @@ export class HomeComponent implements OnInit {
   togglePVisibility(index: number) {
     this.isPVisible[index] = !this.isPVisible[index];
   }
+
+
 }

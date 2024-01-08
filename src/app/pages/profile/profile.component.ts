@@ -9,6 +9,7 @@ import { ResponseRequestedService } from 'src/app/models/response-requested-serv
 import { User } from 'src/app/models/user';
 import { RatingService } from 'src/app/shared/rating.service';
 import { Rate } from 'src/app/models/rate';
+import { GeolocationService } from 'src/app/shared/geolocation.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,8 +20,9 @@ export class ProfileComponent implements OnInit{
 
   avgRate:number
   rates:Rate[]
+  city:string
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService,public ratingService:RatingService) { 
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService,public ratingService:RatingService, public geolocationService:GeolocationService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true }
     
@@ -69,6 +71,17 @@ export class ProfileComponent implements OnInit{
           
         }
       }) 
+
+
+      let coordObj = JSON.parse(this.userService.user.location)
+      console.log(coordObj)
+
+      this.city = this.geolocationService.cityList.find(m => m.latitude ===coordObj.latitude && m.longitude===coordObj.longitude).municipio
+
+      console.log(this.city)
+
+
+
 
 
     }

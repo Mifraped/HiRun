@@ -1,4 +1,4 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component,ViewChild, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { NgForm } from '@angular/forms';
@@ -10,6 +10,7 @@ import * as e from 'express';
 import { PhotoService } from 'src/app/shared/photo.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseCategory } from 'src/app/models/response-category';
+import { GeolocationService } from 'src/app/shared/geolocation.service';
 
 
 @Component({
@@ -17,13 +18,13 @@ import { ResponseCategory } from 'src/app/models/response-category';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit{
 
   @ViewChild('formUser') form: NgForm
 
   public name = this.userService.user.name
   public surname = this.userService.user.surname
-  public location = this.userService.user.location
+  // public location = this.userService.user.location
   public phoneNumber = this.userService.user.phoneNumber
 
   public fileToUpload: File = null;
@@ -31,7 +32,11 @@ export class EditProfileComponent {
 
   public isUpdating = false
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService, private categoryService: CategoryService) { 
+  municipios=[]
+  city:any
+  location:any
+
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService, private categoryService: CategoryService, public geolocationService:GeolocationService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true
   }
@@ -47,44 +52,74 @@ export class EditProfileComponent {
     }
   }
 
+  errorCiudad:boolean=false
+
   private setUser(){
     this.userService.user.name = this.name
     this.userService.user.surname = this.surname
-    this.userService.user.location = this.location
+    // this.userService.user.location = this.location
+    console.log(this.location)
+
+    const mun = this.location
+    const m = this.municipios.find(m => m.municipio === mun);
     this.userService.user.phoneNumber = this.phoneNumber
+
+    if(m){
+      this.errorCiudad=false
+      const coordValue=`{"latitude":${m.latitude}, "longitude": ${m.longitude}}`
+      this.userService.user.location = coordValue
+    }else{
+      this.errorCiudad=true
+    }
+
   }
 
   private updateUser(){
     this.isUpdating = true
     if(this.form.dirty){
       this.setUser()
+
     }
-    this.userService.putUser(this.userService.user).subscribe((resp: ResponseUser) => {
-      if(resp.error == false){
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Perfil actualizado",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }else{
-        this.userService.user.name = resp.data.name
-        this.userService.user.surname = resp.data.surname
-        this.userService.user.location = resp.data.location
-        this.userService.user.phoneNumber = resp.data.phoneNumber
-        this.userService.user.photo = resp.data.photo
-        Swal.fire({
-          position: "top-end",
-          icon: "error",
-          title: "No se pudo actualizar el perfil",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-      this.isUpdating = false
-      this.form.form.markAsPristine()
-    })
+    if (!this.errorCiudad){
+      this.userService.putUser(this.userService.user).subscribe((resp: ResponseUser) => {
+        if(resp.error == false){
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Perfil actualizado",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }else{
+          this.userService.user.name = resp.data.name
+          this.userService.user.surname = resp.data.surname
+          this.userService.user.location = resp.data.location
+          this.userService.user.phoneNumber = resp.data.phoneNumber
+          this.userService.user.photo = resp.data.photo
+          Swal.fire({
+            position: "top-end",
+            icon: "error",
+            title: "No se pudo actualizar el perfil",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+        
+      })
+    
+
+    }else{
+      Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: "Error",
+        text: "No se pudo actualizar el perfil, el municipio seleccionado no existe",
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+    this.isUpdating = false
+    this.form.form.markAsPristine()
   }
 
   public sendForm(){
@@ -111,4 +146,22 @@ export class EditProfileComponent {
     }else this.updateUser()
   }
 
+  seleccionar(e) {
+    //Obtener el valor
+    console.log(e.srcElement.value);
+  
+  }
+  
+
+  ngOnInit(): void {
+    this.municipios=this.geolocationService.cityList
+
+    let coordObj = JSON.parse(this.userService.user.location)
+      console.log(coordObj)
+
+      this.city =  this.municipios.find(m => m.latitude ===coordObj.latitude && m.longitude===coordObj.longitude)
+
+      console.log(this.city)
+      this.location=this.city.municipio
+  }
 }

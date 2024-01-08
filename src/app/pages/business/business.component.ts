@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Business } from 'src/app/models/business';
 import { UserService } from 'src/app/shared/user.service';
 import { BusinessService } from 'src/app/shared/business.service';
@@ -15,34 +15,38 @@ import { ImageService } from 'src/app/shared/image.service';
 import { RatingService } from 'src/app/shared/rating.service';
 import { ResponseRates } from 'src/app/models/response-rates';
 import { ChatService } from 'src/app/shared/chat.service';
+import {} from 'googlemaps';
+
+
 
 @Component({
   selector: 'app-business',
   templateUrl: './business.component.html',
   styleUrls: ['./business.component.css'],
 })
-export class BusinessComponent {
-  business: Business;
+export class BusinessComponent implements AfterViewInit{
 
-  services: Service[];
+business:Business
 
-  provider: User;
-  providerId: number;
+services: Service[]
 
-  constructor(
-    public userService: UserService,
-    public businessService: BusinessService,
-    private router: Router,
-    public headerNavbarService: HeaderNavbarService,
-    private route: ActivatedRoute,
-    public serviceService: ServiceService,
-    public imageService: ImageService,
-    public ratingService: RatingService,
-    public chatService: ChatService
-  ) {
-    this.headerNavbarService.showHeader = true;
-    this.headerNavbarService.showNavbar = true;
-  }
+provider: User
+providerId: number
+coordLoc: any
+
+constructor(
+  public userService: UserService,
+  public businessService: BusinessService,
+  private router: Router,
+  public headerNavbarService: HeaderNavbarService,
+  private route: ActivatedRoute,
+  public serviceService: ServiceService,
+  public imageService: ImageService,
+  public ratingService: RatingService,
+  public chatService: ChatService
+) {
+  this.headerNavbarService.showHeader=true
+  this.headerNavbarService.showNavbar=true }
 
   contactProvider() {
     if (this.userService.connected) {
@@ -60,58 +64,121 @@ export class BusinessComponent {
     }
   }
 
-  imageUrl: string = '../../../assets/img/logo_servicios.png';
-  businessRating: number;
+imageUrl:string ="../../../assets/img/logo_servicios.png"
+businessRating:number
 
-  ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id_business');
 
-    this.businessService
-      .getBusinessById(+id)
-      .subscribe((res: ResponseBusiness) => {
-        if (res.error) {
-          console.log('error');
-          alert(res.error);
-        } else {
-          this.business = res.data[0];
-          this.providerId = res.data[0].provider;
+//mapa
+@ViewChild('gmapContainer', { static: false }) gmap: ElementRef;
+map: google.maps.Map;
+lat: number;
+lng: number;
+coordinates: google.maps.LatLng;
 
-          if (res.data[0].photo.length > 0) {
-            this.imageUrl = res.data[0].photo;
+// mapOptions: google.maps.MapOptions = {
+//  center: this.coordinates,
+//  zoom: 10
+// };
+
+marker: google.maps.Marker;
+mapInitializer() {
+  this.map = new google.maps.Map(this.gmap.nativeElement, 
+    {
+      center: this.coordinates,
+      zoom: 15
+     });
+  // this.marker.setMap(this.map);
+  this.marker = new google.maps.Marker({
+    position: this.coordinates,
+    map: this.map,
+  });
+}
+
+// marker = new google.maps.Marker({
+//   position: this.coordinates,
+//   map: this.map,
+// });
+
+ngAfterViewInit() {
+  this.mapInitializer();
+}
+
+//
+
+ngOnInit() {
+  const id = this.route.snapshot.paramMap.get('id_business');
+  
+  this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
+    
+    if (res.error){
+      console.log('error')
+      alert(res.error)
+    }else{    
+      this.business=res.data[0]
+      this.providerId=res.data[0].provider
+
+      if (res.data[0].photo && res.data[0].photo.length>0){
+
+        this.imageUrl=res.data[0].photo
+      }
+
+      this.ratingService.getAvgBusinessRates(+id).subscribe((res:ResponseRates)=>{
+        if (res.error){
+          alert('error')
+        }else{
+          this.businessRating=res.data[0].rate
+        }
+      })   
+
+      
+
+      this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
+        
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{    
+          this.provider=res.data[0]
+
+          if (this.business.address && this.business.address.length>0){
+            this.coordLoc=JSON.parse(this.business.address);
+          }else{
+
+            this.coordLoc=JSON.parse(this.provider.location);
           }
 
-          this.ratingService
-            .getAvgBusinessRates(+id)
-            .subscribe((res: ResponseRates) => {
-              if (res.error) {
-                alert('error');
-              } else {
-                this.businessRating = res.data[0].rate;
-              }
-            });
+          this.lat = this.coordLoc ? this.coordLoc.latitude : 0;
+          this.lng = this.coordLoc ? this.coordLoc.longitude : 0;
 
-          this.userService
-            .getUserInfo(this.providerId)
-            .subscribe((res: ResponseUser) => {
-              if (res.error) {
-                console.log('error');
-                alert(res.error);
-              } else {
-                this.provider = res.data[0];
-              }
-            });
+      // Actualizar las coordenadas después de inicializar lat y lng
+      this.coordinates = new google.maps.LatLng(this.lat, this.lng);
 
-          this.serviceService
-            .getAllServices(+id)
-            .subscribe((res: ResponseService) => {
-              if (res.error) {
-                console.log('error');
-                alert(res.error);
-              } else {
-                this.services = res.data;
-              }
-            });
+      console.log(this.lat);
+      console.log(this.lng);
+      console.log(this.coordinates);
+
+      // Coloca aquí el código que depende de lat y lng, como la inicialización del mapa
+      this.mapInitializer();
         }
-      });
-  }
+      })
+      
+      this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
+        
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{    
+          this.services=res.data
+        }
+        
+      })
+    }
+  })
+
+
+  
+}
+
+
+
 }

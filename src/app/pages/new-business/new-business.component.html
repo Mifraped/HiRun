@@ -68,6 +68,20 @@
       <span class="material-symbols-outlined"> photo_camera </span>
     </div>
     <div class="separator"></div>
+    <!-- pruebas dirección -->
+    <div class="formGroup">
+      <label for="address">Dirección:</label>
+
+      <div class="inputContainer" id="testmapa">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Address"
+          formControlName="address"
+          id="address"
+        />
+      </div>
+    </div>
 
     <!-- form de creación de servicios dentro del form de negocios -->
     <form [formGroup]="addServiceForm">

@@ -18,6 +18,8 @@ h1 {
     margin: 1.6875rem 0
 }
 
+
+
 form {
 
     display: flex;
@@ -367,4 +369,9 @@ label i {
     color: var(--lightGrey);
     font-weight: 200;
     padding-top: .3125rem
+}
+
+#testmapa {
+    margin: 0.5rem 0;
+    height: 60px
 }

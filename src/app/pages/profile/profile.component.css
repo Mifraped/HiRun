@@ -56,8 +56,8 @@ svg#back {
 }
 
 .photo {
-    height: 4.125rem;
-    width: 4.125rem;
+    height: 6rem;
+    width: 6rem;
 }
 
 img {
@@ -81,6 +81,7 @@ h1 {
 .rating {
     display: flex;
     justify-content: flex-start;
+    padding-top: 0.25rem;
 }
 
 .stars {
@@ -100,14 +101,19 @@ h1 {
 .location {
     display: flex;
     align-items: center;
+
     position: relative;
-    left: -0.75rem;
+
 }
 
 /* localizacion */
 span {
     color: var(--lightGrey);
     font-size: 0.6875rem;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    padding-left: .5rem;
 }
 
 /* enlace a ubicacion en maps o donde sea */
