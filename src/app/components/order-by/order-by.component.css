@@ -7,7 +7,7 @@
 .main-cnt {
   display: flex;
   flex-direction: column;
-  height: 600px;
+  height: 430px;
   width: 100%;
   background-color: var(--darkGrey);
 }

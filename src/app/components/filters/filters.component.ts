@@ -10,8 +10,9 @@ import wNumb from 'wnumb';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FiltersService } from 'src/app/shared/filters.service';
+import { ActivatedRoute } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
-
+import { FiltersStateService } from 'src/app/shared/filters-state.service';
 
 @Component({
   selector: 'app-filters',
@@ -25,29 +26,61 @@ export class FiltersComponent implements OnInit {
     rating: [''],
   });
 
+  otherForm: FormGroup;
+
   form: FormGroup;
+
   categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
+    'Fontanería',
+    'Música',
+    'Carpintería',
+    'Informática',
+    'Fotografía',
+    'Diseño web',
+    'Albañilería',
+    'Mecánica',
+    'Idiomas',
+    'Electricidad',
+    'Carrocería',
+    'Entretenimiento',
+    'Tratamientos',
+    'Peluquería',
+    'Abogados',
+    'Programación',
+    'Particulares',
+    'Maquillaje',
+    'Contabilidad',
   ];
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private filtersService: FiltersService,
+    private route: ActivatedRoute,
     public headerNavbarService: HeaderNavbarService,
+    private filtersStateService: FiltersStateService
   ) {
-    this.headerNavbarService.showNavbar=false
+    this.headerNavbarService.showNavbar = false;
   }
+
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
-  sliderValues: number[] = [20, 80];
+  sliderValues: number[] = [0, 100];
 
   ngOnInit() {
-    this.filtersService.minPrice = 0;
-    this.filtersService.maxPrice = 100;
+    // Add a new FormControl for each checkbox
+    this.otherForm = this.fb.group({
+      'Servicio a domicilio': false,
+      'Servicio online': false,
+      'Pago en efectivo': false,
+      'Pago con tarjeta': false,
+      // other form controls...
+    });
+
+    this.otherForm.valueChanges.subscribe((values) => {
+      const otherValuesArray = Object.keys(values).filter((key) => values[key]);
+      this.filtersService.setOptions(otherValuesArray);
+    });
+
     this.form = this.fb.group({
       categories: this.fb.array([]),
     });
@@ -71,18 +104,31 @@ export class FiltersComponent implements OnInit {
       },
     });
 
+    // Listen for the 'update' event
     slider.on('update', (values, handle) => {
+      // Convert the slider values to numbers
       const minPrice = Number(values[0]);
       const maxPrice = Number(values[1]);
 
+      // Update minPrice and maxPrice in the FiltersService
       this.filtersService.minPrice = minPrice;
       this.filtersService.maxPrice = maxPrice;
 
+      // Get searchTerm and rating from the FiltersService
       const searchTerm = this.filtersService.searchTerm;
       const rating = this.filtersService.rating;
 
+      // Now you can use searchTerm, rating, minPrice, and maxPrice to filter your results
       this.filtersService
-        .getResults(searchTerm, Number(rating), minPrice, maxPrice, null)
+        .getResults(
+          searchTerm,
+          Number(rating),
+          minPrice,
+          maxPrice,
+          null,
+          null,
+          null
+        )
         .subscribe((results) => {
           this.results = results;
         });
@@ -98,29 +144,57 @@ export class FiltersComponent implements OnInit {
     return this.router.url.includes(url) ? 'first-other' : 'hola';
   }
 
+  onOptionsChange(event: any) {
+    const otherValuesArray = Object.keys(this.otherForm.value).filter(
+      (key) => this.otherForm.value[key]
+    );
+    this.filtersService.setOptions(
+      otherValuesArray.length > 0 ? otherValuesArray : []
+    );
+  }
+
   applyFilters() {
-    const ratingFilter = Number(this.filtersForm.get('rating').value);
+    const otherValues = this.otherForm.value; // Get values from otherForm
+    const otherValuesArray = Object.keys(otherValues).filter(
+      (key) => otherValues[key]
+    );
+    const ratingValue = this.filtersForm.get('rating').value;
+    const ratingFilter = ratingValue ? Number(ratingValue) : null;
     const searchTerm = this.filtersService.getCurrentSearchTerm();
     const minPrice = this.filtersService.minPrice;
     const maxPrice = this.filtersService.maxPrice;
+    const categories = this.form.value.categories;
+    const selectedCategories = this.form.value.categories
+      .map((selected, index) =>
+        selected ? this.categories[index].toLowerCase() : null
+      )
+      .filter((name) => name !== null);
 
     this.filtersService
-      .getResults(searchTerm, ratingFilter, minPrice, maxPrice, null)
+      .getResults(
+        searchTerm,
+        ratingFilter,
+        minPrice,
+        maxPrice,
+        selectedCategories,
+        otherValuesArray,
+        null
+      )
       .subscribe((results) => {
         this.results = results;
         let queryParams = {
           searchTerm: searchTerm,
+          rating: ratingFilter,
           minPrice: minPrice,
           maxPrice: maxPrice,
-          rating: ratingFilter,
+          categories: selectedCategories.join(','),
+          other: otherValuesArray.join(','),
         };
 
-        console.log('searchTerm:', searchTerm);
-        console.log('minPrice:', minPrice);
-        console.log('maxPrice:', maxPrice);
-        console.log('ratingFilter:', ratingFilter);
-
-        this.router.navigate(['/results'], { queryParams: queryParams });
+        this.router.navigate(['/results'], {
+          queryParams: queryParams,
+          queryParamsHandling: 'merge',
+        });
       });
   }
 }

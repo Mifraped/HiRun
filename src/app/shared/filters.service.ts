@@ -7,13 +7,16 @@ import { tap } from 'rxjs/internal/operators/tap';
   providedIn: 'root',
 })
 export class FiltersService {
-  // private url = 'http://localhost:3000';
-  private url = 'https://api-hi-run.vercel.app';
+  private url = 'http://localhost:3000';
+  // private url = 'https://api-hi-run.vercel.app';
 
   public searchTerm: string;
   public rating: string;
-  public minPrice: number = 0;
-  public maxPrice: number = 100;
+  private _minPrice: number = 0;
+  private _maxPrice: number = 100;
+  public categories: string[] = [];
+  public options: string[] = [];
+  public orderBy: string;
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +28,16 @@ export class FiltersService {
     return this.http.get(this.url + '/bestRated');
   }
 
+  setOptions(options: string[]) {
+    this.options = options;
+    localStorage.setItem('options', JSON.stringify(options));
+  }
+
+  clearOptions() {
+    this.options = undefined;
+    localStorage.removeItem('options');
+  }
+
   searchResults: any[];
 
   getResults(
@@ -32,17 +45,21 @@ export class FiltersService {
     ratingFilter: number,
     minPrice: number,
     maxPrice: number,
-    category: string
+    categories: string[],
+    options: string[],
+    orderBy: string // Add this parameter
   ) {
-    console.log('getResults called'); // Log at the start of the function
-
-    console.log('searchTerm:', searchTerm); // Log outside the if condition
-    console.log('ratingFilter:', ratingFilter); // Log outside the if condition
-    console.log('minPrice:', minPrice); // Log outside the if condition
-    console.log('maxPrice:', maxPrice); // Log outside the if condition
-    console.log('category:', category); // Log outside the if condition
+    console.log('getResults called');
+    console.log('searchTerm:', searchTerm);
+    console.log('ratingFilter:', ratingFilter);
+    console.log('minPrice:', minPrice);
+    console.log('maxPrice:', maxPrice);
+    console.log('categories:', categories);
+    console.log('options:', options);
+    console.log('orderBy:', orderBy); // Log the orderBy parameter
 
     let params = new HttpParams();
+
     if (searchTerm) {
       params = params.set('searchTerm', searchTerm);
     }
@@ -55,8 +72,19 @@ export class FiltersService {
     if (!isNaN(maxPrice)) {
       params = params.set('maxPrice', maxPrice.toString());
     }
-    if (category) {
-      params = params.set('category', category);
+    if (categories && categories.length > 0) {
+      categories.forEach((category) => {
+        params = params.append('category', category);
+      });
+    }
+    if (options && options.length > 0) {
+      options.forEach((option) => {
+        params = params.append('other', option);
+      });
+    }
+    if (orderBy) {
+      // Add this if statement
+      params = params.set('orderBy', orderBy);
     }
     return this.http
       .get<any[]>(this.url + '/results', { params })
@@ -69,5 +97,21 @@ export class FiltersService {
 
   getCurrentSearchTerm(): string {
     return this.searchTerm;
+  }
+
+  get minPrice(): number {
+    return this._minPrice;
+  }
+
+  set minPrice(value: number) {
+    this._minPrice = value;
+  }
+
+  get maxPrice(): number {
+    return this._maxPrice;
+  }
+
+  set maxPrice(value: number) {
+    this._maxPrice = value;
   }
 }
