@@ -22,35 +22,34 @@ export class BusinessCardComponent implements OnInit {
   minPrice: number;
 
   servicetext: string;
-  initialOptions:BusinessOpt[] = []
-  
-  thisId:number
-  businessRating:number
+  initialOptions: BusinessOpt[] = [];
 
-  imageUrl:string ="../../../assets/img/logo_business_home.png"
+  thisId: number;
+  businessRating: number;
+
+  imageUrl: string = '../../../assets/img/logo_business_home.png';
 
   serviceToText(serviceArray) {}
 
-  constructor(public businessService: BusinessService, private router:Router, public optionsService: OptionService, public ratingService:RatingService) {
+  constructor(
+    public businessService: BusinessService,
+    private router: Router,
+    public optionsService: OptionService,
+    public ratingService: RatingService
+  ) {}
 
-  }
-
-  opt1 ={selected:false, icon:'fa-solid fa-house', i:1}
-  opt2 ={selected:false, icon:'fa-solid fa-laptop', i:2}
-  opt3 ={selected:false, icon:'fa-regular fa-credit-card', i:3}
-  opt4 ={selected:false, icon:'fa-solid fa-coins', i:4}
+  opt1 = { selected: false, icon: 'fa-solid fa-house', i: 1 };
+  opt2 = { selected: false, icon: 'fa-solid fa-laptop', i: 2 };
+  opt3 = { selected: false, icon: 'fa-regular fa-credit-card', i: 3 };
+  opt4 = { selected: false, icon: 'fa-solid fa-coins', i: 4 };
 
   allOptions = [this.opt1, this.opt2, this.opt3, this.opt4];
-  selectedOptions:number[] = []
-
+  selectedOptions: number[] = [];
 
   goToBusiness() {
-       this.router.navigate(['/business', this.business.id_business]);
+    this.router.navigate(['/business', this.business.id_business]);
   }
 
- 
-
-  
   ngOnInit() {
     this.services =
       this.business && this.business.services ? this.business.services : [];
@@ -60,40 +59,38 @@ export class BusinessCardComponent implements OnInit {
             (min, service) => (service.price < min ? service.price : min),
             this.services[0].price
           )
-        : 0; 
+        : 0;
 
-    this.thisId=this.business.id_business
+    this.thisId = this.business.id_business;
 
-    if (this.business.photo.length>0){
-
-      this.imageUrl=this.business.photo
+    if (this.business.photo && this.business.photo.length > 0) {
+      this.imageUrl = this.business.photo;
     }
 
     //opciones extra para los iconos
-    this.optionsService.getBusinessOpt(this.thisId).subscribe((res:ResponseBusOpt)=>{
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{    
-        for  (let i=0; i<res.data.length;i++){         
-          this.initialOptions.push(res.data[i])
-          this.selectedOptions.push(res.data[i].id_options-1)
-          
+    this.optionsService
+      .getBusinessOpt(this.thisId)
+      .subscribe((res: ResponseBusOpt) => {
+        if (res.error) {
+          console.log('error');
+          alert(res.error);
+        } else {
+          for (let i = 0; i < res.data.length; i++) {
+            this.initialOptions.push(res.data[i]);
+            this.selectedOptions.push(res.data[i].id_options - 1);
+          }
         }
-      }
-    })
+      });
 
     //rating
-    this.ratingService.getAvgBusinessRates(this.thisId).subscribe((res:ResponseRates)=>{
-      if (res.error){
-        alert('error')
-      }else{
-        this.businessRating=res.data[0].rate
-      }
-    })
-
-
-
-    
+    this.ratingService
+      .getAvgBusinessRates(this.thisId)
+      .subscribe((res: ResponseRates) => {
+        if (res.error) {
+          alert('error');
+        } else {
+          this.businessRating = res.data[0].rate;
+        }
+      });
   }
 }

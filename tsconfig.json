@@ -18,5 +18,9 @@
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+
+    "src/app/components/rate-service/rate-service.component.ts"
+  ]
 }
