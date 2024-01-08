@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class ImageService {
   constructor(private http: HttpClient) {}
 
-  // private uploadUrl = 'https://api-hi-run.vercel.app/img';
-  private uploadUrl = 'http://localhost:3000/img';
+  private uploadUrl = 'https://api-hi-run.vercel.app/img';
+  // private uploadUrl = 'http://localhost:3000/img';
 
   public postBusinessImage(
     image: File,
@@ -22,6 +22,6 @@ export class ImageService {
     return this.http.post(this.uploadUrl, formData);
   }
 
-  // serverUrl = 'https://api-hi-run.vercel.app/get-image/';
-  serverUrl = 'http://localhost:3000/get-image/';
+  serverUrl = 'https://api-hi-run.vercel.app/get-image/';
+  // serverUrl = 'http://localhost:3000/get-image/';
 }
