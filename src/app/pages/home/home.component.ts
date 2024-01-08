@@ -82,23 +82,29 @@ export class HomeComponent implements OnInit {
     this.headerNavbarService.showNavbar = true;
   }
 
+  //geolocalización
+  lat:number
+  lng: number
+
   getGeoLocation(){
     this.geolocationService.getCurrentPosition().subscribe({
       next: (position) => {
-        console.log('Latitude:', position.coords.latitude);
-        console.log('Longitude:', position.coords.longitude);
-        console.log(position.coords)
+        this.lat = position.coords.latitude
+        this.lng = position.coords.longitude
+        // console.log('Latitude:', position.coords.latitude);
+        // console.log('Longitude:', position.coords.longitude);
+        // console.log(position.coords)
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
       },
     });
   }
-
+  //fin geolocalización
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
-      console.log('Categoria en home: ' + category);
+      // console.log('Categoria en home: ' + category);
     });
     this.FiltersService.getNewestBusiness().subscribe((business) => {
       this.LatestBusinesses = business.map(

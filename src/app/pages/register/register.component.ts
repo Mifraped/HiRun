@@ -6,6 +6,7 @@ import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { ResponseUser } from 'src/app/models/response-user';
 import { CategoryService } from 'src/app/shared/category.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -57,7 +58,12 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
       if (res.error){
         alert(res.error)
       }else{
-        alert('usuario creado')
+        Swal.fire({
+          title: "Registro completado",
+          text:"A continuación podrás establecer tus preferencias",
+          icon: "success",
+          confirmButtonColor: "var(--green)",
+        });
         this.userService.user=null
         this.id_user = res.data.id_user        
       }
@@ -82,8 +88,7 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
     photo: this.defaultProfilePic,
     company: this.company,
     }
-    console.log('paso2')
-    //aquí habría que hacer el POST new User cuando conectemos con la bbdd
+   
     this.registerUser(this.newUser)
      
     }

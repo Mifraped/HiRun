@@ -2,50 +2,101 @@
   <!-- contenedor flecha atras y imagen del perfil -->
   <div class="backImgProfile">
     <!-- enlace para volver -->
-    <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
-        viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
+    <a class="back" routerLink="/profile"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z"
+        />
       </svg>
     </a>
     <!-- enlace para añadir foto -->
     <div class="photo">
       <input type="file" id="photoInput" (change)="onFileSelected($event)" />
       <img [src]="imagePreview ? imagePreview : userService.user.photo" />
-      <svg class="photoIcon" xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26">
+      <svg
+        class="photoIcon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="26"
+        height="26"
+        viewBox="0 0 26 26"
+      >
         <g fill="none">
           <defs>
             <mask id="pepiconsPopPhotoCameraCircleFilled0">
               <path fill="#fff" d="M0 0h26v26H0z" />
               <g fill="#000" fill-rule="evenodd" clip-rule="evenodd">
                 <path
-                  d="M8.696 8.078L8.398 9H7.5a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h11a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3h-.899l-.297-.922A3 3 0 0 0 14.449 6H11.55a3 3 0 0 0-2.855 2.078M7.5 11h2.354l.745-2.307A1 1 0 0 1 11.551 8h2.898a1 1 0 0 1 .951.693L16.145 11H18.5a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1" />
-                <path d="M9.5 14.5a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0-7 0m5 0a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0" />
+                  d="M8.696 8.078L8.398 9H7.5a3 3 0 0 0-3 3v6a3 3 0 0 0 3 3h11a3 3 0 0 0 3-3v-6a3 3 0 0 0-3-3h-.899l-.297-.922A3 3 0 0 0 14.449 6H11.55a3 3 0 0 0-2.855 2.078M7.5 11h2.354l.745-2.307A1 1 0 0 1 11.551 8h2.898a1 1 0 0 1 .951.693L16.145 11H18.5a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1h-11a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1"
+                />
+                <path
+                  d="M9.5 14.5a3.5 3.5 0 1 0 7 0a3.5 3.5 0 0 0-7 0m5 0a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0"
+                />
               </g>
             </mask>
           </defs>
-          <circle cx="13" cy="13" r="13" fill="currentColor" mask="url(#pepiconsPopPhotoCameraCircleFilled0)" />
+          <circle
+            cx="13"
+            cy="13"
+            r="13"
+            fill="currentColor"
+            mask="url(#pepiconsPopPhotoCameraCircleFilled0)"
+          />
         </g>
       </svg>
     </div>
   </div>
   <!-- contenedor de inputs y botones -->
-  <form #formUser="ngForm" (ngSubmit)="fileToUpload || form.dirty ? sendForm() : null" class="contInputsButtons">
+  <form
+    #formUser="ngForm"
+    (ngSubmit)="fileToUpload || form.dirty ? sendForm() : null"
+    class="contInputsButtons"
+  >
     <div class="input">
       <label>Nombre</label>
       <input type="text" name="name" #nameId="ngModel" [(ngModel)]="name" />
     </div>
     <div class="input">
       <label>Apellido</label>
-      <input type="text" name="surname" #surnameId="ngModel" [(ngModel)]="surname" />
+      <input
+        type="text"
+        name="surname"
+        #surnameId="ngModel"
+        [(ngModel)]="surname"
+      />
     </div>
-    <div class="input">
+    <div class="input cityList">
+      <label>Ubicacion</label>
+      <input
+        id="cityList"
+        type="text"
+        name="location"
+        #locationId="ngModel"
+        [(ngModel)]="location"
+        list="location"
+        (change)="seleccionar($event)"
+      />
+      <datalist id="location">
+        <option *ngFor="let m of municipios" [value]="m.municipio"></option>
+      </datalist>
+    </div>
+    <!-- <div class="input">
       <label>Ubicacion</label>
       <input type="text" name="location" #locationId="ngModel" [(ngModel)]="location" />
-    </div>
+    </div> -->
     <div class="input">
       <label>Telefono</label>
-      <input type="text" name="phoneNumber" #phoneNumberId="ngModel" [(ngModel)]="phoneNumber" />
+      <input
+        type="text"
+        name="phoneNumber"
+        #phoneNumberId="ngModel"
+        [(ngModel)]="phoneNumber"
+      />
     </div>
     <a routerLink="/preferences" id="edit">Editar preferencias</a>
     <button id="save" [disabled]="isUpdating">Guardar cambios</button>
