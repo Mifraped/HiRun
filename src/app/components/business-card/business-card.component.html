@@ -1,6 +1,6 @@
 <div class="card-container" (click)="goToBusiness()">
   <div class="img-container">
-    <img src="{{ business.photo }}" alt="" />
+    <img [src]="imageUrl" alt="" />
     <div class="imgGradient">
       <!-- se elimina porque no tiene sentido -->
       <!-- <button routerLink="/"><i class="fa-solid fa-chevron-left"></i></button> -->
@@ -13,7 +13,7 @@
     </div>
     <div class="title-container">
       <h1>{{ business.title }}</h1>
-      <app-service-rating [ratingInput]="business.rating"></app-service-rating>
+      <app-service-rating [ratingInput]="businessRating"></app-service-rating>
     </div>
   </div>
   <div class="info">
@@ -38,12 +38,9 @@
         </div>
       </div>
     </div>
-    <div class="otherInfoContainer">
-      <div class="iconContainer">
-        <i class="fa-solid fa-house"></i>
-        <i class="fa-solid fa-coins"></i>
-        <i class="fa-regular fa-credit-card"></i>
-        <i class="fa-solid fa-face-grin-stars"></i>
+    <div class="other-container">
+      <div class="otherOptions" *ngFor="let option of selectedOptions">
+        <i [class]="allOptions[option].icon"></i>
       </div>
     </div>
   </div>

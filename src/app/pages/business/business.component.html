@@ -1,6 +1,7 @@
 <main class="container--ext">
   <div class="img-container">
-    <img [src]="getImageUrl(imageUrl)" alt="" />
+    <img [src]="imageUrl" alt="" />
+
     <div class="imgGradient">
       <!-- va a la home, modificar cuando esté la página de resultados -->
       <button routerLink="/">
@@ -23,7 +24,7 @@
 
       <p>{{ provider?.name }} {{ provider?.surname }}</p>
 
-      <app-service-rating [ratingInput]="business?.rating"></app-service-rating>
+      <app-service-rating [ratingInput]="businessRating"></app-service-rating>
     </div>
   </div>
 

@@ -13,4 +13,13 @@
     [options]="calendarOptions"
     (dateClick)="openDate($event)"
   ></full-calendar>
+
+  <app-rate-service
+    *ngIf="ratingWindowOpen"
+    [ratingWindowOpen]="ratingWindowOpen"
+    [id_service]="serviceToRate"
+    [id_business]="businessToRate"
+    [id_provider]="serviceProvider"
+    (ratingWindowOpenChange)="onRatingWindowOpenChange($event)"
+  ></app-rate-service>
 </div>

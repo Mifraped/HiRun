@@ -8,13 +8,20 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { Service} from 'src/app/models/service';
 import { Location } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router, RouterStateSnapshot, RoutesRecognized  } from '@angular/router'
 import { ResponseBusiness } from 'src/app/models/response-business';
 import { TimeframeService } from 'src/app/shared/timeframe.service';
 import { ResponseTimeframe } from 'src/app/models/response-timeframe';
 import { TimeFrame } from 'src/app/models/time-frame';
 import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
+import { BookingService } from 'src/app/shared/booking.service';
+import { ResponseBooking } from 'src/app/models/response-booking';
+import Swal from 'sweetalert2';
+import { ChatService } from 'src/app/shared/chat.service';
+import { ResponseChat } from 'src/app/models/response-chat';
+import { Chat } from 'src/app/models/chat';
+import { ResponseUser } from 'src/app/models/response-user';
 
 @Component({
   selector: 'app-book-service',
@@ -34,12 +41,19 @@ export class BookServiceComponent implements OnInit {
   business: Business = this.businessService.business;
 
   service: Service 
+  duration: number
   
   weekDay:string
 
-  clientList: User[] = [this.userService.user1];
+  chatList: Chat[] = []
+  clientList: User[] = []
 
-  
+  //por si viene de reserva manual
+  dateTimeData:string
+  inputDate
+  inputTime
+  inputTime0
+  inputTime1
 
   // creo un array de horas disponibles, falta toda la lógica de cómo vamos a ver qué franjas están disponibles
   availableTimeframes = [
@@ -58,7 +72,8 @@ export class BookServiceComponent implements OnInit {
     public headerNavbarService: HeaderNavbarService,
     private location: Location,
     private route: ActivatedRoute,
-    private serviceService: ServiceService
+    private serviceService: ServiceService,
+    private bookingService: BookingService, private router:Router, private chatService: ChatService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -71,7 +86,6 @@ export class BookServiceComponent implements OnInit {
   }
 
   private buildForm() {
-    const minPassLength = 8;
 
     this.bookingForm = this.formBuilder.group({
       date: [, [Validators.required, this.dateAvailable]],
@@ -102,39 +116,41 @@ export class BookServiceComponent implements OnInit {
   }
 
   getDayTf(day:string){
-    const appTf = this.busTfs.filter(tf => tf.days.includes(day))
-    console.log(appTf)
+    if (this.busTfs){
+      const appTf = this.busTfs.filter(tf => tf.days.includes(day))
+    
     if (appTf.length===0){
-      
-      this.availableTimeframes.push({time: "Día seleccionado", available: false})
+      if (this.availableTimeframes.length===0){
+
+        this.availableTimeframes.push({time: "Día seleccionado", available: false})
+      }
     }else{
-      let duration = this.service.duration
+      // let duration = this.service.duration
+     
       for (let tf of appTf){
+       
         const startDateTime = new Date(`1970-01-01T${tf.start}`);
       const endDateTime = new Date(`1970-01-01T${tf.end}`);
-      const durationInMillis = duration * 60 * 1000;
+      const durationInMillis = this.duration * 60 * 1000;
 
     
     let currentDateTime = startDateTime;
 
     while (currentDateTime.getTime() + durationInMillis <= endDateTime.getTime()) {
-      let time0=currentDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-      console.log(this.availableTimeframes)
+      let time0=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
+      // console.log(this.availableTimeframes)
       currentDateTime = new Date(currentDateTime.getTime() + durationInMillis);
-      let time1=currentDateTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      let time1=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
       this.availableTimeframes.push({time0:time0, time1: time1, available: true})
     }
-
-
       }
-      console.log(appTf)
     }
-
+    }
+    
   }
 
   private addRequired() {
     let validators = [];
-    console.log(this.user.id_user === this.providerId);
     if (this.user.id_user === this.providerId) {
       validators.push(Validators.required);
     }
@@ -154,13 +170,40 @@ export class BookServiceComponent implements OnInit {
     newBooking.cancelled=0
 
     console.log(newBooking);
+    this.bookingService.postBooking(newBooking).subscribe((res:ResponseBooking)=>{
+      if(res.error){
+        console.log(res)
+        alert(res.error)
+      }else{
+        Swal.fire({        
+          title: "Reserva completada",
+          text: "Puedes consultar la información en tu calendario",
+          icon: "success",        
+          confirmButtonColor: "var(--green)",
+          confirmButtonText: "OK",
+         
+        }).then((result)=>{
+          this.dateTimeData=null
+          this.bookingService.resetDateTimeData()
+          if (result.isConfirmed){
+            this.router.navigate(['/calendar'])
+          }
+        })
+        
+      }
+    })
   }
 
   ngOnInit() {
     const id_service = this.route.snapshot.paramMap.get('id_service');
     const id_business = this.route.snapshot.paramMap.get('id_business');
-    console.log(id_service)
-    console.log(id_business)
+    this.user = this.userService.user
+    
+
+    console.log('service ' +id_service)
+    console.log('business ' +id_business)
+    console.log('user ' +this.user.id_user)
+      
 
     //datos del negocio
     this.businessService.getBusinessById(+id_business).subscribe((res:ResponseBusiness)=>{
@@ -169,8 +212,36 @@ export class BookServiceComponent implements OnInit {
         alert(res.error)
       }else{    
         this.business=res.data[0]
-        this.providerId=this.business.provider
-        console.log(this.providerId)
+        this.providerId=res.data[0].provider
+
+        if(this.user.id_user === this.providerId){
+
+
+          this.chatService.getAllUserChats(this.user.id_user).subscribe((res: ResponseChat)=>{
+            if (res.error){
+              alert(res.error)
+            }else{
+              this.chatList=res.data
+              console.log(this.chatList)
+              for (let chat of this.chatList){
+                let otherUserId = chat.user1===this.user.id_user? chat.user2: chat.user1
+                console.log(otherUserId)
+                this.userService.getUserInfo(otherUserId).subscribe((res:ResponseUser)=>{
+                  if (res.error){
+                    alert(res.error)
+                  }else{
+                    let otherUser =res.data[0]
+                    this.clientList.push(otherUser)
+                  }
+                })
+                console.log(this.clientList)
+        
+              }
+            }
+          })
+    
+        }
+     
 
         //datos del servicio
         this.serviceService.getOneService(+id_service).subscribe((res:ResponseService)=>{
@@ -179,9 +250,48 @@ export class BookServiceComponent implements OnInit {
             alert(res.error)
           }else{
             this.service=res.data[0]
-            console.log(this.service)
+            this.duration = this.service.duration
+            
+            //si viene con fecha de booking manual
+            this.dateTimeData=this.bookingService.getDateTimeData()
+            if (this.dateTimeData){
+              const dateObject = new Date(this.dateTimeData)
+                
+              this.inputDate = dateObject.toISOString().split('T')[0];  
+              this.inputTime = dateObject.toISOString().split('T')[1].split('+')[0]; 
+        
+              const timeObject0 = new Date(`1970-01-01T${this.inputTime}`)
+
+              console.log(this.inputDate)
+              console.log(this.inputTime)
+        
+              if (this.inputDate !== undefined) {
+                this.bookingForm.get('date')?.setValue(this.inputDate);
+                const fakeEvent = { target: { value: this.inputDate } };
+              this.onDateChange(fakeEvent);
+              }
+        
+              if (this.inputTime !== undefined) {
+                
+                const durationInMillis = this.duration * 60 * 1000;
+                this.inputTime0 = timeObject0.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+                const timeObject1 = new Date (timeObject0.getTime() + durationInMillis)
+                this.inputTime1=timeObject1.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
+            
+                console.log(this.duration)
+                console.log(durationInMillis)
+                console.log('TimeObject0 '+ timeObject0)
+                console.log('TimeObject0 '+ timeObject0)
+                console.log('time0 '+ this.inputTime0)
+                console.log('time1 '+ this.inputTime1)
+          
+            this.availableTimeframes.push({time0:this.inputTime0, time1: this.inputTime1, available: true})      
+            this.bookingForm.get('time')?.setValue(this.inputTime0);
+          }
+        }
           }
         })
+
 
         //timeframes
         this.timeframeService.getBusinessTimeframe(+id_business).subscribe((res:ResponseTimeframe)=>{
@@ -194,10 +304,7 @@ export class BookServiceComponent implements OnInit {
         })
     }})
 
-
-
-
-    this.user = this.userService.user
+    
   
     // business: Business = this.businessService.business;
     
@@ -206,9 +313,14 @@ export class BookServiceComponent implements OnInit {
   
     // service: Service = this.business.services[0];
 
-    this.clientList = [this.userService.user1];
+    
+
+   
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
     this.userService;
+
+    
+
   }
 }

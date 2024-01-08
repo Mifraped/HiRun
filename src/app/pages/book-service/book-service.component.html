@@ -72,14 +72,17 @@
               !bookingForm.get('time').valid
           }"
         >
-          <option
+          <!-- <option
             *ngIf="availableTimeframes.length != 0"
             value=""
             disabled
             selected
           >
             Escoge la hora
-          </option>
+          </option> -->
+          <!-- <option *ngIf="inputTime" value="inputTime0" selected>
+            {{ inputTime0 }}-{{ inputTime1 }}
+          </option> -->
           <option
             *ngFor="let time of availableTimeframes"
             [value]="time.time0"
@@ -120,7 +123,7 @@
     </div>
 
     <!-- Este input sale solo en caso de que el usuario logueado sea el proveedor del negocio -->
-    <div class="form-group" *ngIf="user.id_user === providerId">
+    <div class="form-group" *ngIf="user.id_user === business.provider">
       <label for="">Cliente</label>
       <div class="inputContainer">
         <select
@@ -134,7 +137,7 @@
           }"
         >
           <option value="" disabled selected>Selecciona un cliente</option>
-          <option *ngFor="let client of clientList" [value]="client.name">
+          <option *ngFor="let client of clientList" [value]="client.id_user">
             {{ client.name }} {{ client.surname }}
           </option>
         </select>
@@ -181,6 +184,7 @@
           rows="10"
           placeholder="ej: El timbre no funciona "
           class="form-control"
+          formControlName="comment"
         ></textarea>
       </div>
     </div>

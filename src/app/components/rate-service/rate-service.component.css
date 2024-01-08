@@ -1,0 +1,134 @@
+main {
+    display: flex;
+    width: 100vw;
+    min-height: 100vh;
+    flex-direction: column;
+
+    align-items: center;
+
+    /* From https://css.glass */
+    background: rgba(0, 0, 0, 0.68);
+
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.6px);
+    -webkit-backdrop-filter: blur(6.6px);
+    padding: 2rem 2rem
+}
+
+
+.rateServiceContainer {
+    /* position: fixed; */
+    /* top: auto;
+    left: auto; */
+    width: 80vw;
+    max-width: 600px;
+    /* height: 90vh;
+    max-height: 600px; */
+    background-color: var(--darkGrey);
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    z-index: 999;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 16px;
+    padding: 2rem 2rem
+}
+
+.separator {
+    height: 1px;
+    width: 11.4375rem;
+    background-color: var(--blue);
+    margin: 1rem 0
+}
+
+.business {
+    color: var(--blue);
+    padding-bottom: 0.5rem;
+}
+
+.service {
+    color: var(--green)
+}
+
+.providerContainer {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem
+}
+
+.providerContainer div,
+.providerContainer h3 {
+    margin: 0 0.5rem;
+    color: var(--lightGrey);
+    font-weight: 400;
+}
+
+
+
+.imgContainer {
+    width: 38px;
+    height: 38px;
+    border-radius: 19px;
+    overflow: hidden;
+}
+
+.imgContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+}
+
+.starContainer button {
+    background: transparent;
+    padding: 0.5rem
+}
+
+.fa-star {
+    color: var(--yellow);
+    font-size: 1.5rem;
+}
+
+.textAreaContainer {
+    width: 90%;
+    max-width: 360px;
+
+    /* position: relative; */
+    margin-top: 0.5rem;
+}
+
+textarea {
+    background-color: var(--lightGrey);
+    border-radius: 6px;
+    width: 100%;
+    height: 7.5rem;
+    /* margin-top: 4px; */
+    border: none;
+    outline: none;
+    padding: 1rem;
+    color: var(--darkGrey);
+    font-size: 1rem;
+
+}
+
+h1 {
+    color: var(--lightGrey)
+}
+
+.btn {
+    width: 230px;
+    height: 40px;
+    border-radius: 20px;
+
+}
+
+.btn--green {
+    background-color: var(--green);
+    margin-bottom: 1rem
+}
+
+.btn--red {
+    background-color: var(--red);
+
+}

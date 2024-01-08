@@ -22,7 +22,7 @@ h1 {
 }
 
 .container {
-    padding-right: 0.5rem;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,7 +30,8 @@ h1 {
 
 .iconContainer {
     display: grid;
-    grid-template-columns: repeat(4, 2rem) auto;
+    grid-template-areas: "i1 i2 i3 i4 b b b";
+    grid-template-columns: repeat(5, 2rem) auto;
     align-items: center;
 
 }
@@ -39,15 +40,31 @@ h1 {
     color: var(--blue)
 }
 
+.iconContainer button {
+    grid-area: b;
+}
+
 .price {
     padding-left: 1rem;
-    font-size: 34px;
+    font-size: 1.7rem;
     font-weight: 800;
-    color: var(--black);
+    display: inline-block;
+    color: var(--darkGrey);
+}
+
+.integer-part {
+    font-size: 1.7rem;
+    vertical-align: top;
+}
+
+.decimal-part {
+    font-size: 1rem;
+    vertical-align: super;
+
 }
 
 .price span {
-    color: var(--darkGrey)
+    color: var(--black)
 }
 
 button {

@@ -1,17 +1,32 @@
 <div class="cont">
   <header>
-    <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
-        viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
+    <a class="back" routerLink="/profile"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z"
+        />
       </svg>
     </a>
     <div class="photo"><img src="{{ userService.user.photo }}" /></div>
     <h1>{{ userService.user.name }} {{ userService.user.surname }}</h1>
     <div class="ratings">
-      <star-rating [starType]="'svg'" [rating]="userService.user.rate" staticColor="ok" size="medium"
-        [readOnly]="true"></star-rating>
-      <div class="rates" *ngIf="userService && userService.rates && userService.rates.length">
+      <star-rating
+        [starType]="'svg'"
+        [rating]="avgRate"
+        staticColor="ok"
+        size="medium"
+        [readOnly]="true"
+      ></star-rating>
+      <div
+        class="rates"
+        *ngIf="userService && userService.rates && userService.rates.length"
+      >
         {{ "(" + userService.rates.length + ")" }}
       </div>
     </div>
@@ -21,7 +36,10 @@
   <ng-container *ngIf="userService && userService.rates; else noLoaded">
     <ng-container *ngIf="userService.rates.length > 0; else noRates">
       <div class="contRatings">
-        <div class="card" *ngFor="let rate of userService.rates; let last = last">
+        <div
+          class="card"
+          *ngFor="let rate of userService.rates; let last = last"
+        >
           <app-rating-card [rate]="rate"></app-rating-card>
           <hr *ngIf="!last" />
         </div>

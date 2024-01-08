@@ -2,11 +2,19 @@ import { Injectable } from '@angular/core';
 import { Chat } from '../models/chat';
 import { User } from '../models/user';
 import { Message } from '../models/message';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
+
+  private url = 'https://api-hi-run.vercel.app/chat';
+  // private url = 'http://localhost:3000/chat';
+
+  constructor(private http:HttpClient){}
+
   user1 = new User(
     'juan@example.com',
     '1234',
@@ -36,25 +44,46 @@ export class ChatService {
   );
   message2 = new Message(this.user2, new Date(), 'Bye');
 
-  // create some Chat instances
-  chat1 = new Chat(
-    '1',
-    [this.user1, this.user2],
-    [this.message1, this.message2]
-  );
-  chat2 = new Chat(
-    '2',
-    [this.user2, this.user1],
-    [this.message1, this.message2]
-  );
 
-  private chats: Chat[] = [this.chat1, this.chat2];
+  // Zuriñe: dejo comentado porque al cambiar el modelo chat para coincidir con la bbdd da errores
+  //pongo las funciones en blanco para que no den errores los componentes que las llaman
+
 
   setChats(chats: Chat[]) {
-    this.chats = chats;
+     
   }
 
-  getChats(): Chat[] {
-    return this.chats;
+  getChats() {
+     
+  }
+
+  // // create some Chat instances
+  // chat1 = new Chat(
+  //   1,
+  //   [this.user1, this.user2],
+  //   [this.message1, this.message2]
+  // );
+  // chat2 = new Chat(
+  //   2,
+  //   [this.user2, this.user1],
+  //   [this.message1, this.message2]
+  // );
+
+  // private chats: Chat[] = [this.chat1, this.chat2];
+
+  // setChats(chats: Chat[]) {
+  //    this.chats = chats;
+  // }
+
+  // getChats(): Chat[] {
+  //    return this.chats;
+  // }
+
+
+
+  
+
+  public getAllUserChats(id_user:number) :Observable<object> {
+    return this.http.get(`${this.url}?id_user=${id_user}`)
   }
 }

@@ -8,15 +8,17 @@
     <div class="textContainer">
       <p [class.descriptionWrap]="!cardExtended">{{ service.description }}</p>
     </div>
-
-    <p class="price">{{ service.price }}<span>€</span></p>
+    <div class="price">
+      <span class="integer-part">{{ service.price.split(".")[0] }}</span>
+      <span class="decimal-part">.{{ service.price.split(".")[1] }}</span> €
+    </div>
   </div>
 
   <div class="iconContainer">
-    <i class="fa-solid fa-house"></i>
-    <i class="fa-solid fa-coins"></i>
-    <i class="fa-regular fa-credit-card"></i>
-    <i class="fa-solid fa-face-grin-stars"></i>
+    <i
+      *ngFor="let option of selectedOptions"
+      [class]="allOptions[option].icon"
+    ></i>
     <button (click)="bookService()">Reservar</button>
   </div>
 </div>

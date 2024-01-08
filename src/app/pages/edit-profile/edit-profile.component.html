@@ -30,7 +30,7 @@
     </div>
   </div>
   <!-- contenedor de inputs y botones -->
-  <form #formUser="ngForm" (ngSubmit)="sendForm()" class="contInputsButtons">
+  <form #formUser="ngForm" (ngSubmit)="fileToUpload || form.dirty ? sendForm() : null" class="contInputsButtons">
     <div class="input">
       <label>Nombre</label>
       <input type="text" name="name" #nameId="ngModel" [(ngModel)]="name" />

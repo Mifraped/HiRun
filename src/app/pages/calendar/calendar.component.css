@@ -42,3 +42,9 @@ full-calendar {
     width: 80%;
     aspect-ratio: 0.6;
 }
+
+app-rate-service {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+}

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { ResponseUser } from 'src/app/models/response-user';
+import { CategoryService } from 'src/app/shared/category.service';
 
 @Component({
   selector: 'app-register',
@@ -13,13 +14,14 @@ import { ResponseUser } from 'src/app/models/response-user';
 })
 export class RegisterComponent {
 
-  constructor(private router: Router, public userService: UserService, public headerNavbarService: HeaderNavbarService) { 
+  constructor(private router: Router, public userService: UserService, public headerNavbarService: HeaderNavbarService, private categoryService: CategoryService) { 
     this.userService.user=null
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false}
 
 newUser : User 
 
+id_user: number;
 email:string;
 password: string;
 name: string;
@@ -57,6 +59,7 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
       }else{
         alert('usuario creado')
         this.userService.user=null
+        this.id_user = res.data.id_user        
       }
     })
   }
@@ -89,6 +92,10 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
     registerPreferences(catArray){
       // this.newUser.preferences=catArray
       // aquí actualizar el usuario (PUT), falta que si hay login coja el id
+      this.categoryService.postPreferences(catArray,this.id_user).subscribe((res:ResponseUser) => {
+        
+      })
+
       console.log(this.newUser)
       
       this.router.navigate(['/login'])

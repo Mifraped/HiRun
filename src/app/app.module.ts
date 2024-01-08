@@ -54,6 +54,7 @@ import { FiltersService } from './shared/filters.service';
 import {  DatePipe } from '@angular/common';
 
 import { Router } from 'express';
+import { RateServiceComponent } from './components/rate-service/rate-service.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { Router } from 'express';
     ServiceCardComponent,
     TimeframeModalComponent,
     ProfileBusinessCardComponent,
+    RateServiceComponent,
 
   ],
   imports: [

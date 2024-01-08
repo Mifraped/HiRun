@@ -12,6 +12,8 @@ import { ServiceService } from 'src/app/shared/service.service';
 import { ResponseService } from 'src/app/models/response-service';
 import { ResponseUser } from 'src/app/models/response-user';
 import { ImageService } from 'src/app/shared/image.service';
+import { RatingService } from 'src/app/shared/rating.service';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 @Component({
   selector: 'app-business',
@@ -27,7 +29,7 @@ services: Service[]
 provider: User
 providerId: number
 
-constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService, public imageService:ImageService) { 
+constructor(public userService:UserService, public businessService:BusinessService, private router:Router,public headerNavbarService: HeaderNavbarService,private route: ActivatedRoute, public serviceService:ServiceService, public imageService:ImageService, public ratingService:RatingService) { 
   this.headerNavbarService.showHeader=true
   this.headerNavbarService.showNavbar=true }
 
@@ -43,10 +45,8 @@ contactProvider(){
   // pendiente lógica, tiene que llevarte a chat con el usuario business.provider
 }
 
-imageUrl:string
-getImageUrl(imageName: string): string {
-  return `${this.imageService.serverUrl}${imageName}`;
-}
+imageUrl:string ="../../../assets/img/logo_servicios.png"
+businessRating:number
 
 ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id_business');
@@ -59,7 +59,22 @@ ngOnInit() {
     }else{    
       this.business=res.data[0]
       this.providerId=res.data[0].provider
-      this.imageUrl=this.business.photo
+
+      if (res.data[0].photo.length>0){
+
+        this.imageUrl=res.data[0].photo
+      }
+
+      this.ratingService.getAvgBusinessRates(+id).subscribe((res:ResponseRates)=>{
+        if (res.error){
+          alert('error')
+        }else{
+          this.businessRating=res.data[0].rate
+        }
+      })
+      
+
+      
 
       this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
         
@@ -72,19 +87,19 @@ ngOnInit() {
         }
       })
       
+      this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
+        
+        if (res.error){
+          console.log('error')
+          alert(res.error)
+        }else{    
+          this.services=res.data
+        }
+        
+      })
     }
   })
 
-  this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
-    
-    if (res.error){
-      console.log('error')
-      alert(res.error)
-    }else{    
-      this.services=res.data
-    }
-    
-  })
 
   
 }

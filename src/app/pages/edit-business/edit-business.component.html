@@ -16,12 +16,8 @@
     <div class="separator"></div>
     <!-- añadir foto: pendinte investigar -->
     <div class="img-container">
-      <img *ngIf="!selectedImageUrl" src="{{ business.photo }}" alt="Imagen" />
-      <img
-        *ngIf="selectedImageUrl"
-        [src]="selectedImageUrl"
-        alt="Selected Image"
-      />
+      <img *ngIf="!imagePreview" src="{{ business.photo }}" alt="Imagen" />
+      <img *ngIf="imagePreview" [src]="imagePreview" alt="Selected Image" />
     </div>
     <button class="photoEdit">
       <input

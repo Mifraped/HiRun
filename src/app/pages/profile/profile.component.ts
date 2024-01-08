@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/shared/user.service';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { Router } from '@angular/router';
@@ -7,15 +7,20 @@ import { BusinessService } from 'src/app/shared/business.service';
 import { ResponseBusiness } from 'src/app/models/response-business';
 import { ResponseRequestedService } from 'src/app/models/response-requested-service';
 import { User } from 'src/app/models/user';
+import { RatingService } from 'src/app/shared/rating.service';
+import { Rate } from 'src/app/models/rate';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit{
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService) { 
+  avgRate:number
+  rates:Rate[]
+
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService,public ratingService:RatingService) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true }
     
@@ -35,7 +40,7 @@ export class ProfileComponent {
     }
 
     public getRates(){
-      this.userService.getRates().subscribe((resp:ResponseRates) => {
+       this.ratingService.getRates().subscribe((resp:ResponseRates) => {
         this.userService.rates = resp.data
       }) 
     }
@@ -44,5 +49,27 @@ export class ProfileComponent {
       this.userService.getUserRequestedServices().subscribe((res: ResponseRequestedService) => {
         this.userService.requestedServices = res.data
       })
+    }
+
+    ngOnInit(): void {
+      this.ratingService.getAvgUserRates().subscribe((res:ResponseRates)=>{
+        if (res.error){
+          alert('error')
+        }else{
+          this.avgRate = res.data[0].rate
+          
+        }
+      })
+
+      this.ratingService.getRates().subscribe((res:ResponseRates) => {
+        if (res.error){
+          alert('error')
+        }else{
+          this.rates = res.data
+          
+        }
+      }) 
+
+
     }
 }
