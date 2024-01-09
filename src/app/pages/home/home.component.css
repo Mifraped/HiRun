@@ -10,13 +10,13 @@
 .line {
   width: 21.4375rem;
   background-color: var(--green);
-  height: 0.125rem;
+  height: 1px;
 }
 
 .line_blue {
   width: 18.75rem;
   background-color: var(--blue);
-  height: 2px;
+  height: 1px;
 }
 
 .dark_grey {
@@ -96,6 +96,48 @@
   font-size: 0.875rem;
 }
 
+/* estilos para TODAS LAS CATEGORIAS */
+.catSlider {
+  padding: 1.5rem 0;
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  /* For Firefox */
+  -ms-overflow-style: none;
+  /* For Internet Explorer and Edge */
+  position: relative;
+}
+
+.negocio_container::-webkit-scrollbar,
+.news-cards::-webkit-scrollbar,
+.catSlider::-webkit-scrollbar {
+  display: none;
+}
+
+.catContainer a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.newIcons {
+  font-size: 1.4rem;
+  color: var(--lightGrey)
+}
+
+.catSlider .catContainer {
+  flex: 0 0 33%;
+  width: 4vw;
+  scroll-snap-align: center;
+
+}
+
+/**/
+
 .news-cnt {
   display: flex;
   flex-direction: column;
@@ -121,6 +163,9 @@
   padding-left: calc(50vw - 150px);
   padding-right: calc(50vw - 150px);
 }
+
+
+
 
 app-business-card {
   margin-right: 4rem;
@@ -172,8 +217,6 @@ app-business-card {
 
 #txt_categories {
   margin-top: 1.25rem;
-  letter-spacing: 0.05rem;
-  font-weight: lighter;
   margin-bottom: 0.3125rem;
   text-align: center;
 }
@@ -507,7 +550,7 @@ app-business-card {
   justify-content: flex-start;
   align-items: center;
   background-color: var(--grey);
-  height: 672px;
+
   width: 100%;
 }
 
@@ -522,9 +565,19 @@ app-business-card {
 .faq-items {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 19px;
   text-align: center;
   gap: 50px;
+  padding: 2rem
+}
+
+.singleFaqItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 500px;
+
 }
 
 .faq-items svg {
@@ -542,4 +595,9 @@ app-business-card {
 
 .faq-items p {
   margin-bottom: 40px;
+}
+
+.contactMail {
+  font-weight: 800;
+  color: var(--green)
 }
