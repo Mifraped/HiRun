@@ -26,6 +26,10 @@ form {
     align-items: center;
 }
 
+#testmapa {
+    margin: 0.5rem 0;
+    height: 60px
+}
 
 .img-container {
 
