@@ -503,18 +503,17 @@ async newBusiness(){
 
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
-    // newBusiness.photo = this.photoUrl 
+    newBusiness.photo = this.photoUrl 
     
     console.log(newBusiness.address)
 
     if (newBusiness.address){
       newBusiness.address = await this.convertAddressToCoordinates(newBusiness.address)  
-      console.log(newBusiness.address)
+      
+    } else {
+      newBusiness.address = this.userService.user.location
     }
       
-      
-
- 
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
     console.log('newbusiness')

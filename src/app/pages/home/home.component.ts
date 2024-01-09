@@ -91,17 +91,31 @@ export class HomeComponent implements OnInit {
       next: (position) => {
         this.lat = position.coords.latitude
         this.lng = position.coords.longitude
-        // console.log('Latitude:', position.coords.latitude);
-        // console.log('Longitude:', position.coords.longitude);
-        // console.log(position.coords)
+        this.UserService.currentLocation={latitude: this.lat, longitude: this.lng}
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
+        this.UserService.currentLocation={latitude: 0, longitude: 0}
       },
     });
   }
+
+  //calcular distancia y ordenar
+  getDistance(busArray:Business[]):Business[]{
+    for (let b of busArray){
+      const coord = JSON.parse(b.address)
+      const distance= this.geolocationService.calcDistance(coord,this.UserService.currentLocation)
+      b.distance=distance
+    }
+    busArray.sort((a,b)=>a.distance - b.distance)
+    return (busArray)
+  }
+
+
   //fin geolocalización
   ngOnInit(): void {
+    this.getGeoLocation();
+
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
       // console.log('Categoria en home: ' + category);
@@ -121,6 +135,7 @@ export class HomeComponent implements OnInit {
           description,
           userPhoto,
           id_business,
+          address,
         }) => ({
           provider,
           title,
@@ -134,8 +149,15 @@ export class HomeComponent implements OnInit {
           description,
           userPhoto,
           id_business,
+          address
         })
       );
+
+      if (this.UserService.currentLocation){
+        this.LatestBusinesses = this.getDistance(this.LatestBusinesses)
+        console.log(this.LatestBusinesses)
+      }
+
     });
 
     this.FiltersService.getPopularBusiness().subscribe((business) => {
@@ -153,6 +175,7 @@ export class HomeComponent implements OnInit {
           description,
           userPhoto,
           id_business,
+          address
         }) => ({
           provider,
           title,
@@ -166,10 +189,11 @@ export class HomeComponent implements OnInit {
           description,
           userPhoto,
           id_business,
+          address
         })
       );
     });
-    this.getGeoLocation();
+    
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);

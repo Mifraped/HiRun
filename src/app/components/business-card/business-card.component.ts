@@ -71,14 +71,14 @@ export class BusinessCardComponent implements OnInit {
     this.optionsService
       .getBusinessOpt(this.thisId)
       .subscribe((res: ResponseBusOpt) => {
-        if (res.error) {
-          console.log('error');
-          alert(res.error);
-        } else {
+        if (!res.error) {
+         
+         
           for (let i = 0; i < res.data.length; i++) {
             this.initialOptions.push(res.data[i]);
             this.selectedOptions.push(res.data[i].id_options - 1);
           }
+        
         }
       });
 
@@ -86,10 +86,10 @@ export class BusinessCardComponent implements OnInit {
     this.ratingService
       .getAvgBusinessRates(this.thisId)
       .subscribe((res: ResponseRates) => {
-        if (res.error) {
-          alert('error');
-        } else {
+        if (!res.error) {
+          
           this.businessRating = res.data[0].rate;
+        
         }
       });
   }
