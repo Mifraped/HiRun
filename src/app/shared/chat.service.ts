@@ -9,8 +9,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ChatService {
-  // private url = 'https://api-hi-run.vercel.app/chat';
-  private url = 'http://localhost:3000';
+  private url = 'https://api-hi-run.vercel.app/chat';
+  // private url = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
