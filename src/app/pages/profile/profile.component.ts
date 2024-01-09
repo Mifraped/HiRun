@@ -71,12 +71,5 @@ export class ProfileComponent implements OnInit{
       console.log(coordObj)
 
       this.city = this.geolocationService.cityList.find(m => m.latitude ===coordObj.latitude && m.longitude===coordObj.longitude).municipio
-
-      console.log(this.city)
-
-
-
-
-
     }
 }

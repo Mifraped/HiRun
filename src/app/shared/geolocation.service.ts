@@ -23,7 +23,32 @@ export class GeolocationService {
     });
   }
 
+  //para calcular distancia entre puntos
+  degreesToRadians(degrees: number): number {
+    return degrees * (Math.PI / 180);
+  }
 
+  //formula de Haversine
+  calcDistance(
+    point1: { latitude: number; longitude: number },
+    point2: { latitude: number; longitude: number }
+  ): number {
+    const earthRadiusKm = 6371;
+
+    const dLat = this.degreesToRadians(point2.latitude - point1.latitude);
+    const dLon = this.degreesToRadians(point2.longitude - point1.longitude);
+
+    const lat1 = this.degreesToRadians(point1.latitude);
+    const lat2 = this.degreesToRadians(point2.latitude);
+
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+    return earthRadiusKm * c;
+  }
 
 
 //listado municipios con coordenadas (dejar al final es tochísimo)
