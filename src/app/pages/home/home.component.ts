@@ -98,7 +98,7 @@ export class HomeComponent implements OnInit {
         this.UserService.currentLocation={latitude: 0, longitude: 0}
       },
     });
-    console.log(this.UserService.currentLocation)
+    
   }
 
   //calcular distancia y ordenar
@@ -115,14 +115,13 @@ export class HomeComponent implements OnInit {
 
   //fin geolocalización
   async ngOnInit(): Promise<void> {
-    await this.getGeoLocation();
-    
-
+    this.getGeoLocation();
+   
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
       // console.log('Categoria en home: ' + category);
     });
-    this.FiltersService.getNewestBusiness().subscribe((business) => {
+    this.FiltersService.getNewestBusiness().subscribe(async (business) => {
       this.LatestBusinesses = business.map(
         ({
           provider,
@@ -156,10 +155,10 @@ export class HomeComponent implements OnInit {
       );
 
       if (this.UserService.currentLocation){
+
         this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
         console.log(this.LatestBusinesses)
       }
-
     });
 
     this.FiltersService.getPopularBusiness().subscribe((business) => {
