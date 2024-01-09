@@ -10,6 +10,7 @@ export class Business {
   public description?: string;
   public userPhoto?: string;
   public tags?: Category[];
+  public distance?:number
   constructor(
     public provider: number,
     public title: string,

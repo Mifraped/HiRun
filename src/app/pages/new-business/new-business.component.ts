@@ -510,12 +510,11 @@ async newBusiness(){
 
     if (newBusiness.address){
       newBusiness.address = await this.convertAddressToCoordinates(newBusiness.address)  
-      console.log(newBusiness.address)
+      
+    } else {
+      newBusiness.address = this.userService.user.location
     }
       
-      
-
- 
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
     console.log('newbusiness')
