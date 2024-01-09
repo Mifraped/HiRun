@@ -10,15 +10,26 @@ import { RequestedService } from '../models/requested-service';
   providedIn: 'root',
 })
 export class UserService {
-  
-  public connected: boolean
-  public user: User
-  public rates: Rate[]
-  public requestedServices: RequestedService[]
-  private url = "https://api-hi-run.vercel.app/" 
-  // private url = "http://localhost:3000/" 
-  
+  public connected: boolean;
+  public user: User;
+  public rates: Rate[];
+  public requestedServices: RequestedService[];
+  private url = 'https://api-hi-run.vercel.app/';
+  // private url = "http://localhost:3000/"
+
   constructor(private http: HttpClient) {
+    this.user = {
+      email: 'a',
+      password: 'a',
+      name: 'pepe',
+      surname: 'perez',
+      location: 'latitude:40.41669, longitude: -3.700346',
+      phoneNumber: 123,
+      photo: 'assets/profile_img/default_picture.jpg',
+      id_user: 25,
+      // other properties...
+    };
+    this.connected = true;
   }
 
   public login(user: User): Observable<object> {
@@ -29,20 +40,20 @@ export class UserService {
     return this.http.post(`${this.url}register`, newUser);
   }
 
-  
-
-  public getUserRequestedServices():Observable<object>{
-    return this.http.get(this.url + `service?id_user=${this.user.id_user}`)
+  public getUserRequestedServices(): Observable<object> {
+    return this.http.get(this.url + `service?id_user=${this.user.id_user}`);
   }
 
-  public getUserInfo(id:number): Observable<object>{
-    return this.http.get(`${this.url}user?id_user=${id}`)
+  public getUserInfo(id: number): Observable<object> {
+    return this.http.get(`${this.url}user?id_user=${id}`);
   }
 
-  public putUser(newUser: User):Observable<object>{
-    return this.http.put(this.url + `user?id_user=${this.user.id_user}`, newUser)
+  public putUser(newUser: User): Observable<object> {
+    return this.http.put(
+      this.url + `user?id_user=${this.user.id_user}`,
+      newUser
+    );
   }
-
 
   //comprobado que con api local y web local funciona
   // private url = "http://localhost:3000/"

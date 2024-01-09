@@ -3,7 +3,9 @@ import { Chat } from '../models/chat';
 import { User } from '../models/user';
 import { Message } from '../models/message';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { catchError, tap } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -46,7 +48,9 @@ export class ChatService {
   // Zuriñe: dejo comentado porque al cambiar el modelo chat para coincidir con la bbdd da errores
   //pongo las funciones en blanco para que no den errores los componentes que las llaman
 
-  setChats(chats: Chat[]) {}
+  getChats(id_user: number): Observable<Chat[]> {
+    return this.http.get<Chat[]>(`${this.url}/chat?id_user=${id_user}`);
+  }
 
   createChat(userId: string, providerId: string): Observable<Chat> {
     // Replace with your actual API endpoint to create a chat

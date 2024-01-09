@@ -86,7 +86,6 @@ button {
   transition: all linear 0.3s;
 }
 
-
 button:disabled,
 .main_btn_effect:active {
   filter: brightness(0.8);
@@ -111,11 +110,10 @@ li {
 .fc-timegrid-event-harness-inset .fc-timegrid-event {
   box-shadow: none;
   border-radius: 0;
-
 }
 
 .fc-timegrid-event-harness-inset .fc-timegrid-event {
-  margin: 0
+  margin: 0;
 }
 
 /* días de la semana */
@@ -172,7 +170,7 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, "Proxima Nova", sans-serif;
 }
 
 /* ! Estilos para MatSnackBar  */
@@ -192,7 +190,6 @@ body {
   }
 }
 
-
 /* Estilos sweet alert*/
 .swal2-container.swal2-backdrop-show,
 .swal2-container.swal2-noanimation {
@@ -201,8 +198,6 @@ body {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.6px);
   -webkit-backdrop-filter: blur(6.6px);
-
-
 }
 
 .swal2-html-container {
@@ -211,7 +206,6 @@ body {
   justify-content: center !important;
   align-items: center !important;
 }
-
 
 .swal2-container button {
   height: 40px !important;
@@ -230,7 +224,6 @@ body {
 .swal2-container .img-container {
   justify-self: center;
 }
-
 
 /*
 para meter en los swal
