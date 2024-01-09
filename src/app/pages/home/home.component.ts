@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit {
       if (this.UserService.currentLocation){
 
         this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-        console.log(this.LatestBusinesses)
+        
       }
     });
 
