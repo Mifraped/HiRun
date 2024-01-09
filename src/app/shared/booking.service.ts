@@ -11,6 +11,7 @@ export class BookingService {
 
   private url = 'https://api-hi-run.vercel.app/booking';
   // private url = 'http://localhost:3000/booking';
+  // private url2 = 'http://localhost:3000/booking';
 
   constructor(private http:HttpClient, private userService: UserService) { }
 
@@ -28,6 +29,10 @@ export class BookingService {
   public deleteBooking(id:number): Observable<object> {
     return this.http.delete(this.url + `?id_booking=${id}`
     );
+  }
+
+  public cancelBooking(booking:Booking): Observable<object> {
+    return this.http.put(this.url, booking);
   }
 
   public dateTimeData: string = null

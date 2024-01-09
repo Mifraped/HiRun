@@ -29,6 +29,8 @@ export class CalendarComponent implements OnInit {
  
   calendarOptions: any = {
     initialView: 'dayGridMonth',
+   
+    allDaySlot: false,
     plugins: [dayGridPlugin, interactionPlugin,timeGridPlugin ],
     locale:'es-ES',
     headerToolbar: {      
@@ -37,9 +39,9 @@ export class CalendarComponent implements OnInit {
       right: ''      
     },
     footerToolbar: {     
-      left: 'prev',
-      center: 'today',
-      right: 'next'
+      left: '',
+      center: 'prev,today,next',
+      right: ''
         },
     editable: true,
     dateClick: this.openDate.bind(this),
@@ -61,7 +63,7 @@ export class CalendarComponent implements OnInit {
       today: 'Hoy',
       month: 'Mes'},
     firstDay: 1,
-    
+    contentHeight: '',
     eventTextColor:'var(--dark)',
     
     events:[],
@@ -129,7 +131,7 @@ ratingWindowOpen:boolean=false
         const sendBusId = result.value;
         console.log('Opción seleccionada:', sendBusId);
         // obtener todos los servicios de el negocio seleccionado
-        this.serviceService.getAllServices(sendBusId).subscribe((res:ResponseService)=>{
+        this.serviceService.getAllServices(+sendBusId).subscribe((res:ResponseService)=>{
           if (res.error){
             console.log("error")
             alert(res.error)
@@ -234,7 +236,10 @@ ratingWindowOpen:boolean=false
           cancelButtonText: "Sí, eliminar"
         }).then((result)=>{
           if (!result.isConfirmed){
-            this.bookingService.deleteBooking(arg.event.extendedProps.bookId).subscribe((res:ResponseBooking)=>{
+            // this.bookingService.deleteBooking(arg.event.extendedProps.bookId).subscribe((res:ResponseBooking)=>{
+
+            let bk = this.allBookings.filter(b => b.id_booking === arg.event.extendedProps.bookId)[0]
+            this.bookingService.cancelBooking(bk).subscribe((res:ResponseBooking)=>{
               if (res.error){
                 console.log('error')
                 alert(res.error)
@@ -299,12 +304,14 @@ ratingWindowOpen:boolean=false
     const end = arg.event.end;
     const comentario = arg.event.extendedProps.comentario;
 
-    // Ejecuta tu código aquí...
+  
   }
 
+  navString:string
 
   onViewDidMount(arg: any) {
     this.updateFooter(arg.view.type);
+    
   }
 
   updateFooter(viewType: string) {
@@ -312,22 +319,27 @@ ratingWindowOpen:boolean=false
 
     if (viewType === 'dayGridMonth') {
       // Establecer encabezado para la vista de mes
-      footerToolbar.start = 'prev';
-      footerToolbar.center = 'today';
-      footerToolbar.end = 'next';
+      footerToolbar.start = '';
+      footerToolbar.center = 'prev,today,next';
+      footerToolbar.end = '';
+      this.calendarOptions.contentHeight='auto'
+      this.navString='/'
+
     } else if (viewType === 'timeGridDay') {
       // Establecer encabezado para la vista de día
-      footerToolbar.start = 'prev';
-      footerToolbar.center = 'dayGridMonth';
-      footerToolbar.end = 'next';
+      footerToolbar.start = '';
+      footerToolbar.center = 'prev,dayGridMonth,next';
+      footerToolbar.end = '';
+      this.calendarOptions.contentHeight='420px'
+      this.navString='calendar'
+     
+      
     }
 
     // Actualizar las opciones del calendario con el nuevo encabezado
     this.calendarOptions.footerToolbar = { ...footerToolbar };
   }
-goBack(){
-  this.router.navigate(['/'])
-}
+
   
 
 
@@ -357,71 +369,75 @@ goBack(){
         this.allBookings=res.data
         if (this.allBookings.length>0){
           for (let booking of this.allBookings){
-            let comment:string = 'Sin comentarios'
-            let provider: number
-            let photoBus: string = '../../../assets/img/logo_booking.png' 
-            let servId: number
-            let busId: number
-            let titleServ: string
-            let titleBus:string
-            let duration:number
-            if(booking.comment){
-              comment=booking.comment}          
-          
-          //datos del negocio/servicio
-          this.serviceService.getOneService(booking.service).subscribe((res:ResponseService)=>{
-            if (res.error){
-              console.log('error')
-              alert(res.error)
-            }else{    
-              servId = res.data[0].id_service
-              titleServ=res.data[0].title
-              duration=res.data[0].duration
-              busId = res.data[0].id_business
-              
-              this.businessService.getBusinessById(busId).subscribe((res:ResponseBusiness)=>{
-                if(res.error){
-                  console.log('error')
-                  alert(res.error)
-                }else{  
-                  titleBus = res.data[0].title
-                  if (res.data[0].photo){
-                    photoBus=res.data[0].photo
-                  }
-                  provider = res.data[0].provider
-                  const eventDateStart = new Date(booking.date)
-                  const [h, m, s]=booking.time.split(':')
-                  eventDateStart.setHours(parseInt(h,10))
-                  eventDateStart.setMinutes(parseInt(m,10))
-                  eventDateStart.setSeconds(parseInt(s,10)) 
-                  const eventDateEnd = new Date(eventDateStart);
-                  eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);     
-                  let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
-                  const newEvent = {
-                      title: `${titleBus} - ${titleServ}`,
-                      start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)
-                      end: eventDateEnd,   // Fecha de fin del evento (puedes personalizar esto)
-                      extendedProps:{
-                        comment: comment,
-                        day: `${(eventDateStart.getDate() + '').padStart(2, '0')}/${(eventDateStart.getMonth() + 1 + '').padStart(2, '0')}/${eventDateStart.getFullYear()}`,
-                        time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
-                        bookId: booking.id_booking,
-                        provider: provider,
-                        url: photoBus,
-                        id_service: servId,
-                        id_business: busId
+            if(booking.canceled===0){
 
-                      },
-                      color: color,
-                    //  eventColor: color,
-                    //   eventBorderColor: color,
-                    }; 
-                    // Agrega el nuevo evento a la lista de eventos
-                    this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
+              
+              let comment:string = 'Sin comentarios'
+              let provider: number
+              let photoBus: string = '../../../assets/img/logo_booking.png' 
+              let servId: number
+              let busId: number
+              let titleServ: string
+              let titleBus:string
+              let duration:number
+              if(booking.comment){
+                comment=booking.comment}          
+                
+                //datos del negocio/servicio
+                this.serviceService.getOneService(booking.service).subscribe((res:ResponseService)=>{
+                  if (res.error){
+                    console.log('error')
+                    alert(res.error)
+                  }else{    
+                    servId = res.data[0].id_service
+                    titleServ=res.data[0].title
+                    duration=res.data[0].duration
+                    busId = res.data[0].id_business
+                    
+                    this.businessService.getBusinessById(busId).subscribe((res:ResponseBusiness)=>{
+                      if(res.error){
+                        console.log('error')
+                        alert(res.error)
+                      }else{  
+                        titleBus = res.data[0].title
+                        if (res.data[0].photo){
+                          photoBus=res.data[0].photo
+                        }
+                        provider = res.data[0].provider
+                        const eventDateStart = new Date(booking.date)
+                        const [h, m, s]=booking.time.split(':')
+                        eventDateStart.setHours(parseInt(h,10))
+                        eventDateStart.setMinutes(parseInt(m,10))
+                        eventDateStart.setSeconds(parseInt(s,10)) 
+                        const eventDateEnd = new Date(eventDateStart);
+                        eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);     
+                        let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
+                        const newEvent = {
+                          title: `${titleBus} - ${titleServ}`,
+                          start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)
+                          end: eventDateEnd,   // Fecha de fin del evento (puedes personalizar esto)
+                          extendedProps:{
+                            comment: comment,
+                            day: `${(eventDateStart.getDate() + '').padStart(2, '0')}/${(eventDateStart.getMonth() + 1 + '').padStart(2, '0')}/${eventDateStart.getFullYear()}`,
+                            time: eventDateStart.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false }),
+                            bookId: booking.id_booking,
+                            provider: provider,
+                            url: photoBus,
+                            id_service: servId,
+                            id_business: busId
+                            
+                          },
+                          color: color,
+                          //  eventColor: color,
+                          //   eventBorderColor: color,
+                        }; 
+                        // Agrega el nuevo evento a la lista de eventos
+                        this.calendarOptions.events = [...this.calendarOptions.events, newEvent];
+                      }
+                    })
                   }
-              })
-            }
-          })
+                })
+              }
 
         }
         

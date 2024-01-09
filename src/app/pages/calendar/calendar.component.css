@@ -2,7 +2,7 @@
     width: 100vw;
     display: flex;
     justify-content: center;
-    padding: 30px;
+    padding: 16px 0;
     flex-direction: column;
     align-items: center;
     align-self: baseline
