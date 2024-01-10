@@ -70,13 +70,26 @@ export class ProfileComponent implements OnInit{
 
     async getData(){
       this.ratingService.getAvgUserRates(this.profileUser.id_user).subscribe((res:ResponseRates)=>{
-        
+
         if (res.error){
           alert('error')
         }else{
-          this.avgRate = this.round(res.data[0].rate)
+          this.avgRate = res.data[0].rate
         }
       })
+
+
+      this.ratingService.getRates(this.profileUser.id_user).subscribe((res:ResponseRates) => {
+        if (res.error){
+          alert('error')
+        }else{
+        }
+      }) 
+
+      let coordObj = JSON.parse(this.profileUser.location)
+
+
+      this.city = this.geolocationService.cityList.find(m => m.latitude ===coordObj.latitude && m.longitude===coordObj.longitude).municipio
     }
 
     async ngOnInit(): Promise<void> {
