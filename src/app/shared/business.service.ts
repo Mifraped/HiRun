@@ -11,8 +11,8 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class BusinessService {
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = 'http://localhost:3000/';
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = 'http://localhost:3000/';
 
   public logedUserBusinesses: Business[];
 
