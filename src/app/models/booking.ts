@@ -14,7 +14,7 @@ export class Booking {
         public time: string, //por ahora dejo como string porque no sé cómo haremos
         public service: number,
         public user:number,
-        public cancelled: number = 0,
+        public canceled: number = 0,
         public comment?:string,
        
     ) {}

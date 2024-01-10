@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Category } from 'src/app/models/category';
 import { BusinessService } from 'src/app/shared/business.service';
 import { UserService } from 'src/app/shared/user.service';
@@ -8,7 +8,8 @@ import {
   FormBuilder,
   Validators,
   AbstractControl,
-  FormControl,
+  FormControl,NgModel
+  
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
@@ -33,6 +34,8 @@ import { Business } from 'src/app/models/business';
 import { ResponseImg } from 'src/app/models/response-img';
 import { PhotoService } from 'src/app/shared/photo.service';
 import { ResponsePhoto } from 'src/app/models/response-photo';
+import { HttpClient } from '@angular/common/http';
+declare var google: any;
 
 @Component({
   selector: 'app-edit-business',
@@ -40,7 +43,7 @@ import { ResponsePhoto } from 'src/app/models/response-photo';
   styleUrls: ['./edit-business.component.css'],
 })
 export class EditBusinessComponent implements OnInit {
-
+  @ViewChild('addressNgModel') addressNgModel: NgModel;
   
   business = this.businessService.business;
   services: Service[] = this.business.services;
@@ -51,7 +54,10 @@ export class EditBusinessComponent implements OnInit {
   newServices:Service[]=[]
   editServices:Service[]=[]
   deleteServices:Service[]=[]
-
+//mapa
+addressControl = new FormControl();
+autocomplete: any;
+//
 
   selectedService: Service;
 
@@ -117,7 +123,7 @@ photoUrl
     public timeframeService: TimeframeService,
     public categoryService: CategoryService,
     public optionsService:OptionService,
-    public photoService:PhotoService
+    public photoService:PhotoService, public http:HttpClient,  private zone: NgZone, private cdr: ChangeDetectorRef
     
   ) {
     this.headerNavbarService.showHeader = false;
@@ -182,20 +188,46 @@ photoUrl
       // services:  [, [Validators.required, this.atLeastOne]], //pendiente definir
       photo: [,],
       otherFields: this.formBuilder.array([], Validators.required),
+      address:[,]
     });
   }
 
-  //Validación
-  // private atLeastOne(control: AbstractControl){
-  //   let resultado = {checkResult:true}
-  //   if (control.value.length > 0){
-  //     resultado = null
-  //   }else if(!control.value){
-  //     resultado=null
-  //   }
-  //   return resultado
-  // }
-
+  initAutocomplete() {
+    // Inicializa el servicio de autocompletado de Google Maps
+    this.autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById('address'),
+      { types: ['geocode'] }
+    );
+  
+    // Escucha el evento de selección de un lugar y actualiza el formulario
+    this.autocomplete.addListener('place_changed', () => {
+      this.zone.run(() => {
+        const place = this.autocomplete.getPlace();
+        this.editBusinessForm.patchValue({ address: place.formatted_address });
+        this.cdr.detectChanges(); // Notifica a Angular sobre el cambio
+      });
+    });
+  }
+  coordValue:string = ''
+  async convertAddressToCoordinates(address: string):Promise<string> {
+    const geocoder = new google.maps.Geocoder();
+    await geocoder.geocode({ 'address': address }, (results, status) => {
+      if (status === 'OK' && results[0]) {
+        const coordinates = {
+          lat: results[0].geometry.location.lat(),
+          lng: results[0].geometry.location.lng()
+        };
+        console.log('Coordenadas:', coordinates);
+        this.coordValue= `{"latitude":${coordinates.lat}, "longitude": ${coordinates.lng}}`
+        // Aquí puedes enviar las coordenadas al servidor o realizar cualquier acción necesaria
+      } else {
+        console.error('Error al convertir la dirección a coordenadas:', status);
+        
+      }
+    });
+    return this.coordValue
+  }
+  
   //Añadir/eliminar etiquetas
   catSelected(category) {
     const i = this.selectedCat.indexOf(category);
@@ -248,7 +280,7 @@ photoUrl
           this.serviceService.putService(this.selectedService).subscribe((res:ResponseService)=>{
             if (res.error){
               console.log('error')
-              alert(res.error)
+              
             }else{
               console.log('servicio modificado')
               this.services[i]=this.selectedService
@@ -336,7 +368,7 @@ photoUrl
         this.serviceService.deleteService(service.id_service).subscribe((res:ResponseService)=>{
         if (res.error){
           console.log(res)
-          alert(res.error)
+          
         }else{
           console.log(res)
           
@@ -353,7 +385,6 @@ photoUrl
       
         if (res.error){
           console.log('error')
-          alert(res.error)
         }else{
           console.log('servicio añadido')
         }
@@ -366,7 +397,6 @@ photoUrl
    
       if (res.error){
         console.log('error')
-        alert(res.error)
       }else{
         console.log('franja horaria añadida')
       }
@@ -396,8 +426,13 @@ photoUrl
     });
   }
 
+//direccion a coordenadas
+
+
+
+
   //editar negocio con la info del form + info adicional que viene del negocio, del formulario de services, etc. falta lógica solo recoge datos
-  editBusiness() {
+  async editBusiness() {
 
     if (this.services.length==0){  
       this.addServiceForm.get('title').markAsTouched()
@@ -410,15 +445,18 @@ photoUrl
       })
     }else if(this.timeFrameArray.length==0){  
       Swal.fire({
-        title: "ERROR",
-      text: "Debes indicar tus horarios",
-      icon: "error",
-      confirmButtonColor: "var(--green)",
-      confirmButtonText: "OK"
-      })
-    }else{
-
-    
+        title: "No has indicado horarios",
+    text: "Si continuas con la creación del negocio, deberás gestionar las reservas personalmente",
+    icon: "warning",
+    confirmButtonColor: "var(--green)",
+    confirmButtonText: "Guardar",
+    showCancelButton: true,
+    cancelButtonText: "Cancelar"
+      }).then((result)=>{
+        if (result.isDenied){
+          Swal.fire("Changes are not saved", "", "info")
+        }else if (result.isConfirmed){
+      
 
     Swal.fire({        
       title: "¿Seguro?",
@@ -448,7 +486,7 @@ photoUrl
             
             if (res.error){
               console.log('error')
-              alert(res.error)
+              
             }else{
               console.log('categoría añadida')
             }
@@ -465,7 +503,6 @@ photoUrl
               
               if (res.error){
                 console.log('error')
-                alert(res.error)
               }else{
                 console.log('categoría eliminada')
               }
@@ -485,7 +522,6 @@ photoUrl
              
               if (res.error){
                 console.log('error')
-                alert(res.error)
               }else{
                 console.log('opción añadida')
               }
@@ -504,7 +540,7 @@ photoUrl
              
               if (res.error){
                 console.log('error')
-                alert(res.error)
+               
               }else{
                 console.log('opción eliminada')
               }
@@ -518,7 +554,7 @@ photoUrl
             this.timeframeService.deleteTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
               if (res.error){
                 console.log('error')
-                alert(res.error)
+               
               }else{
                 console.log('franja eliminada')
               }
@@ -550,19 +586,20 @@ photoUrl
         //cambios en el propio business
         let modBusiness:Business =this.editBusinessForm.value
         
+        if (modBusiness.address){
+          modBusiness.address = await this.convertAddressToCoordinates(modBusiness.address) 
+        }
+
         modBusiness.id_business=this.business.id_business
-        modBusiness.photo=this.photoUrl
-      
+        modBusiness.photo=this.photoUrl      
 
 
         this.businessService.updateBusiness(modBusiness).subscribe((res:ResponseBusiness)=>{
-          if (res.error) {
-            alert(res.error);        
-          } else {
+          if (!res.error) {
             console.log('negocio editado');
             this.router.navigate(['/service-provided']);
-          
-          }
+                   
+          } 
         })
         Swal.fire({
           title: "¡Actualizado!",
@@ -574,8 +611,7 @@ photoUrl
     })
       
     
-    
-    
+  }})  
   }}
   
 
@@ -597,28 +633,27 @@ photoUrl
         this.timeframeService.deleteBusinessTimeframe(id).subscribe((res:ResponseTimeframe)=>{
           if (res.error){
             console.log('error')
-            alert(res.error)
+            
           }
         })
         //eliminar opciones
         this.optionsService.deleteAllBusinessOpt(id).subscribe((res:ResponseBusOpt)=>{
           if (res.error){
             console.log('error')
-            alert(res.error)
+            
           }
         })
         //eliminar categorías
         this.categoryService.deleteAllBusinessCat(id).subscribe((res:ResponseBusCat)=>{
           if (res.error){
             console.log('error')
-            alert(res.error)
+            
           }
         })
         //eliminar servicios
         this.serviceService.deleteAllService(id).subscribe((res:ResponseService)=>{
           if (res.error){
             console.log(res)
-            alert(res.error)
           }else{
             console.log(res)
             
@@ -627,7 +662,6 @@ photoUrl
         this.businessService.deleteBusiness(id).subscribe((res:ResponseBusiness)=>{
           if (res.error){
             console.log(res)
-            alert(res.error)
           }else{
             this.router.navigate(['/service-provided']);
             console.log(res)
@@ -681,6 +715,7 @@ photoUrl
 
 
   ngOnInit() {
+    this.initAutocomplete();
     const id = this.route.snapshot.paramMap.get('id_business');
     //para obtener todas las categorías de la bbdd
     this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
@@ -689,10 +724,8 @@ photoUrl
         this.allCat=res.data
         // categorías del negocio a editar
         this.categoryService.getBusinessCat(+id).subscribe((res:ResponseBusCat)=>{
-          if (res.error){
-            console.log('error')
-            alert(res.error)
-          }else{    
+          if (!res.error){
+           
             this.busCat=res.data 
           }
           this.selectedCat = this.allCat.filter(category =>
@@ -704,33 +737,25 @@ photoUrl
     //datos del negocio
     this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
       
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{    
+      if (!res.error){
+       
         this.business=res.data[0]
         console.log(this.business)
         //foto
 
-        this.imageUrl=this.business.photo
-
-           
+        this.imageUrl=this.business.photo 
 
       
         this.editBusinessForm.patchValue({
           title: this.business.title,
         });
-        
       }
     })
 
     //servicios del negocio a editar
     this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
     
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{    
+      if (!res.error){
         this.services=res.data
       }
     })
@@ -738,7 +763,6 @@ photoUrl
     this.timeframeService.getBusinessTimeframe(+id).subscribe((res:ResponseTimeframe)=>{
       if (res.error){
         console.log('error')
-        alert(res.error)
       }else{    
         this.timeframes=res.data
       
@@ -763,10 +787,7 @@ photoUrl
     })
     //opciones extra del negocio a editar
     this.optionsService.getBusinessOpt(+id).subscribe((res:ResponseBusOpt)=>{
-      if (res.error){
-        console.log('error')
-        alert(res.error)
-      }else{    
+      if (!res.error){
         for  (let i=0; i<res.data.length;i++){
           console.log(res.data[i])
           this.selectedOptions.push(res.data[i].id_options)
@@ -774,7 +795,6 @@ photoUrl
           
         }
         console.log(this.initialOptions)
-        
       }
     })
 

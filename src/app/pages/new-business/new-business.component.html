@@ -68,7 +68,7 @@
       <span class="material-symbols-outlined"> photo_camera </span>
     </div>
     <div class="separator"></div>
-    <!-- pruebas dirección -->
+    <!-- dirección -->
     <div class="formGroup">
       <label for="address">Dirección:</label>
 
@@ -340,12 +340,13 @@
 
     <!--  -->
     <div class="separator"></div>
-    <h3>Calendario</h3>
-    <div class="textContainer">
+    <h3>Horarios</h3>
+    <!-- Comento porque no son funcionales (BORRAR?) -->
+    <!-- <div class="textContainer">
       Selecciona los días de la semana en los que vas a prestar estos servicios
-    </div>
+    </div> -->
     <!-- botones seleccionar días -->
-    <ul class="weekContainer">
+    <!-- <ul class="weekContainer">
       <li class="dayContainer" *ngFor="let day of week; let i = index">
         <p>{{ day.initial }}</p>
         <button
@@ -357,10 +358,11 @@
           <i class="fa-solid fa-xmark" *ngIf="!day.selected"></i>
         </button>
       </li>
-    </ul>
+    </ul> -->
     <!-- franjas horarias -->
-    <div class="textContainer paddingTop">
-      Indica tus franjas horarias de trabajo
+    <div class="textContainer">
+      Si quieres que tus reservas se gestionen a través de la web, indica tus
+      franjas horarias de trabajo.
     </div>
 
     <!-- abrir la ventana de franjas -->

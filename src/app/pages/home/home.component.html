@@ -4,10 +4,28 @@
     <div class="search_bar">
       <app-search-bar></app-search-bar>
     </div>
-    <p id="txt_categories" class="sm_txt white_txt">Todas las categorías</p>
+    <p id="txt_categories" class="white_txt">Todas las categorías</p>
     <div id="categories_line" class="line"></div>
-    <div class="categories-list">
-      <div class="icon-container">
+
+    <div class="catSlider">
+      <div class="catContainer" *ngFor="let cat of iconCat">
+        <a
+          [routerLink]="['/results']"
+          [queryParams]="{ categories: cat.title, displayName: cat.title }"
+        >
+          <i [class]="cat.icon" class="newIcons"></i>
+          <p class="icon-text">
+            {{ cat.title.charAt(0).toUpperCase() + cat.title.slice(1) }}
+          </p>
+        </a>
+      </div>
+    </div>
+
+    <!-- DEJO COMENTADO POR SI HAY QUE VOLVER ATRÄS -->
+
+    <!-- <div class="categories-list"> -->
+
+    <!-- <div class="icon-container">
         <a
           [routerLink]="['/results']"
           [queryParams]="{ categories: 'música', displayName: 'Música' }"
@@ -26,8 +44,8 @@
           </svg>
           <p class="icon-text">Música</p>
         </a>
-      </div>
-      <div class="icon-container">
+      </div> -->
+    <!-- <div class="icon-container">
         <a
           [routerLink]="['/results']"
           [queryParams]="{
@@ -54,8 +72,8 @@
           </svg>
           <p class="icon-text">Peluquería</p>
         </a>
-      </div>
-      <div class="icon-container">
+      </div> -->
+    <!-- <div class="icon-container">
         <a
           [routerLink]="['/results']"
           [queryParams]="{
@@ -77,8 +95,8 @@
           </svg>
           <p class="icon-text">Diseño</p>
         </a>
-      </div>
-      <div class="icon-container">
+      </div> -->
+    <!-- <div class="icon-container">
         <a
           [routerLink]="['/results']"
           [queryParams]="{
@@ -100,8 +118,8 @@
           </svg>
           <p class="icon-text">Informática</p>
         </a>
-      </div>
-      <div class="icon-container">
+      </div> -->
+    <!-- <div class="icon-container">
         <a
           [routerLink]="['/results']"
           [queryParams]="{ categories: 'estética', displayName: 'Estética' }"
@@ -120,12 +138,17 @@
           </svg>
           <p class="icon-text">Estética</p>
         </a>
-      </div>
-    </div>
+      </div> -->
+    <!-- </div> -->
     <div class="news-cnt">
       <div class="news">
         <p class="white_txt" id="txt_news">
-          {{ UserService.connected ? "Novedades cerca de ti" : "Novedades" }}
+          {{
+            UserService.currentLocation.lat != 0 ||
+            UserService.currentLocation.lng != 0
+              ? "Novedades en tu zona"
+              : "Novedades"
+          }}
         </p>
         <div id="b-l-news" class="line_blue"></div>
         <div class="news-cards">
@@ -138,7 +161,7 @@
     </div>
     <div class="best_review">
       <p class="white_txt" id="best_txt">
-        {{ UserService.connected ? "Mejores Valorados" : "Mejores Valorados" }}
+        {{ UserService.connected ? "Mejor Valorados" : "Mejor Valorados" }}
       </p>
       <div class="line_blue"></div>
       <div class="negocios_best_review">
@@ -154,7 +177,7 @@
   </div>
   <div class="section2">
     <div class="how_works">
-      <h2 id="cf_txt">¿Como funciona?</h2>
+      <h2 id="cf_txt">¿Cómo funciona?</h2>
       <div class="info-sec">
         <div id="info-1" class="info-r">
           <p>
@@ -376,7 +399,7 @@
     <div class="faq">
       <h1>F.A.Q.</h1>
       <div class="faq-items">
-        <div *ngFor="let item of faqItems; let i = index">
+        <div *ngFor="let item of faqItems; let i = index" class="singleFaqItem">
           <h4 class="titulos">{{ item.question }}</h4>
           <svg
             *ngIf="!isPVisible[i]"
@@ -408,7 +431,21 @@
               fill="#569DB6"
             />
           </svg>
-          <p *ngIf="isPVisible[i]" [@slideDown]>{{ item.answer }}</p>
+          <div
+            *ngIf="isPVisible[i]"
+            [@slideDown]
+            class="faqAnswer"
+            [innerHTML]="item.answer"
+          >
+            <a
+              *ngIf="isPVisible[i] && i === 2"
+              [@slideDown]
+              class="contactMail"
+              href="mailto:hirun.web@gmail.com"
+              ><br />
+              hirun.web@gmail.com</a
+            >
+          </div>
         </div>
       </div>
     </div>

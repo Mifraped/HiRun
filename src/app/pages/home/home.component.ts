@@ -9,14 +9,13 @@ import {
 import { UserService } from 'src/app/shared/user.service';
 
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
-
 import { BusinessService } from 'src/app/shared/business.service';
-
 import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
 import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { GeolocationService } from 'src/app/shared/geolocation.service';
+import { CategoryService } from 'src/app/shared/category.service';
 
 @Component({
   selector: 'app-home',
@@ -51,24 +50,33 @@ export class HomeComponent implements OnInit {
 
   faqItems = [
     {
-      question: 'First question',
-      answer: 'Answer to the first question',
+      question: `¿Cómo puedo buscar y reservar servicios en la plataforma?`,
+      answer: `<p>Explora los servicios por cercanía o busca los mejor valorados en la página principal.</p><br>     
+      <p>También puedes utilizar el buscador y añadir los filtros necesarios hasta dar con el servicio que necesitas.</p><br> 
+      <p>Para pedir cita, deberás registrarte en HiRun y utilizar el gestor de reservas o ponerte en contacto con el vendedor`,
     },
     {
-      question: 'Second question',
-      answer: 'Answer to the second question',
+      question: `Quiero ofrecer mi propio servicio en HiRun, qué tengo que hacer?`,
+      answer: `<p>El primer paso es registrarte, si todavía no lo has hecho. Después, podrás generar tu negocio pulsando el botón (+) de la barra de navegación. </p><br>
+      <p>Un negocio puede ofrecer uno o varios servicios. Además, podrás añadir la dirección o zona donde ofreces los servicios, una foto, tus horarios y más información de interés para potenciales clientes.`,
     },
     {
-      question: 'Third question',
-      answer: 'Answer to the third question',
+      question: `¿Cómo garantiza la plataforma la calidad de los servicios ofrecidos?`,
+      answer: `<p>El equipo de <strong>HiRun</strong> monitoriza de forma contínua las valoraciones proporcionadas por los usuarios.</p><br>
+      <p>Para evitar fraudes, estas valoraciones estan verificadas y no pueden enviarse sin haber completado antes el proceso de registro y reserva.</p><br>
+      <p>Aun así, si tienes algún problema con la calidad de un servicio no dudes en ponerte en contacto con nosotros en:`,
     },
     {
-      question: 'Fourth question',
-      answer: 'Answer to the fourth question',
+      question: `¿Cuáles son las políticas de pago y cancelación en la plataforma?`,
+      answer: `<p>Desde <strong>HiRun</strong> no se gestionan los pagos del cliente al proveedor. </p><br>
+      <p>Cada servicio tiene sus propias formas de pago (en efectivo, con tarjeta, bizum...) que se pueden consultar con el propio vendedor.</p><br>
+      <p>La cancelación de una reserva está permitida hasta 24 horas antes de la cita, tanto para el cliente como para el proveedor del servicio. </p><br><p>Si ya ha pasado ese periodo y aun así necesitas cancelar la reserva, ponte en contacto directamente por chat con la parte implicada.`,
     },
 
     // Add more FAQ items here
   ];
+
+  iconCat:any[]
 
   constructor(
     public UserService: UserService,
@@ -76,7 +84,8 @@ export class HomeComponent implements OnInit {
     public headerNavbarService: HeaderNavbarService,
     private FiltersService: FiltersService,
     private route: ActivatedRoute,
-    private geolocationService: GeolocationService
+    private geolocationService: GeolocationService,
+    private categoryService: CategoryService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -101,7 +110,7 @@ export class HomeComponent implements OnInit {
         this.UserService.currentLocation = { latitude: 0, longitude: 0 };
       },
     });
-    console.log(this.UserService.currentLocation);
+    
   }
 
   //calcular distancia y ordenar
@@ -119,14 +128,16 @@ export class HomeComponent implements OnInit {
   }
 
   //fin geolocalización
-  async ngOnInit(): Promise<void> {
-    await this.getGeoLocation();
+  ngOnInit(): void {
+    this.getGeoLocation();
+   
+    this.iconCat=this.categoryService.iconCat
 
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
       // console.log('Categoria en home: ' + category);
     });
-    this.FiltersService.getNewestBusiness().subscribe((business) => {
+    this.FiltersService.getNewestBusiness().subscribe(async (business) => {
       this.LatestBusinesses = business.map(
         ({
           provider,
@@ -159,10 +170,11 @@ export class HomeComponent implements OnInit {
         })
       );
 
-      // if (this.UserService.currentLocation){
-      //   this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-      //   console.log(this.LatestBusinesses)
-      // }
+      if (this.UserService.currentLocation){
+
+        this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
+        
+      }
     });
 
     this.FiltersService.getPopularBusiness().subscribe((business) => {
