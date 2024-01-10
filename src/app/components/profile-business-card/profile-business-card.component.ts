@@ -32,6 +32,11 @@ export class ProfileBusinessCardComponent {
         this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
 }
 
+  round(number:number){
+    let decimal = number - Math.floor(number)
+    if (decimal >= 0.5) return Math.ceil(number)
+    else return Math.floor(number)
+  }
 
 
   ngOnInit() {
@@ -56,7 +61,9 @@ export class ProfileBusinessCardComponent {
         if (res.error){
           alert('error')
         }else{
-          this.businessRating=res.data[0].rate
+          this.businessRating=this.round(res.data[0].rate)
+          console.log(this.businessRating);
+          
         }
       })
     }

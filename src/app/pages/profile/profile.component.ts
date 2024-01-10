@@ -51,12 +51,18 @@ export class ProfileComponent implements OnInit{
       })
     }
 
+    round(number:number){
+      let decimal = number - Math.floor(number)
+      if (decimal >= 0.5) return Math.ceil(number)
+      else return Math.floor(number)
+    }
+
     ngOnInit(): void {
       this.ratingService.getAvgUserRates().subscribe((res:ResponseRates)=>{
         if (res.error){
           alert('error')
         }else{
-          this.avgRate = res.data[0].rate
+          this.avgRate = this.round(res.data[0].rate)
           
         }
       })

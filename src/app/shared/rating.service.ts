@@ -9,8 +9,8 @@ import { Rate } from '../models/rate';
 })
 export class RatingService {
 
-  private url = 'https://api-hi-run.vercel.app/rating';
-  // private url = 'http://localhost:3000/rating';
+  // private url = 'https://api-hi-run.vercel.app/rating';
+  private url = 'http://localhost:3000/rating';
 
   constructor(private http:HttpClient, private userService:UserService) { }
 
