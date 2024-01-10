@@ -447,7 +447,7 @@ ratingWindowOpen:boolean=false
       }
     })
   
-    this.businessService.getBusiness().subscribe((res:ResponseBusiness)=>{
+    this.businessService.getBusiness(this.userService.user.id_user).subscribe((res:ResponseBusiness)=>{
       if (res.error){
           console.log('error')
           alert(res.error)

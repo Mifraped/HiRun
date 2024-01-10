@@ -1,5 +1,5 @@
-<div class="card-container" (click)="goToBusiness()">
-  <div class="img-container">
+<div class="card-container">
+  <div class="img-container" (click)="goToBusiness()">
     <img [src]="imageUrl" alt="" />
     <div class="imgGradient">
       <!-- se elimina porque no tiene sentido -->
@@ -7,7 +7,9 @@
 
       <!-- compartir por whatsapp: cuando la web esté lista modificar en enlace para que se envíe el negocio en cuestión -->
       <a
-        href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://localhost:58580/business"
+        href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://hi-run.vercel.app/business/{{
+          business.id_business
+        }}"
         ><span class="material-symbols-outlined"> share </span></a
       >
     </div>
@@ -18,16 +20,16 @@
   </div>
   <div class="info">
     <div class="providerInfo">
-      <div class="img-container--profile">
+      <div class="img-container--profile" (click)="seeProfile()">
         <img src="{{ business.userPhoto }}" alt="" />
       </div>
 
-      <p class="providerName">
+      <p class="providerName" (click)="seeProfile()">
         {{ business.providerName }} {{ business.providerSurname }}
       </p>
     </div>
 
-    <div class="businessInfo">
+    <div class="businessInfo" (click)="goToBusiness()">
       <p class="serviceInfo">
         {{ business.description }}
       </p>

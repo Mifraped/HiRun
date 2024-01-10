@@ -13,8 +13,8 @@
         />
       </svg>
     </a>
-    <div class="photo"><img src="{{ userService.user.photo }}" /></div>
-    <h1>{{ userService.user.name }} {{ userService.user.surname }}</h1>
+    <div class="photo"><img src="{{ rateUser?.photo }}" /></div>
+    <h1>{{ rateUser?.name }} {{ rateUser?.surname }}</h1>
     <div class="ratings">
       <star-rating
         [starType]="'svg'"
@@ -23,23 +23,17 @@
         size="medium"
         [readOnly]="true"
       ></star-rating>
-      <div
-        class="rates"
-        *ngIf="userService && userService.rates && userService.rates.length"
-      >
-        {{ "(" + userService.rates.length + ")" }}
+      <div class="rates" *ngIf="rates && rates.length">
+        {{ "(" + rates?.length + ")" }}
       </div>
     </div>
     <hr />
   </header>
   <!-- contenedor valoraciones -->
-  <ng-container *ngIf="userService && userService.rates; else noLoaded">
-    <ng-container *ngIf="userService.rates.length > 0; else noRates">
+  <ng-container *ngIf="rates; else noLoaded">
+    <ng-container *ngIf="rates.length > 0; else noRates">
       <div class="contRatings">
-        <div
-          class="card"
-          *ngFor="let rate of userService.rates; let last = last"
-        >
+        <div class="card" *ngFor="let rate of rates; let last = last">
           <app-rating-card [rate]="rate"></app-rating-card>
           <hr *ngIf="!last" />
         </div>

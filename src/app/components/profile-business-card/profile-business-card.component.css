@@ -19,6 +19,12 @@
     width: 120px;
 }
 
+/* //el icono que sale si es el listado de ptro usuario */
+.fa-arrow-up-right-from-square {
+    color: var(--green);
+    font-size: 20px;
+}
+
 #imgBusiness {
     height: 100%;
     width: 120px;
@@ -39,6 +45,7 @@ h4 {
     font-size: 1.125rem;
     color: var(--lightGrey);
     margin-bottom: 0.25rem;
+    font-weight: 400;
 }
 
 /* estilos de el estado y fecha de los servicios si la pagina es negocios prestados */

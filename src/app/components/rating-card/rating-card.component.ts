@@ -19,8 +19,9 @@ export class RatingCardComponent implements OnInit{
 
 
   ngOnInit(): void {
+    const id = this.rate.id_user
     //datos del usuario que ha puesto el rating
-    this.userService.getUserInfo(this.rate.id_user).subscribe((res:ResponseUser)=>{
+    this.userService.getUserInfo(id).subscribe((res:ResponseUser)=>{
       if (res.error){
         console.log('error')
         alert('error')
