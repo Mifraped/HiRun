@@ -143,12 +143,7 @@
     <div class="news-cnt">
       <div class="news">
         <p class="white_txt" id="txt_news">
-          {{
-            UserService.currentLocation.lat != 0 ||
-            UserService.currentLocation.lng != 0
-              ? "Novedades en tu zona"
-              : "Novedades"
-          }}
+          {{ lat != 0 || lng != 0 ? "Novedades en tu zona" : "Novedades" }}
         </p>
         <div id="b-l-news" class="line_blue"></div>
         <div class="news-cards">

@@ -92,8 +92,8 @@ export class HomeComponent implements OnInit {
   }
 
   //geolocalización
-  lat: number;
-  lng: number;
+  lat: number =0
+  lng: number = 0
 
   async getGeoLocation() {
     this.geolocationService.getCurrentPosition().subscribe({
@@ -174,6 +174,8 @@ export class HomeComponent implements OnInit {
 
         this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
         
+      }else{
+        this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
       }
     });
 
