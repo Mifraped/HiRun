@@ -1,16 +1,19 @@
 <main *ngIf="ratingWindowOpen">
   <div class="rateServiceContainer">
-    <h1>Valora el servicio</h1>
-    <!-- cambiar con input del servicio -->
-    <div class="separator"></div>
-    <h2 class="business">{{ business?.title }}</h2>
-    <h2 class="service">>{{ service?.title }}</h2>
+    <h1>Valora el servicio de:</h1>
+
     <div class="providerContainer">
       <div class="imgContainer">
         <img src="{{ serviceProvider?.photo }}" alt="" />
       </div>
       <h3>{{ serviceProvider?.name }} {{ serviceProvider?.surname }}</h3>
     </div>
+
+    <!-- cambiar con input del servicio -->
+    <div class="separator"></div>
+    <h2 class="business">{{ business?.title }}:</h2>
+    <h2 class="service">{{ service?.title }}</h2>
+
     <div class="separator"></div>
     <div class="starContainer">
       <button *ngFor="let star of stars; let i = index">

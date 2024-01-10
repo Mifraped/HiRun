@@ -11,7 +11,7 @@ import { PhotoService } from 'src/app/shared/photo.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseCategory } from 'src/app/models/response-category';
 import { GeolocationService } from 'src/app/shared/geolocation.service';
-
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-edit-profile',
@@ -36,7 +36,11 @@ export class EditProfileComponent implements OnInit{
   city:any
   location:any
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService, private categoryService: CategoryService, public geolocationService:GeolocationService) { 
+  goBack(){
+    this._location.back();
+  }
+
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private photoService: PhotoService, private categoryService: CategoryService, public geolocationService:GeolocationService, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true
   }

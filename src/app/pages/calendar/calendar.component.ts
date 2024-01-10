@@ -17,7 +17,7 @@ import { ResponseBusiness } from 'src/app/models/response-business';
 import { Business } from 'src/app/models/business';
 import Swal from 'sweetalert2';
 import { Service } from 'src/app/models/service';
-
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -340,10 +340,12 @@ ratingWindowOpen:boolean=false
     this.calendarOptions.footerToolbar = { ...footerToolbar };
   }
 
-  
+  goBack(){
+    this._location.back();
+  }
 
 
-  constructor(private router: Router, public headerNavbarService: HeaderNavbarService, private userService: UserService, private bookingService: BookingService, private businessService: BusinessService, private serviceService: ServiceService) { 
+  constructor(private router: Router, public headerNavbarService: HeaderNavbarService, private userService: UserService, private bookingService: BookingService, private businessService: BusinessService, private serviceService: ServiceService, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.user = this.userService.user.id_user

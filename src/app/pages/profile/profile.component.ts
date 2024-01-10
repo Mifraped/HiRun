@@ -10,6 +10,7 @@ import { User } from 'src/app/models/user';
 import { RatingService } from 'src/app/shared/rating.service';
 import { Rate } from 'src/app/models/rate';
 import { GeolocationService } from 'src/app/shared/geolocation.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-profile',
@@ -22,11 +23,14 @@ export class ProfileComponent implements OnInit{
   rates:Rate[]
   city:string
 
-  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService,public ratingService:RatingService, public geolocationService:GeolocationService) { 
+  constructor(public userService: UserService, public headerNavbarService: HeaderNavbarService, private router: Router, public businesService: BusinessService,public ratingService:RatingService, public geolocationService:GeolocationService, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=true }
     
-
+    goBack(){
+      this._location.back();
+    }
+    
     public logOut(){
       this.userService.connected = false
       this.userService.user = new User(null, null, null, null, null, null, null)
