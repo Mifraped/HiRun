@@ -16,7 +16,7 @@ import { RatingService } from 'src/app/shared/rating.service';
 import { ResponseRates } from 'src/app/models/response-rates';
 import { ChatService } from 'src/app/shared/chat.service';
 import {} from 'googlemaps';
-
+import {Location} from '@angular/common';
 
 
 @Component({
@@ -43,7 +43,8 @@ constructor(
   public serviceService: ServiceService,
   public imageService: ImageService,
   public ratingService: RatingService,
-  public chatService: ChatService
+  public chatService: ChatService,
+  private _location: Location
 ) {
   this.headerNavbarService.showHeader=true
   this.headerNavbarService.showNavbar=true }
@@ -62,6 +63,10 @@ constructor(
       alert('inicia sesión para contactar con el vendedor');
       this.router.navigate(['/login']);
     }
+  }
+
+  goBack(){
+    this._location.back();
   }
 
 imageUrl:string ="../../../assets/img/logo_servicios.png"

@@ -16,6 +16,7 @@ import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { GeolocationService } from 'src/app/shared/geolocation.service';
 import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseBusiness } from 'src/app/models/response-business';
 
 @Component({
   selector: 'app-home',
@@ -137,81 +138,103 @@ export class HomeComponent implements OnInit {
       const category = params['categories'];
       // console.log('Categoria en home: ' + category);
     });
-    this.FiltersService.getNewestBusiness().subscribe(async (business) => {
-      this.LatestBusinesses = business.map(
-        ({
-          provider,
-          title,
-          photo,
-          rating,
-          location,
-          phoneNumber,
-          providerName,
-          providerSurname,
-          price,
-          description,
-          userPhoto,
-          id_business,
-          address,
-        }) => ({
-          provider,
-          title,
-          photo,
-          rating,
-          location,
-          phoneNumber,
-          providerName,
-          providerSurname,
-          price,
-          description,
-          userPhoto,
-          id_business,
-          address,
-        })
-      );
+    // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
+      
+      // this.LatestBusinesses = business.map(
+      //   ({
+      //     provider,
+      //     title,
+      //     photo,
+      //     rating,
+      //     location,
+      //     phoneNumber,
+      //     providerName,
+      //     providerSurname,
+      //     price,
+      //     description,
+      //     userPhoto,
+      //     id_business,
+      //     address,
+      //   }) => ({
+      //     provider,
+      //     title,
+      //     photo,
+      //     rating,
+      //     location,
+      //     phoneNumber,
+      //     providerName,
+      //     providerSurname,
+      //     price,
+      //     description,
+      //     userPhoto,
+      //     id_business,
+      //     address,
+      //   })
+      // );
 
-      if (this.UserService.currentLocation){
+    //   if (this.UserService.currentLocation){
 
-        this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
+    //     this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
         
-      }else{
-        this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
-      }
-    });
+    //   }else{
+    //     this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
+    //   }
+    // });
 
-    this.FiltersService.getPopularBusiness().subscribe((business) => {
-      this.BestRatedBusinesses = business.map(
-        ({
-          provider,
-          title,
-          photo,
-          rating,
-          location,
-          phoneNumber,
-          providerName,
-          providerSurname,
-          price,
-          description,
-          userPhoto,
-          id_business,
-          address,
-        }) => ({
-          provider,
-          title,
-          photo,
-          rating,
-          location,
-          phoneNumber,
-          providerName,
-          providerSurname,
-          price,
-          description,
-          userPhoto,
-          id_business,
-          address,
-        })
-      );
-    });
+    this.BusinessService.getAllbusiness().subscribe((res:ResponseBusiness)=>{
+      if(!res.error){
+        this.LatestBusinesses=res.data
+        if(this.LatestBusinesses){
+          console.log('entra')
+          if(this.UserService.currentLocation){
+            this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
+          }else{
+            this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
+          }
+        }
+      }
+    })
+
+    this.BusinessService.getBusinessByRating(3.5).subscribe((res:ResponseBusiness)=>{
+      if (!res.error){
+        this.BestRatedBusinesses=res.data
+      }
+
+    })
+
+  //   this.FiltersService.getPopularBusiness().subscribe((business) => {
+  //     this.BestRatedBusinesses = business.map(
+  //       ({
+  //         provider,
+  //         title,
+  //         photo,
+  //         rating,
+  //         location,
+  //         phoneNumber,
+  //         providerName,
+  //         providerSurname,
+  //         price,
+  //         description,
+  //         userPhoto,
+  //         id_business,
+  //         address,
+  //       }) => ({
+  //         provider,
+  //         title,
+  //         photo,
+  //         rating,
+  //         location,
+  //         phoneNumber,
+  //         providerName,
+  //         providerSurname,
+  //         price,
+  //         description,
+  //         userPhoto,
+  //         id_business,
+  //         address,
+  //       })
+  //     );
+  //   });
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);

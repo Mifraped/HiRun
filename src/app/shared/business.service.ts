@@ -29,6 +29,18 @@ export class BusinessService {
     );
   }
 
+  public getAllbusiness():Observable<object> {
+    return this.http.get(
+      this.url + `business`
+    );
+  }
+
+  public getBusinessByRating(rate:number):Observable<object> {
+    return this.http.get(
+      this.url + `business?minRate=${rate}`
+    );
+  }
+
   public getBusinessById(id: number): Observable<object> {
     return this.http.get(this.url + `business?id_business=${id}`);
   }
