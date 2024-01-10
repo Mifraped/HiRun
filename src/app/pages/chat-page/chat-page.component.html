@@ -14,17 +14,32 @@
       />
     </svg>
 
-    <img [src]="chats[0].participants[0].photo" alt="Participant photo" />
-    <h4>
-      {{ chats[0].participants[0].name }} {{ chats[0].participants[0].surname }}
-    </h4>
+    <div *ngIf="chats && chats.length > 0">
+      <img [src]="chats[0].user2_photo" alt="User 1 photo" />
+      <h4>
+        {{ chats[0].user2_name }}
+      </h4>
+    </div>
   </div>
   <div class="blue-line"></div>
 
   <div class="chat">
-    <div *ngFor="let message of chats[0].messages" class="message">
-      <p>{{ message.content }}</p>
-      <p id="time">18.32</p>
+    <div *ngIf="chats && chats.length > 0">
+      <div *ngFor="let chat of chats" class="message">
+        <div *ngFor="let message of chat.messages" class="message">
+          <p *ngIf="message.sender === user1_id" class="user1-message">
+            {{ message.text }}
+            <span id="time">{{ message.timestamp | date : "short" }}</span>
+          </p>
+          <p *ngIf="message.sender === user2_id" class="user2-message">
+            {{ message.text }}
+            <span id="time">{{ message.timestamp | date : "short" }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!(chats && chats.length > 0)">
+      <p>No messages yet</p>
     </div>
   </div>
 

@@ -6,55 +6,91 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatService {
-  private url = 'https://api-hi-run.vercel.app/chat';
-  // private url = 'http://localhost:3000';
+  // private url = 'https://api-hi-run.vercel.app/chat';
+  private url = 'http://localhost:3000';
+  private currentChat: Chat;
 
   constructor(private http: HttpClient) {}
 
-  user1 = new User(
-    'juan@example.com',
-    '1234',
-    'David',
-    'Perez',
-    'Spain',
-    12314,
-    'https://media.istockphoto.com/id/1484631693/es/foto/retrato-de-un-joven-cauc%C3%A1sico-adolescente-de-18-o-19-a%C3%B1os-al-aire-libre.jpg?s=612x612&w=0&k=20&c=AH7f1geIm-toSuCSrU60UJdFh4L0VZf2zhUC5xPbb1o='
-  );
-
-  user2 = new User(
-    'juan@example.com',
-    '1234',
-    'Juan',
-    'Perez',
-    'Spain',
-    12314,
-    'https://media.istockphoto.com/id/1484631693/es/foto/retrato-de-un-joven-cauc%C3%A1sico-adolescente-de-18-o-19-a%C3%B1os-al-aire-libre.jpg?s=612x612&w=0&k=20&c=AH7f1geIm-toSuCSrU60UJdFh4L0VZf2zhUC5xPbb1o='
-  );
-
   // create some Message instances
-
-  message1 = new Message(
-    this.user1,
-    new Date(),
-    'Hello how are you, I am interested in buying that ps4 you have on sale. Is it still available?'
-  );
-  message2 = new Message(this.user2, new Date(), 'Bye');
 
   // Zuriñe: dejo comentado porque al cambiar el modelo chat para coincidir con la bbdd da errores
   //pongo las funciones en blanco para que no den errores los componentes que las llaman
 
   getChats(id_user: number): Observable<Chat[]> {
-    return this.http.get<Chat[]>(`${this.url}/chat?id_user=${id_user}`);
+    return this.http.get<any[]>(`${this.url}/chat?id_user=${id_user}`).pipe(
+      map((rows) => {
+        const chats = {}; // Object to hold chats
+
+        // Loop over rows returned by query
+        for (let row of rows) {
+          // If chat doesn't exist in chats object, create it
+          if (!chats[row.id_chat]) {
+            chats[row.id_chat] = new Chat(
+              row.user1_id_user,
+              row.user2_id_user,
+              row.id_chat
+            );
+            chats[row.id_chat].participants = [
+              new User(
+                row.user1_email,
+                row.user1_password,
+                row.user1_name,
+                row.user1_surname,
+                row.user1_location,
+                row.user1_phoneNumber,
+                row.user1_photo,
+                null, // Assuming you don't have rates data here
+                row.user1_company,
+                row.user1_id_user,
+                row.user1_rate
+              ),
+              new User(
+                row.user2_email,
+                row.user2_password,
+                row.user2_name,
+                row.user2_surname,
+                row.user2_location,
+                row.user2_phoneNumber,
+                row.user2_photo,
+                null, // Assuming you don't have rates data here
+                row.user2_company,
+                row.user2_id_user,
+                row.user2_rate
+              ),
+            ];
+            chats[row.id_chat].messages = [];
+          }
+
+          // Add message to chat's messages array
+          chats[row.id_chat].messages.push(
+            new Message(row.text, row.timestamp, row.sender, row.id_message)
+          );
+        }
+
+        // Convert chats object to array
+        return Object.values(chats);
+      })
+    );
   }
 
   createChat(userId: string, providerId: string): Observable<Chat> {
     // Replace with your actual API endpoint to create a chat
     return this.http.post<Chat>(`${this.url}/chat`, { userId, providerId });
+  }
+
+  setCurrentChat(chat: any) {
+    this.currentChat = chat;
+  }
+
+  getCurrentChat() {
+    return this.currentChat;
   }
 
   // // create some Chat instances
