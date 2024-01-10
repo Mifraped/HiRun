@@ -4,7 +4,7 @@
       <img
         *ngIf="page === 'activos'"
         id="imgBusiness"
-        src="{{ negocioPadre.photo }}"
+        src="{{ negocioPadre?.photo }}"
       />
       <!-- getImageUrl(imageUrl) -->
       <img
@@ -63,7 +63,7 @@
       </ng-container>
       <!-- caso de que sea activos -->
       <ng-container *ngIf="page === 'activos'">
-        <a class="editar" (click)="goToBusinessEdit()">
+        <a class="editar" (click)="goToBusinessEdit()" *ngIf="isMyBusiness">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
@@ -86,6 +86,12 @@
             </g>
           </svg>
         </a>
+
+        <a
+          *ngIf="!isMyBusiness"
+          routerLink="/business/{{ negocioPadre?.id_business }}"
+          ><i class="fa-solid fa-arrow-up-right-from-square"></i
+        ></a>
         <a
           class="compartir"
           href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://localhost:58580/business"

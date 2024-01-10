@@ -44,45 +44,42 @@ bookService(){
       confirmButtonText: "Contactar",
       cancelButtonText: "Cancelar"
     }).then((result) => {
+      //click en Contactar y logeado
       if (result.isConfirmed && this.userService.connected) {
         this.router.navigate(['/chat'])
 
-      }else if (!this.userService.connected){
-        Swal.fire({        
-          title: "Inicia sesión",
-          text: "Debes iniciar sesión para ponerte en contacto con el vendedor",
-          icon: "warning",
-          showCancelButton: true,          
-          confirmButtonColor: "var(--green)",
-          cancelButtonColor: "var(--red)",
-          confirmButtonText: "Iniciar sesión",
-          cancelButtonText: "Cancelar"
+        //click en contactar y sin logear
+      }else if (result.isConfirmed && !this.userService.connected){
+        Swal.fire({
+          title: "Inicia sesión para ponerte en contacto con el vendedor.",
+          icon: "info",
+          text: "Redirigiendo...",
+          timerProgressBar:true,
+          confirmButtonColor: "var(--red)",
+          confirmButtonText: 'Cancelar',
+          timer:2000,
         }).then((result)=>{
-          if (result.isConfirmed) {
-            this.router.navigate(['/login'])
+          if(!result.isConfirmed){
+            this.router.navigate(['/login']);
           }
         })
-
-
        }
-    })}else if (this.userService.connected){
-        console.log(this.business.id_business)
-        console.log(this.service.id_service)
+    })
+  }else if (this.userService.connected){
       this.router.navigate(['/book-service',this.business.id_business, this.service.id_service]);
        
       }else{
-        Swal.fire({        
-          title: "Inicia sesión",
-          text: "Debes iniciar sesión para reservar un servicio",
-          icon: "warning",
-          showCancelButton: true,          
-          confirmButtonColor: "var(--green)",
-          cancelButtonColor: "var(--red)",
-          confirmButtonText: "Iniciar sesión",
-          cancelButtonText: "Cancelar"
+        Swal.fire({
+          title: "Inicia sesión para reservar un servicio.",
+          icon: "info",
+          text: "Redirigiendo...",
+          timerProgressBar:true,
+          confirmButtonColor: "var(--red)",
+          confirmButtonText: 'Cancelar',
+          timer:2000,
         }).then((result)=>{
-          if (result.isConfirmed) {
-            this.router.navigate(['/login'])
+          if(!result.isConfirmed){
+            this.router.navigate(['/login']);
           }
         })
       }
@@ -115,15 +112,13 @@ ngOnInit(){
   this.optionsService.getBusinessOpt(this.business.id_business).subscribe((res:ResponseBusOpt)=>{
     if (res.error){
       console.log('error')
-      alert(res.error)
+     
     }else{    
       for  (let i=0; i<res.data.length;i++){         
         this.initialOptions.push(res.data[i])
         this.selectedOptions.push(res.data[i].id_options-1)
         
       }
-      console.log(this.initialOptions)
-      console.log(this.selectedOptions)
     }
   })
   

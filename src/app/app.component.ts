@@ -18,7 +18,7 @@ export class AppComponent {
 
   constructor(
     public headerNavbarService: HeaderNavbarService,
-    userService: UserService,
+    public userService: UserService,
     private router: Router
   ) {
     this.headerNavbarService.showHeader = false;

@@ -17,6 +17,7 @@ import { ResponseRates } from 'src/app/models/response-rates';
 import { ChatService } from 'src/app/shared/chat.service';
 import {} from 'googlemaps';
 import {Location} from '@angular/common';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -60,8 +61,20 @@ constructor(
           this.router.navigate(['/chat']);
         });
     } else {
-      alert('inicia sesión para contactar con el vendedor');
-      this.router.navigate(['/login']);
+      Swal.fire({
+        title: "Inicia sesión para ponerte en contacto con el verdedor.",
+        icon: "info",
+        text: "Redirigiendo...",
+        timerProgressBar:true,
+        confirmButtonColor: "var(--red)",
+        confirmButtonText: 'Cancelar',
+        timer:2000,
+      }).then((result)=>{
+        if(!result.isConfirmed){
+          this.router.navigate(['/login']);
+        }
+      })
+      
     }
   }
 
@@ -117,7 +130,7 @@ ngOnInit() {
     
     if (res.error){
       console.log('error')
-      alert(res.error)
+      
     }else{    
       this.business=res.data[0]
       this.providerId=res.data[0].provider
@@ -128,9 +141,7 @@ ngOnInit() {
       }
 
       this.ratingService.getAvgBusinessRates(+id).subscribe((res:ResponseRates)=>{
-        if (res.error){
-          alert('error')
-        }else{
+        if (!res.error){
           this.businessRating=res.data[0].rate
         }
       })   
@@ -141,7 +152,7 @@ ngOnInit() {
         
         if (res.error){
           console.log('error')
-          alert(res.error)
+         
         }else{    
           this.provider=res.data[0]
 
@@ -158,9 +169,6 @@ ngOnInit() {
       // Actualizar las coordenadas después de inicializar lat y lng
       this.coordinates = new google.maps.LatLng(this.lat, this.lng);
 
-      console.log(this.lat);
-      console.log(this.lng);
-      console.log(this.coordinates);
 
       // Coloca aquí el código que depende de lat y lng, como la inicialización del mapa
       this.mapInitializer();
@@ -171,7 +179,6 @@ ngOnInit() {
         
         if (res.error){
           console.log('error')
-          alert(res.error)
         }else{    
           this.services=res.data
         }

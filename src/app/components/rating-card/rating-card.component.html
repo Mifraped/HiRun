@@ -1,8 +1,10 @@
 <div class="contPrinc">
   <div class="cont">
-    <header>
-      <div class="photo"><img id="photoUser" src="{{ rateUser.photo }}" /></div>
-      <h4 class="nombre">{{ rateUser.name }} {{ rateUser.surname }}</h4>
+    <header routerLink="/profile/{{ rateUser?.id_user }}">
+      <div class="photo">
+        <img id="photoUser" src="{{ rateUser?.photo }}" />
+      </div>
+      <h4 class="nombre">{{ rateUser?.name }} {{ rateUser?.surname }}</h4>
     </header>
     <div class="rating">
       <star-rating
