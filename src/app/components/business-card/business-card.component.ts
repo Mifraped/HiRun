@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Business } from 'src/app/models/business';
 import { Service } from 'src/app/models/service';
@@ -17,6 +17,7 @@ import { ResponseRates } from 'src/app/models/response-rates';
 })
 export class BusinessCardComponent implements OnInit {
   @Input() business: Business;
+  
 
   services: Service[];
   minPrice: number;
@@ -28,6 +29,8 @@ export class BusinessCardComponent implements OnInit {
   businessRating: number;
 
   imageUrl: string = '../../../assets/img/logo_business_home.png';
+
+  
 
   serviceToText(serviceArray) {}
 
@@ -48,6 +51,11 @@ export class BusinessCardComponent implements OnInit {
 
   goToBusiness() {
     this.router.navigate(['/business', this.business.id_business]);
+  }
+
+  seeProfile(){
+    console.log(this.business.provider)
+    this.router.navigate(['/profile', this.business.provider]);
   }
 
   ngOnInit() {

@@ -27,14 +27,23 @@ export class ProfileBusinessCardComponent {
 
   businessRating:number
 
+  isMyBusiness:boolean =false
+  busProvider:number
+
   goToBusinessEdit() {
-    console.log(this.negocioPadre);
         this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
 }
 
+  round(number:number){
+    let decimal = number - Math.floor(number)
+    if (decimal >= 0.5) return Math.ceil(number)
+    else return Math.floor(number)
+  }
 
 
   ngOnInit() {
+    
+
     if (this.servicePadre && typeof this.servicePadre.canceled !== 'undefined') {
       // this.status = this.servicePadre.canceled === 0 ? "Pendiente" : "Cancelado";
       if (this.servicePadre.canceled){
@@ -52,15 +61,21 @@ export class ProfileBusinessCardComponent {
     this.imageUrl= this.negocioPadre && this.negocioPadre.photo ? this.negocioPadre.photo : null;
 
     if (this.negocioPadre){
+      this.busProvider=this.negocioPadre.id_business
       this.ratingService.getAvgBusinessRates(this.negocioPadre.id_business).subscribe((res: ResponseRates)=>{
         if (res.error){
           alert('error')
         }else{
-          this.businessRating=res.data[0].rate
+          this.businessRating=this.round(res.data[0].rate)          
         }
       })
-    }
-  }
+
+      if (this.userService.connected && this.negocioPadre.provider===this.userService.user?.id_user){        
+        this.isMyBusiness=true        
+      }else{    
+        this.isMyBusiness=false
+      }
+  }}
 
 
   public cambioFecha(date: string){
@@ -74,7 +89,7 @@ export class ProfileBusinessCardComponent {
     else if(this.router.url.includes("/requested-service")) this.page = 'solicitados'
   }
 
-  constructor(public businessService: BusinessService, public router: Router, public ratingService: RatingService){
+  constructor(public businessService: BusinessService, public router: Router, public ratingService: RatingService, public userService:UserService){
 
     this.changePage()
 

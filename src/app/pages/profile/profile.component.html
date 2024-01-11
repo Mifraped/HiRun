@@ -2,7 +2,7 @@
   <div class="cont">
     <!-- contenedor flecha y boton log out -->
     <div class="backLogOut">
-      <a class="back" routerLink="/home"
+      <a class="back" (click)="goBack()"
         ><svg
           xmlns="http://www.w3.org/2000/svg"
           width="40"
@@ -15,19 +15,21 @@
           />
         </svg>
       </a>
-      <button class="logOut" (click)="logOut()">Log out</button>
+      <button class="logOut" (click)="logOut()" *ngIf="userService.connected">
+        Log out
+      </button>
     </div>
     <!-- contenedor de la foto, nombre, valoraciones usuario y localizacion-->
     <div class="photoNameRating">
       <!-- contenedor de la foto -->
       <div class="photo">
-        <img src="{{ userService.user.photo }}" />
+        <img src="{{ profileUser?.photo }}" />
       </div>
       <!-- contenedor del nombre y valoraciones -->
       <div class="nameRating">
         <h1>
-          {{ userService.user.name }}
-          {{ userService.user.surname }}
+          {{ profileUser?.name }}
+          {{ profileUser?.surname }}
         </h1>
         <!-- contenedor estrellas y numero de valoraciones -->
         <div class="rating">
@@ -74,7 +76,7 @@
     <!-- contenedor enlaces -->
     <div class="profileLinks">
       <!-- enlace editar perfil -->
-      <a class="profileLink" routerLink="/edit-profile">
+      <a class="profileLink" routerLink="/edit-profile" *ngIf="isMyProfile">
         <div class="icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +118,11 @@
         </div>
       </a>
       <!-- enlace valoraciones -->
-      <a class="profileLink" routerLink="/ratings" (click)="getRates()">
+      <a
+        class="profileLink"
+        routerLink="/ratings/{{ profileUser?.id_user }}"
+        (click)="getRates()"
+      >
         <div class="icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +157,10 @@
         </div>
       </a>
       <!-- enlace negocios prestados -->
-      <a class="profileLink" routerLink="/service-provided">
+      <a
+        class="profileLink"
+        routerLink="/service-provided/{{ profileUser?.id_user }}"
+      >
         <div class="icon">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -184,6 +193,7 @@
       </a>
       <!-- enlace negocios pedidos -->
       <a
+        *ngIf="isMyProfile"
         class="profileLink"
         routerLink="/requested-service"
         (click)="getServices()"

@@ -26,10 +26,10 @@ export class RateServiceComponent implements OnInit{
 
   commentContent:string=''
 
-  @Input() ratingWindowOpen: boolean
-  @Input() id_service:number
-  @Input() id_business:number
-  @Input() id_provider:number
+  @Input() ratingWindowOpen: boolean=true
+  @Input() id_service:number=1
+  @Input() id_business:number=1
+  @Input() id_provider:number=25
   @Output()ratingWindowOpenChange = new EventEmitter<boolean>();
 
   constructor(public businessService:BusinessService, public serviceService:ServiceService, public userService:UserService, public ratingService:RatingService){}
@@ -141,6 +141,7 @@ export class RateServiceComponent implements OnInit{
     })
     //info usuario 
     this.user = this.userService.user
+    
   }
 
 }

@@ -18,7 +18,7 @@ export class NavBarComponent implements OnInit {
         this.home = true
         this.profile = false
       }
-      else if(this.router.url == '/profile' || this.router.url == '/edit-profile' || this.router.url == '/ratings' || this.router.url == '/service-provided' || this.router.url == '/requested-service'){
+      else if(this.router.url.startsWith('/profile') || this.router.url == '/edit-profile' || this.router.url == '/ratings' || this.router.url == '/service-provided' || this.router.url == '/requested-service'){
         this.home = false
         this.profile = true
       }

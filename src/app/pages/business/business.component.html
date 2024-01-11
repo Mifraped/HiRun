@@ -4,7 +4,7 @@
 
     <div class="imgGradient">
       <!-- va a la home, modificar cuando esté la página de resultados -->
-      <button routerLink="/">
+      <button (click)="goBack()">
         <!-- <i class="fa-solid fa-chevron-left"></i> -->
         <span class="material-symbols-outlined"> arrow_back_ios </span>
       </button>
@@ -13,11 +13,13 @@
 
       <!-- compartir por whatsapp: cuando la web esté lista modificar en enlace para que se envíe el negocio en cuestión -->
       <a
-        href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://localhost:58580/business"
+        href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://hi-run.vercel.app/business/{{
+          business?.id_business
+        }}"
         ><span class="material-symbols-outlined"> share </span></a
       >
     </div>
-    <div class="providerInfo">
+    <div class="providerInfo" routerLink="/profile/{{ provider?.id_user }}">
       <div class="img-container--profile">
         <img src="{{ provider?.photo }}" alt="" />
       </div>

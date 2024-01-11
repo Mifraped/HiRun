@@ -1,25 +1,38 @@
 <div class="cont">
   <!-- contenedor enlace atras y titulo de la pagina -->
   <div class="backTitle">
-    <a class="back" routerLink="/profile"><svg xmlns="http://www.w3.org/2000/svg" width="40" height="35"
-        viewBox="0 0 24 24">
-        <path fill="currentColor"
-          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z" />
+    <a class="back" (click)="goBack()"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="40"
+        height="35"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M12.727 3.687a1 1 0 1 0-1.454-1.374l-8.5 9a1 1 0 0 0 0 1.374l8.5 9.001a1 1 0 1 0 1.454-1.373L4.875 12z"
+        />
       </svg>
     </a>
     <div class="title">
-      <span id="negocios">Negocios</span>
-      <span id="activos">activos</span>
+      <span id="negocios">Negocios <span *ngIf="!isMyBusiness">de</span></span>
+      <span id="activos" *ngIf="isMyBusiness">activos</span>
+      <span id="provider" *ngIf="!isMyBusiness">{{ busUserName }}</span>
     </div>
   </div>
   <!-- separador -->
   <hr class="principal" />
   <!-- contenedor de targetas -->
-  <ng-container *ngIf="businessService && businessService.logedUserBusinesses; else noLoaded">
-    <ng-container *ngIf="businessService.logedUserBusinesses.length > 0; else noBusinesss">
+  <ng-container *ngIf="userBusinesses; else noLoaded">
+    <ng-container *ngIf="userBusinesses.length > 0; else noBusinesss">
       <div class="cardContainer">
-        <div class="cardHr" *ngFor="let business of businessService.logedUserBusinesses; let last = last">
-          <app-profile-business-card [negocioPadre]="business"></app-profile-business-card>
+        <div
+          class="cardHr"
+          *ngFor="let business of userBusinesses; let last = last"
+        >
+          <app-profile-business-card
+            [negocioPadre]="business"
+          ></app-profile-business-card>
           <hr *ngIf="!last" />
         </div>
       </div>
@@ -28,7 +41,5 @@
       <h1>Todavia no tienes negocios activos</h1>
     </ng-template>
   </ng-container>
-  <ng-template #noLoaded>
-  </ng-template>
-
+  <ng-template #noLoaded> </ng-template>
 </div>

@@ -8,7 +8,7 @@ import { ResponseUser } from 'src/app/models/response-user';
 import { Router } from '@angular/router';
 import { ResponseRates } from 'src/app/models/response-rates';
 import Swal from 'sweetalert2'
-
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -17,15 +17,19 @@ import Swal from 'sweetalert2'
 })
 export class LoginComponent {
 
-  constructor(public headerNavbarService: HeaderNavbarService, private userService: UserService, private ruter: Router) { 
+  constructor(public headerNavbarService: HeaderNavbarService, private userService: UserService, private ruter: Router, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false}
 
   public user: User = new User(null, null, null, null, null, null, null)
 
+  goBack(){
+    this._location.back();
+  }
+
   public sendForm(form:NgForm){
 
-    
+   
     this.userService.login(this.user).subscribe((resp:ResponseUser) => {
       if(resp.error == false){
         this.userService.connected = true

@@ -12,6 +12,7 @@
   position: relative;
   width: 100%;
   margin-bottom: 2.1875rem;
+
 }
 
 /* enlace volver */
@@ -46,12 +47,15 @@ span {
 
 #negocios {
   color: var(--lightGrey);
+  text-align: end;
 }
 
+#provider,
 #activos {
   color: var(--blue);
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
 }
 
 hr.principal {

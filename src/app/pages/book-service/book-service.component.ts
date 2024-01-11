@@ -70,7 +70,7 @@ export class BookServiceComponent implements OnInit {
     private timeframeService:TimeframeService,
     private formBuilder: FormBuilder,
     public headerNavbarService: HeaderNavbarService,
-    private location: Location,
+    private _location: Location,
     private route: ActivatedRoute,
     private serviceService: ServiceService,
     private bookingService: BookingService, private router:Router, private chatService: ChatService
@@ -82,7 +82,7 @@ export class BookServiceComponent implements OnInit {
   }
 
   closeForm(): void {
-    this.location.back();
+    this._location.back();
   }
 
   private buildForm() {

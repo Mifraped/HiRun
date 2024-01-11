@@ -27,12 +27,12 @@ export class RatingService {
   }
 
 
-  public getRates(): Observable<object> {    
-    return this.http.get(`${this.url}?id_provider=${this.userService.user.id_user}`);
+  public getRates(id_user:number): Observable<object> {    
+    return this.http.get(`${this.url}?id_provider=${id_user}`);
   }
 
-  public getAvgUserRates(): Observable<object> {    
-    return this.http.get(`${this.url}?id_user_avg=${this.userService.user.id_user}`);
+  public getAvgUserRates(id_user:number): Observable<object> {    
+    return this.http.get(`${this.url}?id_user_avg=${id_user}`);
   }
 
   public getAvgBusinessRates(id_business:number): Observable<object> {    
