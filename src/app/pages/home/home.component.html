@@ -9,10 +9,7 @@
 
     <div class="catSlider">
       <div class="catContainer" *ngFor="let cat of iconCat">
-        <a
-          [routerLink]="['/results']"
-          [queryParams]="{ categories: cat.title, displayName: cat.title }"
-        >
+        <a [routerLink]="['/results']" [queryParams]="{ categories: cat.title, displayName: cat.title }">
           <i [class]="cat.icon" class="newIcons"></i>
           <p class="icon-text">
             {{ cat.title.charAt(0).toUpperCase() + cat.title.slice(1) }}
@@ -140,35 +137,48 @@
         </a>
       </div> -->
     <!-- </div> -->
-    <div class="news-cnt">
-      <div class="news">
-        <p class="white_txt" id="txt_news">
-          {{ lat != 0 || lng != 0 ? "Novedades en tu zona" : "Novedades" }}
+
+    <ng-container
+      *ngIf="UserService.recommendedBusinesses && UserService.recommendedBusinesses.length > 0 else noRecommended">
+      <div class="recommended-cnt">
+        <div class="recommended">
+          <p class="white_txt" id="txt_recommended">
+            Recomendados para ti
+          </p>
+          <div id="b-l-recommended" class="line_blue"></div>
+          <div class="recommended-cards">
+            <app-business-card *ngFor="let business of UserService.recommendedBusinesses"
+              [business]="business"></app-business-card>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noRecommended>
+      <div class="news-cnt">
+        <div class="news">
+          <p class="white_txt" id="txt_news">
+            {{ lat != 0 || lng != 0 ? "Novedades en tu zona" : "Novedades" }}
+          </p>
+          <div id="b-l-news" class="line_blue"></div>
+          <div class="news-cards">
+            <app-business-card *ngFor="let business of LatestBusinesses" [business]="business"></app-business-card>
+          </div>
+        </div>
+      </div>
+      <div class="best_review">
+        <p class="white_txt" id="best_txt">
+          {{ UserService.connected ? "Mejor Valorados" : "Mejor Valorados" }}
         </p>
-        <div id="b-l-news" class="line_blue"></div>
-        <div class="news-cards">
-          <app-business-card
-            *ngFor="let business of LatestBusinesses"
-            [business]="business"
-          ></app-business-card>
+        <div class="line_blue"></div>
+        <div class="negocios_best_review">
+          <div class="negocio_container">
+            <app-business-card class="negocio_valorado" *ngFor="let business of BestRatedBusinesses"
+              [business]="business"></app-business-card>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="best_review">
-      <p class="white_txt" id="best_txt">
-        {{ UserService.connected ? "Mejor Valorados" : "Mejor Valorados" }}
-      </p>
-      <div class="line_blue"></div>
-      <div class="negocios_best_review">
-        <div class="negocio_container">
-          <app-business-card
-            class="negocio_valorado"
-            *ngFor="let business of BestRatedBusinesses"
-            [business]="business"
-          ></app-business-card>
-        </div>
-      </div>
-    </div>
+    </ng-template>
+
   </div>
   <div class="section2">
     <div class="how_works">
@@ -216,19 +226,12 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,Ut enim ad
             minim veniam
           </p>
-          <svg
-            width="35"
-            height="35"
-            viewBox="0 0 35 35"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="git-icon"
-          >
+          <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="git-icon">
             <g clip-path="url(#clip0_209_3163)">
               <path
                 d="M17.5 0C7.83125 0 0 7.83125 0 17.5C0 25.2437 5.00937 31.7844 11.9656 34.1031C12.8406 34.2563 13.1687 33.7313 13.1687 33.2719C13.1687 32.8563 13.1469 31.4781 13.1469 30.0125C8.75 30.8219 7.6125 28.9406 7.2625 27.9562C7.06562 27.4531 6.2125 25.9 5.46875 25.4844C4.85625 25.1562 3.98125 24.3469 5.44688 24.325C6.825 24.3031 7.80938 25.5937 8.1375 26.1187C9.7125 28.7656 12.2281 28.0219 13.2344 27.5625C13.3875 26.425 13.8469 25.6594 14.35 25.2219C10.4562 24.7844 6.3875 23.275 6.3875 16.5812C6.3875 14.6781 7.06563 13.1031 8.18125 11.8781C8.00625 11.4406 7.39375 9.64687 8.35625 7.24062C8.35625 7.24062 9.82188 6.78125 13.1687 9.03438C14.5687 8.64063 16.0563 8.44375 17.5438 8.44375C19.0313 8.44375 20.5188 8.64063 21.9188 9.03438C25.2656 6.75938 26.7313 7.24062 26.7313 7.24062C27.6938 9.64687 27.0813 11.4406 26.9063 11.8781C28.0219 13.1031 28.7 14.6562 28.7 16.5812C28.7 23.2969 24.6094 24.7844 20.7156 25.2219C21.35 25.7687 21.8969 26.8188 21.8969 28.4594C21.8969 30.8 21.875 32.6813 21.875 33.2719C21.875 33.7313 22.2031 34.2781 23.0781 34.1031C26.5524 32.9306 29.5714 30.6979 31.7101 27.7195C33.8487 24.741 34.9994 21.1668 35 17.5C35 7.83125 27.1688 0 17.5 0Z"
-                fill="#569DB6"
-              />
+                fill="#569DB6" />
             </g>
             <defs>
               <clipPath id="clip0_209_3163">
@@ -236,18 +239,11 @@
               </clipPath>
             </defs>
           </svg>
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 45 45"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="linkedin-icon"
-          >
+          <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="linkedin-icon">
             <path
               d="M35.625 5.625C36.6196 5.625 37.5734 6.02009 38.2766 6.72335C38.9799 7.42661 39.375 8.38044 39.375 9.375V35.625C39.375 36.6196 38.9799 37.5734 38.2766 38.2766C37.5734 38.9799 36.6196 39.375 35.625 39.375H9.375C8.38044 39.375 7.42661 38.9799 6.72335 38.2766C6.02009 37.5734 5.625 36.6196 5.625 35.625V9.375C5.625 8.38044 6.02009 7.42661 6.72335 6.72335C7.42661 6.02009 8.38044 5.625 9.375 5.625H35.625ZM34.6875 34.6875V24.75C34.6875 23.1289 34.0435 21.5741 32.8972 20.4278C31.7509 19.2815 30.1961 18.6375 28.575 18.6375C26.9812 18.6375 25.125 19.6125 24.225 21.075V18.9938H18.9938V34.6875H24.225V25.4437C24.225 24 25.3875 22.8188 26.8313 22.8188C27.5274 22.8188 28.1951 23.0953 28.6874 23.5876C29.1797 24.0799 29.4563 24.7476 29.4563 25.4437V34.6875H34.6875ZM12.9 16.05C13.7354 16.05 14.5366 15.7181 15.1274 15.1274C15.7181 14.5366 16.05 13.7354 16.05 12.9C16.05 11.1563 14.6438 9.73125 12.9 9.73125C12.0596 9.73125 11.2536 10.0651 10.6594 10.6594C10.0651 11.2536 9.73125 12.0596 9.73125 12.9C9.73125 14.6438 11.1563 16.05 12.9 16.05ZM15.5063 34.6875V18.9938H10.3125V34.6875H15.5063Z"
-              fill="#569DB6"
-            />
+              fill="#569DB6" />
           </svg>
         </div>
 
@@ -259,19 +255,12 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,Ut enim ad
             minim veniam
           </p>
-          <svg
-            width="35"
-            height="35"
-            viewBox="0 0 35 35"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="git-icon"
-          >
+          <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="git-icon">
             <g clip-path="url(#clip0_209_3163)">
               <path
                 d="M17.5 0C7.83125 0 0 7.83125 0 17.5C0 25.2437 5.00937 31.7844 11.9656 34.1031C12.8406 34.2563 13.1687 33.7313 13.1687 33.2719C13.1687 32.8563 13.1469 31.4781 13.1469 30.0125C8.75 30.8219 7.6125 28.9406 7.2625 27.9562C7.06562 27.4531 6.2125 25.9 5.46875 25.4844C4.85625 25.1562 3.98125 24.3469 5.44688 24.325C6.825 24.3031 7.80938 25.5937 8.1375 26.1187C9.7125 28.7656 12.2281 28.0219 13.2344 27.5625C13.3875 26.425 13.8469 25.6594 14.35 25.2219C10.4562 24.7844 6.3875 23.275 6.3875 16.5812C6.3875 14.6781 7.06563 13.1031 8.18125 11.8781C8.00625 11.4406 7.39375 9.64687 8.35625 7.24062C8.35625 7.24062 9.82188 6.78125 13.1687 9.03438C14.5687 8.64063 16.0563 8.44375 17.5438 8.44375C19.0313 8.44375 20.5188 8.64063 21.9188 9.03438C25.2656 6.75938 26.7313 7.24062 26.7313 7.24062C27.6938 9.64687 27.0813 11.4406 26.9063 11.8781C28.0219 13.1031 28.7 14.6562 28.7 16.5812C28.7 23.2969 24.6094 24.7844 20.7156 25.2219C21.35 25.7687 21.8969 26.8188 21.8969 28.4594C21.8969 30.8 21.875 32.6813 21.875 33.2719C21.875 33.7313 22.2031 34.2781 23.0781 34.1031C26.5524 32.9306 29.5714 30.6979 31.7101 27.7195C33.8487 24.741 34.9994 21.1668 35 17.5C35 7.83125 27.1688 0 17.5 0Z"
-                fill="#569DB6"
-              />
+                fill="#569DB6" />
             </g>
             <defs>
               <clipPath id="clip0_209_3163">
@@ -279,18 +268,11 @@
               </clipPath>
             </defs>
           </svg>
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 45 45"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="linkedin-icon"
-          >
+          <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="linkedin-icon">
             <path
               d="M35.625 5.625C36.6196 5.625 37.5734 6.02009 38.2766 6.72335C38.9799 7.42661 39.375 8.38044 39.375 9.375V35.625C39.375 36.6196 38.9799 37.5734 38.2766 38.2766C37.5734 38.9799 36.6196 39.375 35.625 39.375H9.375C8.38044 39.375 7.42661 38.9799 6.72335 38.2766C6.02009 37.5734 5.625 36.6196 5.625 35.625V9.375C5.625 8.38044 6.02009 7.42661 6.72335 6.72335C7.42661 6.02009 8.38044 5.625 9.375 5.625H35.625ZM34.6875 34.6875V24.75C34.6875 23.1289 34.0435 21.5741 32.8972 20.4278C31.7509 19.2815 30.1961 18.6375 28.575 18.6375C26.9812 18.6375 25.125 19.6125 24.225 21.075V18.9938H18.9938V34.6875H24.225V25.4437C24.225 24 25.3875 22.8188 26.8313 22.8188C27.5274 22.8188 28.1951 23.0953 28.6874 23.5876C29.1797 24.0799 29.4563 24.7476 29.4563 25.4437V34.6875H34.6875ZM12.9 16.05C13.7354 16.05 14.5366 15.7181 15.1274 15.1274C15.7181 14.5366 16.05 13.7354 16.05 12.9C16.05 11.1563 14.6438 9.73125 12.9 9.73125C12.0596 9.73125 11.2536 10.0651 10.6594 10.6594C10.0651 11.2536 9.73125 12.0596 9.73125 12.9C9.73125 14.6438 11.1563 16.05 12.9 16.05ZM15.5063 34.6875V18.9938H10.3125V34.6875H15.5063Z"
-              fill="#569DB6"
-            />
+              fill="#569DB6" />
           </svg>
         </div>
 
@@ -302,19 +284,12 @@
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,Ut enim ad
             minim veniam
           </p>
-          <svg
-            width="35"
-            height="35"
-            viewBox="0 0 35 35"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="git-icon"
-          >
+          <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="git-icon">
             <g clip-path="url(#clip0_209_3163)">
               <path
                 d="M17.5 0C7.83125 0 0 7.83125 0 17.5C0 25.2437 5.00937 31.7844 11.9656 34.1031C12.8406 34.2563 13.1687 33.7313 13.1687 33.2719C13.1687 32.8563 13.1469 31.4781 13.1469 30.0125C8.75 30.8219 7.6125 28.9406 7.2625 27.9562C7.06562 27.4531 6.2125 25.9 5.46875 25.4844C4.85625 25.1562 3.98125 24.3469 5.44688 24.325C6.825 24.3031 7.80938 25.5937 8.1375 26.1187C9.7125 28.7656 12.2281 28.0219 13.2344 27.5625C13.3875 26.425 13.8469 25.6594 14.35 25.2219C10.4562 24.7844 6.3875 23.275 6.3875 16.5812C6.3875 14.6781 7.06563 13.1031 8.18125 11.8781C8.00625 11.4406 7.39375 9.64687 8.35625 7.24062C8.35625 7.24062 9.82188 6.78125 13.1687 9.03438C14.5687 8.64063 16.0563 8.44375 17.5438 8.44375C19.0313 8.44375 20.5188 8.64063 21.9188 9.03438C25.2656 6.75938 26.7313 7.24062 26.7313 7.24062C27.6938 9.64687 27.0813 11.4406 26.9063 11.8781C28.0219 13.1031 28.7 14.6562 28.7 16.5812C28.7 23.2969 24.6094 24.7844 20.7156 25.2219C21.35 25.7687 21.8969 26.8188 21.8969 28.4594C21.8969 30.8 21.875 32.6813 21.875 33.2719C21.875 33.7313 22.2031 34.2781 23.0781 34.1031C26.5524 32.9306 29.5714 30.6979 31.7101 27.7195C33.8487 24.741 34.9994 21.1668 35 17.5C35 7.83125 27.1688 0 17.5 0Z"
-                fill="#569DB6"
-              />
+                fill="#569DB6" />
             </g>
             <defs>
               <clipPath id="clip0_209_3163">
@@ -322,68 +297,37 @@
               </clipPath>
             </defs>
           </svg>
-          <svg
-            width="45"
-            height="45"
-            viewBox="0 0 45 45"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            class="linkedin-icon"
-          >
+          <svg width="45" height="45" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg"
+            class="linkedin-icon">
             <path
               d="M35.625 5.625C36.6196 5.625 37.5734 6.02009 38.2766 6.72335C38.9799 7.42661 39.375 8.38044 39.375 9.375V35.625C39.375 36.6196 38.9799 37.5734 38.2766 38.2766C37.5734 38.9799 36.6196 39.375 35.625 39.375H9.375C8.38044 39.375 7.42661 38.9799 6.72335 38.2766C6.02009 37.5734 5.625 36.6196 5.625 35.625V9.375C5.625 8.38044 6.02009 7.42661 6.72335 6.72335C7.42661 6.02009 8.38044 5.625 9.375 5.625H35.625ZM34.6875 34.6875V24.75C34.6875 23.1289 34.0435 21.5741 32.8972 20.4278C31.7509 19.2815 30.1961 18.6375 28.575 18.6375C26.9812 18.6375 25.125 19.6125 24.225 21.075V18.9938H18.9938V34.6875H24.225V25.4437C24.225 24 25.3875 22.8188 26.8313 22.8188C27.5274 22.8188 28.1951 23.0953 28.6874 23.5876C29.1797 24.0799 29.4563 24.7476 29.4563 25.4437V34.6875H34.6875ZM12.9 16.05C13.7354 16.05 14.5366 15.7181 15.1274 15.1274C15.7181 14.5366 16.05 13.7354 16.05 12.9C16.05 11.1563 14.6438 9.73125 12.9 9.73125C12.0596 9.73125 11.2536 10.0651 10.6594 10.6594C10.0651 11.2536 9.73125 12.0596 9.73125 12.9C9.73125 14.6438 11.1563 16.05 12.9 16.05ZM15.5063 34.6875V18.9938H10.3125V34.6875H15.5063Z"
-              fill="#569DB6"
-            />
+              fill="#569DB6" />
           </svg>
         </div>
 
-        <svg
-          width="360"
-          height="610"
-          viewBox="0 0 360 610"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
+        <svg width="360" height="610" viewBox="0 0 360 610" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g>
             <!-- First polygon -->
-            <path
-              d="M217.64 209.575L488.913 0.625029L-85.2871 151.373L112.498 30.222L217.64 209.575Z"
-              fill="#56B69F"
-              transform="translate(0, 100)"
-              class="poligonos"
-            />
+            <path d="M217.64 209.575L488.913 0.625029L-85.2871 151.373L112.498 30.222L217.64 209.575Z" fill="#56B69F"
+              transform="translate(0, 100)" class="poligonos" />
 
             <!-- Second polygon -->
-            <path
-              d="M254.999 268.5L467.5 0L-53 285.5L109.499 120L254.999 268.5Z"
-              fill="#569DB6"
-              class="poligonos"
-            />
+            <path d="M254.999 268.5L467.5 0L-53 285.5L109.499 120L254.999 268.5Z" fill="#569DB6" class="poligonos" />
           </g>
         </svg>
 
         <div class="poligonos2">
-          <svg
-            width="360"
-            height="620"
-            viewBox="0 0 360 610"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+          <svg width="360" height="620" viewBox="0 0 360 610" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g>
               <!-- Third polygon -->
               <path
                 d="M422.996 409.816L422.293 419.859L75.2844 522.369L-49.9588 857.871L-49.6095 673.947L278.469 433.778L354.979 200.12L21.9758 124.104L-14.9651 0.288574L422.996 409.816Z"
-                fill="#569DB6"
-                class="poligonos"
-              />
+                fill="#569DB6" class="poligonos" />
 
               <!-- Fourth polygon -->
               <path
                 d="M420 393.432V403.5L81 530L-20.5 873.432L-33 689.932L277.5 427.432L337.5 189L0 136.432L-45.5 15.5L420 393.432Z"
-                fill="#56B69F"
-                class="poligonos"
-              />
+                fill="#56B69F" class="poligonos" />
             </g>
           </svg>
         </div>
@@ -396,50 +340,24 @@
       <div class="faq-items">
         <div *ngFor="let item of faqItems; let i = index" class="singleFaqItem">
           <h4 class="titulos">{{ item.question }}</h4>
-          <svg
-            *ngIf="!isPVisible[i]"
-            (click)="togglePVisibility(i)"
-            width="23"
-            height="23"
-            viewBox="0 0 23 23"
-            class="down-arrow"
-          >
+          <svg *ngIf="!isPVisible[i]" (click)="togglePVisibility(i)" width="23" height="23" viewBox="0 0 23 23"
+            class="down-arrow">
             <path
               d="M18.6846 7.656L11.5 14.6595L4.31538 7.656C4.18701 7.53062 4.01469 7.46042 3.83525 7.46042C3.65581 7.46042 3.48349 7.53062 3.35513 7.656C3.29297 7.7169 3.2436 7.78958 3.20989 7.86981C3.17618 7.95003 3.15881 8.03617 3.15881 8.12319C3.15881 8.2102 3.17618 8.29634 3.20989 8.37656C3.2436 8.45679 3.29297 8.52947 3.35513 8.59037L10.9983 16.0424C11.1325 16.1732 11.3126 16.2464 11.5 16.2464C11.6874 16.2464 11.8675 16.1732 12.0017 16.0424L19.6449 8.59181C19.7075 8.53087 19.7572 8.458 19.7912 8.37751C19.8252 8.29702 19.8427 8.21055 19.8427 8.12319C19.8427 8.03582 19.8252 7.94935 19.7912 7.86886C19.7572 7.78837 19.7075 7.7155 19.6449 7.65456C19.5165 7.52918 19.3442 7.45898 19.1648 7.45898C18.9853 7.45898 18.813 7.52918 18.6846 7.65456V7.656Z"
-              fill="#569DB6"
-            />
+              fill="#569DB6" />
           </svg>
 
           <div class="line_blue"></div>
-          <svg
-            *ngIf="isPVisible[i]"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            (click)="togglePVisibility(i)"
-            class="up-arrow"
-          >
+          <svg *ngIf="isPVisible[i]" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg" (click)="togglePVisibility(i)" class="up-arrow">
             <path
               d="M4.41963 15.4148L11.6992 8.51005L18.7875 15.611C18.9142 15.7381 19.0855 15.8106 19.265 15.8131C19.4444 15.8155 19.6176 15.7477 19.7477 15.6241C19.8107 15.564 19.8611 15.492 19.8959 15.4122C19.9307 15.3325 19.9492 15.2466 19.9504 15.1596C19.9516 15.0726 19.9354 14.9862 19.9028 14.9055C19.8702 14.8249 19.8218 14.7515 19.7605 14.6898L12.2197 7.13415C12.0873 7.0015 11.9082 6.92583 11.7208 6.92327C11.5334 6.92071 11.3524 6.99147 11.2164 7.12046L3.47224 14.466C3.40883 14.5261 3.35808 14.5983 3.32302 14.6783C3.28795 14.7583 3.26928 14.8445 3.26808 14.9319C3.26689 15.0193 3.28321 15.106 3.31608 15.1869C3.34895 15.2679 3.3977 15.3414 3.45945 15.4032C3.5861 15.5303 3.75744 15.6028 3.93687 15.6053C4.11629 15.6077 4.28955 15.5399 4.41961 15.4163L4.41963 15.4148Z"
-              fill="#569DB6"
-            />
+              fill="#569DB6" />
           </svg>
-          <div
-            *ngIf="isPVisible[i]"
-            [@slideDown]
-            class="faqAnswer"
-            [innerHTML]="item.answer"
-          >
-            <a
-              *ngIf="isPVisible[i] && i === 2"
-              [@slideDown]
-              class="contactMail"
-              href="mailto:hirun.web@gmail.com"
-              ><br />
-              hirun.web@gmail.com</a
-            >
+          <div *ngIf="isPVisible[i]" [@slideDown] class="faqAnswer" [innerHTML]="item.answer">
+            <a *ngIf="isPVisible[i] && i === 2" [@slideDown] class="contactMail"
+              href="mailto:hirun.web@gmail.com"><br />
+              hirun.web@gmail.com</a>
           </div>
         </div>
       </div>
