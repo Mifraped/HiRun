@@ -113,7 +113,13 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
-        this.UserService.currentLocation = { latitude: 0, longitude: 0 };
+        if(this.UserService.connected){
+        const coord =JSON.parse(this.UserService.user.location)
+        this.UserService.currentLocation = { latitude: coord.latitude, longitude: coord.longitude };
+        }else{
+
+          this.UserService.currentLocation = { latitude: 0, longitude: 0 };
+        }
       },
     });
     

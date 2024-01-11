@@ -2,10 +2,6 @@
   <div class="img-container" (click)="goToBusiness()">
     <img [src]="imageUrl" alt="" />
     <div class="imgGradient">
-      <!-- se elimina porque no tiene sentido -->
-      <!-- <button routerLink="/"><i class="fa-solid fa-chevron-left"></i></button> -->
-
-      <!-- compartir por whatsapp: cuando la web esté lista modificar en enlace para que se envíe el negocio en cuestión -->
       <a
         href="whatsapp://send?text=¡Este%20negocio%20que%20he%20encontrado%20en%20*HiRun*%20te%20podría%20interesar!%0Ahttps://hi-run.vercel.app/business/{{
           business.id_business
@@ -26,6 +22,11 @@
 
       <p class="providerName" (click)="seeProfile()">
         {{ business.providerName }} {{ business.providerSurname }}
+      </p>
+
+      <p *ngIf="business.distance" class="distanceKm">
+        {{ business.distance.toFixed(1) }}km
+        <i class="fa-solid fa-location-dot distanceKm"></i>
       </p>
     </div>
 

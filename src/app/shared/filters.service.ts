@@ -17,6 +17,7 @@ export class FiltersService {
   public categories: string[] = [];
   public options: string[] = [];
   public orderBy: string;
+  public maxDistance:number=0
 
   constructor(private http: HttpClient) {}
 
@@ -49,14 +50,6 @@ export class FiltersService {
     options: string[],
     orderBy: string // Add this parameter
   ) {
-    console.log('getResults called');
-    console.log('searchTerm:', searchTerm);
-    console.log('ratingFilter:', ratingFilter);
-    console.log('minPrice:', minPrice);
-    console.log('maxPrice:', maxPrice);
-    console.log('categories:', categories);
-    console.log('options:', options);
-    console.log('orderBy:', orderBy); // Log the orderBy parameter
 
     let params = new HttpParams();
 

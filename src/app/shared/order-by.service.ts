@@ -14,7 +14,25 @@ export class OrderByService {
 
   constructor() {}
 
+  dist:boolean =false
+
+  // changeOrderBy(orderBy: string) {
+  //   console.log(orderBy)
+  //   if (orderBy!='distance'){
+  //     this.dist=false
+  //     this.orderBySource.next(orderBy);
+  //   }else{
+  //     this.dist=true
+  //   }
+
+  // }
   changeOrderBy(orderBy: string) {
+    console.log(orderBy);
+    if (orderBy !== 'id_business') {
+      this.dist = false;
+    } else {
+      this.dist = true;
+    }
     this.orderBySource.next(orderBy);
   }
 }

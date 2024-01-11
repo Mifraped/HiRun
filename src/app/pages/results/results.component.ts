@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OrderByComponent } from 'src/app/components/order-by/order-by.component';
 import { DialogService } from 'src/app/shared/dialog.service';
@@ -10,13 +10,21 @@ import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OrderByService } from 'src/app/shared/order-by.service';
+import { GeolocationService } from 'src/app/shared/geolocation.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
+  
+  
 })
 export class ResultsComponent implements OnInit {
+
+ maxDistance:number
+ ordenarCercanos:boolean;
+
   dialogRef: MatDialogRef<OrderByComponent>;
   public business: Business = this.BusinessService.business;
   negocio1: Business = this.BusinessService.business;
@@ -41,9 +49,14 @@ export class ResultsComponent implements OnInit {
     private filtersService: FiltersService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private order: OrderByService
+    private order: OrderByService,
+    public geolocationService: GeolocationService,
+    public userService:UserService,
+    public orderByService: OrderByService
   ) {
     this.headerNavbarService.showHeader = true;
+    this.geolocationService.getCurrentPosition();
+    
   }
 
   onOrderByChange(event: any) {
@@ -51,10 +64,40 @@ export class ResultsComponent implements OnInit {
     this.selectedOrderBy = event.target.value;
   }
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      console.log(params);
+  lat:number = 0
+  lng:number=0
 
+  async getGeoLocation() {
+    this.geolocationService.getCurrentPosition().subscribe({
+      next: (position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+        this.userService.currentLocation = {
+          latitude: this.lat,
+          longitude: this.lng,
+        };
+      },
+      error: (error) => {
+        console.error('Error getting geolocation:', error);
+        if(this.userService.connected){
+        const coord =JSON.parse(this.userService.user.location)
+        this.userService.currentLocation = { latitude: coord.latitude, longitude: coord.longitude };
+        }else{
+
+          this.userService.currentLocation = { latitude: 0, longitude: 0 };
+        }
+      },
+    });
+    
+  }
+
+  ngOnInit(): void {
+
+    this.getGeoLocation()
+    console.log(this.filtersService.maxDistance)
+
+    this.maxDistance=this.filtersService.maxDistance
+    this.route.queryParams.subscribe((params) => {
       const displayName = params['displayName'];
       const searchTerm = params['searchTerm'];
       const ratingFilter = params['rating'];
@@ -71,6 +114,11 @@ export class ResultsComponent implements OnInit {
       this.searchTerm = this.filtersService.getCurrentSearchTerm();
 
       this.order.currentOrderBy.subscribe((orderBy) => {
+        if (orderBy = 'id_business'){
+          this.ordenarCercanos=true
+        }else{
+          this.ordenarCercanos=false
+        }
         this.filtersService
           .getResults(
             searchTerm,
@@ -79,11 +127,16 @@ export class ResultsComponent implements OnInit {
             maxPrice,
             categories,
             otherValues,
-            orderBy // Pass the selected order by value
+            orderBy
           )
           .subscribe((results) => {
             console.log('results:', results);
+            console.log(this.ordenarCercanos)
             this.results = results;
+            for (let r of results){
+              const distance = this.geolocationService.calcDistance(JSON.parse(r.address), this.userService.currentLocation)
+               r.distance=distance
+            }
             if (results.length === 0) {
               this.snackBar.open(
                 'No results matching your search were found.',
@@ -93,30 +146,55 @@ export class ResultsComponent implements OnInit {
                   panelClass: ['snackbar-result'],
                 }
               );
-            }
+            }else{
+              if (this.maxDistance && this.maxDistance!=0){              
+                this.results = results.filter(r => r.distance <= this.maxDistance)
+              }
+            } 
+            if (this.results.length===0){
+              Swal.fire({
+                title: ":(",
+                text:"No se han encontrado resultados en tu zona.",
+                icon:"info",
+                timer: 2000,
+                timerProgressBar: true
+              })
+            } else if (this.ordenarCercanos){
+                this.results.sort((a,b)=>a.distance - b.distance)
+            }         
+
           });
       });
     });
   }
 
   onOrderBySelected(orderBy: string) {
-    this.isReordering = true;
-    this.filtersService
-      .getResults(
-        this.searchTerm,
-        this.ratingFilter,
-        this.minPrice,
-        this.maxPrice,
-        this.categories,
-        this.otherValues,
-        orderBy // Pass the selected order by value
-      )
-      .subscribe((results) => {
-        console.log('results:', results);
-        this.results = results;
-        this.isReordering = false;
-      });
-  }
+    if (orderBy==='id_business'){    
+      this.ordenarCercanos=true
+
+    }else{
+      this.ordenarCercanos=false
+    }
+
+      this.isReordering = true;
+      this.filtersService
+        .getResults(
+          this.searchTerm,
+          this.ratingFilter,
+          this.minPrice,
+          this.maxPrice,
+          this.categories,
+          this.otherValues,
+          orderBy // Pass the selected order by value
+        )
+        .subscribe((results) => {
+          console.log('results:', results);
+          this.results = results;
+
+          this.isReordering = false;
+        });
+    }
+  
 
   openDialog() {
     if (!this.dialogRef || !this.dialogRef.componentInstance) {

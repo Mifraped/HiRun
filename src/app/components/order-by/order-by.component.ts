@@ -14,7 +14,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class OrderByComponent {
   form: FormGroup;
-  categories = ['Mejores Valorados', 'Más baratos', 'Cercanos', 'Recientes'];
+  categories = ['Mejor valorados', 'Más baratos', 'Cercanos', 'Recientes'];
   selectedOrder: string;
   results: any[] = [];
 
@@ -54,16 +54,23 @@ export class OrderByComponent {
 
   onSelect(category: string) {
     const orderMapping = {
-      'Mejores Valorados': 'rating',
+      'Mejor valorados': 'rating',
       'Más baratos': 'price',
-      Recientes: 'create_date',
+      'Recientes': 'create_date',
+      'Cercanos': 'id_business'
     };
 
+   
     // Use the orderMapping object to get the correct order value
     const orderBy = orderMapping[category];
 
-    // Update the selected order by value in the service
-    this.orderByService.changeOrderBy(orderBy);
+
+
+   // Update the selected order by value in the service
+   this.orderByService.changeOrderBy(orderBy);
+ 
+ 
+
 
     this.closeDialog();
   }
