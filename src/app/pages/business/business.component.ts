@@ -62,33 +62,42 @@ export class BusinessComponent implements AfterViewInit {
         .subscribe(
           (response: any) => {
             console.log('Chat created:', response); // Log the response
-
             // Extract the chatId from the response
-            const chatId = response.insertId;
+            const chatId = response.chatId;
+            console.log('Chat ID:', chatId); // Log the chatId
             // Load the full chat data
-            this.chatService.getChat(chatId).subscribe(
-              (chat: any) => {
-                console.log('Current chat:', chat); // Log the chat
+            if (chatId) {
+              console.log('Getting chat with id:', chatId);
 
-                // Set the current chat to the newly created chat
-                if (chat) {
-                  this.chatService.setCurrentChat(chat);
-                  localStorage.setItem('currentChat', JSON.stringify(chat));
+              // Check if chatId is defined
+              this.chatService.getChat(chatId).subscribe(
+                (chat: any) => {
+                  console.log('Current chat:', chat); // Log the chat
+                  // Set the current chat to the newly created chat
+                  if (chat) {
+                    this.chatService.setCurrentChat(chat);
+                    console.log(
+                      'Current chat:',
+                      this.chatService.getCurrentChat()
+                    );
+
+                    localStorage.setItem('currentChat', JSON.stringify(chat));
+                    console.log('Navigating to chat page...'); // Log before navigation
+                    this.router.navigate(['/chat-page']);
+                  } else {
+                    console.log('Chat is falsy:', chat);
+                  }
+                },
+                (error) => {
+                  console.error('Error in getChat:', error);
                 }
-                // Then navigate to the chat page
-                this.router.navigate(['/chat-page']);
-              },
-              (error) => {
-                console.error('Error in getChat:', error);
-              }
-            );
+              );
+            }
           },
           (error) => {
             console.error('Error in createChat:', error);
           }
         );
-    } else {
-      this.router.navigate(['/login']);
     }
   }
 

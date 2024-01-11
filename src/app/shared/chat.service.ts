@@ -7,6 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -80,11 +81,14 @@ export class ChatService {
     );
   }
 
-  getChat(chatId: number): Observable<Chat> {
-    return this.http.get<Chat>(`${this.url}/chat/${chatId}`);
+  getChat(chatId: string) {
+    console.log('GetChat called with chatId:', chatId);
+
+    return this.http.get(`${this.url}/chat/${chatId}`).pipe(
+      tap((chat) => console.log('getChat emitted an item:', chat)),
+      finalize(() => console.log('getChat Observable completed'))
+    );
   }
-
-
 
   getMessages(chatId: number): Observable<Message[]> {
     return this.http.get<Message[]>(`${this.url}/messages/${chatId}`);
@@ -105,8 +109,6 @@ export class ChatService {
   getCurrentChat() {
     return this.currentChat;
   }
-
-
 
   // // create some Chat instances
   // chat1 = new Chat(
