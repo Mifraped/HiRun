@@ -35,6 +35,7 @@ import { ResponseImg } from 'src/app/models/response-img';
 import { PhotoService } from 'src/app/shared/photo.service';
 import { ResponsePhoto } from 'src/app/models/response-photo';
 import { HttpClient } from '@angular/common/http';
+import { Location } from '@angular/common';
 declare var google: any;
 
 @Component({
@@ -123,13 +124,16 @@ photoUrl
     public timeframeService: TimeframeService,
     public categoryService: CategoryService,
     public optionsService:OptionService,
-    public photoService:PhotoService, public http:HttpClient,  private zone: NgZone, private cdr: ChangeDetectorRef
+    public photoService:PhotoService, public http:HttpClient,  private zone: NgZone, private cdr: ChangeDetectorRef, private _location:Location
     
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
     this.buildFormServices();
     this.buildFormBusiness();
+    if (this.userService.connected){
+      this.user = this.userService.user;
+    }
     
   }
 
@@ -446,7 +450,7 @@ photoUrl
     }else if(this.timeFrameArray.length==0){  
       Swal.fire({
         title: "No has indicado horarios",
-    text: "Si continuas con la creación del negocio, deberás gestionar las reservas personalmente",
+    text: "Si dejas así tu negocio, deberás gestionar las reservas personalmente",
     icon: "warning",
     confirmButtonColor: "var(--green)",
     confirmButtonText: "Guardar",
@@ -717,6 +721,31 @@ photoUrl
   ngOnInit() {
     this.initAutocomplete();
     const id = this.route.snapshot.paramMap.get('id_business');
+      //datos del negocio
+      this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
+      
+        if (!res.error){
+         
+          this.business=res.data[0]
+          console.log(this.business)
+          //foto
+  
+          this.imageUrl=this.business.photo 
+  
+        
+          this.editBusinessForm.patchValue({
+            title: this.business.title,
+          });
+        }
+      })
+
+      if(this.userService.connected){
+        if(this.business.provider!=this.userService.user.id_user){
+        this._location.back(); 
+        }else{
+
+      
+
     //para obtener todas las categorías de la bbdd
     this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
       if (res.error){
@@ -734,23 +763,7 @@ photoUrl
       }
     })
       
-    //datos del negocio
-    this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
-      
-      if (!res.error){
-       
-        this.business=res.data[0]
-        console.log(this.business)
-        //foto
-
-        this.imageUrl=this.business.photo 
-
-      
-        this.editBusinessForm.patchValue({
-          title: this.business.title,
-        });
-      }
-    })
+  
 
     //servicios del negocio a editar
     this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
@@ -798,6 +811,10 @@ photoUrl
       }
     })
 
-    
+  } 
+      }else{
+        this.router.navigate(['/'])
+      }
+      
   }
 }

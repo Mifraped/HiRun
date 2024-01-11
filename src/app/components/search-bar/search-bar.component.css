@@ -6,7 +6,7 @@
 }
 
 .search_bar input {
-  width: 15rem;
+  width: 290px;
   height: 2.5rem;
   border-radius: 1.875rem;
   background-color: var(--white);

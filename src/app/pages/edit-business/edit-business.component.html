@@ -312,8 +312,7 @@
       <div class="formGroup paddingTop">
         <label>Duración del servicio</label>
         <div class="inputContainer">
-          <input
-            type="number"
+          <select
             class="form-control"
             formControlName="duration"
             [ngClass]="{
@@ -322,7 +321,14 @@
                   addServiceForm.get('duration').touched) &&
                 !addServiceForm.get('duration').valid
             }"
-          />
+          >
+            <option disabled selected>Selecciona la duración aproximada</option>
+            <option value="30">30 min</option>
+            <option value="60">1 hora</option>
+            <option value="120">2 horas</option>
+            <option value="240">4 horas</option>
+            <option value="480">Todo el día</option>
+          </select>
 
           <div *ngIf="addServiceForm.get('duration').valid">
             <i class="fa-solid fa-circle-check valid-feedback"></i>
