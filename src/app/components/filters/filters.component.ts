@@ -17,7 +17,6 @@ import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseCategory } from 'src/app/models/response-category';
 import { Category } from 'src/app/models/category';
 
-
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
@@ -44,6 +43,7 @@ export class FiltersComponent implements OnInit {
     private filtersService: FiltersService,
     private route: ActivatedRoute,
     public headerNavbarService: HeaderNavbarService,
+    
     private filtersStateService: FiltersStateService,
     private categoryService:CategoryService
   ) {
@@ -143,6 +143,7 @@ export class FiltersComponent implements OnInit {
   }
 
   selectCategory(index: number) {
+    console.log(index)
     const control = (this.form.controls.categories as FormArray).at(index);
     control.setValue(!control.value);
   }
