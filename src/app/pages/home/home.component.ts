@@ -65,7 +65,12 @@ export class HomeComponent implements OnInit {
       question: `¿Cómo garantiza la plataforma la calidad de los servicios ofrecidos?`,
       answer: `<p>El equipo de <strong>HiRun</strong> monitoriza de forma contínua las valoraciones proporcionadas por los usuarios.</p><br>
       <p>Para evitar fraudes, estas valoraciones estan verificadas y no pueden enviarse sin haber completado antes el proceso de registro y reserva.</p><br>
-      <p>Aun así, si tienes algún problema con la calidad de un servicio no dudes en ponerte en contacto con nosotros en:`,
+      <p>Aun así, si tienes algún problema con la calidad de un servicio no dudes en ponerte en contacto con nosotros en:<br>
+      <a class="contactMail" href="mailto:hirun.web@gmail.com"
+      ><br />
+      <b>hirun.web@gmail.com</b></a
+    >
+      `,
     },
     {
       question: `¿Cuáles son las políticas de pago y cancelación en la plataforma?`,

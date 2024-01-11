@@ -46,7 +46,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 1rem;
+  margin-top: 2rem;
 }
 
 .categories-list {
@@ -551,6 +551,7 @@ app-business-card {
   align-items: center;
   background-color: var(--grey);
 
+  padding-bottom: 80px;
   width: 100%;
 }
 
@@ -595,9 +596,4 @@ app-business-card {
 
 .faq-items p {
   margin-bottom: 40px;
-}
-
-.contactMail {
-  font-weight: 800;
-  color: var(--green)
 }

@@ -62,11 +62,11 @@ export class RateServiceComponent implements OnInit{
         alert('Error: '+ res.error)
       }else{
         this.ratingExists=(res.data.length!==0)
-        this.rateId=(res.data[0].id_rate)
+       
 
-        const rate = new Rate (this.user.id_user, this.service.id_service, this.selectedStarIndex +1,this.commentContent, this.rateId )
+        const rate = new Rate (this.user.id_user, this.service.id_service, this.selectedStarIndex +1,this.commentContent )
         //si no existe se crea
-        if (!this.ratingExists){
+        if (!this.ratingExists){          
           console.log('hola')
           console.log(rate)
           this.ratingService.postRating(rate).subscribe((res:ResponseRates)=>{
@@ -85,6 +85,8 @@ export class RateServiceComponent implements OnInit{
           })
          //si ya existe se actualiza
         }else{
+          this.rateId=(res.data[0].id_rate)
+          rate.id_rate=this.rateId
           this.ratingService.putRating(rate).subscribe((res:ResponseRates)=>{
             if (res.error){
               console.log('error')

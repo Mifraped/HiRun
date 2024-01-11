@@ -265,7 +265,7 @@ ratingWindowOpen:boolean=false
         })
       }else if (result.isConfirmed && diffTime<0){
         //pendinete logica valoraciones
-        if(this.user===this.serviceProvider){
+        if(this.user===this.serviceProvider){          
           Swal.fire({        
             title: "¡No hagas trampas!",
             text: "No puedes valorar un servicio del que eres proveedor",
@@ -348,7 +348,10 @@ ratingWindowOpen:boolean=false
   constructor(private router: Router, public headerNavbarService: HeaderNavbarService, private userService: UserService, private bookingService: BookingService, private businessService: BusinessService, private serviceService: ServiceService, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
-    this.user = this.userService.user.id_user
+    if(this.userService.connected){
+
+      this.user = this.userService.user.id_user
+    }
   }
 
   onRatingWindowOpenChange(value: boolean) {
@@ -356,12 +359,16 @@ ratingWindowOpen:boolean=false
   }
 
   ngOnInit(){
+    //si no estás logeado redirigir
+
+    if(!this.userService.connected){
+      this.router.navigate(['/'])
+    }else{
+
+    
+
     //recoger todos los eventos
-    //reservas en servicios proporionados por el usuario
-
-
-
-    //reservados por el usuario
+     //reservados por el usuario
     this.bookingService.getUserBookings().subscribe((res:ResponseBooking)=>{
       
       if (res.error){
@@ -465,7 +472,7 @@ ratingWindowOpen:boolean=false
     })
 
 
-
+  }
   } //fin onoInit
 
   
