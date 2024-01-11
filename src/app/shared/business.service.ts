@@ -11,8 +11,8 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class BusinessService {
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = 'http://localhost:3000/';
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = 'http://localhost:3000/';
 
   public logedUserBusinesses: Business[];
 
@@ -51,6 +51,10 @@ export class BusinessService {
 
   public updateBusiness(modBus: Business): Observable<object> {
     return this.http.put(`${this.url}business`, modBus);
+  }
+
+  public getRecommendedBusiness(id_user: number): Observable<object> {
+    return this.http.get(this.url + `recommendedBusiness?id_user=${id_user}`);
   }
 
   //instancias falsas, borrar después

@@ -5,6 +5,7 @@ import { Rate } from '../models/rate';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { RequestedService } from '../models/requested-service';
+import { Business } from '../models/business';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,9 @@ export class UserService {
   public rates: Rate[];
   public requestedServices: RequestedService[];
   public currentLocation: any;
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = "http://localhost:3000/"
+  public recommendedBusinesses: Business[];
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = "http://localhost:3000/"
 
   constructor(private http: HttpClient) {}
 

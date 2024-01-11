@@ -46,6 +46,7 @@ export class ProfileComponent implements OnInit{
       this.userService.user = new User(null, null, null, null, null, null, null)
       this.businesService.logedUserBusinesses = null
       this.userService.requestedServices = null
+      this.userService.recommendedBusinesses = null
       this.router.navigate(["/home"])
     }
 
