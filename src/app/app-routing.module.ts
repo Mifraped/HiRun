@@ -48,6 +48,7 @@ const routes: Routes = [
   { path: 'filters', component: FiltersComponent },
   { path: 'order-by', component: OrderByComponent },
   { path: 'chat-page', component: ChatPageComponent },
+
 ];
 
 @NgModule({

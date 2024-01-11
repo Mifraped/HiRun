@@ -4,6 +4,7 @@ import { ChatService } from 'src/app/shared/chat.service';
 import { Chat } from 'src/app/models/chat';
 import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/models/user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat-card',
@@ -19,7 +20,8 @@ export class ChatCardComponent implements OnInit {
   constructor(
     private datePipe: DatePipe,
     private chatService: ChatService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -53,7 +55,9 @@ export class ChatCardComponent implements OnInit {
     }
   }
 
-  onChatCardClick() {
-    this.chatService.setCurrentChat(this.chat);
+  onChatCardClick(chat: Chat) {
+    this.chatService.setCurrentChat(chat);
+    localStorage.setItem('currentChat', JSON.stringify(chat));
+    this.router.navigate(['/chat-page']);
   }
 }

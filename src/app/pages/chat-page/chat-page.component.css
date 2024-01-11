@@ -38,12 +38,13 @@
 .chat {
   display: flex;
   flex-direction: column;
-
   height: 100%;
+  max-height: 700px;
+  overflow-y: auto;
 }
+
 .message {
   display: flex;
-  flex-direction: column;
   width: auto;
   max-width: 200px;
   min-width: 100px;
@@ -53,21 +54,31 @@
   background-color: var(--green);
   border-radius: 5px;
   text-align: center;
-  justify-content: center;
-  align-items: center;
   margin-bottom: 10px;
   margin-top: 20px;
 }
 
-.message:nth-child(odd) {
-  align-self: flex-start;
+.logged-in-user-message {
+  margin-left: auto;
+  background-color: var(--green);
+}
+
+.other-user-message {
+  margin-right: auto;
   background-color: var(--blue);
 }
 
-.message:nth-child(even) {
-  align-self: flex-end;
-  background-color: var(--green);
-}
+
+
+
+
+
+
+
+
+
+
+
 
 #time:nth-child(odd) {
   color: black;

@@ -15,10 +15,23 @@ export class UserService {
   public rates: Rate[];
   public requestedServices: RequestedService[];
   public currentLocation: any;
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = "http://localhost:3000/"
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = "http://localhost:3000/"
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.user = {
+      email: 'a',
+      password: 'a',
+      name: 'pepe',
+      surname: 'perez',
+      location: 'latitude:40.41669, longitude: -3.700346',
+      phoneNumber: 123,
+      photo: 'assets/profile_img/default_picture.jpg',
+      id_user: 25,
+      // other properties...
+    };
+    this.connected = true;
+  }
 
   public login(user: User): Observable<object> {
     return this.http.post(this.url + 'login', user);

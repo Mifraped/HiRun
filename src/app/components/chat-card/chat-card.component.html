@@ -1,5 +1,5 @@
 <div class="chat-cnt">
-  <div class="chat-card" *ngIf="chat" routerLink="/chat-page">
+  <div class="chat-card" *ngIf="chat" routerLink="/chat-page" (click)="onChatCardClick(chat)">
     <ng-container
       *ngIf="chat.participants && chat.participants.length > 0; else noMessages"
     >

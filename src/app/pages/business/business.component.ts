@@ -16,6 +16,8 @@ import { RatingService } from 'src/app/shared/rating.service';
 import { ResponseRates } from 'src/app/models/response-rates';
 import { ChatService } from 'src/app/shared/chat.service';
 import {} from 'googlemaps';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 
@@ -55,13 +57,35 @@ constructor(
           this.userService.user.id_user.toString(),
           this.providerId.toString()
         )
-        .subscribe(() => {
-          this.router.navigate(['/chat']);
+        .subscribe((response: any) => {
+          console.log('Chat created:', response); // Log the response
+
+          // Extract the chatId from the response
+          const chatId = response.insertId;
+          // Load the full chat data
+          this.chatService.getChat(chatId).subscribe((chat: any) => {
+            console.log('Current chat:', chat); // Log the chat
+
+            // Set the current chat to the newly created chat
+            if (chat) {
+              this.chatService.setCurrentChat(chat);
+              localStorage.setItem('currentChat', JSON.stringify(chat));
+            }
+            // Then navigate to the chat page
+            this.router.navigate(['/chat-page']);
+          }, error => {
+            console.error('Error in getChat:', error);
+          });
+        }, error => {
+          console.error('Error in createChat:', error);
         });
     } else {
-      alert('inicia sesión para contactar con el vendedor');
       this.router.navigate(['/login']);
     }
+  }
+
+  testNavigation() {
+    this.router.navigate(['/chat-page']);
   }
 
 imageUrl:string ="../../../assets/img/logo_servicios.png"
@@ -82,7 +106,7 @@ coordinates: google.maps.LatLng;
 
 marker: google.maps.Marker;
 mapInitializer() {
-  this.map = new google.maps.Map(this.gmap.nativeElement, 
+  this.map = new google.maps.Map(this.gmap.nativeElement,
     {
       center: this.coordinates,
       zoom: 15
@@ -107,13 +131,13 @@ ngAfterViewInit() {
 
 ngOnInit() {
   const id = this.route.snapshot.paramMap.get('id_business');
-  
+
   this.businessService.getBusinessById(+id).subscribe((res:ResponseBusiness)=>{
-    
+
     if (res.error){
       console.log('error')
       alert(res.error)
-    }else{    
+    }else{
       this.business=res.data[0]
       this.providerId=res.data[0].provider
 
@@ -128,16 +152,16 @@ ngOnInit() {
         }else{
           this.businessRating=res.data[0].rate
         }
-      })   
+      })
 
-      
+
 
       this.userService.getUserInfo(this.providerId).subscribe((res:ResponseUser)=>{
-        
+
         if (res.error){
           console.log('error')
           alert(res.error)
-        }else{    
+        }else{
           this.provider=res.data[0]
 
           if (this.business.address && this.business.address.length>0){
@@ -161,22 +185,22 @@ ngOnInit() {
       this.mapInitializer();
         }
       })
-      
+
       this.serviceService.getAllServices(+id).subscribe((res:ResponseService)=>{
-        
+
         if (res.error){
           console.log('error')
           alert(res.error)
-        }else{    
+        }else{
           this.services=res.data
         }
-        
+
       })
     }
   })
 
 
-  
+
 }
 
 

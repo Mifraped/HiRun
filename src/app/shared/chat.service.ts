@@ -80,9 +80,22 @@ export class ChatService {
     );
   }
 
-  createChat(userId: string, providerId: string): Observable<Chat> {
-    // Replace with your actual API endpoint to create a chat
-    return this.http.post<Chat>(`${this.url}/chat`, { userId, providerId });
+  getChat(chatId: number): Observable<Chat> {
+    return this.http.get<Chat>(`${this.url}/chat/${chatId}`);
+  }
+
+
+
+  getMessages(chatId: number): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.url}/messages/${chatId}`);
+  }
+
+  createChat(userId: string, providerId: string): Observable<any> {
+    return this.http.post<any>(`${this.url}/chat`, { userId, providerId });
+  }
+
+  sendMessage(chatId: number, sender: string, text: string): Observable<any> {
+    return this.http.post<any>(`${this.url}/message`, { chatId, sender, text });
   }
 
   setCurrentChat(chat: any) {
@@ -92,6 +105,8 @@ export class ChatService {
   getCurrentChat() {
     return this.currentChat;
   }
+
+
 
   // // create some Chat instances
   // chat1 = new Chat(
