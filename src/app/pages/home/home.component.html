@@ -11,7 +11,10 @@
       <div class="catContainer" *ngFor="let cat of iconCat">
         <a
           [routerLink]="['/results']"
-          [queryParams]="{ categories: cat.title, displayName: cat.title }"
+          [queryParams]="{
+            categories: cat.title,
+            displayName: cat.displayName
+          }"
         >
           <i [class]="cat.icon" class="newIcons"></i>
           <p class="icon-text">

@@ -13,6 +13,9 @@ import { FiltersService } from 'src/app/shared/filters.service';
 import { ActivatedRoute } from '@angular/router';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 import { FiltersStateService } from 'src/app/shared/filters-state.service';
+import { CategoryService } from 'src/app/shared/category.service';
+import { ResponseCategory } from 'src/app/models/response-category';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-filters',
@@ -30,27 +33,29 @@ export class FiltersComponent implements OnInit {
 
   form: FormGroup;
 
-  categories = [
-    'Fontanería',
-    'Música',
-    'Carpintería',
-    'Informática',
-    'Fotografía',
-    'Diseño web',
-    'Albañilería',
-    'Mecánica',
-    'Idiomas',
-    'Electricidad',
-    'Carrocería',
-    'Entretenimiento',
-    'Tratamientos',
-    'Peluquería',
-    'Abogados',
-    'Programación',
-    'Particulares',
-    'Maquillaje',
-    'Contabilidad',
-  ];
+  // categories = [
+  //   'Fontanería',
+  //   'Música',
+  //   'Carpintería',
+  //   'Informática',
+  //   'Fotografía',
+  //   'Diseño web',
+  //   'Albañilería',
+  //   'Mecánica',
+  //   'Idiomas',
+  //   'Electricidad',
+  //   'Carrocería',
+  //   'Entretenimiento',
+  //   'Tratamientos',
+  //   'Peluquería',
+  //   'Abogados',
+  //   'Programación',
+  //   'Particulares',
+  //   'Maquillaje',
+  //   'Contabilidad',
+  // ];
+
+  categories:string[]=[]
 
   constructor(
     private fb: FormBuilder,
@@ -58,7 +63,8 @@ export class FiltersComponent implements OnInit {
     private filtersService: FiltersService,
     private route: ActivatedRoute,
     public headerNavbarService: HeaderNavbarService,
-    private filtersStateService: FiltersStateService
+    private filtersStateService: FiltersStateService,
+    private categoryService:CategoryService
   ) {
     this.headerNavbarService.showNavbar = false;
   }
@@ -67,6 +73,14 @@ export class FiltersComponent implements OnInit {
   sliderValues: number[] = [0, 100];
 
   ngOnInit() {
+
+    
+        for (let cat of this.categoryService.iconCat){
+          this.categories.push(cat.displayName)
+        }    
+    
+
+
     this.route.queryParams.subscribe((params) => {
       const category = params['category'];
       if (category) {
@@ -147,6 +161,7 @@ export class FiltersComponent implements OnInit {
   }
 
   selectCategory(index: number) {
+    console.log(index)
     const control = (this.form.controls.categories as FormArray).at(index);
     control.setValue(!control.value);
   }
@@ -162,6 +177,10 @@ export class FiltersComponent implements OnInit {
     this.filtersService.setOptions(
       otherValuesArray.length > 0 ? otherValuesArray : []
     );
+  }
+
+  formatTitle(title: string): string {
+    return title.charAt(0).toUpperCase() + title.slice(1);
   }
 
   applyFilters() {
