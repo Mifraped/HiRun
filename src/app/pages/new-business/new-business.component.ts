@@ -215,7 +215,6 @@ catSelected(category){
     this.selectedCat.splice(i, 1);
   }
   category.selected = !category.selected
-  console.log(this.selectedCat)
   }
 
   //Añade los servicios generados al array services que se incializa vacío
@@ -228,13 +227,11 @@ Swal.fire({
   icon: "success",
   confirmButtonColor: "var(--green)",
 });
-console.log(this.services)
 }
 
 //Elimina un servicio creado por medio de addServiceForm antes de guardar el negocio
 deleteService(index){
   this.services.splice(index, 1)
-  console.log(this.services)
 }
 
 deleteTimeframe(index){
@@ -248,15 +245,14 @@ async addBusiness(newBusiness: Business): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     this.businessService.postBusiness(newBusiness).subscribe(
       (res: ResponseBusiness) => {
-        console.log(res);
+        
         if (res.error) {
           alert(res.error);
           reject();
         } else {
-          console.log(res.data);
           this.newId = res.data[0].insertId;
-          console.log(this.newId);
-          this.router.navigate(['/service-provided'])
+          
+          this.router.navigate([`/service-provided/${this.user.id_user}`])
           resolve();
         }
       },
@@ -273,12 +269,11 @@ async addBusiness(newBusiness: Business): Promise<void> {
 //añadir servicio
 addNewService(newService:Service){
   this.serviceService.postService(newService).subscribe((res:ResponseService)=>{
-    console.log(res)
+    
     if (res.error){
       console.log('error')
-      alert(res.error)
+      
     }else{
-      console.log('servicio creado')
       this.services=null
     }
   })
@@ -297,12 +292,11 @@ async addAllServices(){
 addNewBusinessCat(bus:number, cat:number){
   let busCat: BusinessCat = new BusinessCat(bus,cat);
   this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseBusCat)=>{
-    console.log(res)
+   
     if (res.error){
       console.log('error')
-      alert(res.error)
+     
     }else{
-      console.log('categoría añadida')
       this.services=null
     }
   })
@@ -317,14 +311,11 @@ async addAllCats(){
 //añadir opciones (business-option)
 addNewBusinessOpt(bus:number, opt:number){
   let busOpt:BusinessOpt = new BusinessOpt(bus, opt);
-  console.log(busOpt)
   this.optionService.postBusinessOpt(busOpt).subscribe((res:ResponseBusOpt)=>{
-    console.log(res)
+  
     if (res.error){
       console.log('error')
-      alert(res.error)
-    }else{
-      console.log('opción añadida')
+    
     }
   })
 }
@@ -345,12 +336,9 @@ async addAllBusOptions(){
 //añadir franja horaria
 addNewTimeFrame(tf:TimeFrame){  
   this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
-    console.log(res)
+    
     if (res.error){
       console.log('error')
-      alert(res.error)
-    }else{
-      console.log('franja horaria añadida')
     }
   })
 }
@@ -361,11 +349,10 @@ timeFrameOverlap: boolean
 async addAllTimeframes(){
   try {
     const res: ResponseTimeframe = await this.timeframeService.getUserTimeframe(this.userService.user.id_user).toPromise();
-    console.log(res);
-
+    
     if (res.error) {
       console.log('error');
-      alert(res.error);
+      
       return;
     }
 
@@ -373,7 +360,7 @@ async addAllTimeframes(){
   
  for (let tf of this.timeFrameArray){
   let overlap: Boolean = false
-  console.log(tf)
+  
   let newTf:TimeFrame ={start:tf.start, end: tf.end, days:"", id_business: this.newId}
   let strDays:string=""
       for (let i=0; i<7; i++){
@@ -422,9 +409,7 @@ async convertAddressToCoordinates(address: string):Promise<string> {
         lat: results[0].geometry.location.lat(),
         lng: results[0].geometry.location.lng()
       };
-      console.log('Coordenadas:', coordinates);
       this.coordValue= `{"latitude":${coordinates.lat}, "longitude": ${coordinates.lng}}`
-      // Aquí puedes enviar las coordenadas al servidor o realizar cualquier acción necesaria
     } else {
       console.error('Error al convertir la dirección a coordenadas:', status);
       
@@ -438,30 +423,31 @@ async addPhoto() {
     const fileExtension = this.fileToUpload.name.split('.').pop();
     const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
 
-    console.log('nombre foto: ' + uniqueFileName);
-
     const formData = new FormData();
     formData.append('photo', this.fileToUpload, uniqueFileName);
 
     this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
-      if (resp.error === false) {
+      if (!resp.error) {
         this.photoUrl = resp.data;
-        console.log('resp.data: ' + this.photoUrl);
-        resolve(); 
+        
       } else {
-        this.photoError=true
-        reject();
-        // resolve(); 
-      }
-      
-    });
-    // resolve();
+        this.photoError = true;       
+      }      
+      resolve();
+    },
+    (error) => {
+      console.error('Error during photo upload:', error);
+      this.photoError = true;
+      resolve(); // Resuelve la promesa incluso en caso de error
+    }
+    )
+
+    
   });
 }
 
 //Nuevo negocio con la info del form + información adicional que viene del negocio, del formulario de services, etc.
 async preliminaryChecks() {
- console.log('entra en checks')
   if (this.services.length==0){  
     this.addServiceForm.get('title').markAsTouched() 
     Swal.fire({
@@ -497,7 +483,6 @@ async newBusiness(){
    if(this.fileToUpload){         
     // Crear un nombre único usando un timestamp    
     await this.addPhoto()
-    console.log('foto ok')
     }
 
     let newBusiness = this.newBusinessForm.value;
@@ -505,8 +490,7 @@ async newBusiness(){
     newBusiness.create_date = this.getCreationDate()
     newBusiness.provider = this.userService.user.id_user
     newBusiness.photo = this.photoUrl 
-    
-    console.log(newBusiness.address)
+ 
 
     if (newBusiness.address){
       newBusiness.address = await this.convertAddressToCoordinates(newBusiness.address)  
@@ -517,9 +501,7 @@ async newBusiness(){
       
     // llamada a la función que conecta con el servicio y la api
     await this.addBusiness(newBusiness)
-    console.log('newbusiness')
-    console.log(newBusiness)
-    console.log(this.newId)
+  
 
     //itera para añadir los servicios dentro del negocio
     await this.addAllServices()
@@ -554,8 +536,12 @@ async newBusiness(){
     icon: "success",
     confirmButtonColor: "var(--green)",
     confirmButtonText: "OK"
+    }).then((result)=>{
+      if (result.isConfirmed){
+
+        this.router.navigate([`/service-provided/${this.user.id_user}`])
+      }
     })
-    // this.router.navigate(['/service-provided'])
    
 }
 

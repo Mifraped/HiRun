@@ -94,7 +94,6 @@ export class ResultsComponent implements OnInit {
   ngOnInit(): void {
 
     this.getGeoLocation()
-    console.log(this.filtersService.maxDistance)
 
     this.maxDistance=this.filtersService.maxDistance
     this.route.queryParams.subscribe((params) => {
@@ -130,7 +129,7 @@ export class ResultsComponent implements OnInit {
             orderBy
           )
           .subscribe((results) => {
-            console.log('results:', results);
+  
             this.results = results;
             //distancia
             for (let r of results){
@@ -144,7 +143,6 @@ export class ResultsComponent implements OnInit {
               }
              
               if (this.ordenarCercanos){
-              console.log(this.ordenarCercanos)
                 this.results.sort((a,b)=>a.distance - b.distance)
               } 
             }  else if (results.length === 0){
@@ -166,7 +164,6 @@ export class ResultsComponent implements OnInit {
   }
 
   onOrderBySelected(orderBy: string) {
-    console.log('ortder by es: '+orderBy)
     if (orderBy==='provider'){    
       this.ordenarCercanos=true
 
@@ -185,7 +182,6 @@ export class ResultsComponent implements OnInit {
           orderBy // Pass the selected order by value
         )
         .subscribe((results) => {
-          console.log('results:', results);
           this.results = results;
           this.isReordering = false;
         });

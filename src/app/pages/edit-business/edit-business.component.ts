@@ -719,6 +719,9 @@ photoUrl
 
 
   ngOnInit() {
+    if(!this.userService.connected){
+      this.router.navigate(['/'])
+    }
     this.initAutocomplete();
     const id = this.route.snapshot.paramMap.get('id_business');
       //datos del negocio
@@ -727,8 +730,14 @@ photoUrl
         if (!res.error){
          
           this.business=res.data[0]
-          console.log(this.business)
           //foto
+
+          if(this.business.provider!=this.userService.user.id_user){
+            console.log(this.business.provider)
+            console.log(this.userService.user.id_user)
+          //  this._location.back(); 
+          this.router.navigate(['/'])
+          }
   
           this.imageUrl=this.business.photo 
   
@@ -739,10 +748,8 @@ photoUrl
         }
       })
 
-      if(this.userService.connected){
-        if(this.business.provider!=this.userService.user.id_user){
-        this._location.back(); 
-        }else{
+      
+        
 
       
 
@@ -807,14 +814,11 @@ photoUrl
           this.initialOptions.push(res.data[i])
           
         }
-        console.log(this.initialOptions)
       }
     })
 
-  } 
-      }else{
-        this.router.navigate(['/'])
-      }
+  
+      
       
   }
 }
