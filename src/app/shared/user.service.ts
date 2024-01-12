@@ -20,20 +20,7 @@ export class UserService {
   // private url = 'https://api-hi-run.vercel.app/';
   private url = 'http://localhost:3000/';
 
-  constructor(private http: HttpClient) {
-    this.user = {
-      email: 'a',
-      password: 'a',
-      name: 'pepe',
-      surname: 'perez',
-      location: '{"latitude":41.47917, "longitude": -5.60492}',
-      phoneNumber: 123,
-      photo:
-        'https://hirunphotos.s3.eu-west-3.amazonaws.com/IMG_20220112_210713.jpg',
-      id_user: 25,
-    };
-    this.connected = true;
-  }
+  constructor(private http: HttpClient) {}
 
   public login(user: User): Observable<object> {
     return this.http.post(this.url + 'login', user);
