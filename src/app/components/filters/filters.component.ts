@@ -3,7 +3,9 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  ViewEncapsulation, Output, EventEmitter
+  ViewEncapsulation,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
@@ -21,7 +23,7 @@ import { Category } from 'src/app/models/category';
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class FiltersComponent implements OnInit {
   results: any[];
@@ -33,9 +35,9 @@ export class FiltersComponent implements OnInit {
 
   form: FormGroup;
 
-  categories:string[]=[]
+  categories: string[] = [];
 
-  maxDistance:number
+  maxDistance: number;
 
   constructor(
     private fb: FormBuilder,
@@ -43,9 +45,9 @@ export class FiltersComponent implements OnInit {
     private filtersService: FiltersService,
     private route: ActivatedRoute,
     public headerNavbarService: HeaderNavbarService,
-    
+
     private filtersStateService: FiltersStateService,
-    private categoryService:CategoryService
+    private categoryService: CategoryService
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
@@ -55,13 +57,9 @@ export class FiltersComponent implements OnInit {
   sliderValues: number[] = [0, 100];
 
   ngOnInit() {
-    
-    
-        for (let cat of this.categoryService.iconCat){
-          this.categories.push(cat.displayName)
-        }    
-    
-
+    for (let cat of this.categoryService.iconCat) {
+      this.categories.push(cat.displayName);
+    }
 
     this.route.queryParams.subscribe((params) => {
       const category = params['category'];
@@ -143,7 +141,7 @@ export class FiltersComponent implements OnInit {
   }
 
   selectCategory(index: number) {
-    console.log(index)
+    console.log(index);
     const control = (this.form.controls.categories as FormArray).at(index);
     control.setValue(!control.value);
   }
@@ -209,7 +207,6 @@ export class FiltersComponent implements OnInit {
         });
       });
 
-console.log(this.maxDistance)
-this.filtersService.maxDistance=this.maxDistance
+    this.filtersService.maxDistance = this.maxDistance;
   }
 }

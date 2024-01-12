@@ -7,8 +7,8 @@ import { tap } from 'rxjs/internal/operators/tap';
   providedIn: 'root',
 })
 export class FiltersService {
-  private url = 'http://localhost:3000';
-  // private url = 'https://api-hi-run.vercel.app';
+  // private url = 'http://localhost:3000';
+  private url = 'https://api-hi-run.vercel.app';
 
   public searchTerm: string;
   public rating: string;
@@ -17,7 +17,7 @@ export class FiltersService {
   public categories: string[] = [];
   public options: string[] = [];
   public orderBy: string;
-  public maxDistance:number=0
+  public maxDistance: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -50,7 +50,6 @@ export class FiltersService {
     options: string[],
     orderBy: string // Add this parameter
   ) {
-
     let params = new HttpParams();
 
     if (searchTerm) {
