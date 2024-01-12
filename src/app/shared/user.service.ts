@@ -17,8 +17,8 @@ export class UserService {
   public requestedServices: RequestedService[];
   public currentLocation: any;
   public recommendedBusinesses: Business[];
-  // private url = 'https://api-hi-run.vercel.app/';
-  private url = 'http://localhost:3000/';
+  private url = 'https://api-hi-run.vercel.app/';
+  // private url = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {}
 
