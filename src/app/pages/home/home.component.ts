@@ -148,6 +148,7 @@ export class HomeComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
+
       // console.log('Categoria en home: ' + category);
     });
     // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
@@ -222,39 +223,13 @@ export class HomeComponent implements OnInit {
       this.UserService.recommendedBusinesses = this.getDistance(resp.data);
     });
 
-    //   this.FiltersService.getPopularBusiness().subscribe((business) => {
-    //     this.BestRatedBusinesses = business.map(
-    //       ({
-    //         provider,
-    //         title,
-    //         photo,
-    //         rating,
-    //         location,
-    //         phoneNumber,
-    //         providerName,
-    //         providerSurname,
-    //         price,
-    //         description,
-    //         userPhoto,
-    //         id_business,
-    //         address,
-    //       }) => ({
-    //         provider,
-    //         title,
-    //         photo,
-    //         rating,
-    //         location,
-    //         phoneNumber,
-    //         providerName,
-    //         providerSurname,
-    //         price,
-    //         description,
-    //         userPhoto,
-    //         id_business,
-    //         address,
-    //       })
-    //     );
-    //   });
+    if (this.UserService.connected) {
+      this.BusinessService.getRecommendedBusiness(
+        this.UserService.user.id_user
+      ).subscribe((resp: ResponseBusiness) => {
+        this.UserService.recommendedBusinesses = this.getDistance(resp.data);
+      });
+    }
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);

@@ -29,9 +29,11 @@ export class ProfileBusinessCardComponent {
 
   isMyBusiness:boolean =false
   busProvider:number
+  fotoNegocio: any;
 
   goToBusinessEdit() {
-        this.router.navigate(['/edit-business', this.negocioPadre.id_business]);
+    console.log('/edit-business'+ this.negocioPadre.id_business)
+        this.router.navigate([`/edit-business/${this.negocioPadre.id_business}`]);
 }
 
   round(number:number){
@@ -61,6 +63,12 @@ export class ProfileBusinessCardComponent {
     this.imageUrl= this.negocioPadre && this.negocioPadre.photo ? this.negocioPadre.photo : null;
 
     if (this.negocioPadre){
+
+      if (this.negocioPadre.photo&&this.negocioPadre.photo!=''){
+        this.fotoNegocio=this.negocioPadre.photo
+      }else{
+        this.fotoNegocio='../../../assets/img/logo_business_home.png'
+      }
       this.busProvider=this.negocioPadre.id_business
       this.ratingService.getAvgBusinessRates(this.negocioPadre.id_business).subscribe((res: ResponseRates)=>{
         if (res.error){

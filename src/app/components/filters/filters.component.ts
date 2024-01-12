@@ -141,7 +141,6 @@ export class FiltersComponent implements OnInit {
   }
 
   selectCategory(index: number) {
-    console.log(index);
     const control = (this.form.controls.categories as FormArray).at(index);
     control.setValue(!control.value);
   }
