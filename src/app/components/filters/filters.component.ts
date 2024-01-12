@@ -3,7 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  ViewEncapsulation,
+  ViewEncapsulation, Output, EventEmitter
 } from '@angular/core';
 import noUiSlider from 'nouislider';
 import wNumb from 'wnumb';
@@ -21,7 +21,7 @@ import { Category } from 'src/app/models/category';
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.css'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class FiltersComponent implements OnInit {
   results: any[];
@@ -33,29 +33,9 @@ export class FiltersComponent implements OnInit {
 
   form: FormGroup;
 
-  // categories = [
-  //   'Fontanería',
-  //   'Música',
-  //   'Carpintería',
-  //   'Informática',
-  //   'Fotografía',
-  //   'Diseño web',
-  //   'Albañilería',
-  //   'Mecánica',
-  //   'Idiomas',
-  //   'Electricidad',
-  //   'Carrocería',
-  //   'Entretenimiento',
-  //   'Tratamientos',
-  //   'Peluquería',
-  //   'Abogados',
-  //   'Programación',
-  //   'Particulares',
-  //   'Maquillaje',
-  //   'Contabilidad',
-  // ];
-
   categories:string[]=[]
+
+  maxDistance:number
 
   constructor(
     private fb: FormBuilder,
@@ -63,9 +43,11 @@ export class FiltersComponent implements OnInit {
     private filtersService: FiltersService,
     private route: ActivatedRoute,
     public headerNavbarService: HeaderNavbarService,
+    
     private filtersStateService: FiltersStateService,
     private categoryService:CategoryService
   ) {
+    this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
   }
 
@@ -73,7 +55,7 @@ export class FiltersComponent implements OnInit {
   sliderValues: number[] = [0, 100];
 
   ngOnInit() {
-
+    
     
         for (let cat of this.categoryService.iconCat){
           this.categories.push(cat.displayName)
@@ -226,5 +208,8 @@ export class FiltersComponent implements OnInit {
           queryParamsHandling: 'merge',
         });
       });
+
+console.log(this.maxDistance)
+this.filtersService.maxDistance=this.maxDistance
   }
 }

@@ -29,7 +29,7 @@ import { ResponseImg } from 'src/app/models/response-img';
 import { CommonModule, DatePipe } from '@angular/common';
 import { PhotoService } from 'src/app/shared/photo.service';
 import { ResponsePhoto } from 'src/app/models/response-photo';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-new-business',
@@ -115,7 +115,7 @@ initAutocomplete() {
   });
 }
 
-  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient,  private datePipe: DatePipe, private photoService: PhotoService, private zone: NgZone, private cdr: ChangeDetectorRef) { 
+  constructor( public userService:UserService,public businessService:BusinessService, private formBuilder: FormBuilder,private router: Router , public headerNavbarService: HeaderNavbarService, public categoryService:CategoryService, public serviceService:ServiceService, public timeframeService:TimeframeService, public optionService:OptionService, public http:HttpClient,  private datePipe: DatePipe, private photoService: PhotoService, private zone: NgZone, private cdr: ChangeDetectorRef, private _location:Location) { 
     this.headerNavbarService.showHeader=false
     this.headerNavbarService.showNavbar=false
     this.buildFormServices();
@@ -565,7 +565,7 @@ async newBusiness(){
 cancelNewBusiness(){
   //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
   this.newBusinessForm.reset()
-  this.router.navigate(['/profile'])
+  this._location.back()
 
 
 }
