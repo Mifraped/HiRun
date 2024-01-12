@@ -31,6 +31,7 @@
   background-color: var(--blue);
 }
 
-.chat-log {
-  padding-top: 10px;
+.chats {
+  height: 100%;
+  overflow-y: auto;
 }

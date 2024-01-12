@@ -3,22 +3,39 @@
   height: 100%;
 }
 
+.card {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin-left: 10px;
+}
+
 .chat-card {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
   gap: 20px;
-
   border: 1px solid var(--green);
   background-color: var(--black);
-  height: 80px;
+  height: 100px;
+}
+
+.card-title {
+  color: var(--green);
+  font-weight: 500;
+  font-size: 18px;
+
+  width: 90px;
+}
+
+.card-text {
+  width: 300px;
 }
 
 .chat-card img {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
-  margin-right: -20%;
 }
 
 .chat-card h4 {
@@ -33,5 +50,4 @@
 .separate-line {
   height: 1px;
   width: 100%;
-  background-color: var(--grey);
 }

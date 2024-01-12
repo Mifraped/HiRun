@@ -1,5 +1,10 @@
 <div class="chat-cnt">
-  <div class="chat-card" *ngIf="chat" routerLink="/chat-page" (click)="onChatCardClick(chat)">
+  <div
+    class="chat-card"
+    *ngIf="chat"
+    routerLink="/chat-page"
+    (click)="onChatCardClick(chat)"
+  >
     <ng-container
       *ngIf="chat.participants && chat.participants.length > 0; else noMessages"
     >
@@ -13,7 +18,14 @@
             />
             <div class="card-body">
               <h5 class="card-title">{{ participant.name }}</h5>
-              <div *ngIf="chat.messages && chat.messages.length > 0">
+              <div
+                *ngIf="
+                  chat.messages &&
+                  chat.messages.length > 0 &&
+                  chat.messages[chat.messages.length - 1].text &&
+                  chat.messages[chat.messages.length - 1].timestamp
+                "
+              >
                 <p class="card-text">
                   Last message:
                   {{ chat.messages[chat.messages.length - 1].text }}

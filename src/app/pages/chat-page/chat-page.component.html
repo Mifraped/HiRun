@@ -14,8 +14,10 @@
       />
     </svg>
 
-    <div *ngIf="otherUser">
-      <img [src]="otherUser.photo" alt="User 1 photo" />
+    <div class="info_user" *ngIf="otherUser">
+      <div class="img-container">
+        <img [src]="otherUser.photo" alt="User 1 photo" />
+      </div>
       <h4>
         {{ otherUser.name }}
       </h4>
@@ -29,17 +31,19 @@
         currentChat && currentChat.messages && currentChat.messages.length > 0
       "
     >
-      <div
-        *ngFor="let message of currentChat.messages"
-        [class.logged-in-user-message]="message.sender === loggedInUserId"
-        [class.other-user-message]="message.sender !== loggedInUserId"
-        class="message"
-      >
-        <p class="message-content">
-          {{ message.text }}
-          <span id="time">{{ message.timestamp | date : "short" }}</span>
-        </p>
-      </div>
+      <ng-container *ngFor="let message of currentChat.messages">
+        <div
+          [class.logged-in-user-message]="message.sender === loggedInUserId"
+          [class.other-user-message]="message.sender !== loggedInUserId"
+          class="message"
+          *ngIf="message.text"
+        >
+          <p class="message-content">
+            {{ message.text }}
+            <span id="time">{{ message.timestamp | date : "short" }}</span>
+          </p>
+        </div>
+      </ng-container>
     </div>
   </div>
 
@@ -97,6 +101,7 @@
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       id="send"
+      (click)="sendMessage(messageInput.value, messageInput)"
     >
       <circle cx="20" cy="20" r="20" fill="#569DB6" />
       <g clip-path="url(#clip0_104_1140)">
