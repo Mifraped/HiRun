@@ -57,7 +57,7 @@ export class OrderByComponent {
       'Mejor valorados': 'rating',
       'Más baratos': 'price',
       'Recientes': 'create_date',
-      'Cercanos': 'id_business'
+      'Cercanos': 'provider' //pongo id_business para que no de problemas con la api
     };
 
    
@@ -65,12 +65,12 @@ export class OrderByComponent {
     const orderBy = orderMapping[category];
 
 
+if (orderBy!='id_business'){
 
-   // Update the selected order by value in the service
-   this.orderByService.changeOrderBy(orderBy);
- 
- 
+  // Update the selected order by value in the service
+  this.orderByService.changeOrderBy(orderBy);
 
+}
 
     this.closeDialog();
   }

@@ -14,8 +14,6 @@ export class OrderByService {
 
   constructor() {}
 
-  dist:boolean =false
-
   // changeOrderBy(orderBy: string) {
   //   console.log(orderBy)
   //   if (orderBy!='distance'){
@@ -26,13 +24,7 @@ export class OrderByService {
   //   }
 
   // }
-  changeOrderBy(orderBy: string) {
-    console.log(orderBy);
-    if (orderBy !== 'id_business') {
-      this.dist = false;
-    } else {
-      this.dist = true;
-    }
+  changeOrderBy(orderBy: string) {    
     this.orderBySource.next(orderBy);
   }
 }
