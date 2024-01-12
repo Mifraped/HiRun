@@ -26,11 +26,11 @@ export class UserService {
       password: 'a',
       name: 'pepe',
       surname: 'perez',
-      location: 'latitude:40.41669, longitude: -3.700346',
+      location: '{"latitude":41.47917, "longitude": -5.60492}',
       phoneNumber: 123,
-      photo: 'assets/profile_img/default_picture.jpg',
+      photo:
+        'https://hirunphotos.s3.eu-west-3.amazonaws.com/IMG_20220112_210713.jpg',
       id_user: 25,
-      // other properties...
     };
     this.connected = true;
   }

@@ -41,35 +41,35 @@ export class ChatPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('ngOnInit called');
     this.chatService.getCurrentChat().subscribe((chat) => {
       if (chat) {
         this.currentChat = chat;
+        console.log('Current chat:', this.currentChat);
       } else {
-        // If the subscription does not return any data, get the current chat from localStorage
         this.currentChat = JSON.parse(localStorage.getItem('currentChat'));
+        console.log('Current chat from localStorage:', this.currentChat);
+        // If currentChat was retrieved from localStorage, set it again
+        if (this.currentChat) {
+          this.chatService.setCurrentChat(this.currentChat);
+        }
       }
 
-      // If the currentChat object does not have an id_chat property, try getting it from the id property
       if (this.currentChat && !this.currentChat.id_chat) {
         this.currentChat.id_chat = this.currentChat.id;
+        console.log('Current chat ID:', this.currentChat.id_chat);
       }
-
-      console.log('Current chat:', this.currentChat); // Log the current chat
-      console.log(
-        'Current chat ID:',
-        this.currentChat ? this.currentChat.id_chat : 'currentChat is null'
-      ); // Log the current chat ID
 
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
+          console.log('NavigationEnd event:', event);
           this.updateChatData();
         }
       });
 
       this.loggedInUserId = this.userService.user.id_user;
-      console.log('loggedInUserId:', this.loggedInUserId); // Log the loggedInUserId
+      console.log('loggedInUserId:', this.loggedInUserId);
 
-      // Call updateChatData here
       if (this.currentChat) {
         this.updateChatData();
       }
@@ -98,14 +98,17 @@ export class ChatPageComponent implements OnInit {
   }
 
   updateChatData() {
+    console.log('updateChatData called');
     this.chatService.getCurrentChat().subscribe((chat) => {
       this.currentChat = chat;
+      console.log('Current chat in updateChatData:', this.currentChat);
 
       if (this.currentChat) {
         if (this.currentChat.participants) {
           this.otherUser = this.currentChat.participants.find(
             (participant) => participant.id_user !== this.loggedInUserId
           );
+          console.log('otherUser:', this.otherUser);
         } else {
           this.otherUser =
             this.currentChat.user1_id_user === this.loggedInUserId
@@ -121,9 +124,8 @@ export class ChatPageComponent implements OnInit {
                   surname: this.currentChat.user1_surname,
                   photo: this.currentChat.user1_photo,
                 };
+          console.log('otherUser:', this.otherUser);
         }
-        console.log('otherUser:', this.otherUser); // Log the otherUser object
-        setTimeout(() => this.cdr.detectChanges(), 0);
       } else {
         console.log('currentChat is falsy');
       }
