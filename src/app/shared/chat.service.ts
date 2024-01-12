@@ -14,8 +14,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ChatService {
-  // private url = 'https://api-hi-run.vercel.app/chat';
-  private url = 'http://localhost:3000';
+  private url = 'https://api-hi-run.vercel.app';
+  // private url = 'http://localhost:3000';
   private currentChat: Chat;
   private currentChatSubject = new BehaviorSubject<Chat>(null);
 
