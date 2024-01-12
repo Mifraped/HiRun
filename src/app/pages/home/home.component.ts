@@ -147,56 +147,14 @@ export class HomeComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
-      // console.log('Categoria en home: ' + category);
-    });
-    // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
       
-      // this.LatestBusinesses = business.map(
-      //   ({
-      //     provider,
-      //     title,
-      //     photo,
-      //     rating,
-      //     location,
-      //     phoneNumber,
-      //     providerName,
-      //     providerSurname,
-      //     price,
-      //     description,
-      //     userPhoto,
-      //     id_business,
-      //     address,
-      //   }) => ({
-      //     provider,
-      //     title,
-      //     photo,
-      //     rating,
-      //     location,
-      //     phoneNumber,
-      //     providerName,
-      //     providerSurname,
-      //     price,
-      //     description,
-      //     userPhoto,
-      //     id_business,
-      //     address,
-      //   })
-      // );
-
-    //   if (this.UserService.currentLocation){
-
-    //     this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-        
-    //   }else{
-    //     this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
-    //   }
-    // });
-
+    });
+    
+     
     this.BusinessService.getAllbusiness().subscribe((res:ResponseBusiness)=>{
       if(!res.error){
         this.LatestBusinesses=res.data
         if(this.LatestBusinesses){
-          console.log('entra')
           if(this.UserService.currentLocation){
             this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
           }else{
@@ -213,45 +171,15 @@ export class HomeComponent implements OnInit {
       
     })
     
-    this.BusinessService.getRecommendedBusiness(this.UserService.user.id_user).subscribe((resp:ResponseBusiness) => {
-      this.UserService.recommendedBusinesses = this.getDistance(resp.data)
+    if (this.UserService.connected){
+
+      this.BusinessService.getRecommendedBusiness(this.UserService.user.id_user).subscribe((resp:ResponseBusiness) => {
+        this.UserService.recommendedBusinesses = this.getDistance(resp.data)
+        
+      })
+    }
       
-    })
-      
-  //   this.FiltersService.getPopularBusiness().subscribe((business) => {
-  //     this.BestRatedBusinesses = business.map(
-  //       ({
-  //         provider,
-  //         title,
-  //         photo,
-  //         rating,
-  //         location,
-  //         phoneNumber,
-  //         providerName,
-  //         providerSurname,
-  //         price,
-  //         description,
-  //         userPhoto,
-  //         id_business,
-  //         address,
-  //       }) => ({
-  //         provider,
-  //         title,
-  //         photo,
-  //         rating,
-  //         location,
-  //         phoneNumber,
-  //         providerName,
-  //         providerSurname,
-  //         price,
-  //         description,
-  //         userPhoto,
-  //         id_business,
-  //         address,
-  //       })
-  //     );
-  //   });
-  }
+   }
 
   isPVisible = Array(this.faqItems.length).fill(false);
 
