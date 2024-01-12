@@ -27,17 +27,14 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     let chat = this.chatService.getCurrentChat();
-    console.log('Chat data:', chat);
-    console.log('ChatComponent ngOnInit');
+
     this.userService.getUserInfo(this.userService.user.id_user).subscribe(
       (response: any) => {
         const id_user = response.data[0].id_user;
-        console.log('id_user', id_user);
+
         this.chatService.getChats(id_user).subscribe(
           (chats: Chat[]) => {
-            console.log('chats', chats);
             this.chats = chats;
-            console.log('this.chats', this.chats);
           },
           (error) => {
             console.error('Error fetching chats', error);

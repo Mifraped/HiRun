@@ -39,8 +39,6 @@ export class ChatCardComponent implements OnInit {
         lastMessage.timestamp,
         'dd/MM'
       );
-      // Log the chat data
-      console.log(this.chat);
 
       // Get the logged-in user's ID
       let loggedInUserId = this.userService.user.id_user;

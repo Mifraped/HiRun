@@ -52,8 +52,8 @@ export class HomeComponent implements OnInit {
   faqItems = [
     {
       question: `¿Cómo puedo buscar y reservar servicios en la plataforma?`,
-      answer: `<p>Explora los servicios por cercanía o busca los mejor valorados en la página principal.</p><br>     
-      <p>También puedes utilizar el buscador y añadir los filtros necesarios hasta dar con el servicio que necesitas.</p><br> 
+      answer: `<p>Explora los servicios por cercanía o busca los mejor valorados en la página principal.</p><br>
+      <p>También puedes utilizar el buscador y añadir los filtros necesarios hasta dar con el servicio que necesitas.</p><br>
       <p>Para pedir cita, deberás registrarte en HiRun y utilizar el gestor de reservas o ponerte en contacto con el vendedor`,
     },
     {
@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
     // Add more FAQ items here
   ];
 
-  iconCat:any[]
+  iconCat: any[];
 
   constructor(
     public UserService: UserService,
@@ -98,8 +98,8 @@ export class HomeComponent implements OnInit {
   }
 
   //geolocalización
-  lat: number =0
-  lng: number = 0
+  lat: number = 0;
+  lng: number = 0;
 
   async getGeoLocation() {
     this.geolocationService.getCurrentPosition().subscribe({
@@ -113,16 +113,17 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
-        if(this.UserService.connected){
-        const coord =JSON.parse(this.UserService.user.location)
-        this.UserService.currentLocation = { latitude: coord.latitude, longitude: coord.longitude };
-        }else{
-
+        if (this.UserService.connected) {
+          const coord = JSON.parse(this.UserService.user.location);
+          this.UserService.currentLocation = {
+            latitude: coord.latitude,
+            longitude: coord.longitude,
+          };
+        } else {
           this.UserService.currentLocation = { latitude: 0, longitude: 0 };
         }
       },
     });
-    
   }
 
   //calcular distancia y ordenar
@@ -142,122 +143,123 @@ export class HomeComponent implements OnInit {
   //fin geolocalización
   ngOnInit(): void {
     this.getGeoLocation();
-   
-    this.iconCat=this.categoryService.iconCat
+
+    this.iconCat = this.categoryService.iconCat;
 
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
       // console.log('Categoria en home: ' + category);
     });
     // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
-      
-      // this.LatestBusinesses = business.map(
-      //   ({
-      //     provider,
-      //     title,
-      //     photo,
-      //     rating,
-      //     location,
-      //     phoneNumber,
-      //     providerName,
-      //     providerSurname,
-      //     price,
-      //     description,
-      //     userPhoto,
-      //     id_business,
-      //     address,
-      //   }) => ({
-      //     provider,
-      //     title,
-      //     photo,
-      //     rating,
-      //     location,
-      //     phoneNumber,
-      //     providerName,
-      //     providerSurname,
-      //     price,
-      //     description,
-      //     userPhoto,
-      //     id_business,
-      //     address,
-      //   })
-      // );
+
+    // this.LatestBusinesses = business.map(
+    //   ({
+    //     provider,
+    //     title,
+    //     photo,
+    //     rating,
+    //     location,
+    //     phoneNumber,
+    //     providerName,
+    //     providerSurname,
+    //     price,
+    //     description,
+    //     userPhoto,
+    //     id_business,
+    //     address,
+    //   }) => ({
+    //     provider,
+    //     title,
+    //     photo,
+    //     rating,
+    //     location,
+    //     phoneNumber,
+    //     providerName,
+    //     providerSurname,
+    //     price,
+    //     description,
+    //     userPhoto,
+    //     id_business,
+    //     address,
+    //   })
+    // );
 
     //   if (this.UserService.currentLocation){
 
     //     this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-        
+
     //   }else{
     //     this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
     //   }
     // });
 
-    this.BusinessService.getAllbusiness().subscribe((res:ResponseBusiness)=>{
-      if(!res.error){
-        this.LatestBusinesses=res.data
-        if(this.LatestBusinesses){
-          console.log('entra')
-          if(this.UserService.currentLocation){
-            this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-          }else{
-            this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
+    this.BusinessService.getAllbusiness().subscribe((res: ResponseBusiness) => {
+      if (!res.error) {
+        this.LatestBusinesses = res.data;
+        if (this.LatestBusinesses) {
+          if (this.UserService.currentLocation) {
+            this.LatestBusinesses = this.getDistance(
+              this.LatestBusinesses
+            ).slice(0, 10);
+          } else {
+            this.LatestBusinesses = this.LatestBusinesses.slice(0, 10);
           }
         }
       }
-    })
+    });
 
-    this.BusinessService.getBusinessByRating(3.5).subscribe((res:ResponseBusiness)=>{
-      if (!res.error){
-        this.BestRatedBusinesses=res.data
+    this.BusinessService.getBusinessByRating(3.5).subscribe(
+      (res: ResponseBusiness) => {
+        if (!res.error) {
+          this.BestRatedBusinesses = res.data;
+        }
       }
-      
-    })
-    
-    this.BusinessService.getRecommendedBusiness(this.UserService.user.id_user).subscribe((resp:ResponseBusiness) => {
-      this.UserService.recommendedBusinesses = this.getDistance(resp.data)
-      
-    })
-      
-  //   this.FiltersService.getPopularBusiness().subscribe((business) => {
-  //     this.BestRatedBusinesses = business.map(
-  //       ({
-  //         provider,
-  //         title,
-  //         photo,
-  //         rating,
-  //         location,
-  //         phoneNumber,
-  //         providerName,
-  //         providerSurname,
-  //         price,
-  //         description,
-  //         userPhoto,
-  //         id_business,
-  //         address,
-  //       }) => ({
-  //         provider,
-  //         title,
-  //         photo,
-  //         rating,
-  //         location,
-  //         phoneNumber,
-  //         providerName,
-  //         providerSurname,
-  //         price,
-  //         description,
-  //         userPhoto,
-  //         id_business,
-  //         address,
-  //       })
-  //     );
-  //   });
+    );
+
+    this.BusinessService.getRecommendedBusiness(
+      this.UserService.user.id_user
+    ).subscribe((resp: ResponseBusiness) => {
+      this.UserService.recommendedBusinesses = this.getDistance(resp.data);
+    });
+
+    //   this.FiltersService.getPopularBusiness().subscribe((business) => {
+    //     this.BestRatedBusinesses = business.map(
+    //       ({
+    //         provider,
+    //         title,
+    //         photo,
+    //         rating,
+    //         location,
+    //         phoneNumber,
+    //         providerName,
+    //         providerSurname,
+    //         price,
+    //         description,
+    //         userPhoto,
+    //         id_business,
+    //         address,
+    //       }) => ({
+    //         provider,
+    //         title,
+    //         photo,
+    //         rating,
+    //         location,
+    //         phoneNumber,
+    //         providerName,
+    //         providerSurname,
+    //         price,
+    //         description,
+    //         userPhoto,
+    //         id_business,
+    //         address,
+    //       })
+    //     );
+    //   });
   }
 
   isPVisible = Array(this.faqItems.length).fill(false);
 
   togglePVisibility(index: number) {
     this.isPVisible[index] = !this.isPVisible[index];
-
-    
   }
 }

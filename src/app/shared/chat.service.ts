@@ -14,8 +14,8 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class ChatService {
-  // private url = 'https://api-hi-run.vercel.app/chat';
-  private url = 'http://localhost:3000';
+  private url = 'https://api-hi-run.vercel.app';
+  // private url = 'http://localhost:3000';
   private currentChat: Chat;
   private currentChatSubject = new BehaviorSubject<Chat>(null);
 
@@ -84,8 +84,6 @@ export class ChatService {
   }
 
   getChat(chatId: string): Observable<any> {
-    console.log('GetChat called with chatId:', chatId);
-
     return this.http.get<Chat>(`${this.url}/chat/${chatId}`).pipe(
       tap((chat) => console.log('getChat emitted an item:', chat)),
       finalize(() => console.log('getChat Observable completed'))
@@ -115,28 +113,6 @@ export class ChatService {
   getCurrentChat(): Observable<Chat> {
     return this.currentChatSubject.asObservable();
   }
-
-  // // create some Chat instances
-  // chat1 = new Chat(
-  //   1,
-  //   [this.user1, this.user2],
-  //   [this.message1, this.message2]
-  // );
-  // chat2 = new Chat(
-  //   2,
-  //   [this.user2, this.user1],
-  //   [this.message1, this.message2]
-  // );
-
-  // private chats: Chat[] = [this.chat1, this.chat2];
-
-  // setChats(chats: Chat[]) {
-  //    this.chats = chats;
-  // }
-
-  // getChats(): Chat[] {
-  //    return this.chats;
-  // }
 
   public getAllUserChats(id_user: number): Observable<object> {
     return this.http.get(`${this.url}?id_user=${id_user}`);

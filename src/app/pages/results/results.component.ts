@@ -17,13 +17,10 @@ import Swal from 'sweetalert2';
   selector: 'app-results',
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.css'],
-  
-  
 })
 export class ResultsComponent implements OnInit {
-
- maxDistance:number
- ordenarCercanos:boolean = false
+  maxDistance: number;
+  ordenarCercanos: boolean = false;
 
   dialogRef: MatDialogRef<OrderByComponent>;
   public business: Business = this.BusinessService.business;
@@ -51,21 +48,20 @@ export class ResultsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private order: OrderByService,
     public geolocationService: GeolocationService,
-    public userService:UserService,
+    public userService: UserService,
     public orderByService: OrderByService
   ) {
     this.headerNavbarService.showHeader = true;
     this.geolocationService.getCurrentPosition();
-    
   }
 
   onOrderByChange(event: any) {
-      // Update selectedOrderBy when the user makes a selection
+    // Update selectedOrderBy when the user makes a selection
     this.selectedOrderBy = event.target.value;
   }
 
-  lat:number = 0
-  lng:number=0
+  lat: number = 0;
+  lng: number = 0;
 
   async getGeoLocation() {
     this.geolocationService.getCurrentPosition().subscribe({
@@ -79,24 +75,23 @@ export class ResultsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
-        if(this.userService.connected){
-        const coord =JSON.parse(this.userService.user.location)
-        this.userService.currentLocation = { latitude: coord.latitude, longitude: coord.longitude };
-        }else{
-
+        if (this.userService.connected) {
+          const coord = JSON.parse(this.userService.user.location);
+          this.userService.currentLocation = {
+            latitude: coord.latitude,
+            longitude: coord.longitude,
+          };
+        } else {
           this.userService.currentLocation = { latitude: 0, longitude: 0 };
         }
       },
     });
-    
   }
 
   ngOnInit(): void {
+    this.getGeoLocation();
 
-    this.getGeoLocation()
-    console.log(this.filtersService.maxDistance)
-
-    this.maxDistance=this.filtersService.maxDistance
+    this.maxDistance = this.filtersService.maxDistance;
     this.route.queryParams.subscribe((params) => {
       const displayName = params['displayName'];
       const searchTerm = params['searchTerm'];
@@ -114,10 +109,10 @@ export class ResultsComponent implements OnInit {
       this.searchTerm = this.filtersService.getCurrentSearchTerm();
 
       this.order.currentOrderBy.subscribe((orderBy) => {
-        if (orderBy === 'provider'){
-          this.ordenarCercanos=true
-        }else{
-          this.ordenarCercanos=false
+        if (orderBy === 'provider') {
+          this.ordenarCercanos = true;
+        } else {
+          this.ordenarCercanos = false;
         }
         this.filtersService
           .getResults(
@@ -130,48 +125,45 @@ export class ResultsComponent implements OnInit {
             orderBy
           )
           .subscribe((results) => {
-            console.log('results:', results);
             this.results = results;
             //distancia
-            for (let r of results){
-              const distance = this.geolocationService.calcDistance(JSON.parse(r.address), this.userService.currentLocation)
-               r.distance=distance
-
+            for (let r of results) {
+              const distance = this.geolocationService.calcDistance(
+                JSON.parse(r.address),
+                this.userService.currentLocation
+              );
+              r.distance = distance;
             }
-           if (results.length!=0){
-              if (this.maxDistance && this.maxDistance!=0){              
-                this.results = results.filter(r => r.distance <= this.maxDistance)
-              }
-             
-              if (this.ordenarCercanos){
-              console.log(this.ordenarCercanos)
-                this.results.sort((a,b)=>a.distance - b.distance)
-              } 
-            }  else if (results.length === 0){
-               
-                this.snackBar.open(
-                  'No results matching your search were found.',
-                  'Close',
-                  {
-                    duration: 2000,
-                    panelClass: ['snackbar-result'],
-                  }
+            if (results.length != 0) {
+              if (this.maxDistance && this.maxDistance != 0) {
+                this.results = results.filter(
+                  (r) => r.distance <= this.maxDistance
                 );
-              
-            }    
+              }
 
+              if (this.ordenarCercanos) {
+                this.results.sort((a, b) => a.distance - b.distance);
+              }
+            } else if (results.length === 0) {
+              this.snackBar.open(
+                'No results matching your search were found.',
+                'Close',
+                {
+                  duration: 2000,
+                  panelClass: ['snackbar-result'],
+                }
+              );
+            }
           });
       });
     });
   }
 
   onOrderBySelected(orderBy: string) {
-    console.log('ortder by es: '+orderBy)
-    if (orderBy==='provider'){    
-      this.ordenarCercanos=true
-
-    }else{
-      this.ordenarCercanos=false  
+    if (orderBy === 'provider') {
+      this.ordenarCercanos = true;
+    } else {
+      this.ordenarCercanos = false;
 
       this.isReordering = true;
       this.filtersService
@@ -185,15 +177,14 @@ export class ResultsComponent implements OnInit {
           orderBy // Pass the selected order by value
         )
         .subscribe((results) => {
-          console.log('results:', results);
           this.results = results;
           this.isReordering = false;
         });
-    }}
-  
+    }
+  }
 
   openDialog() {
-    this.ordenarCercanos=false
+    this.ordenarCercanos = false;
     if (!this.dialogRef || !this.dialogRef.componentInstance) {
       this.dialogRef = this.dialog.open(OrderByComponent, {
         panelClass: 'dialogo-order-by',
