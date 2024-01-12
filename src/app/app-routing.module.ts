@@ -32,6 +32,7 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'login', component: LoginComponent },
   { path: 'new-business', component: NewBusinessComponent },
+  { path: 'profile', component: ProfileComponent},
   { path: 'profile/:id_user', component: ProfileComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'preferences', component: PreferencesComponent },

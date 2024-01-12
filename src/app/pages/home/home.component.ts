@@ -113,7 +113,13 @@ export class HomeComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error getting geolocation:', error);
-        this.UserService.currentLocation = { latitude: 0, longitude: 0 };
+        if(this.UserService.connected){
+        const coord =JSON.parse(this.UserService.user.location)
+        this.UserService.currentLocation = { latitude: coord.latitude, longitude: coord.longitude };
+        }else{
+
+          this.UserService.currentLocation = { latitude: 0, longitude: 0 };
+        }
       },
     });
     
@@ -204,9 +210,14 @@ export class HomeComponent implements OnInit {
       if (!res.error){
         this.BestRatedBusinesses=res.data
       }
-
+      
     })
-
+    
+    this.BusinessService.getRecommendedBusiness(this.UserService.user.id_user).subscribe((resp:ResponseBusiness) => {
+      this.UserService.recommendedBusinesses = this.getDistance(resp.data)
+      
+    })
+      
   //   this.FiltersService.getPopularBusiness().subscribe((business) => {
   //     this.BestRatedBusinesses = business.map(
   //       ({
@@ -246,5 +257,7 @@ export class HomeComponent implements OnInit {
 
   togglePVisibility(index: number) {
     this.isPVisible[index] = !this.isPVisible[index];
+
+    
   }
 }

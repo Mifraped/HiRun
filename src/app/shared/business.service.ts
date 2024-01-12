@@ -47,6 +47,10 @@ export class BusinessService {
     return this.http.put(`${this.url}business`, modBus);
   }
 
+  public getRecommendedBusiness(id_user: number): Observable<object> {
+    return this.http.get(this.url + `recommendedBusiness?id_user=${id_user}`);
+  }
+
   //instancias falsas, borrar después
   service1: Service = {
     title: 'Servicio menor',

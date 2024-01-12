@@ -14,7 +14,17 @@ export class OrderByService {
 
   constructor() {}
 
-  changeOrderBy(orderBy: string) {
+  // changeOrderBy(orderBy: string) {
+  //   console.log(orderBy)
+  //   if (orderBy!='distance'){
+  //     this.dist=false
+  //     this.orderBySource.next(orderBy);
+  //   }else{
+  //     this.dist=true
+  //   }
+
+  // }
+  changeOrderBy(orderBy: string) {    
     this.orderBySource.next(orderBy);
   }
 }
