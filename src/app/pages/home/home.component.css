@@ -148,7 +148,8 @@
 }
 
 .recommended-cnt {
-  margin-bottom: 4.0625rem;
+  padding-top: 2.5625rem;
+  margin-bottom: 45px;
 }
 
 .news, .recommended {
@@ -412,24 +413,26 @@ app-business-card {
   position: absolute;
   top: 60px;
   left: 270px;
+  cursor: pointer;
 }
 
 #tag1 .linkedin-icon {
   position: absolute;
   top: 100px;
   left: 265px;
+  cursor: pointer;
 }
 
 #tag1 .name {
   position: absolute;
   font-size: 21px;
-  top: 20px;
+  top: 10px;
   left: 90px;
 }
 
 #tag1 .rol {
   position: absolute;
-  top: 45px;
+  top: 35px;
   left: 90px;
 }
 
@@ -462,23 +465,26 @@ app-business-card {
   position: absolute;
   top: 60px;
   left: 185px;
+  cursor: pointer;
 }
 
 #tag2 .linkedin-icon {
   position: absolute;
   top: 100px;
   right: 100px;
+  cursor: pointer;
 }
 
 #tag2 .name {
   position: absolute;
-  top: 20px;
-  right: 110px;
+  top: 10px;
+  left: 18.5px;
+  font-size: 21px;
 }
 
 #tag2 .rol {
   position: absolute;
-  top: 45px;
+  top: 35px;
   left: 18.5px;
 }
 
@@ -506,24 +512,26 @@ app-business-card {
   position: absolute;
   top: 60px;
   left: 270px;
+  cursor: pointer;
 }
 
 #tag3 .linkedin-icon {
   position: absolute;
   top: 100px;
   left: 265px;
+  cursor: pointer;
 }
 
 #tag3 .name {
   position: absolute;
   font-size: 21px;
-  top: 20px;
+  top: 10px;
   left: 90px;
 }
 
 #tag3 .rol {
   position: absolute;
-  top: 45px;
+  top: 35px;
   left: 90px;
 }
 
