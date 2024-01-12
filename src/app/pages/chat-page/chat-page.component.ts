@@ -84,7 +84,7 @@ export class ChatPageComponent implements OnInit {
               messageInput.value = '';
               this.cdr.detectChanges(); // Trigger change detection to update the view
             });
-        }, 300); // Delay of 1 second
+        }, 200); // Delay of 1 second
       });
   }
 
