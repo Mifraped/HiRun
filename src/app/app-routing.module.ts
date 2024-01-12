@@ -23,6 +23,7 @@ import { BookServiceComponent } from './pages/book-service/book-service.componen
 
 import { OrderByComponent } from './components/order-by/order-by.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';
+import { ChatResolver } from './resolvers/chat.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -42,13 +43,22 @@ const routes: Routes = [
   { path: 'business/:id_business', component: BusinessComponent },
   { path: 'edit-business/:id_business', component: EditBusinessComponent },
   // { path: 'book-service', component: BookServiceComponent },
-  { path: 'book-service/:id_business/:id_service', component: BookServiceComponent },
+  {
+    path: 'book-service/:id_business/:id_service',
+    component: BookServiceComponent,
+  },
 
   { path: 'results', component: ResultsComponent },
   { path: 'filters', component: FiltersComponent },
   { path: 'order-by', component: OrderByComponent },
   { path: 'chat-page', component: ChatPageComponent },
-
+  {
+    path: 'chat-page',
+    component: ChatPageComponent,
+    resolve: {
+      chat: ChatResolver,
+    },
+  },
 ];
 
 @NgModule({

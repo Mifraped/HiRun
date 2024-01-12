@@ -29,12 +29,8 @@ export class ChatCardComponent implements OnInit {
       (participant) => participant.id_user !== this.userService.user.id_user
     );
 
-    console.log('Other user:', this.otherUser);
-
     if (this.chat && this.chat.participants) {
-      this.chat.participants.forEach((participant) => {
-        console.log('Participant ID:', participant.id_user);
-      });
+      this.chat.participants.forEach((participant) => {});
     }
 
     if (this.chat && this.chat.messages) {
@@ -50,8 +46,6 @@ export class ChatCardComponent implements OnInit {
       let loggedInUserId = this.userService.user.id_user;
 
       // Filter the participants to get the other user's information
-      console.log('Logged-in user ID:', loggedInUserId);
-      console.log('Participants:', this.chat.participants);
     }
   }
 

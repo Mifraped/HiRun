@@ -18,6 +18,7 @@ import { ChatService } from 'src/app/shared/chat.service';
 import {} from 'googlemaps';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
@@ -31,7 +32,9 @@ export class BusinessComponent implements AfterViewInit {
   business: Business;
 
   services: Service[];
-
+  currentChat: any;
+  loggedInUserId: number = this.userService.user.id_user;
+  otherUser: User;
   provider: User;
   providerId: number;
   coordLoc: any;
@@ -50,6 +53,7 @@ export class BusinessComponent implements AfterViewInit {
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
+    console.log('BusinessComponent constructor');
   }
 
   contactProvider() {
@@ -59,8 +63,8 @@ export class BusinessComponent implements AfterViewInit {
           this.userService.user.id_user.toString(),
           this.providerId.toString()
         )
-        .subscribe(
-          (response: any) => {
+        .pipe(
+          switchMap((response: any) => {
             console.log('Chat created:', response); // Log the response
             // Extract the chatId from the response
             const chatId = response.chatId;
@@ -68,34 +72,35 @@ export class BusinessComponent implements AfterViewInit {
             // Load the full chat data
             if (chatId) {
               console.log('Getting chat with id:', chatId);
+              // Return the getChat observable
+              return this.chatService.getChat(chatId);
+            }
+            // If chatId is null, return an empty observable
+            return of(null);
+          })
+        )
+        .subscribe(
+          (chat: any) => {
+            console.log('Chat from getChat:', chat); // Log the chat received from getChat
+            console.log('Chat ID:', chat.id); // Log the chat ID
+            if (chat) {
+              this.chatService.setCurrentChat(chat);
+              console.log(
+                'Chat after setCurrentChat:',
+                this.chatService.getCurrentChat()
+              ); // Log the chat after setting it
 
-              // Check if chatId is defined
-              this.chatService.getChat(chatId).subscribe(
-                (chat: any) => {
-                  console.log('Current chat:', chat); // Log the chat
-                  // Set the current chat to the newly created chat
-                  if (chat) {
-                    this.chatService.setCurrentChat(chat);
-                    console.log(
-                      'Current chat:',
-                      this.chatService.getCurrentChat()
-                    );
+              console.log('Chat participants:', chat.participants); // Log the participants of the chat
 
-                    localStorage.setItem('currentChat', JSON.stringify(chat));
-                    console.log('Navigating to chat page...'); // Log before navigation
-                    this.router.navigate(['/chat-page']);
-                  } else {
-                    console.log('Chat is falsy:', chat);
-                  }
-                },
-                (error) => {
-                  console.error('Error in getChat:', error);
-                }
-              );
+              localStorage.setItem('currentChat', JSON.stringify(chat));
+              console.log('Navigating to chat page...'); // Log before navigation
+              this.router.navigate(['/chat-page']);
+            } else {
+              console.log('Chat is falsy:', chat);
             }
           },
           (error) => {
-            console.error('Error in createChat:', error);
+            console.error('Error in getChat:', error);
           }
         );
     }
@@ -163,6 +168,18 @@ export class BusinessComponent implements AfterViewInit {
   //
 
   ngOnInit() {
+    console.log('BusinessComponent ngOnInit');
+
+    this.currentChat = this.chatService.getCurrentChat();
+    console.log('currentChat:', this.currentChat); // Log the currentChat object
+
+    if (this.currentChat && this.currentChat.participants) {
+      this.otherUser = this.currentChat.participants.find(
+        (participant) => participant.id_user !== this.loggedInUserId
+      );
+      console.log('otherUser:', this.otherUser); // Log the otherUser object
+    }
+
     const id = this.route.snapshot.paramMap.get('id_business');
 
     this.businessService

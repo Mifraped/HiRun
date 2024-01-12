@@ -14,37 +14,38 @@
       />
     </svg>
 
-
-
-
     <div *ngIf="otherUser">
       <img [src]="otherUser.photo" alt="User 1 photo" />
       <h4>
         {{ otherUser.name }}
       </h4>
     </div>
-    </div>
-    <div class="blue-line"></div>
+  </div>
+  <div class="blue-line"></div>
 
-    <div class="chat">
-      <div *ngIf="currentChat && currentChat.messages && currentChat.messages.length > 0">
-        <div *ngFor="let message of currentChat.messages"
-          [class.logged-in-user-message]="message.sender === loggedInUserId"
-          [class.other-user-message]="message.sender !== loggedInUserId"
-          class="message">
-          <p class="message-content">
-            {{ message.text }}
-            <span id="time">{{ message.timestamp | date : "short" }}</span>
-          </p>
-        </div>
+  <div class="chat">
+    <div
+      *ngIf="
+        currentChat && currentChat.messages && currentChat.messages.length > 0
+      "
+    >
+      <div
+        *ngFor="let message of currentChat.messages"
+        [class.logged-in-user-message]="message.sender === loggedInUserId"
+        [class.other-user-message]="message.sender !== loggedInUserId"
+        class="message"
+      >
+        <p class="message-content">
+          {{ message.text }}
+          <span id="time">{{ message.timestamp | date : "short" }}</span>
+        </p>
       </div>
     </div>
+  </div>
 
-
-      <div *ngIf="!(messages && messages.length > 0)">
-        <p>No messages yet</p>
-      </div>
-
+  <div *ngIf="!(messages && messages.length > 0)">
+    <p>No messages yet</p>
+  </div>
 
   <div class="chat-input">
     <div class="input-box">
@@ -69,7 +70,12 @@
         </defs>
       </svg>
 
-      <input type="text" placeholder="Mensaje" #messageInput (keydown.enter)="sendMessage(messageInput.value, messageInput)" />
+      <input
+        type="text"
+        placeholder="Mensaje"
+        #messageInput
+        (keydown.enter)="sendMessage(messageInput.value, messageInput)"
+      />
       <svg
         width="36"
         height="36"

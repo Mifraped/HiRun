@@ -8,6 +8,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { finalize } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class ChatService {
   // private url = 'https://api-hi-run.vercel.app/chat';
   private url = 'http://localhost:3000';
   private currentChat: Chat;
+  private currentChatSubject = new BehaviorSubject<Chat>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -81,10 +83,10 @@ export class ChatService {
     );
   }
 
-  getChat(chatId: string) {
+  getChat(chatId: string): Observable<any> {
     console.log('GetChat called with chatId:', chatId);
 
-    return this.http.get(`${this.url}/chat/${chatId}`).pipe(
+    return this.http.get<Chat>(`${this.url}/chat/${chatId}`).pipe(
       tap((chat) => console.log('getChat emitted an item:', chat)),
       finalize(() => console.log('getChat Observable completed'))
     );
@@ -102,12 +104,16 @@ export class ChatService {
     return this.http.post<any>(`${this.url}/message`, { chatId, sender, text });
   }
 
-  setCurrentChat(chat: any) {
-    this.currentChat = chat;
+  setCurrentChat(chat: Chat): void {
+    this.currentChatSubject.next(chat);
   }
 
-  getCurrentChat() {
-    return this.currentChat;
+  subscribeToCurrentChat(): Observable<Chat> {
+    return this.currentChatSubject.asObservable();
+  }
+
+  getCurrentChat(): Observable<Chat> {
+    return this.currentChatSubject.asObservable();
   }
 
   // // create some Chat instances
