@@ -126,7 +126,13 @@ initAutocomplete() {
 
     this.categoryService.getAllCat().subscribe((res:ResponseCategory)=>{
           if (res.error){
-            console.log(res)
+            Swal.fire({
+              icon:'error',
+              title: 'Se ha producido un error',
+              timer: 1500,
+              showCancelButton:false,
+              showConfirmButton:false
+            })
           }else{      
             this.allCat=res.data        
           }
@@ -271,7 +277,13 @@ addNewService(newService:Service){
   this.serviceService.postService(newService).subscribe((res:ResponseService)=>{
     
     if (res.error){
-      console.log('error')
+      Swal.fire({
+        icon:'error',
+        title: 'Se ha producido un error',
+        timer: 1500,
+        showCancelButton:false,
+        showConfirmButton:false
+      })
       
     }else{
       this.services=null
@@ -293,8 +305,13 @@ addNewBusinessCat(bus:number, cat:number){
   let busCat: BusinessCat = new BusinessCat(bus,cat);
   this.categoryService.postBusinessCat(busCat).subscribe((res:ResponseBusCat)=>{
    
-    if (res.error){
-      console.log('error')
+    if (res.error){Swal.fire({
+      icon:'error',
+      title: 'Se ha producido un error',
+      timer: 1500,
+      showCancelButton:false,
+      showConfirmButton:false
+    })
      
     }else{
       this.services=null
@@ -313,9 +330,13 @@ addNewBusinessOpt(bus:number, opt:number){
   let busOpt:BusinessOpt = new BusinessOpt(bus, opt);
   this.optionService.postBusinessOpt(busOpt).subscribe((res:ResponseBusOpt)=>{
   
-    if (res.error){
-      console.log('error')
-    
+    if (res.error){Swal.fire({
+      icon:'error',
+      title: 'Se ha producido un error',
+      timer: 1500,
+      showCancelButton:false,
+      showConfirmButton:false
+    })
     }
   })
 }
@@ -338,7 +359,13 @@ addNewTimeFrame(tf:TimeFrame){
   this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
     
     if (res.error){
-      console.log('error')
+      Swal.fire({
+        icon:'error',
+        title: 'Se ha producido un error',
+        timer: 1500,
+        showCancelButton:false,
+        showConfirmButton:false
+      })
     }
   })
 }
@@ -351,7 +378,13 @@ async addAllTimeframes(){
     const res: ResponseTimeframe = await this.timeframeService.getUserTimeframe(this.userService.user.id_user).toPromise();
     
     if (res.error) {
-      console.log('error');
+      Swal.fire({
+        icon:'error',
+        title: 'Se ha producido un error',
+        timer: 1500,
+        showCancelButton:false,
+        showConfirmButton:false
+      })
       
       return;
     }

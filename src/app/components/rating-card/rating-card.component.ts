@@ -23,7 +23,6 @@ export class RatingCardComponent implements OnInit{
     //datos del usuario que ha puesto el rating
     this.userService.getUserInfo(id).subscribe((res:ResponseUser)=>{
       if (res.error){
-        console.log('error')
         alert('error')
       }else{
         this.rateUser=res.data[0]

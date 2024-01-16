@@ -41,7 +41,6 @@ export class RegForm3Component {
     }else{
        currentCat = this.selectedCat[index]
     }
-    console.log(index)
 
     if (this.allCat.includes(currentCat)) {
       this.allCat.splice(index, 1);
@@ -50,7 +49,6 @@ export class RegForm3Component {
       this.selectedCat.splice(index, 1);
       this.allCat.push(currentCat);
     }
-    console.log(this.selectedCat);
     
   }
 

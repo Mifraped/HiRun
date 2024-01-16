@@ -7,6 +7,7 @@ export class Booking {
     public provider?: User;
     public business?: Business;
     public id_booking?:number;
+    public duration?:number
     
     constructor (    
         

@@ -4,7 +4,7 @@ import { Chat } from 'src/app/models/chat';
 import { HeaderNavbarService } from 'src/app/shared/header-navbar.service';
 
 import { UserService } from 'src/app/shared/user.service';
-
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -19,10 +19,20 @@ export class ChatComponent implements OnInit {
     private chatService: ChatService,
     private HeaderNavbarService: HeaderNavbarService,
     private userService: UserService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    
+    private _location:Location
   ) {
     this.HeaderNavbarService.showHeader = true;
     this.HeaderNavbarService.showNavbar = true;
+  }
+
+
+  goBack(){
+   
+    this._location.back()
+  
+  
   }
 
   ngOnInit() {

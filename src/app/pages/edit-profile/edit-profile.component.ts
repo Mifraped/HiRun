@@ -62,8 +62,7 @@ export class EditProfileComponent implements OnInit{
     this.userService.user.name = this.name
     this.userService.user.surname = this.surname
     // this.userService.user.location = this.location
-    console.log(this.location)
-
+    
     const mun = this.location
     const m = this.municipios.find(m => m.municipio === mun);
     this.userService.user.phoneNumber = this.phoneNumber
@@ -152,7 +151,6 @@ export class EditProfileComponent implements OnInit{
 
   seleccionar(e) {
     //Obtener el valor
-    console.log(e.srcElement.value);
   
   }
   
@@ -161,11 +159,10 @@ export class EditProfileComponent implements OnInit{
     this.municipios=this.geolocationService.cityList
 
     let coordObj = JSON.parse(this.userService.user.location)
-      console.log(coordObj)
+      
 
       this.city =  this.municipios.find(m => m.latitude ===coordObj.latitude && m.longitude===coordObj.longitude)
 
-      console.log(this.city)
       this.location=this.city.municipio
   }
 }

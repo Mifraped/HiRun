@@ -44,8 +44,6 @@ busUserName:string=''
 
     if(this.userService.connected && +id===this.userService.user.id_user){
       this.isMyBusiness=true
-      console.log(+id)
-      console.log(this.userService.user.id_user)
     }else{
       this.userService.getUserInfo(+id).subscribe((res:ResponseUser)=>{
         if(!res.error){

@@ -36,10 +36,8 @@ timeFrameAccept() {
   
     
     newTimeFrame.days=this.appDays
-    console.log(newTimeFrame)
     // Lógica cuando se hace clic en Aceptar pendiente, y luego llama a cancel, que solo cierra la modal
     this.sendTimeFrame.emit(newTimeFrame);
-    console.log('enviar')
   this.timeFrameClose()
   
 }else{
@@ -48,7 +46,6 @@ timeFrameAccept() {
 }}
 
 timeFrameClose() {
-  console.log('cerrar')
   // Lógica cuando se hace clic en Cancelar pendient, por ahora solo cierra la modal
   this.closeWindow.emit();
 }

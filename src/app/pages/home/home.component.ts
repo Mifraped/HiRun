@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import {
   trigger,
   state,
@@ -49,16 +49,24 @@ export class HomeComponent implements OnInit {
   negocio1: Business = this.BusinessService.business;
   RecommendedBusinesses: Business[] = [];
 
+  scrollToPoint(): void {
+    const element = this.el.nativeElement.querySelector('#faqSectionScroll');
+
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
   faqItems = [
     {
       question: `¿Cómo puedo buscar y reservar servicios en la plataforma?`,
       answer: `<p>Explora los servicios por cercanía o busca los mejor valorados en la página principal.</p><br>
       <p>También puedes utilizar el buscador y añadir los filtros necesarios hasta dar con el servicio que necesitas.</p><br>
-      <p>Para pedir cita, deberás registrarte en HiRun y utilizar el gestor de reservas o ponerte en contacto con el vendedor`,
+      <p>Para pedir cita, deberás <a href ="/register"><strong>registrarte</strong><a> en HiRun y utilizar el gestor de reservas o ponerte en contacto con el vendedor`,
     },
     {
-      question: `Quiero ofrecer mi propio servicio en HiRun, qué tengo que hacer?`,
-      answer: `<p>El primer paso es registrarte, si todavía no lo has hecho. Después, podrás generar tu negocio pulsando el botón (+) de la barra de navegación. </p><br>
+      question: `Quiero ofrecer mi propio servicio en HiRun, ¿qué tengo que hacer?`,
+      answer: `<p>El primer paso es <a href ="/register"><strong>registrarte</strong><a>, si todavía no lo has hecho. Después, podrás generar tu negocio pulsando el botón (+) de la barra de navegación. </p><br>
       <p>Un negocio puede ofrecer uno o varios servicios. Además, podrás añadir la dirección o zona donde ofreces los servicios, una foto, tus horarios y más información de interés para potenciales clientes.`,
     },
     {
@@ -91,7 +99,8 @@ export class HomeComponent implements OnInit {
     private FiltersService: FiltersService,
     private route: ActivatedRoute,
     private geolocationService: GeolocationService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private el: ElementRef
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -149,7 +158,7 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
 
-      // console.log('Categoria en home: ' + category);
+      
     });
     // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
 

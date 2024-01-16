@@ -69,7 +69,6 @@ export class BusinessCardComponent implements OnInit {
   }
 
   seeProfile(){
-    console.log(this.business.provider)
     this.router.navigate(['/profile', this.business.provider]);
   }
 

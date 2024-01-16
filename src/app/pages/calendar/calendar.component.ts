@@ -90,14 +90,11 @@ ratingWindowOpen:boolean=false
 
   calendarInitialized(calendar: Calendar) {
     //no entiendo muy bien que hace, pero sin esto no funciona
-    console.log('Calendar initialized', calendar);
   }
 
   openDate(arg: any) {
-    console.log('Date clicked: ' + arg.dateStr);
     if (arg.view.type === 'timeGridDay') {
       // Ejecutar acciones específicas para la vista 'timeGridDay'
-      console.log('formato día de la agenda');
       this.dateTimeData =arg.dateStr
       this.manualBooking()
 
@@ -129,11 +126,9 @@ ratingWindowOpen:boolean=false
     }).then((result) => {
       if (result.isConfirmed) {
         const sendBusId = result.value;
-        console.log('Opción seleccionada:', sendBusId);
         // obtener todos los servicios de el negocio seleccionado
         this.serviceService.getAllServices(+sendBusId).subscribe((res:ResponseService)=>{
           if (res.error){
-            console.log("error")
             alert(res.error)
           }else{            
             this.userBusinessService=res.data        
@@ -163,7 +158,7 @@ ratingWindowOpen:boolean=false
                 const sendServId = result.value;
 
                 this.bookingService.setDateTimeData(this.dateTimeData);
-                console.log(this.bookingService.dateTimeData)
+               
                 this.router.navigate(['/book-service',sendBusId, sendServId])
               }
             })
@@ -187,13 +182,12 @@ ratingWindowOpen:boolean=false
 
   handleEventClick(arg: EventClickArg) {
     // Aquí puedes ejecutar el código que desees cuando se hace clic en un evento
-    console.log('Evento clickeado:', arg.event);
+    
     this.serviceToRate = arg.event.extendedProps.id_service
     this.businessToRate=arg.event.extendedProps.id_business
     this.serviceProvider=arg.event.extendedProps.provider
     
-    console.log('user:'+this.user)
-    console.log('provider:'+this.serviceProvider)
+    
 
     const bookingDate:Date=arg.event.start
     const now :Date = new Date()    
@@ -241,7 +235,6 @@ ratingWindowOpen:boolean=false
             let bk = this.allBookings.filter(b => b.id_booking === arg.event.extendedProps.bookId)[0]
             this.bookingService.cancelBooking(bk).subscribe((res:ResponseBooking)=>{
               if (res.error){
-                console.log('error')
                 alert(res.error)
               }else{
                 const index = this.calendarOptions.events.indexOf(arg.event);
@@ -369,10 +362,9 @@ ratingWindowOpen:boolean=false
 
     //recoger todos los eventos
      //reservados por el usuario
-    this.bookingService.getUserBookings().subscribe((res:ResponseBooking)=>{
+    this.bookingService.getUserBookings(this.userService.user.id_user).subscribe((res:ResponseBooking)=>{
       
       if (res.error){
-        console.log('error')
         alert(res.error)
       }else{   
         this.allBookings=res.data
@@ -395,7 +387,6 @@ ratingWindowOpen:boolean=false
                 //datos del negocio/servicio
                 this.serviceService.getOneService(booking.service).subscribe((res:ResponseService)=>{
                   if (res.error){
-                    console.log('error')
                     alert(res.error)
                   }else{    
                     servId = res.data[0].id_service
@@ -405,7 +396,6 @@ ratingWindowOpen:boolean=false
                     
                     this.businessService.getBusinessById(busId).subscribe((res:ResponseBusiness)=>{
                       if(res.error){
-                        console.log('error')
                         alert(res.error)
                       }else{  
                         titleBus = res.data[0].title
@@ -456,7 +446,6 @@ ratingWindowOpen:boolean=false
   
     this.businessService.getBusiness(this.userService.user.id_user).subscribe((res:ResponseBusiness)=>{
       if (res.error){
-          console.log('error')
           alert(res.error)
       }else{
         this.userBusiness=res.data

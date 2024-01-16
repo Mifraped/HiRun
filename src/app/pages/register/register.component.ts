@@ -54,9 +54,15 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
   registerUser(newUser:User){
     
     this.userService.postUser(newUser).subscribe((res:ResponseUser)=>{
-      console.log(res)
+      
       if (res.error){
-        alert(res.error)
+        Swal.fire({
+          icon:'error',
+          title: 'Se ha producido un error',
+          timer: 1500,
+          showCancelButton:false,
+          showConfirmButton:false
+        })
       }else{
         Swal.fire({
           title: "Registro completado",
@@ -100,8 +106,6 @@ defaultProfilePic='assets/profile_img/default_picture.jpg'
       this.categoryService.postPreferences(catArray,this.id_user).subscribe((res:ResponseUser) => {
         
       })
-
-      console.log(this.newUser)
       
       this.router.navigate(['/login'])
     }

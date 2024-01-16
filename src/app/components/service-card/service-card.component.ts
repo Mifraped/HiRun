@@ -44,7 +44,6 @@ calcSize():number{
 bookService(){  
   this.timeframeService.getBusinessTimeframe(this.business.id_business).subscribe((res:ResponseTimeframe)=>{
     if (res.error){
-      console.log('error')
       alert(res.error)
     }else{    
       this.tf=res.data
@@ -129,8 +128,6 @@ constructor(private router: Router, private userService:UserService, public time
 ngOnInit(){
   this.optionsService.getBusinessOpt(this.business.id_business).subscribe((res:ResponseBusOpt)=>{
     if (res.error){
-      console.log('error')
-     
     }else{    
       for  (let i=0; i<res.data.length;i++){         
         this.initialOptions.push(res.data[i])

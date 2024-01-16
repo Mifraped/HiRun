@@ -221,7 +221,6 @@ photoUrl
           lat: results[0].geometry.location.lat(),
           lng: results[0].geometry.location.lng()
         };
-        console.log('Coordenadas:', coordinates);
         this.coordValue= `{"latitude":${coordinates.lat}, "longitude": ${coordinates.lng}}`
         // Aquí puedes enviar las coordenadas al servidor o realizar cualquier acción necesaria
       } else {
@@ -283,10 +282,9 @@ photoUrl
           this.selectedService.id_business=id_business
           this.serviceService.putService(this.selectedService).subscribe((res:ResponseService)=>{
             if (res.error){
-              console.log('error')
+              alert('error')
               
             }else{
-              console.log('servicio modificado')
               this.services[i]=this.selectedService
             }
           })
@@ -301,7 +299,6 @@ photoUrl
       
     }
 
-    console.log(this.services);
   }
 
   //Elimina un servicio creado por medio de addServiceForm antes de guardar el negocio
@@ -323,7 +320,6 @@ photoUrl
         this.deleteServices.push(this.services[index])
         this.selectedService = null;
         this.services.splice(index, 1);
-        console.log(this.deleteServices);
         
         Swal.fire({
           text: "El servicio se ha eliminado.",
@@ -370,13 +366,7 @@ photoUrl
     for (let service of this.deleteServices){
       if (service.id_service){
         this.serviceService.deleteService(service.id_service).subscribe((res:ResponseService)=>{
-        if (res.error){
-          console.log(res)
-          
-        }else{
-          console.log(res)
-          
-        }
+        
       })
       }
       
@@ -388,9 +378,13 @@ photoUrl
       this.serviceService.postService(service).subscribe((res:ResponseService)=>{
       
         if (res.error){
-          console.log('error')
-        }else{
-          console.log('servicio añadido')
+          Swal.fire({
+            icon:'error',
+            title: 'Se ha producido un error',
+            timer: 1500,
+            showCancelButton:false,
+            showConfirmButton:false
+          })
         }
       })
     }
@@ -399,10 +393,13 @@ photoUrl
   addNewTimeFrame(tf:TimeFrame){  
     this.timeframeService.postTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
    
-      if (res.error){
-        console.log('error')
-      }else{
-        console.log('franja horaria añadida')
+      if (res.error){Swal.fire({
+        icon:'error',
+        title: 'Se ha producido un error',
+        timer: 1500,
+        showCancelButton:false,
+        showConfirmButton:false
+      })
       }
     })
   }
@@ -412,7 +409,7 @@ photoUrl
       const fileExtension = this.fileToUpload.name.split('.').pop();
       const uniqueFileName = `photo_${Date.now()}.${fileExtension}`;
   
-      console.log('nombre foto: ' + uniqueFileName);
+    
   
       const formData = new FormData();
       formData.append('photo', this.fileToUpload, uniqueFileName);
@@ -420,10 +417,8 @@ photoUrl
       this.photoService.uploadPhoto(formData).subscribe((resp: ResponsePhoto) => {
         if (resp.error === false) {
           this.photoUrl = resp.data;
-          console.log('resp.data: ' + this.photoUrl);
           resolve(); // Resuelve la promesa cuando la carga de la foto es exitosa
         } else {
-          console.log('error foto');
           reject(new Error('Error al cargar la foto')); // Rechaza la promesa en caso de error
         }
       });
@@ -489,10 +484,14 @@ photoUrl
             this.categoryService.postBusinessCat(newBusCat).subscribe((res:ResponseBusCat)=>{
             
             if (res.error){
-              console.log('error')
+              Swal.fire({
+                icon:'error',
+                title: 'Se ha producido un error',
+                timer: 1500,
+                showCancelButton:false,
+                showConfirmButton:false
+              })
               
-            }else{
-              console.log('categoría añadida')
             }
             })
           }
@@ -506,9 +505,15 @@ photoUrl
             this.categoryService.deleteBusinessCat(cat.id_business_cat).subscribe((res:ResponseBusCat)=>{
               
               if (res.error){
-                console.log('error')
+                Swal.fire({
+                  icon:'error',
+                  title: 'Se ha producido un error',
+                  timer: 1500,
+                  showCancelButton:false,
+                  showConfirmButton:false
+                })
               }else{
-                console.log('categoría eliminada')
+                
               }
             })
           }
@@ -525,9 +530,15 @@ photoUrl
             this.optionsService.postBusinessOpt(newBusOpt).subscribe((res:ResponseBusOpt)=>{
              
               if (res.error){
-                console.log('error')
+                Swal.fire({
+                  icon:'error',
+                  title: 'Se ha producido un error',
+                  timer: 1500,
+                  showCancelButton:false,
+                  showConfirmButton:false
+                })
               }else{
-                console.log('opción añadida')
+               
               }
             })
           }
@@ -543,10 +554,13 @@ photoUrl
               this.optionsService.deleteBusinessOpt(opt.id_business_options).subscribe((res:ResponseBusOpt)=>{
              
               if (res.error){
-                console.log('error')
-               
-              }else{
-                console.log('opción eliminada')
+                Swal.fire({
+                  icon:'error',
+                  title: 'Se ha producido un error',
+                  timer: 1500,
+                  showCancelButton:false,
+                  showConfirmButton:false
+                })               
               }
             })
           }
@@ -557,10 +571,14 @@ photoUrl
           for (let tf of this.tfDelete){
             this.timeframeService.deleteTimeframe(tf).subscribe((res:ResponseTimeframe)=>{
               if (res.error){
-                console.log('error')
+                Swal.fire({
+                  icon:'error',
+                  title: 'Se ha producido un error',
+                  timer: 1500,
+                  showCancelButton:false,
+                  showConfirmButton:false
+                })
                
-              }else{
-                console.log('franja eliminada')
               }
             })
           }
@@ -581,10 +599,7 @@ photoUrl
         }
         //foto
         if(this.fileToUpload){
-          console.log()
           await this.addPhoto()
-    
-          console.log(this.fileToUpload)
         }
 
         //cambios en el propio business
@@ -600,7 +615,6 @@ photoUrl
 
         this.businessService.updateBusiness(modBusiness).subscribe((res:ResponseBusiness)=>{
           if (!res.error) {
-            console.log('negocio editado');
             this.router.navigate(['/service-provided']);
                    
           } 
@@ -636,39 +650,66 @@ photoUrl
         //eliminar timeframes
         this.timeframeService.deleteBusinessTimeframe(id).subscribe((res:ResponseTimeframe)=>{
           if (res.error){
-            console.log('error')
+            Swal.fire({
+            icon:'error',
+            title: 'Se ha producido un error',
+            timer: 1500,
+            showCancelButton:false,
+            showConfirmButton:false
+          })
             
           }
         })
         //eliminar opciones
         this.optionsService.deleteAllBusinessOpt(id).subscribe((res:ResponseBusOpt)=>{
           if (res.error){
-            console.log('error')
+            Swal.fire({
+            icon:'error',
+            title: 'Se ha producido un error',
+            timer: 1500,
+            showCancelButton:false,
+            showConfirmButton:false
+          })
             
           }
         })
         //eliminar categorías
         this.categoryService.deleteAllBusinessCat(id).subscribe((res:ResponseBusCat)=>{
           if (res.error){
-            console.log('error')
+            Swal.fire({
+            icon:'error',
+            title: 'Se ha producido un error',
+            timer: 1500,
+            showCancelButton:false,
+            showConfirmButton:false
+          })
             
           }
         })
         //eliminar servicios
         this.serviceService.deleteAllService(id).subscribe((res:ResponseService)=>{
           if (res.error){
-            console.log(res)
-          }else{
-            console.log(res)
-            
+            Swal.fire({
+              icon:'error',
+              title: 'Se ha producido un error',
+              timer: 1500,
+              showCancelButton:false,
+              showConfirmButton:false
+            })
           }})
         //eliminar negocio
         this.businessService.deleteBusiness(id).subscribe((res:ResponseBusiness)=>{
           if (res.error){
-            console.log(res)
+            Swal.fire({
+              icon:'error',
+              title: 'Se ha producido un error',
+              timer: 1500,
+              showCancelButton:false,
+              showConfirmButton:false
+            })
           }else{
             this.router.navigate(['/service-provided']);
-            console.log(res)
+           
           }
         })
         
@@ -697,8 +738,6 @@ photoUrl
   ////funciones para ventana modal de timeframes
   timeFramesWindow() {
     this.timeFramesOpen = true;
-    
-    console.log(this.timeFramesOpen);
   }
 
   closeModal() {
@@ -706,7 +745,6 @@ photoUrl
   }
 
   newTimeFrame(newTimeFrame: any){
-    console.log(newTimeFrame)
   this.timeFrameArray.push(newTimeFrame)
   this.closeModal()
   }
@@ -733,8 +771,7 @@ photoUrl
           //foto
 
           if(this.business.provider!=this.userService.user.id_user){
-            console.log(this.business.provider)
-            console.log(this.userService.user.id_user)
+           
           //  this._location.back(); 
           this.router.navigate(['/'])
           }
@@ -782,7 +819,13 @@ photoUrl
     //timeframes del negocio a editar
     this.timeframeService.getBusinessTimeframe(+id).subscribe((res:ResponseTimeframe)=>{
       if (res.error){
-        console.log('error')
+        Swal.fire({
+          icon:'error',
+          title: 'Se ha producido un error',
+          timer: 1500,
+          showCancelButton:false,
+          showConfirmButton:false
+        })
       }else{    
         this.timeframes=res.data
       
@@ -809,7 +852,6 @@ photoUrl
     this.optionsService.getBusinessOpt(+id).subscribe((res:ResponseBusOpt)=>{
       if (!res.error){
         for  (let i=0; i<res.data.length;i++){
-          console.log(res.data[i])
           this.selectedOptions.push(res.data[i].id_options)
           this.initialOptions.push(res.data[i])
           

@@ -26,7 +26,6 @@ export class RegForm2Component implements OnInit{
     const coordValue=`{"latitude":${m.latitude}, "longitude": ${m.longitude}}`
     // this.regForm2.get('location').setValue(coordValue)
     regInfoNext.location=coordValue
-    console.log(regInfoNext)
     this.registerPartTwo.emit(regInfoNext)
   }
 
@@ -77,7 +76,7 @@ private onlyLetters(control: AbstractControl){
 
 seleccionar(e) {
   //Obtener el valor
-  console.log(e.srcElement.value);
+  
 
 }
 

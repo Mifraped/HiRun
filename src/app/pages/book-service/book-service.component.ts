@@ -22,6 +22,8 @@ import { ChatService } from 'src/app/shared/chat.service';
 import { ResponseChat } from 'src/app/models/response-chat';
 import { Chat } from 'src/app/models/chat';
 import { ResponseUser } from 'src/app/models/response-user';
+import { Booking } from 'src/app/models/booking';
+import { concatMap, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-book-service',
@@ -99,12 +101,14 @@ export class BookServiceComponent implements OnInit {
 
   }
   //Fechas
+  //para guardar la fecha seleccionada fuera de la función
+  dateSelected:any
   onDateChange(event: any) {
     const selectedDate = event.target.value;
+    this.dateSelected=selectedDate
     const dayOfWeek = this.getDayOfWeek(selectedDate);
     this.weekDay=dayOfWeek
     this.availableTimeframes=[]
-    console.log(dayOfWeek);
     this.getDayTf(this.weekDay)
   }
 
@@ -114,6 +118,9 @@ export class BookServiceComponent implements OnInit {
     const dayIndex = date.getDay();
     return daysOfWeek[dayIndex];
   }
+
+  userAndProviderBookings: Booking[] = []
+  filteredBookings:Booking[]=[]
 
   getDayTf(day:string){
     if (this.busTfs){
@@ -126,10 +133,22 @@ export class BookServiceComponent implements OnInit {
       }
     }else{
       // let duration = this.service.duration
-     
+      
+      //filtrar bookings previos por fecha
+      this.filteredBookings=this.userAndProviderBookings.filter(b => {
+        const bookingDate = new Date(b.date); 
+
+        const formattedDate = `${bookingDate.getFullYear()}-${(bookingDate.getMonth() + 1).toString().padStart(2, '0')}-${bookingDate.getDate().toString().padStart(2, '0')}`;
+      
+        return formattedDate === this.dateSelected;
+      })
+
+    
+      
+    
       for (let tf of appTf){
-       
-        const startDateTime = new Date(`1970-01-01T${tf.start}`);
+
+      const startDateTime = new Date(`1970-01-01T${tf.start}`);
       const endDateTime = new Date(`1970-01-01T${tf.end}`);
       const durationInMillis = this.duration * 60 * 1000;
 
@@ -138,10 +157,28 @@ export class BookServiceComponent implements OnInit {
 
     while (currentDateTime.getTime() + durationInMillis <= endDateTime.getTime()) {
       let time0=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
-      // console.log(this.availableTimeframes)
       currentDateTime = new Date(currentDateTime.getTime() + durationInMillis);
       let time1=currentDateTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
-      this.availableTimeframes.push({time0:time0, time1: time1, available: true})
+
+      //available true/false
+      let isAvailable:boolean = true
+     for (let fb of this.filteredBookings){
+
+      const fbH: number = +fb.time.split(':')[0]*60
+      const fbM: number =+fb.time.split(':')[1]
+      const fbStart: number = fbH+fbM
+      const fbEnd: number = fbStart + (+fb.duration)
+      
+      const t0:number = (+time0.split(':')[0]*60)+(+time0.split(':')[1])
+      const t1:number = (+time1.split(':')[0]*60)+(+time1.split(':')[1])
+
+      if(!(fbStart<t0 && fbEnd<=t0) && !(fbStart>=t1 && fbEnd>t1)){
+        isAvailable=false
+      }
+
+     }    
+
+      this.availableTimeframes.push({time0:time0, time1: time1, available: isAvailable})
     }
       }
     }
@@ -168,11 +205,8 @@ export class BookServiceComponent implements OnInit {
       newBooking.user = this.user.id_user
     }
     newBooking.cancelled=0
-
-    console.log(newBooking);
     this.bookingService.postBooking(newBooking).subscribe((res:ResponseBooking)=>{
       if(res.error){
-        console.log(res)
         alert(res.error)
       }else{
         Swal.fire({        
@@ -194,21 +228,15 @@ export class BookServiceComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
+ ngOnInit() {
     const id_service = this.route.snapshot.paramMap.get('id_service');
     const id_business = this.route.snapshot.paramMap.get('id_business');
     this.user = this.userService.user
-    
-
-    console.log('service ' +id_service)
-    console.log('business ' +id_business)
-    console.log('user ' +this.user.id_user)
-      
+          
 
     //datos del negocio
     this.businessService.getBusinessById(+id_business).subscribe((res:ResponseBusiness)=>{
       if (res.error){
-        console.log('error')
         alert(res.error)
       }else{    
         this.business=res.data[0]
@@ -222,10 +250,9 @@ export class BookServiceComponent implements OnInit {
               alert(res.error)
             }else{
               this.chatList=res.data
-              console.log(this.chatList)
               for (let chat of this.chatList){
                 let otherUserId = chat.user1===this.user.id_user? chat.user2: chat.user1
-                console.log(otherUserId)
+                
                 this.userService.getUserInfo(otherUserId).subscribe((res:ResponseUser)=>{
                   if (res.error){
                     alert(res.error)
@@ -234,7 +261,6 @@ export class BookServiceComponent implements OnInit {
                     this.clientList.push(otherUser)
                   }
                 })
-                console.log(this.clientList)
         
               }
             }
@@ -246,7 +272,6 @@ export class BookServiceComponent implements OnInit {
         //datos del servicio
         this.serviceService.getOneService(+id_service).subscribe((res:ResponseService)=>{
           if (res.error){
-            console.log('error')
             alert(res.error)
           }else{
             this.service=res.data[0]
@@ -261,9 +286,6 @@ export class BookServiceComponent implements OnInit {
               this.inputTime = dateObject.toISOString().split('T')[1].split('+')[0]; 
         
               const timeObject0 = new Date(`1970-01-01T${this.inputTime}`)
-
-              console.log(this.inputDate)
-              console.log(this.inputTime)
         
               if (this.inputDate !== undefined) {
                 this.bookingForm.get('date')?.setValue(this.inputDate);
@@ -278,12 +300,6 @@ export class BookServiceComponent implements OnInit {
                 const timeObject1 = new Date (timeObject0.getTime() + durationInMillis)
                 this.inputTime1=timeObject1.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false })
             
-                console.log(this.duration)
-                console.log(durationInMillis)
-                console.log('TimeObject0 '+ timeObject0)
-                console.log('TimeObject0 '+ timeObject0)
-                console.log('time0 '+ this.inputTime0)
-                console.log('time1 '+ this.inputTime1)
           
             this.availableTimeframes.push({time0:this.inputTime0, time1: this.inputTime1, available: true})      
             this.bookingForm.get('time')?.setValue(this.inputTime0);
@@ -299,7 +315,6 @@ export class BookServiceComponent implements OnInit {
             alert(res.error)
           }else{
             this.busTfs=res.data
-            console.log(this.busTfs)
           }
         })
     }})
@@ -313,7 +328,38 @@ export class BookServiceComponent implements OnInit {
   
     // service: Service = this.business.services[0];
 
-    
+    //datos de la agenda de usuario y proveedor + duración para calculos de tf
+   
+     
+
+      this.bookingService.getUserBookings(this.userService.user.id_user).subscribe((res: ResponseBooking) => {
+
+      for (let i = 0; i < res.data.length; i++) {
+        let b = res.data[i]
+        this.serviceService.getOneService(b.service).subscribe((res:ResponseService)=>{
+          if(!res.error){
+            b.duration=res.data[0].duration
+          }
+        })
+        this.userAndProviderBookings.push(res.data[i]);
+      }
+
+    })
+
+      this.bookingService.getUserBookings(this.business.provider).subscribe((res:ResponseBooking)=>{
+        for (let i = 0; i<res.data.length; i++){
+          let b = res.data[i]
+          this.serviceService.getOneService(b.service).subscribe((res:ResponseService)=>{
+            if(!res.error){
+              b.duration=res.data[0].duration
+            }
+          })
+          this.userAndProviderBookings.push(res.data[i]);
+        }
+      })
+
+      
+
 
    
     this.headerNavbarService.showHeader = true;

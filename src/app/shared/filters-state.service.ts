@@ -10,9 +10,8 @@ export class FiltersStateService {
   constructor() {}
 
   changeFilterState(state: any) {
-    console.log('Rating value before update:', state.rating);
     this.filterState.next(state);
 
-    console.log('New state:', this.filterState.value);
+    
   }
 }

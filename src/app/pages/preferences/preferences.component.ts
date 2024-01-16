@@ -25,8 +25,7 @@ user = this.userService.user
 
 
   registerPreferences(catArray){
-    console.log(catArray);
-    
+        
     this.categoryService.putPreferences(catArray).subscribe((res:ResponseCategory) => {
       if(res.error == false){
         Swal.fire({

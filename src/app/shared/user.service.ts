@@ -26,19 +26,14 @@ export class UserService {
   constructor(private http: HttpClient) {
     this.user = JSON.parse(localStorage.getItem('user')) || null;
     this.connected = !!this.user;
-    console.log('UserService constructed. User:', this.user); // Add this line
   }
 
   public login(user: User): Observable<object> {
-    console.log('Login called. User:', user); // Add this line
     return this.http.post(this.url + 'login', user).pipe(
       tap((response: any) => {
-        console.log('Login response:', response); // Add this line
         if (response && response.user) {
           this.setUser(response.user);
-        } else {
-          console.log('No user in response'); // Add this line
-        }
+        } 
       }),
       catchError((error) => {
         console.error('Error in login:', error); // Add this line
@@ -70,7 +65,7 @@ export class UserService {
     this.user = user;
     localStorage.setItem('user', JSON.stringify(user));
     this.connected = !!user;
-    console.log('User set. User:', this.user); // Add this line
+    
   }
 
   //comprobado que con api local y web local funciona

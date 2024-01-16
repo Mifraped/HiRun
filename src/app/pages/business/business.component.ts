@@ -53,7 +53,6 @@ export class BusinessComponent implements AfterViewInit {
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
-    console.log('BusinessComponent constructor');
   }
 
   contactProvider() {
@@ -65,13 +64,13 @@ export class BusinessComponent implements AfterViewInit {
         )
         .pipe(
           switchMap((response: any) => {
-            console.log('Chat created:', response); // Log the response
+             // Log the response
             // Extract the chatId from the response
             const chatId = response.chatId;
-            console.log('Chat ID:', chatId); // Log the chatId
+          // Log the chatId
             // Load the full chat data
             if (chatId) {
-              console.log('Getting chat with id:', chatId);
+              
               // Return the getChat observable
               return this.chatService.getChat(chatId);
             }
@@ -81,22 +80,18 @@ export class BusinessComponent implements AfterViewInit {
         )
         .subscribe(
           (chat: any) => {
-            console.log('Chat from getChat:', chat); // Log the chat received from getChat
-            console.log('Chat ID:', chat.id); // Log the chat ID
+       
             if (chat) {
               this.chatService.setCurrentChat(chat);
-              console.log(
-                'Chat after setCurrentChat:',
-                this.chatService.getCurrentChat()
-              ); // Log the chat after setting it
+             
 
-              console.log('Chat participants:', chat.participants); // Log the participants of the chat
+             
 
               localStorage.setItem('currentChat', JSON.stringify(chat));
-              console.log('Navigating to chat page...'); // Log before navigation
+             
               this.router.navigate(['/chat-page']);
             } else {
-              console.log('Chat is falsy:', chat);
+             
             }
           },
           (error) => {
@@ -170,13 +165,11 @@ export class BusinessComponent implements AfterViewInit {
   ngOnInit() {
 
     this.currentChat = this.chatService.getCurrentChat();
-    console.log('currentChat:', this.currentChat); // Log the currentChat object
 
     if (this.currentChat && this.currentChat.participants) {
       this.otherUser = this.currentChat.participants.find(
         (participant) => participant.id_user !== this.loggedInUserId
       );
-      console.log('otherUser:', this.otherUser); // Log the otherUser object
     }
 
     const id = this.route.snapshot.paramMap.get('id_business');
@@ -185,7 +178,6 @@ export class BusinessComponent implements AfterViewInit {
       .getBusinessById(+id)
       .subscribe((res: ResponseBusiness) => {
         if (res.error) {
-          console.log('error');
 
           alert(res.error);
         } else {
@@ -208,8 +200,6 @@ export class BusinessComponent implements AfterViewInit {
             .getUserInfo(this.providerId)
             .subscribe((res: ResponseUser) => {
               if (res.error) {
-                console.log('error');
-
                 alert(res.error);
               } else {
                 this.provider = res.data[0];
@@ -235,8 +225,6 @@ export class BusinessComponent implements AfterViewInit {
             .getAllServices(+id)
             .subscribe((res: ResponseService) => {
               if (res.error) {
-                console.log('error');
-
                 alert(res.error);
               } else {
                 this.services = res.data;

@@ -7,6 +7,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationEnd, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-chat-page',
   templateUrl: './chat-page.component.html',
@@ -29,7 +30,7 @@ export class ChatPageComponent implements OnInit {
     private userService: UserService,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
   ) {
     this.headernavbarbusiness.showHeader = true;
     this.headernavbarbusiness.showNavbar = false;
@@ -37,6 +38,7 @@ export class ChatPageComponent implements OnInit {
       this.currentChat = data.chat;
     });
   }
+
 
   ngOnInit() {
     this.chatService.getCurrentChat().subscribe((chat) => {
@@ -113,9 +115,7 @@ export class ChatPageComponent implements OnInit {
                   photo: this.currentChat.user1_photo,
                 };
         }
-      } else {
-        console.log('currentChat is falsy');
-      }
+      } 
     });
   }
 }

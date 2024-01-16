@@ -32,7 +32,6 @@ export class ProfileBusinessCardComponent {
   fotoNegocio: any;
 
   goToBusinessEdit() {
-    console.log('/edit-business'+ this.negocioPadre.id_business)
         this.router.navigate([`/edit-business/${this.negocioPadre.id_business}`]);
 }
 

@@ -20,9 +20,9 @@ export class BookingService {
     return this.http.post(`${this.url}`, newBooking);
   }
 
-  public getUserBookings(): Observable<object> {
+  public getUserBookings(id_user:number): Observable<object> {
     return this.http.get(
-      this.url + `?user=${this.userService.user.id_user}`
+      this.url + `?user=${id_user}`
     );
   }
 

@@ -139,7 +139,8 @@
 
 /**/
 
-.news-cnt, .recommended-cnt{
+.news-cnt,
+.recommended-cnt {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -152,7 +153,8 @@
   margin-bottom: 45px;
 }
 
-.news, .recommended {
+.news,
+.recommended {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -162,7 +164,8 @@
 
 
 
-.news-cards, .recommended-cards {
+.news-cards,
+.recommended-cards {
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
@@ -182,7 +185,8 @@ app-business-card {
   scroll-snap-align: center;
 }
 
-#b-l-news, #b-l-recommended {
+#b-l-news,
+#b-l-recommended {
   margin-bottom: 15px;
 }
 
@@ -385,6 +389,12 @@ app-business-card {
 .poli-tags {
   position: relative;
   width: 100%;
+  height: 880px;
+  padding: 3rem 0;
+  background-image: url('/assets/img/Frame10.png');
+  background-repeat: no-repeat;
+  background-position: top;
+
 }
 
 .poligonos {

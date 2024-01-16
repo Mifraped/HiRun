@@ -42,7 +42,6 @@ export class RateServiceComponent implements OnInit{
   rateId:number |null = null
 
   fillStars(index: number): void {
-    console.log(index)
     // Elimina la clase fa-solid de todas las estrellas
     this.stars.forEach((star, i) => {
      
@@ -58,7 +57,6 @@ export class RateServiceComponent implements OnInit{
   async sendRating(){
     this.ratingService.checkIfRatingExists(this.user.id_user, this.service.id_service).subscribe((res:ResponseRates)=>{
       if (res.error){
-        console.log('error')
         alert('Error: '+ res.error)
       }else{
         this.ratingExists=(res.data.length!==0)
@@ -67,11 +65,9 @@ export class RateServiceComponent implements OnInit{
         const rate = new Rate (this.user.id_user, this.service.id_service, this.selectedStarIndex +1,this.commentContent )
         //si no existe se crea
         if (!this.ratingExists){          
-          console.log('hola')
-          console.log(rate)
+        
           this.ratingService.postRating(rate).subscribe((res:ResponseRates)=>{
             if (res.error){
-              console.log('error')
               alert('Error: '+ res.error)
             }else{
               Swal.fire({        
@@ -89,7 +85,6 @@ export class RateServiceComponent implements OnInit{
           rate.id_rate=this.rateId
           this.ratingService.putRating(rate).subscribe((res:ResponseRates)=>{
             if (res.error){
-              console.log('error')
               alert('Error: '+ res.error)
             }else{
               Swal.fire({        
@@ -117,7 +112,6 @@ export class RateServiceComponent implements OnInit{
     //info negocio
     this.businessService.getBusinessById(this.id_business).subscribe((res:ResponseBusiness)=>{
       if (res.error){
-        console.log("error")
         alert(res.error)
       }else{
         this.business=res.data[0]
@@ -126,7 +120,6 @@ export class RateServiceComponent implements OnInit{
     //info servicio
     this.serviceService.getOneService(this.id_service).subscribe((res:ResponseService)=>{
       if (res.error){
-        console.log("error")
         alert(res.error)
       }else{
         this.service=res.data[0]
@@ -135,8 +128,7 @@ export class RateServiceComponent implements OnInit{
     //info proveedor
     this.userService.getUserInfo(this.id_provider).subscribe((res:ResponseUser)=>{
       if (res.error){
-        console.log("error")
-        alert(res.error)
+                alert(res.error)
       }else{
         this.serviceProvider=res.data[0]
       }
