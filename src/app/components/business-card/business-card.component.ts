@@ -30,7 +30,22 @@ export class BusinessCardComponent implements OnInit {
 
   imageUrl: string = '../../../assets/img/logo_business_home.png';
 
-  
+  calcSize():number{
+    let num = this.business.price
+    let fontSize: number
+
+    switch (true){
+      case num>9999:
+        fontSize=17
+        break;
+      case num>99:
+        fontSize=20
+        break;
+      default:
+        fontSize=22
+      }
+      return fontSize
+  }
 
   serviceToText(serviceArray) {}
 

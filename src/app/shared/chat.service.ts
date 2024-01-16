@@ -115,6 +115,6 @@ export class ChatService {
   }
 
   public getAllUserChats(id_user: number): Observable<object> {
-    return this.http.get(`${this.url}?id_user=${id_user}`);
+    return this.http.get(`${this.url}/userChats?id_user=${id_user}`);
   }
 }

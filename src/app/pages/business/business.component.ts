@@ -33,7 +33,7 @@ export class BusinessComponent implements AfterViewInit {
 
   services: Service[];
   currentChat: any;
-  loggedInUserId: number = this.userService.user.id_user;
+  loggedInUserId: number | null = this.userService.user.id_user
   otherUser: User;
   provider: User;
   providerId: number;
@@ -168,7 +168,6 @@ export class BusinessComponent implements AfterViewInit {
   //
 
   ngOnInit() {
-    console.log('BusinessComponent ngOnInit');
 
     this.currentChat = this.chatService.getCurrentChat();
     console.log('currentChat:', this.currentChat); // Log the currentChat object

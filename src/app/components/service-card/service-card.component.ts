@@ -23,6 +23,24 @@ export class ServiceCardComponent implements OnInit{
 
 tf: TimeFrame[]
 
+
+calcSize():number{
+  let num = this.business.price
+  let fontSize: number
+
+  switch (true){
+    case num>9999:
+      fontSize=16
+      break;
+    case num>99:
+      fontSize=18
+      break;
+    default:
+      fontSize=20
+    }
+    return fontSize
+}
+
 bookService(){  
   this.timeframeService.getBusinessTimeframe(this.business.id_business).subscribe((res:ResponseTimeframe)=>{
     if (res.error){

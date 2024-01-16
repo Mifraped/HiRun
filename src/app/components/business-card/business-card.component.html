@@ -37,7 +37,9 @@
       <div class="price">
         <div class="circle">
           <p>desde</p>
-          <h1>{{ business.price }}€</h1>
+          <h1 [ngStyle]="{ 'font-size.px': calcSize() }">
+            {{ business.price }}€
+          </h1>
         </div>
       </div>
     </div>
