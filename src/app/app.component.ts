@@ -26,7 +26,6 @@ export class AppComponent {
   }
 
   ngOnInit() {
-    console.log('Calling loadUser'); // Add this line
     this.userService.loadUser();
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))

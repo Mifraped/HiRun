@@ -28,8 +28,8 @@ export class UserService {
   public requestedServices: RequestedService[];
   public currentLocation: any;
   public recommendedBusinesses: Business[];
-  // private url = 'https://api-hi-run.vercel.app/';
-  private url = 'http://localhost:3000/';
+  private url = 'https://api-hi-run.vercel.app/';
+  // private url = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {
     const userData = localStorage.getItem('user');
@@ -56,7 +56,6 @@ export class UserService {
 
   public loadUser() {
     const user = localStorage.getItem('user');
-    console.log('Loaded user: ', user);
     if (user) {
       this.user = JSON.parse(user);
       this.connected = true;
