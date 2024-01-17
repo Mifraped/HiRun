@@ -226,12 +226,6 @@ export class HomeComponent implements OnInit {
       }
     );
 
-    this.BusinessService.getRecommendedBusiness(
-      this.UserService.user.id_user
-    ).subscribe((resp: ResponseBusiness) => {
-      this.UserService.recommendedBusinesses = this.getDistance(resp.data);
-    });
-
     if (this.UserService.connected) {
       this.BusinessService.getRecommendedBusiness(
         this.UserService.user.id_user

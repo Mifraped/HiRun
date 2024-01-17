@@ -410,7 +410,7 @@ ratingWindowOpen:boolean=false
                         eventDateStart.setSeconds(parseInt(s,10)) 
                         const eventDateEnd = new Date(eventDateStart);
                         eventDateEnd.setMinutes(eventDateEnd.getMinutes() + duration);     
-                        let color:string = provider === this.user ? 'var(--green)': 'var(--blue) '
+                        let color:string = provider === this.user ? 'var(--yellow)': 'var(--blue) '
                         const newEvent = {
                           title: `${titleBus} - ${titleServ}`,
                           start: eventDateStart,  // Fecha de inicio del evento (puedes personalizar esto)

@@ -146,8 +146,8 @@ export class ResultsComponent implements OnInit {
               }
             } else if (results.length === 0) {
               this.snackBar.open(
-                'No results matching your search were found.',
-                'Close',
+                'No se han encontrado resultados que coincidan con tu busqueda.',
+                'Cerrar',
                 {
                   duration: 2000,
                   panelClass: ['snackbar-result'],

@@ -33,7 +33,7 @@ export class BusinessComponent implements AfterViewInit {
 
   services: Service[];
   currentChat: any;
-  loggedInUserId: number | null = this.userService.user.id_user
+  loggedInUserId: number | null
   otherUser: User;
   provider: User;
   providerId: number;
@@ -57,7 +57,10 @@ export class BusinessComponent implements AfterViewInit {
 
   contactProvider() {
     if (this.userService.connected) {
-      this.chatService
+      this.chatService.getAllUserChats(this.userService.user.id_user).subscribe((response: any) => {
+        if (!response.data.find((chat) =>   (chat.user1 == this.providerId || chat.user1 == this.userService.user.id_user) && 
+        (chat.user2 == this.userService.user.id_user || chat.user2 == this.providerId))) {
+                this.chatService
         .createChat(
           this.userService.user.id_user.toString(),
           this.providerId.toString()
@@ -97,7 +100,39 @@ export class BusinessComponent implements AfterViewInit {
           (error) => {
             console.error('Error in getChat:', error);
           }
-        );
+        )
+      }else{
+        const chats = response.data;   
+        const userProviderChat = chats.find((chat) =>   (chat.user1 == this.providerId || chat.user1 == this.userService.user.id_user) && 
+        (chat.user2 == this.userService.user.id_user || chat.user2 == this.providerId))        
+        this.chatService.getChat(userProviderChat.id_chat).subscribe((chat: any) => {
+          if (chat) {
+            this.chatService.getMessages(chat.id_chat).subscribe((messages: any) => {
+
+              chat.messages = messages;
+              this.chatService.setCurrentChat(chat);
+              localStorage.setItem('currentChat', JSON.stringify(chat));
+              this.router.navigate(['/chat-page']);
+            })
+          }
+        }) 
+      }
+    })
+
+    }else{
+      Swal.fire({
+        title: 'Inicia sesión para ponerte en contacto con el verdedor.',
+        icon: 'info',
+        text: 'Redirigiendo...',
+        timerProgressBar: true,
+        confirmButtonColor: 'var(--red)',
+        confirmButtonText: 'Cancelar',
+        timer: 2000,
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          this.router.navigate(['/login']);
+        }
+      });
     }
   }
 
@@ -163,6 +198,7 @@ export class BusinessComponent implements AfterViewInit {
   //
 
   ngOnInit() {
+    this.loggedInUserId = this.userService.user?.id_user;
 
     this.currentChat = this.chatService.getCurrentChat();
 

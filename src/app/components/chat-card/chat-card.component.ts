@@ -52,4 +52,12 @@ export class ChatCardComponent implements OnInit {
     localStorage.setItem('currentChat', JSON.stringify(chat));
     this.router.navigate(['/chat-page']);
   }
+
+  isToday(dateString: string): boolean {
+    const date = new Date(dateString);
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
+  }
 }
