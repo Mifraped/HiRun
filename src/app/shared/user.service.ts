@@ -9,6 +9,14 @@ import { Business } from '../models/business';
 import { tap } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+interface Response {
+  data: any;
+  error: boolean;
+  code: number;
+  message: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -20,26 +28,46 @@ export class UserService {
   public requestedServices: RequestedService[];
   public currentLocation: any;
   public recommendedBusinesses: Business[];
-  private url = 'https://api-hi-run.vercel.app/';
-  // private url = 'http://localhost:3000/';
+  // private url = 'https://api-hi-run.vercel.app/';
+  private url = 'http://localhost:3000/';
 
   constructor(private http: HttpClient) {
-    this.user = JSON.parse(localStorage.getItem('user')) || null;
-    this.connected = !!this.user;
+    const userData = localStorage.getItem('user');
+    this.loadUser();
+    if (userData) {
+      this.user = JSON.parse(userData);
+    }
   }
 
-  public login(user: User): Observable<object> {
+  public login(user: any) {
+    // Replace with your actual login API endpoint
     return this.http.post(this.url + 'login', user).pipe(
-      tap((response: any) => {
-        if (response && response.user) {
-          this.setUser(response.user);
-        } 
-      }),
-      catchError((error) => {
-        console.error('Error in login:', error); // Add this line
-        return throwError(error);
+      map((response) => {
+        const res = response as Response;
+        // If the login is successful, save the user data in localStorage
+        if (res && res.data) {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          this.user = res.data;
+        }
+        return res;
       })
     );
+  }
+
+  public loadUser() {
+    const user = localStorage.getItem('user');
+    console.log('Loaded user: ', user);
+    if (user) {
+      this.user = JSON.parse(user);
+      this.connected = true;
+    }
+  }
+
+  public logout() {
+    // Your logout logic here
+    this.user = null;
+    this.connected = false;
+    localStorage.removeItem('user'); // Add this line
   }
 
   postUser(newUser: User) {
@@ -65,7 +93,6 @@ export class UserService {
     this.user = user;
     localStorage.setItem('user', JSON.stringify(user));
     this.connected = !!user;
-    
   }
 
   //comprobado que con api local y web local funciona
