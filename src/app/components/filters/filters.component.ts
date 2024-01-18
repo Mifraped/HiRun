@@ -18,6 +18,7 @@ import { FiltersStateService } from 'src/app/shared/filters-state.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseCategory } from 'src/app/models/response-category';
 import { Category } from 'src/app/models/category';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-filters',
@@ -47,14 +48,19 @@ export class FiltersComponent implements OnInit {
     public headerNavbarService: HeaderNavbarService,
 
     private filtersStateService: FiltersStateService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private _location:Location
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
   }
 
   @ViewChild('priceRange', { static: true }) priceRange: ElementRef;
-  sliderValues: number[] = [0, 100];
+  sliderValues: number[] = [0, 9999];
+
+  goBack() {
+    this._location.back();
+  }
 
   ngOnInit() {
     for (let cat of this.categoryService.iconCat) {

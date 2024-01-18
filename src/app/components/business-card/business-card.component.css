@@ -119,22 +119,23 @@ p.serviceInfo {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
 
   -webkit-box-orient: vertical;
-  max-height: calc(1.5em * 3);
+  max-height: calc(1.2em * 3);
   color: var(--darkGrey);
-  display: flex;
+  /* display: flex; */
 }
 
 .circle {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 2.5rem;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 2.75rem;
   background-color: var(--darkGrey);
   display: flex;
+  padding-top: 1.2rem;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -154,7 +155,7 @@ p.serviceInfo {
 }
 
 .other-container i {
-  padding: 0 10px;
+  padding: 10px;
   color: var(--blue)
 }
 

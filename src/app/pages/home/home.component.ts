@@ -17,6 +17,8 @@ import { ActivatedRoute } from '@angular/router';
 import { GeolocationService } from 'src/app/shared/geolocation.service';
 import { CategoryService } from 'src/app/shared/category.service';
 import { ResponseBusiness } from 'src/app/models/response-business';
+import { RatingService } from 'src/app/shared/rating.service';
+import { ResponseRates } from 'src/app/models/response-rates';
 
 @Component({
   selector: 'app-home',
@@ -100,7 +102,8 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private geolocationService: GeolocationService,
     private categoryService: CategoryService,
-    private el: ElementRef
+    private el: ElementRef,
+    private ratingService: RatingService
   ) {
     this.headerNavbarService.showHeader = true;
     this.headerNavbarService.showNavbar = true;
@@ -213,17 +216,38 @@ export class HomeComponent implements OnInit {
             this.LatestBusinesses = this.LatestBusinesses.slice(0, 10);
           }
         }
+        const allBusiness=res.data
+       
+        const ratingPromises = allBusiness.map((b) => {
+          return new Promise<void>((resolve) => {
+            this.ratingService.getAvgBusinessRates(b.id_business).subscribe((res: ResponseRates) => {
+              if (!res.error) {
+                b.rating = res.data[0].rate;
+                console.log(b.rating);
+              }
+              resolve(); // Resuelve la promesa después de procesar la calificación
+            });
+          });
+        });
+        
+        // Esperar a que todas las promesas se resuelvan
+        Promise.all(ratingPromises).then(() => {
+          // Después de que todas las promesas se hayan resuelto, filtra y asigna a BestRatedBusinesses
+          this.BestRatedBusinesses = (allBusiness.filter((b) => b.rating >= 3.5)).sort((a, b) => b.rating - a.rating);
+          console.log(this.BestRatedBusinesses);
+          console.log(allBusiness);
+        });
       }
-      console.log(this.LatestBusinesses);
     });
 
-    this.BusinessService.getBusinessByRating(3.5).subscribe(
-      (res: ResponseBusiness) => {
-        if (!res.error) {
-          this.BestRatedBusinesses = res.data;
-        }
-      }
-    );
+    // this.BusinessService.getBusinessByRating(3.5).subscribe(
+    //   (res: ResponseBusiness) => {
+    //     if (!res.error) {
+    //       this.BestRatedBusinesses = res.data;
+    //     }
+    //   console.log( this.BestRatedBusinesses)
+    //   }
+    // );
 
     if (this.UserService.connected) {
       this.BusinessService.getRecommendedBusiness(
