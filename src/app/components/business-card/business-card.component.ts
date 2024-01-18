@@ -17,7 +17,6 @@ import { ResponseRates } from 'src/app/models/response-rates';
 })
 export class BusinessCardComponent implements OnInit {
   @Input() business: Business;
-  
 
   services: Service[];
   minPrice: number;
@@ -30,21 +29,21 @@ export class BusinessCardComponent implements OnInit {
 
   imageUrl: string = '../../../assets/img/logo_business_home.png';
 
-  calcSize():number{
-    let num = this.business.price
-    let fontSize: number
+  calcSize(): number {
+    let num = this.business.price;
+    let fontSize: number;
 
-    switch (true){
-      case num>9999:
-        fontSize=17
+    switch (true) {
+      case num > 9999:
+        fontSize = 17;
         break;
-      case num>99:
-        fontSize=20
+      case num > 99:
+        fontSize = 20;
         break;
       default:
-        fontSize=22
-      }
-      return fontSize
+        fontSize = 22;
+    }
+    return fontSize;
   }
 
   serviceToText(serviceArray) {}
@@ -68,7 +67,7 @@ export class BusinessCardComponent implements OnInit {
     this.router.navigate(['/business', this.business.id_business]);
   }
 
-  seeProfile(){
+  seeProfile() {
     this.router.navigate(['/profile', this.business.provider]);
   }
 
@@ -94,13 +93,10 @@ export class BusinessCardComponent implements OnInit {
       .getBusinessOpt(this.thisId)
       .subscribe((res: ResponseBusOpt) => {
         if (!res.error) {
-         
-         
           for (let i = 0; i < res.data.length; i++) {
             this.initialOptions.push(res.data[i]);
             this.selectedOptions.push(res.data[i].id_options - 1);
           }
-        
         }
       });
 
@@ -109,9 +105,7 @@ export class BusinessCardComponent implements OnInit {
       .getAvgBusinessRates(this.thisId)
       .subscribe((res: ResponseRates) => {
         if (!res.error) {
-          
           this.businessRating = res.data[0].rate;
-        
         }
       });
   }

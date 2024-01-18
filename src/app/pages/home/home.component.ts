@@ -157,8 +157,6 @@ export class HomeComponent implements OnInit {
 
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
-
-      
     });
     // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
 
@@ -216,6 +214,7 @@ export class HomeComponent implements OnInit {
           }
         }
       }
+      console.log(this.LatestBusinesses);
     });
 
     this.BusinessService.getBusinessByRating(3.5).subscribe(
