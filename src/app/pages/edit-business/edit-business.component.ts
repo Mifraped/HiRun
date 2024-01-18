@@ -433,91 +433,100 @@ photoUrl
   //editar negocio con la info del form + info adicional que viene del negocio, del formulario de services, etc. falta lógica solo recoge datos
   async editBusiness() {
 
+    console.log('entra')
+
     if (this.services.length==0){  
       this.addServiceForm.get('title').markAsTouched()
       Swal.fire({
         title: "ERROR",
-      text: "El negocio debe incluir al menos un servicio",
-      icon: "error",
-      confirmButtonColor: "var(--green)",
-      confirmButtonText: "OK"
+        text: "El negocio debe incluir al menos un servicio",
+        icon: "error",
+        confirmButtonColor: "var(--green)",
+        confirmButtonText: "OK"
       })
-    }else if(this.timeFrameArray.length==0){  
-      Swal.fire({
-        title: "No has indicado horarios",
-    text: "Si dejas así tu negocio, deberás gestionar las reservas personalmente",
-    icon: "warning",
-    confirmButtonColor: "var(--green)",
-    confirmButtonText: "Guardar",
-    showCancelButton: true,
-    cancelButtonText: "Cancelar"
-      }).then((result)=>{
-        if (result.isDenied){
-          Swal.fire("Changes are not saved", "", "info")
-        }else if (result.isConfirmed){
-      
+    }else {  
+     
+      let timeFrameConfirmation = true;
 
-    Swal.fire({        
-      title: "¿Seguro?",
-      text: "Esta acción es irreversible",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "var(--green)",
-      cancelButtonColor: "var(--red)",
-      confirmButtonText: "Publicar cambios",
-      cancelButtonText: "Cancelar"
-    }).then( async(result) => {
-      if (result.isConfirmed) {
-        if(this.deleteServices){
-          this.serviceDeletion()
-        }
-        if (this.newServices){
-          this.serviceAddition()
-        }
-        //añadir categorías: las que estén en selectedCat y no estaban en busCat
-        const catsToAdd = this.selectedCat.filter((selectedCatItem) => {
-          return !this.busCat.some((busCatItem) => busCatItem.category === selectedCatItem.id_category);
-        });
-        if(catsToAdd){
-          for (let cat of catsToAdd){
-            const newBusCat:BusinessCat = {business: this.business.id_business, category: cat.id_category}
-            this.categoryService.postBusinessCat(newBusCat).subscribe((res:ResponseBusCat)=>{
-            
-            if (res.error){
-              Swal.fire({
-                icon:'error',
-                title: 'Se ha producido un error',
-                timer: 1500,
-                showCancelButton:false,
-                showConfirmButton:false
-              })
-              
-            }
-            })
-          }
-        }
-        //eliminar las categorías que estaban en buscat y no están en selectedcat
-        const catsToRemove = this.busCat.filter((busCatItem) => {
-          return !this.selectedCat.some((selectedCatItem) => selectedCatItem.id_category === busCatItem.category);
-        });
-        if(catsToRemove){
-          for (let cat of catsToRemove){
-            this.categoryService.deleteBusinessCat(cat.id_business_cat).subscribe((res:ResponseBusCat)=>{
-              
-              if (res.error){
-                Swal.fire({
-                  icon:'error',
-                  title: 'Se ha producido un error',
-                  timer: 1500,
-                  showCancelButton:false,
-                  showConfirmButton:false
-                })
-              }else{
-                
+      Swal.fire({        
+        title: "¿Seguro?",
+        text: "Esta acción es irreversible",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "var(--green)",
+        cancelButtonColor: "var(--red)",
+        confirmButtonText: "Publicar cambios",
+        cancelButtonText: "Cancelar"
+      }).then( async(result) => {
+        if (result.isConfirmed) {
+          if (this.timeFrameArray.length===0){
+            timeFrameConfirmation = await Swal.fire({
+              title: "No has indicado horarios",
+              text: "Si dejas así tu negocio, deberás gestionar las reservas personalmente",
+              icon: "warning",
+              confirmButtonColor: "var(--green)",
+              confirmButtonText: "Continuar",
+              showCancelButton: true,
+              cancelButtonText: "Cancelar"
+            }).then(async (result)=>{
+              if (result.isDenied){
+                Swal.fire("Changes are not saved", "", "info")
+                return false;
+              }else if (result.isConfirmed){
+                return true;
               }
             })
+          }}
+        
+          if (timeFrameConfirmation) {
+            if(this.deleteServices){
+              this.serviceDeletion()
+            }
+            if (this.newServices){
+              this.serviceAddition()
+            }
+            //añadir categorías: las que estén en selectedCat y no estaban en busCat
+            const catsToAdd = this.selectedCat.filter((selectedCatItem) => {
+              return !this.busCat.some((busCatItem) => busCatItem.category === selectedCatItem.id_category);
+            });
+
+            if(catsToAdd){
+              for (let cat of catsToAdd){
+                const newBusCat:BusinessCat = {business: this.business.id_business, category: cat.id_category}
+                this.categoryService.postBusinessCat(newBusCat).subscribe((res:ResponseBusCat)=>{                
+                  if (res.error){
+                    Swal.fire({
+                      icon:'error',
+                      title: 'Se ha producido un error',
+                      timer: 1500,
+                      showCancelButton:false,
+                      showConfirmButton:false
+                    })
+                  }
+                })
+              }
+            }
+
+        //eliminar las categorías que estaban en buscat y no están en selectedcat
+            const catsToRemove = this.busCat.filter((busCatItem) => {
+              return !this.selectedCat.some((selectedCatItem) => selectedCatItem.id_category === busCatItem.category);
+            });
+          if(catsToRemove){
+            for (let cat of catsToRemove){
+              this.categoryService.deleteBusinessCat(cat.id_business_cat).subscribe((res:ResponseBusCat)=>{
+                
+                if (res.error){
+                  Swal.fire({
+                    icon:'error',
+                    title: 'Se ha producido un error',
+                    timer: 1500,
+                    showCancelButton:false,
+                    showConfirmButton:false
+                  })
+                }
+              })
+            }
           }
-        }
 
         //opciones adicionales: añadir
           const optsToAdd = this.selectedOptions.filter((selectedOptItem)=>{
@@ -615,7 +624,7 @@ photoUrl
 
         this.businessService.updateBusiness(modBusiness).subscribe((res:ResponseBusiness)=>{
           if (!res.error) {
-            this.router.navigate(['/service-provided']);
+            this.router.navigate([`/service-provided/${this.user.id_user}`]);
                    
           } 
         })
@@ -629,7 +638,6 @@ photoUrl
     })
       
     
-  }})  
   }}
   
 
@@ -649,66 +657,67 @@ photoUrl
         const id = this.business.id_business
         //eliminar timeframes
         this.timeframeService.deleteBusinessTimeframe(id).subscribe((res:ResponseTimeframe)=>{
-          if (res.error){
-            Swal.fire({
-            icon:'error',
-            title: 'Se ha producido un error',
-            timer: 1500,
-            showCancelButton:false,
-            showConfirmButton:false
-          })
+          // if (res.error){
+          //   Swal.fire({
+          //   icon:'error',
+          //   title: 'Se ha producido un error',
+          //   timer: 1500,
+          //   showCancelButton:false,
+          //   showConfirmButton:false
+          // })
             
-          }
+          // }
         })
         //eliminar opciones
         this.optionsService.deleteAllBusinessOpt(id).subscribe((res:ResponseBusOpt)=>{
-          if (res.error){
-            Swal.fire({
-            icon:'error',
-            title: 'Se ha producido un error',
-            timer: 1500,
-            showCancelButton:false,
-            showConfirmButton:false
-          })
+          // if (res.error){
+          //   Swal.fire({
+          //   icon:'error',
+          //   title: 'Se ha producido un error',
+          //   timer: 1500,
+          //   showCancelButton:false,
+          //   showConfirmButton:false
+          // })
             
-          }
+          // }
         })
         //eliminar categorías
         this.categoryService.deleteAllBusinessCat(id).subscribe((res:ResponseBusCat)=>{
-          if (res.error){
-            Swal.fire({
-            icon:'error',
-            title: 'Se ha producido un error',
-            timer: 1500,
-            showCancelButton:false,
-            showConfirmButton:false
-          })
+          // if (res.error){
+          //   Swal.fire({
+          //   icon:'error',
+          //   title: 'Se ha producido un error',
+          //   timer: 1500,
+          //   showCancelButton:false,
+          //   showConfirmButton:false
+          // })
             
-          }
+          // }
         })
         //eliminar servicios
         this.serviceService.deleteAllService(id).subscribe((res:ResponseService)=>{
-          if (res.error){
-            Swal.fire({
-              icon:'error',
-              title: 'Se ha producido un error',
-              timer: 1500,
-              showCancelButton:false,
-              showConfirmButton:false
-            })
-          }})
+          // if (res.error){
+          //   Swal.fire({
+          //     icon:'error',
+          //     title: 'Se ha producido un error',
+          //     timer: 1500,
+          //     showCancelButton:false,
+          //     showConfirmButton:false
+          //   })
+          // }
+        })
         //eliminar negocio
         this.businessService.deleteBusiness(id).subscribe((res:ResponseBusiness)=>{
           if (res.error){
-            Swal.fire({
-              icon:'error',
-              title: 'Se ha producido un error',
-              timer: 1500,
-              showCancelButton:false,
-              showConfirmButton:false
-            })
+            // Swal.fire({
+            //   icon:'error',
+            //   title: 'Se ha producido un error',
+            //   timer: 1500,
+            //   showCancelButton:false,
+            //   showConfirmButton:false
+            // })
           }else{
-            this.router.navigate(['/service-provided']);
+            this.router.navigate([`/service-provided/${this.user.id_user}`]);
            
           }
         })
@@ -727,7 +736,7 @@ photoUrl
   cancelEditBusiness() {
     //PENDIENTE DEFINIR LÓGICA: pongo que vuelva al perfil
     this.editBusinessForm.reset();
-    this.router.navigate(['/service-provided']);
+    this.router.navigate([`/service-provided/${this.user.id_user}`]);
   }
 
   //Cambiar los días seleccionados - pendiente ver si se puede coger la info de lso timeframes
