@@ -25,18 +25,18 @@ tf: TimeFrame[]
 
 
 calcSize():number{
-  let num = this.business.price
+  let num = this.service.price
   let fontSize: number
 
   switch (true){
-    case num>9999:
-      fontSize=16
-      break;
-    case num>99:
+    case num>999:
       fontSize=18
       break;
-    default:
+    case num>99:
       fontSize=20
+      break;
+    default:
+      fontSize=22
     }
     return fontSize
 }
@@ -126,6 +126,7 @@ expandInfo(){
 constructor(private router: Router, private userService:UserService, public timeframeService: TimeframeService, private optionsService:OptionService) { }
 
 ngOnInit(){
+  console.log(this.service.price)
   this.optionsService.getBusinessOpt(this.business.id_business).subscribe((res:ResponseBusOpt)=>{
     if (res.error){
     }else{    

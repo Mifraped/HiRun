@@ -46,22 +46,13 @@ h1 {
 
 .price {
     padding-left: 1rem;
-    font-size: 1.7rem;
     font-weight: 800;
     display: inline-block;
     color: var(--darkGrey);
-}
-
-.integer-part {
-    font-size: 1.7rem;
     vertical-align: top;
 }
 
-.decimal-part {
-    font-size: 1rem;
-    vertical-align: super;
 
-}
 
 .price span {
     color: var(--black)

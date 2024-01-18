@@ -9,9 +9,16 @@
       <p [class.descriptionWrap]="!cardExtended">{{ service.description }}</p>
     </div>
     <div class="price" [ngStyle]="{ 'font-size.px': calcSize() }">
+      <p class="integer-part">
+        {{ service.price.split(".")[0]
+        }}<span class="decimal-part">.{{ service.price.split(".")[1] }}</span> €
+      </p>
+    </div>
+
+    <!-- <div class="price" [ngStyle]="{ 'font-size.px': calcSize() }">
       <span class="integer-part">{{ service.price.split(".")[0] }}</span>
       <span class="decimal-part">.{{ service.price.split(".")[1] }}</span> €
-    </div>
+    </div> -->
   </div>
 
   <div class="iconContainer">
