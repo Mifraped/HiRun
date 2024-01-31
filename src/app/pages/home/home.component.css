@@ -127,14 +127,13 @@
 
 .newIcons {
   font-size: 1.4rem;
-  color: var(--lightGrey)
+  color: var(--lightGrey);
 }
 
 .catSlider .catContainer {
   flex: 0 0 33%;
   width: 4vw;
   scroll-snap-align: center;
-
 }
 
 /**/
@@ -179,8 +178,6 @@
   padding-right: calc(50vw - 150px); */
 
 }
-
-
 
 app-business-card {
   /* margin-right: 4rem; */
@@ -396,10 +393,9 @@ app-business-card {
   width: 100%;
   height: 880px;
   padding: 3rem 0;
-  background-image: url('/assets/img/Frame10.png');
+  background-image: url("/assets/img/Frame10.png");
   background-repeat: no-repeat;
   background-position: top;
-
 }
 
 .poligonos {
@@ -416,7 +412,7 @@ app-business-card {
   position: absolute;
   width: 325px;
   height: 156px;
-  margin-top: 94px;
+  margin-top: 40px;
   right: 0;
   background-color: var(--lightGrey);
   border-top-left-radius: 25px;
@@ -453,7 +449,7 @@ app-business-card {
 
 #tag1 .description_info {
   position: absolute;
-  top: 65px;
+  top: 56px;
   left: 90px;
   width: 155px;
   text-align: left;
@@ -505,7 +501,7 @@ app-business-card {
 
 #tag2 .description_info {
   position: absolute;
-  top: 65px;
+  top: 55px;
   left: 18.5px;
   width: 155px;
   text-align: left;
@@ -515,7 +511,7 @@ app-business-card {
   position: absolute;
   width: 325px;
   height: 156px;
-  top: 586px;
+  top: 585px;
   right: 0;
   background-color: var(--lightGrey);
   border-top-left-radius: 25px;
@@ -600,7 +596,7 @@ app-business-card {
   margin-top: 19px;
   text-align: center;
   gap: 50px;
-  padding: 2rem
+  padding: 2rem;
 }
 
 .singleFaqItem {
@@ -608,7 +604,6 @@ app-business-card {
   flex-direction: column;
   align-items: center;
   max-width: 500px;
-
 }
 
 .faq-items svg {

@@ -49,7 +49,7 @@ export class FiltersComponent implements OnInit {
 
     private filtersStateService: FiltersStateService,
     private categoryService: CategoryService,
-    private _location:Location
+    private _location: Location
   ) {
     this.headerNavbarService.showHeader = false;
     this.headerNavbarService.showNavbar = false;
@@ -103,7 +103,7 @@ export class FiltersComponent implements OnInit {
       (this.form.controls.categories as FormArray).push(control);
     });
 
-    this.sliderValues = [10, 100]; // Change these values to your desired start positions
+    this.sliderValues = [0, 9999]; // Change these values to your desired start positions
 
     const slider = noUiSlider.create(this.priceRange.nativeElement, {
       start: this.sliderValues,
@@ -111,7 +111,7 @@ export class FiltersComponent implements OnInit {
       tooltips: [wNumb({ decimals: 0 }), wNumb({ decimals: 0 })],
       range: {
         min: 0,
-        max: 100,
+        max: 9999,
       },
     });
 
