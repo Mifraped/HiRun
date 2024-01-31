@@ -6,22 +6,29 @@
     </div>
     <p id="txt_categories" class="white_txt">Todas las categorías</p>
     <div id="categories_line" class="line"></div>
-
-    <div class="catSlider">
-      <div class="catContainer" *ngFor="let cat of iconCat">
-        <a
-          [routerLink]="['/results']"
-          [queryParams]="{
-            categories: cat.title,
-            displayName: cat.displayName
-          }"
-        >
-          <i [class]="cat.icon" class="newIcons"></i>
-          <p class="icon-text">
-            {{ cat.title.charAt(0).toUpperCase() + cat.title.slice(1) }}
-          </p>
-        </a>
+    <div class="catWrapper">
+      <button (click)="prevCat()" class="pcSlider">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <div class="catSlider" #catWrapper>
+        <div class="catContainer" *ngFor="let cat of iconCat">
+          <a
+            [routerLink]="['/results']"
+            [queryParams]="{
+              categories: cat.title,
+              displayName: cat.displayName
+            }"
+          >
+            <i [class]="cat.icon" class="newIcons"></i>
+            <p class="icon-text">
+              {{ cat.title.charAt(0).toUpperCase() + cat.title.slice(1) }}
+            </p>
+          </a>
+        </div>
       </div>
+      <button (click)="nextCat()" class="pcSlider">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
     </div>
     <div class="news-cnt">
       <div class="news">
@@ -29,11 +36,21 @@
           {{ lat != 0 || lng != 0 ? "Novedades en tu zona" : "Novedades" }}
         </p>
         <div id="b-l-news" class="line_blue"></div>
-        <div class="news-cards">
-          <app-business-card
-            *ngFor="let business of LatestBusinesses"
-            [business]="business"
-          ></app-business-card>
+        <div class="newsCont">
+          <button (click)="prevNews()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="newsWrapper">
+            <div class="news-cards" #newsCards>
+              <app-business-card
+                *ngFor="let business of LatestBusinesses"
+                [business]="business"
+              ></app-business-card>
+            </div>
+          </div>
+          <button (click)="nextNews()">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -48,31 +65,52 @@
         <div class="recommended">
           <p class="white_txt" id="txt_recommended">Recomendados para ti</p>
           <div id="b-l-recommended" class="line_blue"></div>
-          <div class="recommended-cards">
-            <app-business-card
-              *ngFor="let business of UserService.recommendedBusinesses"
-              [business]="business"
-            ></app-business-card>
+
+          <!--  -->
+          <div class="recCont">
+            <button (click)="prevRecs()">
+              <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <div class="recWrapper">
+              <div class="recommended-cards" #recCards>
+                <app-business-card
+                  *ngFor="let business of UserService.recommendedBusinesses"
+                  [business]="business"
+                ></app-business-card>
+              </div>
+            </div>
+            <button (click)="nextRecs()">
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
           </div>
+          <!--  -->
         </div>
       </div>
     </ng-container>
+
     <ng-template #noRecommended>
       <div class="best_review">
-        <p class="white_txt" id="best_txt">
-          <!-- {{ UserService.connected ? "Mejor Valorados" : "Mejor Valorados" }} -->
-          Mejor Valorados
-        </p>
+        <p class="white_txt" id="best_txt">Mejor Valorados</p>
         <div class="line_blue"></div>
-        <div class="negocios_best_review">
-          <div class="negocio_container">
-            <app-business-card
-              class="negocio_valorado"
-              *ngFor="let business of BestRatedBusinesses"
-              [business]="business"
-            ></app-business-card>
+        <!--  -->
+        <div class="bestWrapper">
+          <button (click)="prevBest()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="negocios_best_review">
+            <div class="negocio_container" #bestCards>
+              <app-business-card
+                class="negocio_valorado"
+                *ngFor="let business of BestRatedBusinesses"
+                [business]="business"
+              ></app-business-card>
+            </div>
           </div>
+          <button (click)="nextBest()">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
+        <!--  -->
       </div>
     </ng-template>
   </div>
@@ -93,7 +131,8 @@
         </div>
         <div id="info-3" class="info-r">
           <p>
-            ¿Algo no te queda claro? Puedes consultar las
+            ¿Algo no te queda claro? <br />
+            Puedes consultar las
             <span class="dark_grey" (click)="scrollToPoint()"
               >preguntas frecuentes</span
             >
@@ -109,6 +148,8 @@
       <p id="team_description">
         Somos 3 estudiantes apasionados por la programacion y la creación de
         soluciones tecnológicas, quienes hemos dado vida a esta innovadora app.
+        <br />
+        <br />
         Estamos emocionados de compartir contigo nuestro trabajo y esperamos que
         disfrutes explorando todas las posibilidades que HiRun tiene para
         ofrecer.

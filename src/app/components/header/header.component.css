@@ -1,6 +1,9 @@
 .principal {
   height: 3.75rem;
-  background-color: var(--black);
+  /* background-color: var(--black); */
+  background-color: #000;
+  display: flex;
+  justify-content: center;
 }
 
 .cont {
@@ -54,6 +57,7 @@ button {
   margin-left: 0.625rem;
   margin-right: 0.625rem;
 }
+
 .notifications {
   width: 2.0625rem;
   height: 2rem;
@@ -62,12 +66,14 @@ button {
   align-items: center;
   margin-left: 0.8125rem;
 }
+
 svg {
   background-color: var(--fullBlack);
   width: 33px;
   height: 32px;
   color: #eeeeee;
 }
+
 path {
   width: 100%;
 }
@@ -80,11 +86,13 @@ path {
   align-items: center;
   margin-left: 0.8125rem;
 }
+
 svg {
   width: 33px;
   height: 32px;
   color: #eeeeee;
 }
+
 path {
   width: 100%;
 }
@@ -95,9 +103,16 @@ path {
   border-radius: 50%;
   margin-right: 0.8125rem;
 }
+
 .photo img {
   height: 100%;
   width: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  .cont {
+    width: 700px
+  }
 }

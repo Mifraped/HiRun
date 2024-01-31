@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
 import {
   trigger,
   state,
@@ -46,6 +46,11 @@ import { ResponseRates } from 'src/app/models/response-rates';
 })
 export class HomeComponent implements OnInit {
   @Input() business: any;
+  @ViewChild('catWrapper') catWrapper: ElementRef;
+  @ViewChild('newsCards') newsCards: ElementRef;
+  @ViewChild('redCards') recCards: ElementRef;
+  @ViewChild('bestCards') bestCards: ElementRef;
+
   LatestBusinesses: Business[] = [];
   BestRatedBusinesses: Business[] = [];
   negocio1: Business = this.BusinessService.business;
@@ -161,49 +166,6 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       const category = params['categories'];
     });
-    // this.FiltersService.getNewestBusiness().subscribe( (res:ResponseBusiness) => {
-
-    // this.LatestBusinesses = business.map(
-    //   ({
-    //     provider,
-    //     title,
-    //     photo,
-    //     rating,
-    //     location,
-    //     phoneNumber,
-    //     providerName,
-    //     providerSurname,
-    //     price,
-    //     description,
-    //     userPhoto,
-    //     id_business,
-    //     address,
-    //   }) => ({
-    //     provider,
-    //     title,
-    //     photo,
-    //     rating,
-    //     location,
-    //     phoneNumber,
-    //     providerName,
-    //     providerSurname,
-    //     price,
-    //     description,
-    //     userPhoto,
-    //     id_business,
-    //     address,
-    //   })
-    // );
-
-    //   if (this.UserService.currentLocation){
-
-    //     this.LatestBusinesses = this.getDistance(this.LatestBusinesses).slice(0, 10)
-
-    //   }else{
-    //     this.LatestBusinesses = (this.LatestBusinesses).slice(0, 10)
-    //   }
-    // });
-
     this.BusinessService.getAllbusiness().subscribe((res: ResponseBusiness) => {
       if (!res.error) {
         this.LatestBusinesses = res.data;
@@ -223,7 +185,6 @@ export class HomeComponent implements OnInit {
             this.ratingService.getAvgBusinessRates(b.id_business).subscribe((res: ResponseRates) => {
               if (!res.error) {
                 b.rating = res.data[0].rate;
-                console.log(b.rating);
               }
               resolve(); // Resuelve la promesa después de procesar la calificación
             });
@@ -234,20 +195,10 @@ export class HomeComponent implements OnInit {
         Promise.all(ratingPromises).then(() => {
           // Después de que todas las promesas se hayan resuelto, filtra y asigna a BestRatedBusinesses
           this.BestRatedBusinesses = (allBusiness.filter((b) => b.rating >= 3.5)).sort((a, b) => b.rating - a.rating);
-          console.log(this.BestRatedBusinesses);
-          console.log(allBusiness);
+    
         });
       }
     });
-
-    // this.BusinessService.getBusinessByRating(3.5).subscribe(
-    //   (res: ResponseBusiness) => {
-    //     if (!res.error) {
-    //       this.BestRatedBusinesses = res.data;
-    //     }
-    //   console.log( this.BestRatedBusinesses)
-    //   }
-    // );
 
     if (this.UserService.connected) {
       this.BusinessService.getRecommendedBusiness(
@@ -263,4 +214,80 @@ export class HomeComponent implements OnInit {
   togglePVisibility(index: number) {
     this.isPVisible[index] = !this.isPVisible[index];
   }
+
+  nextCat():void{
+const currentPosition = this.catWrapper.nativeElement.scrollLeft;
+const newPosition = currentPosition + 100; 
+
+this.catWrapper.nativeElement.scrollTo({
+  left: newPosition,
+  behavior: 'smooth' 
+});
+
+  }
+
+  prevCat():void{    
+    const currentPosition = this.catWrapper.nativeElement.scrollLeft;
+    const newPosition = currentPosition - 100;
+    this.catWrapper.nativeElement.scrollTo({
+      left: newPosition,
+      behavior: 'smooth' 
+    });
+  }
+
+  nextNews() {
+    this.newsCards.nativeElement.scrollBy({
+      left: 300, 
+      behavior: 'smooth'
+    });
+    
+  }
+
+  prevNews() {
+    this.newsCards.nativeElement.scrollBy({
+      left: -300, 
+      behavior: 'smooth'
+    });
+    
+  }
+
+ 
+
+
+  
+  prevRecs() {
+    const recCardsElement = this.el.nativeElement.querySelector('.recommended-cards');
+    if (recCardsElement) {
+      recCardsElement.scrollLeft -= 300; 
+     
+    }
+  }
+
+  nextRecs() {
+    const recCardsElement = this.el.nativeElement.querySelector('.recommended-cards');
+    if (recCardsElement) {
+      recCardsElement.scrollLeft += 300; 
+    
+    }
+  }
+  
+  
+  prevBest() {
+    const recCardsElement = this.el.nativeElement.querySelector('.negocio_container');
+    if (recCardsElement) {
+      recCardsElement.scrollLeft -= 300; 
+      
+    }
+  }
+
+  nextBest() {
+    const recCardsElement = this.el.nativeElement.querySelector('.negocio_container');
+    if (recCardsElement) {
+      recCardsElement.scrollLeft += 300; 
+      
+    }
+  }
+
+
+
 }

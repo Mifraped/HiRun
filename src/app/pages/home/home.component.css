@@ -38,7 +38,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .search_bar {
@@ -146,6 +146,9 @@
   align-items: center;
   justify-content: center;
   margin-top: 2.375rem;
+  /*Para que no se vea mal en pc*/
+  max-width: 400px;
+  overflow: hidden;
 }
 
 .recommended-cnt {
@@ -163,23 +166,25 @@
 }
 
 
-
+.negocio_container,
 .news-cards,
 .recommended-cards {
   display: flex;
   flex-direction: row;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
-  width: 100vw;
-  padding-left: calc(50vw - 150px);
-  padding-right: calc(50vw - 150px);
+  scroll-behavior: smooth;
+  /* width: 100vw; */
+  /* padding-left: calc(50vw - 150px);
+  padding-right: calc(50vw - 150px); */
 
 }
 
 
 
 app-business-card {
-  margin-right: 4rem;
+  /* margin-right: 4rem; */
+  margin: 0 50px;
   width: 300px;
   flex: 0 0 auto;
   scroll-snap-align: center;
@@ -200,8 +205,8 @@ app-business-card {
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   width: 100vw;
-  padding-left: calc(50vw - 150px);
-  padding-right: calc(50vw - 150px);
+  /* padding-left: calc(50vw - 150px);
+  padding-right: calc(50vw - 150px); */
 }
 
 .negocio_valorado {
@@ -621,4 +626,242 @@ app-business-card {
 
 .faq-items p {
   margin-bottom: 40px;
+}
+
+/*Configuracuión para que se cvea decente en pc*/
+.border {
+  border: 1px solid red;
+}
+
+.catSlider {
+  padding: 1.5rem 0;
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  scroll-snap-type: x mandatory;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  /* For Firefox */
+  -ms-overflow-style: none;
+  /* For Internet Explorer and Edge */
+  position: relative;
+}
+
+
+.catWrapper {
+  display: flex;
+  width: 100%;
+  /* O el ancho que desees */
+  overflow-x: auto;
+  /* Esto permitirá el desplazamiento horizontal */
+  white-space: nowrap;
+  /* Esto asegura que los elementos no se envuelvan a la siguiente línea */
+  scroll-behavior: smooth;
+  justify-self: center;
+
+}
+
+.bestWrapper button,
+.recCont button,
+.newsCont button,
+.catWrapper button {
+  all: unset;
+  cursor: pointer;
+  width: 48px;
+  text-align: center;
+  color: var(--green);
+  font-size: 2rem;
+  display: none;
+}
+
+
+.newsWrapper {
+  display: flex;
+  max-width: 300px;
+}
+
+.negocio_container,
+.recommended-cards,
+.news-cards {
+  max-width: 300px;
+}
+
+.bestWrapper,
+.recCont,
+.newsCont {
+  width: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.bestWrapper,
+.recCont {
+  height: auto;
+}
+
+@media screen and (min-width: 768px) {
+
+  .bestWrapper button,
+  .recCont button,
+  .newsCont button,
+  .catWrapper button {
+    display: block;
+  }
+
+  .bestWrapper,
+  .recCont,
+  .newsCont {
+    width: 400px;
+  }
+
+  .info-sec {
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    margin-top: 2.5rem;
+    align-content: center;
+
+    width: 70vw;
+    max-width: 500px;
+
+  }
+
+  .info-l,
+  .info-r {
+    all: unset
+  }
+
+  .how_works {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .info-l {
+    justify-self: start;
+  }
+
+  .info-r {
+    justify-self: end;
+  }
+
+  #info-1,
+  #info-2,
+  #info-3 {
+    height: 10rem;
+    width: 70%;
+    border-radius: 5rem;
+    align-items: center;
+    margin: 0;
+    padding: 0.5rem
+  }
+
+
+
+  #info-1 p,
+  #info-2 p,
+  #info-3 p {
+
+    text-align: center;
+    width: 80%;
+    margin: auto;
+  }
+
+  #info-3 p {
+    margin-top: 1.8rem
+  }
+
+  #cf_txt {
+    font-size: 2rem;
+    margin: 80px 0 10px;
+  }
+
+  .team_info h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 80px 0 10px;
+  }
+
+  #team_description {
+    font-size: 1.2rem;
+    line-height: 1.5rem;
+    font-weight: 300;
+    width: 500px;
+    /* text-align: start; */
+  }
+
+  #tag3,
+  #tag2,
+  #tag1 {
+    width: 60vw;
+  }
+
+  #tag2 .git-icon {
+
+    right: 100px;
+  }
+
+  .poli-tags img {
+    width: 156px;
+    object-fit: cover;
+  }
+
+  #tag1 .description_info,
+  #tag2 .description_info,
+  #tag3 .description_info {
+    width: 200px;
+  }
+
+  #tag1 .name,
+  #tag1 .rol,
+  #tag3 .name,
+  #tag3 .rol,
+  #tag1 .description_info,
+  #tag3 .description_info {
+    left: 170px
+  }
+
+
+  #tag1 .linkedin-icon,
+  #tag2 .linkedin-icon,
+  #tag3 .linkedin-icon {
+    top: 85px
+  }
+
+  #tag1 .git-icon,
+  #tag2 .git-icon,
+  #tag3 .git-icon {
+    top: 35px
+  }
+
+
+  #tag1 .linkedin-icon,
+  #tag3 .linkedin-icon {
+    left: 400px
+  }
+
+  #tag1 .git-icon,
+  #tag3 .git-icon {
+    left: 405px
+  }
+
+  #tag2 .name,
+  #tag2 .rol,
+  #tag2 .description_info {
+    left: unset;
+    right: 170px;
+    text-align: end;
+  }
+
+
+  #tag2 .linkedin-icon {
+    right: 400px
+  }
+
+
+  #tag2 .git-icon {
+    left: unset;
+    right: 405px
+  }
 }

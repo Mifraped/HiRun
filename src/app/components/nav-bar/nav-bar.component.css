@@ -4,7 +4,12 @@
   bottom: 0;
   width: 100%;
   z-index: 999;
+  background-color: black;
+  border-top-right-radius: 1.875rem;
+  border-top-left-radius: 1.875rem;
+
 }
+
 div.cont {
   background-color: var(--fullBlack);
   height: 100%;
@@ -16,6 +21,7 @@ div.cont {
   border-top-right-radius: 1.875rem;
   border-top-left-radius: 1.875rem;
 }
+
 a {
   background-color: var(--fullBlack);
   display: flex;
@@ -25,21 +31,38 @@ a {
   gap: 0.125rem;
   text-decoration: none;
 }
+
 svg {
   background-color: var(--fullBlack);
   height: 2.3125rem;
   width: 2.3125rem;
   color: var(--lightGrey);
 }
+
 path {
   width: 100%;
 }
+
 span {
   color: var(--lightGrey);
   font-size: 0.5625rem;
   background-color: var(--fullBlack);
 }
 
-.active svg, .active span {
+.active svg,
+.active span {
   color: var(--green);
+}
+
+
+@media screen and (min-width: 768px) {
+  .cont {
+    width: 700px
+  }
+
+  .principal {
+
+    display: flex;
+    justify-content: center;
+  }
 }
